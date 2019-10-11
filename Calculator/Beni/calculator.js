@@ -1,10 +1,27 @@
-
 const pair = a => b => f => f(a)(b);
 
 const fst = a => b => a;
 const snd = a => b => b;
 
+const T = fst;
+const F = snd;
 
+// const startCalc = n1 => op => n2 => cont => cont( calc(op(n1)(n2)) ) ( op(n1)(n2)  );
+
+const calc = n1 => op => n2 => cont => cont( calc(op(n1)(n2)) ) ( op(n1)(n2) )  ;
+
+const pairOp = op => p => op(p(fst))(p(snd));
+
+const add = n1 => n2 => n1 + n2;
+const multy = n1 => n2 => n1 * n2;
+
+const pairdAdd = pairOp(add);
+const pairdMulty = pairOp(multy);
+
+const p1 = pair(2)(3);
+
+// (n1)(op)(n2)(op)(n3)(op)(n4)
+// (n3)(end)
 
 /*
 // function id(x) { return x; }, \x.x
