@@ -1,24 +1,57 @@
 const pair = a => b => f => f(a)(b);
-
+const id = x => x;
 const fst = a => b => a;
 const snd = a => b => b;
 
 const T = fst;
 const F = snd;
+F.toString = () => "False";
+T.toString = () => "True";
 
-// const startCalc = n1 => op => n2 => cont => cont( calc(op(n1)(n2)) ) ( op(n1)(n2)  );
+// const calc = n1 => op => n2 => cont => cont( calc(op(n1)(n2)) ) ( op(n1)(n2)  );
 
-const calc = n1 => op => n2 => cont => cont( calc(op(n1)(n2)) ) ( op(n1)(n2) )  ;
+const operation = a => b => b;
+const isResultOrOperation = fn => fn(T)(F);
 
-const pairOp = op => p => op(p(fst))(p(snd));
+// const calc = n1 => op => n2 => isResultOrOperation => isResultOrOperation( op(n1)(n2)  ) ( calc(op(n1)(n2)) );
+// const startCalc = n1 => op => n2 => cont => cont( op(n1)(n2) )   (   calc(op(n1)(n2))   );
 
-const add = n1 => n2 => n1 + n2;
-const multy = n1 => n2 => n1 * n2;
+// const calc = n1 => isResultOrOperation => n2  => isResultOrOperation( (n1)(n2)  ) ( calc(n1)(n2) );
 
-const pairdAdd = pairOp(add);
-const pairdMulty = pairOp(multy);
+// const startCalc = n1 => op => n2 =>   calc(  op("BLA") ( (n1) (n2) ) );
+// const calc = num => isResultOrOperation => isResultOrOperation  ( num  ) (  () => num2 => calc(num)(num2) );
+// const calc = num => op => op(num) ( num2 => calc( add(num)(num2) ) );  // (2) (add) (3) (result)
 
-const p1 = pair(2)(3);
+// const calc = num => op => op(num) ( num ) ;
+
+const result = id;
+const arithmeticOperation = op => n1 => n2 => f => f(op(n1)(n2));
+const add = arithmeticOperation( n1 => n2 => n1 + n2 );
+const multi = arithmeticOperation( n1 => n2 => n1 * n2);
+const minus = arithmeticOperation( n1 => n2 => n1 - n2);
+const pow = arithmeticOperation( n1 => n2 => n1 ** n2 );
+const dif = arithmeticOperation( n1 => n2 => n1 % n2 );
+
+const calc = num => op => op(num);
+
+const n0 = f => a => a;
+const n1 = f => a => f(a);
+const n2 = f => a => f(f(a));
+const n3 = f => a => f(f(f(a)));
+const n4 = f => a => f(f(f(f(a))));
+const n5 = f => a => f(f(f(f(f(a)))));
+const n6 = f => a => f(f(f(f(f(f(a))))));
+
+const jsnum = f => f(x => x + 1)(0);
+
+const comp = f => g => f(g);
+const succ = f => a => f(a);
+
+// const pairOp = op => p => op(p(fst))(p(snd));
+// const pairdAdd = pairOp(add);
+// const pairdMulty = pairOp(multi);
+//
+// const p1 = pair(2)(3);
 
 // (n1)(op)(n2)(op)(n3)(op)(n4)
 // (n3)(end)
