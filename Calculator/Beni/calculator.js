@@ -12,14 +12,14 @@ const F = snd;
 // Calculator with JS arithmetic
 const plus = n1 => n2 => n1 + n2;
 const multiplication = n1 => n2 => n1 * n2;
-const substraction = n1 => n2 => n1 - n2;
+const subtraction = n1 => n2 => n1 - n2;
 const exponential = n1 => n2 => n1 ** n2;
 const division = n1 => n2 => n1 / n2;
 
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 const add = calculatorOperator(plus);
 const multi = calculatorOperator(multiplication);
-const minus = calculatorOperator(substraction);
+const minus = calculatorOperator(subtraction);
 const pow = calculatorOperator(exponential);
 const div = calculatorOperator(division);
 
