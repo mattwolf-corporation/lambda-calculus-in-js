@@ -1,32 +1,113 @@
-const pair = a => b => f => f(a)(b);
+// the identity function
 const id = x => x;
+
+// get First of two
 const fst = a => b => a;
+
+// get Second of two
 const snd = a => b => b;
 
+// True / False
 const T = fst;
 const F = snd;
 
+// Flip the two params in the function
+const flip = f => a => b => f(b)(a);
+
+// Composition two functions
+const comp = f1 => f2 => x => f1(f2(x));
+
 
 // ------------------------------------------------------
-
 // Calculator with JS arithmetic
+
+// some arithmetic operator
 const plus = n1 => n2 => n1 + n2;
 const multiplication = n1 => n2 => n1 * n2;
 const subtraction = n1 => n2 => n1 - n2;
 const exponential = n1 => n2 => n1 ** n2;
 const division = n1 => n2 => n1 / n2;
 
+// how the calculator handle the operator
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
+
+// combine the calculator with the arithmetic operator
 const add = calculatorOperator(plus);
 const multi = calculatorOperator(multiplication);
 const minus = calculatorOperator(subtraction);
 const pow = calculatorOperator(exponential);
 const div = calculatorOperator(division);
 
+// end the calculator and print the result
 const result = id;
+
+// start the Calculator
 const calc = num => op => op(num);
 
+// demonstration / test
+const number = calc(5)(multi)(4)(minus)(4)(pow)(2)(div)(8)(add)(10)(result);
+document.writeln( number === 42); // true
+
 // ------------------------------------------------------
+
+
+
+// Calculator with Church-Numerals
+
+// Print the Church-Numbers as JS-Numbers
+const jsnum = f => f(x => x + 1)(0);
+
+// Church-Numbers
+const n0 = f => x => x;
+const n1 = f => x => f(x);
+const n2 = f => x => f(f(x));
+const n3 = f => x => f(f(f(x)));
+const n4 = f => x => f(f(f(f(x))));
+const n5 = f => x => f(f(f(f(f(x)))));
+const n6 = f => x => f(f(f(f(f(f(x))))));
+
+
+// const succ = nr => ( f => x => f( nr(f)(x) ) );
+
+
+
+// Arithmetic operation with Church-Numbers
+
+const cAdd = n1 => n2 => n1(succ(n2));
+
+
+
+
+
+// Recursion
+
+const rec  = f => f ( n => rec(f)(n)  ) ;
+
+//
+//
+// ok.push( rec(konst(1))  === 1);
+// ok.push( Z(konst(1))    === 1); // the same in terms of the Z combinator
+//
+// // hand-made recursion
+// const triangle = n => n < 1 ? 0 : triangle(n-1) + n;
+// ok.push( triangle(10) === 55);
+//
+// // tail recursion
+// const triTail = acc => n => n < 1 ? acc : triTail(acc + n)(n-1);
+// ok.push( triTail(0)(10) === 55);
+//
+// // triFun does not longer appear on the right-hand side of the recursion!
+// const triFun = f => acc => n => n < 1 ? acc : f(acc + n)(n-1) ;
+// ok.push( rec (triFun)(0)(10) === 55);
+// ok.push( Z   (triFun)(0)(10) === 55); // the same in terms of the Z combinator
+// ok.push( rec (f => acc => n => n < 1 ? acc : f(acc + n)(n-1)) (0)(10) === 55);
+//
+// // if even works with non-tail recursion
+// ok.push( rec (f => n => n < 1 ? 0 : f(n-1) + n) (10) === 55);
+//
+// // ideas for more exercises:
+// // count, sum, product, (evtl later on array: none, any, every)
+
 
 
 
@@ -58,19 +139,7 @@ const isResultOrOperation = fn => fn(T)(F);
 
 
 
-const n0 = f => x => x;
-const n1 = f => x => f(x);
-const n2 = f => x => f(f(x));
-const n3 = f => x => f(f(f(x)));
-const n4 = f => x => f(f(f(f(x))));
-const n5 = f => x => f(f(f(f(f(x)))));
-const n6 = f => x => f(f(f(f(f(f(x))))));
 
-const jsnum = f => f(x => x + 1)(0);
-
-const comp = f => g => f(g);
-const succ = nr => f => x => f(nr(f)(x));
-const cAdd = n1 => n2 => n1(succ(n2));
 
 // succ(n1)
 // succ( f => x => f(x) )    --->  f => x => f(f(x))
