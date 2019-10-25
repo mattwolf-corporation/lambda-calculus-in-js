@@ -13,7 +13,7 @@
         }
 
         input[type="button"] {
-            background-color: dimgray;
+            background-color: #b6b6b6;
             color: black;
             border: solid black 2px;
             width: 100%
@@ -27,8 +27,6 @@
             border: solid black 2px;
             width: 100%
         }
-
-
     </style>
 
 
@@ -41,26 +39,31 @@
     const clear = document.getElementById("result");
 
     const startCalc = calc;
+    let inputOp = "calc";
 
     const op = operator => {
         console.log(operator);
-        console.log(typeof operator);
-
-
+        inputOp += `(${operator})`;
         // const currentValue = calc(operator)
         // console.log(currentValue);
         // console.log(typeof currentValue);
         //
-        // document.getElementById("display").value = currentValue.toString();
+        // document.getElementById("display").value = eval(inputOp);
+
+    };
+
+    const solve = () => {
+        inputOp += `(result)`;
+        console.log(inputOp);
+        // console.log(eval(inputOp));
+        // document.getElementById("display").value = eval(inputOp);
 
     };
 
     const clr = () => {
-
+        document.getElementById("display").value = "cleared";
+        inputOp = "calc";
     };
-
-
-
 </script>
 <body>
 
@@ -91,7 +94,7 @@
     <tr>
         <td><input type="button" value=" " onClick="op(' ')"/></td>
         <td><input type="button" value="0" onClick="op('0')"/></td>
-        <td><input type="button" value="=" onClick="op(result)"/></td>
+        <td><input type="button" value="=" onClick="solve()"/></td>
         <td><input type="button" value="*" onClick="op(multi)"/></td>
     </tr>
 </table>

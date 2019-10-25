@@ -15,7 +15,7 @@ const F = snd;
 const flip = f => a => b => f(b)(a);
 
 // Composition two functions
-const comp = f1 => f2 => x => f1(f2(x));
+const comp = f1 => f2 => x => f1( f2(x) );
 
 
 // ------------------------------------------------------
@@ -23,21 +23,31 @@ const comp = f1 => f2 => x => f1(f2(x));
 // ------------------------------------------------------
 
 // some arithmetic operator
-const plus = n1 => n2 => n1 + n2;
+const plus           = n1 => n2 => n1 + n2;
 const multiplication = n1 => n2 => n1 * n2;
-const subtraction = n1 => n2 => n1 - n2;
-const exponential = n1 => n2 => n1 ** n2;
-const division = n1 => n2 => n1 / n2;
+const subtraction    = n1 => n2 => n1 - n2;
+const exponential    = n1 => n2 => n1 ** n2;
+const division       = n1 => n2 => n1 / n2;
 
 // how the calculator handle the operator
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 
 // combine the calculator with the arithmetic operator via POINT-FREESTYLE
 const add = calculatorOperator(plus);
+//                        calculatorOperator (plus);
+//                        calculatorOperator (n1 => n2 => n1 + n2)
+//  op => n1 => n2 => f => f( op (n1) (n2) ) (n1 => n2 => n1 + n2)
+//        n1 => n2 => f => f( (n1 => n2 => n1 + n2) (n1) (n2) )
+//        n1 => n2 => f => f( (      n2 => (n1) + n2)      (n2) )
+//        n1 => n2 => f => f( (            (n1) + (n2) ) )
+//        n1 => n2 => f => f( n1 + n2 ) === add
+
 const multi = calculatorOperator(multiplication);
 const minus = calculatorOperator(subtraction);
-const pow = calculatorOperator(exponential);
-const div = calculatorOperator(division);
+const pow   = calculatorOperator(exponential);
+const div   = calculatorOperator(division);
+
+
 
 // end the calculator and print the result
 const result = id;
@@ -45,21 +55,15 @@ const result = id;
 // start the Calculator
 const calc = num => op => op(num);
 
+// const innerCalc = num => op => op(num);
+// const calc = middle => innerCalc(middle)(result);
+
+
 // demonstration / test
 const number = calc(5)(multi)(4)(minus)(4)(pow)(2)(div)(8)(add)(10)(result);
 document.writeln( number === 42); // true
 
-// calculatorOperator (plus);
-// calculatorOperator (n1 => n2 => n1 + n2)
-// op => n1 => n2 => f => f( op (n1) (n2) ) (n1 => n2 => n1 + n2)
-//       n1 => n2 => f => f( (n1 => n2 => n1 + n2) (n1) (n2) )
-//       n1 => n2 => f => f( (      n2 => (n1) + n2)      (n2) )
-//       n1 => n2 => f => f( (            (n1) + (n2) ) )
-//       n1 => n2 => f => f(  (n1) + (n2)  ) == add
 
-
-
-// op => n1 => n2 => f => f(op(n1)(n2))
 
 // calc(2)(add)(3)(minus)(1)(result)
 // num => op => op(num) (2) (add) (3) (minus) (1) (result)
@@ -126,8 +130,6 @@ const cAdd = n1 => n2 => n1(succ(n2));
 // Recursion
 
 const rec  = f => f ( n => rec(f)(n) ) ;
-
-
 
 // rec(konst(1))
 // rec (a => b => a)(1)
