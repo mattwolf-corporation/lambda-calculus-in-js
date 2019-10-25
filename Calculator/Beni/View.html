@@ -18,11 +18,14 @@
             border: solid black 2px;
             width: 100%
         }
+
         input[type="button"]:hover {
             cursor: pointer;
             background-color: beige;
         }
+
         input[type="text"] {
+            text-align: center;
             background-color: white;
             border: solid black 2px;
             width: 100%
@@ -34,71 +37,77 @@
 
 <script src="calculator.js"></script>
 <script>
-
-    const display = document.getElementById("display");
-    const clear = document.getElementById("result");
-
-    const startCalc = calc;
     let inputOp = "calc";
+    let display = "";
 
-    const op = operator => {
-        console.log(operator);
-        inputOp += `(${operator})`;
-        // const currentValue = calc(operator)
-        // console.log(currentValue);
-        // console.log(typeof currentValue);
-        //
-        // document.getElementById("display").value = eval(inputOp);
+    const operate = (value, sign) => {
+        inputOp += `(${value})`;
 
+        console.log(inputOp);
+
+        display += ( typeof eval(value) === "function" ) ? sign : value;
+
+        document.getElementById("display").value = display;
+        document.getElementById("functionalOutput").innerText = inputOp;
     };
 
     const solve = () => {
         inputOp += `(result)`;
+
         console.log(inputOp);
-        // console.log(eval(inputOp));
-        // document.getElementById("display").value = eval(inputOp);
+        console.log(eval(inputOp));
+
+        document.getElementById("display").value = eval(inputOp);
+        document.getElementById("functionalOutput").innerText = inputOp + " ===> "+  eval(inputOp);
+
+        inputOp = "calc";
+        display = "";
 
     };
 
     const clr = () => {
         document.getElementById("display").value = "cleared";
+        document.getElementById("functionalOutput").innerText = "";
+
         inputOp = "calc";
+        display = "";
     };
+
 </script>
 <body>
 
 <div class=title>Functional Calculator</div>
 <table border="1">
     <tr>
-        <td colspan="3"><input type="text" id="display"/></td>
+        <td colspan="3"><input value="Welcome Programmer" type="text" id="display"/></td>
         <td><input type="button" value="c" onclick="clr()"/></td>
     </tr>
     <tr>
-        <td><input type="button" value="1" onClick="op('1')"/></td>
-        <td><input type="button" value="2" onClick="op('2')"/></td>
-        <td><input type="button" value="3" onClick="op('3')"/></td>
-        <td><input type="button" value="/" onClick="op(div)"/></td>
+        <td><input type="button" value="1" onClick="operate('1')"/></td>
+        <td><input type="button" value="2" onClick="operate('2')"/></td>
+        <td><input type="button" value="3" onClick="operate('3')"/></td>
+        <td><input type="button" value="/" onClick="operate('div', '/')"/></td>
     </tr>
     <tr>
-        <td><input type="button" value="4" onClick="op('4')"/></td>
-        <td><input type="button" value="5" onClick="op('5')"/></td>
-        <td><input type="button" value="6" onClick="op('6')"/></td>
-        <td><input type="button" value="-" onClick="op(minus)"/></td>
+        <td><input type="button" value="4" onClick="operate('4')"/></td>
+        <td><input type="button" value="5" onClick="operate('5')"/></td>
+        <td><input type="button" value="6" onClick="operate('6')"/></td>
+        <td><input type="button" value="-" onClick="operate('minus', '-')"/></td>
     </tr>
     <tr>
-        <td><input type="button" value="7" onClick="op('7')"/></td>
-        <td><input type="button" value="8" onClick="op('8')"/></td>
-        <td><input type="button" value="9" onClick="op('9')"/></td>
-        <td><input type="button" value="+" onClick="op(add)"/></td>
+        <td><input type="button" value="7" onClick="operate('7')"/></td>
+        <td><input type="button" value="8" onClick="operate('8')"/></td>
+        <td><input type="button" value="9" onClick="operate('9')"/></td>
+        <td><input type="button" value="+" onClick="operate('add', '+')"/></td>
     </tr>
     <tr>
-        <td><input type="button" value=" " onClick="op(' ')"/></td>
-        <td><input type="button" value="0" onClick="op('0')"/></td>
+        <td><input type="button" value="42" onClick="operate('42')"/></td>
+        <td><input type="button" value="0" onClick="operate('0')"/></td>
         <td><input type="button" value="=" onClick="solve()"/></td>
-        <td><input type="button" value="*" onClick="op(multi)"/></td>
+        <td><input type="button" value="*" onClick="operate('multi', '*')"/></td>
     </tr>
 </table>
-
+<p id="functionalOutput"></p>
 
 </body>
 </html>
