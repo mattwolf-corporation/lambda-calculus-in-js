@@ -19,7 +19,8 @@ const comp = f1 => f2 => x => f1(f2(x));
 
 
 // ------------------------------------------------------
-// Calculator with JS arithmetic
+// --------- Calculator with JS arithmetic --------------
+// ------------------------------------------------------
 
 // some arithmetic operator
 const plus = n1 => n2 => n1 + n2;
@@ -31,7 +32,7 @@ const division = n1 => n2 => n1 / n2;
 // how the calculator handle the operator
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 
-// combine the calculator with the arithmetic operator
+// combine the calculator with the arithmetic operator via POINT-FREESTYLE
 const add = calculatorOperator(plus);
 const multi = calculatorOperator(multiplication);
 const minus = calculatorOperator(subtraction);
@@ -48,11 +49,39 @@ const calc = num => op => op(num);
 const number = calc(5)(multi)(4)(minus)(4)(pow)(2)(div)(8)(add)(10)(result);
 document.writeln( number === 42); // true
 
+// calculatorOperator (plus);
+// calculatorOperator (n1 => n2 => n1 + n2)
+// op => n1 => n2 => f => f( op (n1) (n2) ) (n1 => n2 => n1 + n2)
+//       n1 => n2 => f => f( (n1 => n2 => n1 + n2) (n1) (n2) )
+//       n1 => n2 => f => f( (      n2 => (n1) + n2)      (n2) )
+//       n1 => n2 => f => f( (            (n1) + (n2) ) )
+//       n1 => n2 => f => f(  (n1) + (n2)  ) == add
+
+
+
+// op => n1 => n2 => f => f(op(n1)(n2))
+
+// calc(2)(add)(3)(minus)(1)(result)
+// num => op => op(num) (2) (add) (3) (minus) (1) (result)
+//        op => op(2)  (add) (3) (minus) (1) (result)
+//              add(2)       (3) (minus) (1) (result)
+//   n1 => n2 => f => f(  (n1) + (n2) ) (2) (3) (minus) (1) (result)
+//         n2 => f => f(  2 + (n2) )  (3) (minus) (1) (result)
+//               f => f(  2 + 3 )       (minus) (1) (result)
+//                minus(  5  )      (1) (result)
+//      n1 => n2 => f => f(  (n1) - (n2)  ) (5)      (1) (result)
+//            n2 => f => f(  5 - (n2)  )       (1) (result)
+//                  f => f(  5 - 1  )   (result)
+//                       result(  4  )
+//                       x => x(  4  )
+//                             (  4  )
+//                                4
+
+
+
 // ------------------------------------------------------
-
-
-
-// Calculator with Church-Numerals
+// --------  Calculator with Church-Numerals ------------
+// ------------------------------------------------------
 
 // Print the Church-Numbers as JS-Numbers
 const jsnum = f => f(x => x + 1)(0);
@@ -67,13 +96,28 @@ const n5 = f => x => f(f(f(f(f(x)))));
 const n6 = f => x => f(f(f(f(f(f(x))))));
 
 
-// const succ = nr => ( f => x => f( nr(f)(x) ) );
-
+const succ = nr => ( f => x => f( nr(f)(x) ) );
+// succ(n0)
+// succ(fnr => fx => fx)
+// nr => ( f => x => f( nr(f)(x) ) )  (fNr => xNr => xNr)
+//       ( f => x => f( (fNr => xNr => xNr) (f)(x) ) )
+//         f => x => f(x)  === n1
 
 
 // Arithmetic operation with Church-Numbers
 
 const cAdd = n1 => n2 => n1(succ(n2));
+// cAdd (n1) (n1)
+// n1 => n2 => n1 (succ (n2) ) (n1) (n1)
+// (n1)  (succ (n1) )
+// (n1)  (nr => ( f => x => f( nr (f) (x) ) ) (n1))
+// (n1)  ( f => x => f(  (n1) (f) (x) ) )
+// (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
+// (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
+// (f => x => f(x))  ( f => x => f(  x => (f) (x))  (x) ) )
+// (f => x => f(x))  ( f => x => f( (f) (x) ) )
+//  x => ( f => x => f( (f) (x) ) ) (x)
+//  ( f => x => f( (f) (x) ) ) === n2
 
 
 
@@ -81,7 +125,26 @@ const cAdd = n1 => n2 => n1(succ(n2));
 
 // Recursion
 
-const rec  = f => f ( n => rec(f)(n)  ) ;
+const rec  = f => f ( n => rec(f)(n) ) ;
+
+
+
+// rec(konst(1))
+// rec (a => b => a)(1)
+// rec (b => 1)
+// f => f ( n => rec(f) (n) ) (b => 1)
+// (b => 1) ( n => rec(f) (n) )
+// (b => 1) ( rec(f) )
+// (1)
+
+
+
+// (b => 1) ( n => f => f ( n => rec(f)(n) ) (f) (n) )
+// (b => 1) (  f => f ( n => rec(f)(n) ) (n) )
+// (b => 1) (  (n) ( n => rec(f)(n) )  )
+// (b => 1) (  (n) ( n => rec(f) (n) )  )
+
+
 
 //
 //

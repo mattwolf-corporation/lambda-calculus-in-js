@@ -2,14 +2,99 @@
 <html>
 <head>
     <title>The FP-Calculator</title>
+
+    <style>
+        .title {
+            margin-bottom: 10px;
+            text-align: center;
+            width: 210px;
+            color: #333333;
+            border: solid black 2px;
+        }
+
+        input[type="button"] {
+            background-color: dimgray;
+            color: black;
+            border: solid black 2px;
+            width: 100%
+        }
+        input[type="button"]:hover {
+            cursor: pointer;
+            background-color: beige;
+        }
+        input[type="text"] {
+            background-color: white;
+            border: solid black 2px;
+            width: 100%
+        }
+
+
+    </style>
+
+
 </head>
 
 <script src="calculator.js"></script>
+<script>
 
+    const display = document.getElementById("display");
+    const clear = document.getElementById("result");
+
+    const startCalc = calc;
+
+    const op = operator => {
+        console.log(operator);
+        console.log(typeof operator);
+
+
+        // const currentValue = calc(operator)
+        // console.log(currentValue);
+        // console.log(typeof currentValue);
+        //
+        // document.getElementById("display").value = currentValue.toString();
+
+    };
+
+    const clr = () => {
+
+    };
+
+
+
+</script>
 <body>
 
-
-
+<div class=title>Functional Calculator</div>
+<table border="1">
+    <tr>
+        <td colspan="3"><input type="text" id="display"/></td>
+        <td><input type="button" value="c" onclick="clr()"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="1" onClick="op('1')"/></td>
+        <td><input type="button" value="2" onClick="op('2')"/></td>
+        <td><input type="button" value="3" onClick="op('3')"/></td>
+        <td><input type="button" value="/" onClick="op(div)"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="4" onClick="op('4')"/></td>
+        <td><input type="button" value="5" onClick="op('5')"/></td>
+        <td><input type="button" value="6" onClick="op('6')"/></td>
+        <td><input type="button" value="-" onClick="op(minus)"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="7" onClick="op('7')"/></td>
+        <td><input type="button" value="8" onClick="op('8')"/></td>
+        <td><input type="button" value="9" onClick="op('9')"/></td>
+        <td><input type="button" value="+" onClick="op(add)"/></td>
+    </tr>
+    <tr>
+        <td><input type="button" value=" " onClick="op(' ')"/></td>
+        <td><input type="button" value="0" onClick="op('0')"/></td>
+        <td><input type="button" value="=" onClick="op(result)"/></td>
+        <td><input type="button" value="*" onClick="op(multi)"/></td>
+    </tr>
+</table>
 
 
 </body>
