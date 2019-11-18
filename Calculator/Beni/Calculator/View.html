@@ -36,86 +36,42 @@
 
 </head>
 
-
 <body>
-
-
-<script type="module" src="calculator.js"></script>
-
-<script>
-    // import { calc, minus, add, pow, multi, div  } from "./calculator.js";
-
-    let inputOp = "calc";
-    let display = "";
-
-    const operate = (value, sign) => {
-        inputOp += `(${value})`;
-
-        console.log(inputOp);
-
-        display += ( typeof eval(value) === "function" ) ? sign : value;
-
-        document.getElementById("display").value = display;
-        document.getElementById("functionalOutput").innerText = inputOp;
-    };
-
-    const solve = () => {
-        inputOp += `(result)`;
-
-        console.log(inputOp);
-        console.log(eval(inputOp));
-
-        document.getElementById("display").value = eval(inputOp);
-        document.getElementById("functionalOutput").innerText = inputOp + " ===> "+  eval(inputOp);
-
-        inputOp = "calc";
-        display = "";
-
-    };
-
-    const clr = () => {
-        document.getElementById("display").value = "cleared";
-        document.getElementById("functionalOutput").innerText = "";
-
-        inputOp = "calc";
-        display = "";
-    };
-
-</script>
-
 
 <div class=title>Functional Calculator</div>
 <table border="1">
     <tr>
         <td colspan="3"><input value="Welcome Programmer" type="text" id="display"/></td>
-        <td><input type="button" value="c" onclick="clr()"/></td>
+        <td><input type="button" value="c" lambda="clr"    /></td>
     </tr>
     <tr>
-        <td><input type="button" value="1" onClick="operate('1')"/></td>
-        <td><input type="button" value="2" onClick="operate('2')"/></td>
-        <td><input type="button" value="3" onClick="operate('3')"/></td>
-        <td><input type="button" value="/" onClick="operate('div', '/')"/></td>
+        <td><input type="button" value="1"  lambda="n1"     /></td>
+        <td><input type="button" value="2"  lambda="n2"     /></td>
+        <td><input type="button" value="3"  lambda="n3"     /></td>
+        <td><input type="button" value="/"  lambda="div"    /></td>
     </tr>
     <tr>
-        <td><input type="button" value="4" onClick="operate('4')"/></td>
-        <td><input type="button" value="5" onClick="operate('5')"/></td>
-        <td><input type="button" value="6" onClick="operate('6')"/></td>
-        <td><input type="button" value="-" onClick="operate('minus', '-')"/></td>
+        <td><input type="button" value="4"  lambda="n4"     /></td>
+        <td><input type="button" value="5"  lambda="n5"     /></td>
+        <td><input type="button" value="6"  lambda="n6"     /></td>
+        <td><input type="button" value="-"  lambda="minus"  /></td>
     </tr>
     <tr>
-        <td><input type="button" value="7" onClick="operate('7')"/></td>
-        <td><input type="button" value="8" onClick="operate('8')"/></td>
-        <td><input type="button" value="9" onClick="operate('9')"/></td>
-        <td><input type="button" value="+" onClick="operate('add', '+')"/></td>
+        <td><input type="button" value="7"  lambda="n7"     /></td>
+        <td><input type="button" value="8"  lambda="n8"     /></td>
+        <td><input type="button" value="9"  lambda="n9"     /></td>
+        <td><input type="button" value="+"  lambda="add"    /></td>
     </tr>
     <tr>
-        <td><input type="button" value="42" onClick="operate('42')"/></td>
-        <td><input type="button" value="0" onClick="operate('0')"/></td>
-        <td><input type="button" value="=" onClick="solve()"/></td>
-        <td><input type="button" value="*" onClick="operate('multi', '*')"/></td>
+        <td><input type="button" value="42" lambda=""       /></td>
+        <td><input type="button" value="0"  lambda="n0"     /></td>
+        <td><input type="button" value="="  lambda="result" /></td>
+        <td><input type="button" value="*"  lambda="multi"  /></td>
     </tr>
 </table>
 <p id="functionalOutput"></p>
+
+<script src="../Calculator/calculatorStarter.js" type="module" ></script>
 
 </body>
 </html>

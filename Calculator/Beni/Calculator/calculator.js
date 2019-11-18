@@ -1,8 +1,6 @@
+export { calc, result, minus, add, pow, multi, div }
 
-
-// export { calc, minus, add, pow, multi, div }
-
-import { id  } from "../LambdaCalculus/lambda.js";
+import { id } from "../LambdaCalculus/lambda.js";
 
 
 // ------------------------------------------------------
@@ -96,9 +94,9 @@ const succ = nr => ( f => x => f( nr(f)(x) ) );
 const cAdd = n1 => n2 => n1(succ(n2));
 // cAdd (n1) (n1)
 // n1 => n2 => n1 (succ (n2) ) (n1) (n1)
-// (n1)  (succ (n1) )
-// (n1)  (nr => ( f => x => f( nr (f) (x) ) ) (n1))
-// (n1)  ( f => x => f(  (n1) (f) (x) ) )
+// (n1)              (succ (n1) )
+// (n1)              (nr => ( f => x => f( nr (f) (x) ) ) (n1))
+// (n1)              ( f => x => f(  (n1) (f) (x) ) )
 // (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
 // (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
 // (f => x => f(x))  ( f => x => f(  x => (f) (x))  (x) ) )
