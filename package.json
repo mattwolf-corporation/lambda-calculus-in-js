@@ -1,0 +1,25 @@
+{
+  "name": "ip5_lambda-calculus-in-js",
+  "version": "1.0.0",
+  "description": "ip5",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js.git"
+  },
+  "author": "Pascal Andermatt, Benjamin Brodwolf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js/issues"
+  },
+  "homepage": "https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.3"
+  }
+}
