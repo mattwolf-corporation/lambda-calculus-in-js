@@ -10,3 +10,5 @@ const fibonacci = n => Z(F)(n);
 
 const result = fibonacci(0);
 console.log(result);
+
+const $ = 1;
