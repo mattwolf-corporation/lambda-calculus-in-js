@@ -1,5 +1,5 @@
 export {
-     id, konst, fst, snd, T, F, flip, comp, pair, phi, pairEqual, ifels, end
+     id, konst, fst, snd, T, F, flip, comp, pair, pairEqual, ifels, end
 }
 
 // the identity function
@@ -35,10 +35,6 @@ const comp = f => g => x => f( g(x) );
 const pair = a => b => f => f(a)(b);
 
 const pairEqual = p1 => p2 => ( p1(fst) === p2(fst) && p1(snd) === p2(snd) );
-
-// the phi function takes a Pair and give a new Pair back where the
-// second Value is on the first place and on the second place +1
-const phi = p => pair( p(snd) )( succ( p(snd) ) );
 
 
 
