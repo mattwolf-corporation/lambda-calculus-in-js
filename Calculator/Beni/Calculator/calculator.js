@@ -2,7 +2,6 @@ export {
     calc, result, Minus, Add, Pow, Multi, Div,
     jsnum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, cAdd, cMulti, cMinus
 }
-// export { jsnum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, cAdd, cMulti, cMinus}
 import { id, konst, fst, snd, T, F, comp, pair} from "../LambdaCalculus/lambda.js";
 // ------------------------------------------------------
 // --------- Calculator with JS arithmetic --------------

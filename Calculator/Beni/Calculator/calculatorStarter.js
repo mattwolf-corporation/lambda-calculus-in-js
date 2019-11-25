@@ -3,13 +3,16 @@ import {
     jsnum,  n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, cAdd, cMulti, cMinus
 } from "./calculator.js";
 
-// import {jsnum, n0, n1, n2, n3, n4, n5, n6, succ, cAdd, cMulti} from "./calculator.js";
-
 // import {ifels, end} from "../LambdaCalculus/lambda.js";
 
-let inputOp = "calc";
+let functionalOp = "calc";
 let lambdaOp = "jsnum( calc";
 let display = "";
+
+
+const displayOutput = document.getElementById("displayOutput");
+const functionalOutput = document.getElementById("functionalOutput");
+const lambdaOutput = document.getElementById("lambdaOutput");
 
 const operate = value => lambda => {
     if (lambda === "result") {
@@ -17,13 +20,12 @@ const operate = value => lambda => {
     } else if (lambda === "clr") {
         clr();
     } else {
-        inputOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
+        functionalOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
         lambdaOp += (isNaN(value)) ? `(c${lambda})` : `(${lambda})`;
         display += value;
-        document.getElementById("display").value = display;
-        document.getElementById("functionalOutput").innerText = inputOp;
-        document.getElementById("lambdaOutput").innerText = lambdaOp;
-
+        displayOutput.value = display;
+        functionalOutput.innerText = functionalOp;
+        lambdaOutput.innerText = lambdaOp;
     }
 };
 
@@ -33,42 +35,43 @@ const operate = value => lambda => {
 //             display += value;
 //             document.getElementById("display").value = display;
 //
-//             inputOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
-//             document.getElementById("functionalOutput").innerText = inputOp;
+//             functionalOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
+//             document.getElementById("functionalOutput").innerText = functionalOp;
 //         };
 
 // ifels(lambda === "result")(solve())
 //     (ifels(lambda === "clr")(clr())(
 //             () => {
-//                 inputOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
+//                 functionalOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
 //                 display += value;
 //                 document.getElementById("display").value = display;
-//                 document.getElementById("functionalOutput").innerText = inputOp;
+//                 document.getElementById("functionalOutput").innerText = functionalOp;
 //             }
 //         ));
 
 
 const solve = () => {
-    const evalResult = eval(inputOp + `(result)`);
+    const evalResult = eval(functionalOp + `(result)`);
 
-    document.getElementById("display").value = evalResult;
-    document.getElementById("functionalOutput").innerText = inputOp + " ===> " + evalResult;
-    inputOp = "calc";
+    displayOutput.value = evalResult;
+    functionalOutput.innerText = functionalOp + " ===> " + evalResult;
+    functionalOp = "calc";
     display = "";
 
 
     const evalLambdaResult = eval(lambdaOp + `(result) )`);
-    document.getElementById("lambdaOutput").innerText = lambdaOp + " ===> " + evalLambdaResult;
+    lambdaOutput.innerText = lambdaOp + " ) ===> " + evalLambdaResult;
     lambdaOp = "jsnum( calc";
 };
 
 const clr = () => {
-    document.getElementById("display").value = "cleared";
-    document.getElementById("functionalOutput").innerText = "";
-    inputOp = "calc";
+    displayOutput.value = "cleared";
     display = "";
 
-    document.getElementById("lambdaOutput").innerText = "";
+    functionalOutput.innerText = "";
+    functionalOp = "calc";
+
+    lambdaOutput.innerText = "";
     lambdaOp = "jsnum( calc";
 };
 
