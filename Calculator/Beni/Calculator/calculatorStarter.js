@@ -1,4 +1,6 @@
 import {calc, result, minus, add, pow, multi, div} from "./calculator.js";
+import {jsnum, n0, n1, n2, n3, n4, n5, n6, succ, cAdd, cMult} from "./calculator.js";
+
 // import {ifels, end} from "../LambdaCalculus/lambda.js";
 
 let inputOp = "calc";

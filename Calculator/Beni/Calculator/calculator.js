@@ -1,8 +1,6 @@
 export { calc, result, minus, add, pow, multi, div }
-
-import { id } from "../LambdaCalculus/lambda.js";
-
-
+export { jsnum, n0, n1, n2, n3, n4, n5, n6, succ, cAdd, cMult, cPow, cMinus}
+import { id, konst, fst, snd, T, F, comp } from "../LambdaCalculus/lambda.js";
 // ------------------------------------------------------
 // --------- Calculator with JS arithmetic --------------
 // ------------------------------------------------------
@@ -68,7 +66,7 @@ const calc = num => op => op(num);
 // --------  Calculator with Church-Numerals ------------
 // ------------------------------------------------------
 
-// Print the Church-Numbers as JS-Numbers
+// Helper-Tool: Print the Church-Numbers as JS-Numbers
 const jsnum = f => f(x => x + 1)(0);
 
 // Church-Numbers
@@ -76,30 +74,35 @@ const n0 = f => x => x;
 const n1 = f => x => f(x);
 const n2 = f => x => f(f(x));
 const n3 = f => x => f(f(f(x)));
-const n4 = f => x => f(f(f(f(x))));
-const n5 = f => x => f(f(f(f(f(x)))));
-const n6 = f => x => f(f(f(f(f(f(x))))));
 
+// Church-Numbers +1
+const succ = n => f => x => f( n(f)(x) ) ;
 
-const succ = nr => ( f => x => f( nr(f)(x) ) );
-// succ(n0)
-// succ(fnr => fx => fx)
-// nr => ( f => x => f( nr(f)(x) ) )  (fNr => xNr => xNr)
-//       ( f => x => f( (fNr => xNr => xNr) (f)(x) ) )
-//         f => x => f(x)  === n1
-
+// continue Church-Numbers n4...n6
+const n4 = succ(n3);
+const n5 = succ(succ(n3));
+const n6 = succ(n5);
 
 // Arithmetic operation with Church-Numbers
-
 const cAdd = n1 => n2 => n1(succ(n2));
-// cAdd (n1) (n1)
-// n1 => n2 => n1 (succ (n2) ) (n1) (n1)
-// (n1)              (succ (n1) )
-// (n1)              (nr => ( f => x => f( nr (f) (x) ) ) (n1))
-// (n1)              ( f => x => f(  (n1) (f) (x) ) )
-// (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
-// (f => x => f(x))  ( f => x => f(  (f => x => f(x)) (f) (x) ) )
-// (f => x => f(x))  ( f => x => f(  x => (f) (x))  (x) ) )
-// (f => x => f(x))  ( f => x => f( (f) (x) ) )
-//  x => ( f => x => f( (f) (x) ) ) (x)
-//  ( f => x => f( (f) (x) ) ) === n2
+
+// continue Church-Numbers n7...n9
+const n7 = cAdd(n3)(n4);
+const n8 = cAdd(n5)(n3);
+const n9 = cAdd(n8)(n1);
+
+// check if 0 (Zero)
+const is0 = n => n( konst(F) )(T);
+// is0(n0).toString === "True"
+// is0(n1).toString === "False"
+// is0(n6).toString === "False"
+
+const cMult = n1 => n2 => f => n1( n2(f) );
+// const cMult = comp;
+
+const cPow = n1 => n2 => n2(n1);
+
+// -1 operator-function
+const minus1 = n => n(phi)(pair(n0)(n0))(fst);
+
+const cMinus = n1 => n2 => n2( minus1(n1) );
