@@ -14,6 +14,7 @@ const C = f => a => b => f(b)(a);
 const B = f => g => a => f(g(a));
 const T = a => f => f(a);
 const V = a => b => f => f(a)(b);
+const Blackbird = f => g => a => b => f(g(a)(b));
 
 /**
  * Boolean logic
@@ -29,7 +30,15 @@ const multiply = n1 => n2 => n1 * n2;
 const multiplyTwo = multiply(2);
 const addTen = add(10);
 
-// pair construction
+/**
+ *
+ * ############ purely functional data structures ############
+ *
+ */
+
+/**
+ * Pair Construction
+ */
 const pair = x => y => f => f(x)(y);
 const fst = K;
 const snd = KI;
@@ -178,5 +187,16 @@ const subtractionResult = jsnum(startChurchCalc
 console.log(churchResult);
 console.log(subtractionResult);
 
+const q = x => x + 1;
+const k = x => x * 2;
+const d = x => x + 10;
 
+const compose2 = f => g => k => k(f(g));
+const startCompose = f => g => g(f);
+
+// console.log(startCompose(q)(compose2)(k)(compose2)(d)(I)(2));
+
+
+const list = n2(pair);
+console.log(list(1)(2)(3)(4));
 
