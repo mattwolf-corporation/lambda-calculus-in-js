@@ -42,6 +42,58 @@ const addTen = add(10);
 const pair = x => y => f => f(x)(y);
 const fst = K;
 const snd = KI;
+const showPair = p => `${ p(fst) } | ${ p(snd) }`;
+/**
+ * immutable list of n values
+ * List constructed of pairs
+ * first value is the size of the list
+ */
+const list =
+    pair
+        (8)
+        (pair
+            (pair
+                (pair(0)(1))
+                (pair(2)(3))
+            )
+            (pair
+                (pair(4)(5))
+                (pair(6)(7))
+            )
+        );
+
+const list2 = pair(8)(pair(pair(pair(0)(1))(pair(2)(3)))(pair(pair(4)(5))(pair(6)(7))
+        )
+    );
+
+/**
+ * getter's of list
+ */
+const get0 = list(fst)(fst)(fst);
+const get1 = list(fst)(fst)(snd);
+const get2 = list(fst)(snd)(fst);
+const get3 = list(fst)(snd)(snd);
+
+const get4 = list(snd)(fst)(fst);
+const get5 = list(snd)(fst)(snd);
+const get6 = list(snd)(snd)(fst);
+const get7 = list(snd)(snd)(snd);
+
+// experiment
+const constructPair = x;
+const listStarter = size => constructPair(size);
+const randomList = list(8)(1)(2)(3)(4)(5)(6)(7)(8);
+
+
+console.log(get0);
+console.log(get1);
+console.log(get2);
+console.log(get3);
+console.log(get4);
+console.log(get5);
+console.log(get6);
+console.log(get7);
+console.log(showPair(list(fst)(snd)));
 
 const pairMap = f => p => pair(f(p(fst)))(f(p(snd)));
 
@@ -196,7 +248,4 @@ const startCompose = f => g => g(f);
 
 // console.log(startCompose(q)(compose2)(k)(compose2)(d)(I)(2));
 
-
-const list = n2(pair);
-console.log(list(1)(2)(3)(4));
 
