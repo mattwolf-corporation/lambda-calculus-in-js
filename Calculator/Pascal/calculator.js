@@ -291,6 +291,13 @@ const emptyStack = stack (False) (id) (id);
 
 const hasPre = s => s(stackHasPred);
 const push = s => x => stack (True) (s) (x);
+const pop = s => pair (s(stackPredecessor)) (s(stackValue));
+const head = s => s(stackValue);
+
+/**
+ * todo: map, filter, reduce
+ */
+
 
 /**
  * has empty stack a predecessor
@@ -310,5 +317,28 @@ console.log
         (True)
     )
 );
+
+console.log
+("pop returns the pushed value: ", show
+    (beq
+        ((pop(push(emptyStack)(id)))(snd) (True))
+        (True)
+    )
+);
+
+console.log
+    ("pop returns predecessor stack: ",
+        pop(push(emptyStack)(id)) (fst) === emptyStack
+    );
+
+console.log
+("returns head: ", show
+    (beq
+        ((head(push(emptyStack)(id))) (True))
+        (True)
+    )
+);
+
+
 
 
