@@ -49,9 +49,7 @@ const showPair = p => `${ p(fst) } | ${ p(snd) }`;
  * first value is the size of the list
  */
 const list =
-    pair
-        (8)
-        (pair
+        pair
             (pair
                 (pair(0)(1))
                 (pair(2)(3))
@@ -59,8 +57,21 @@ const list =
             (pair
                 (pair(4)(5))
                 (pair(6)(7))
-            )
-        );
+            );
+
+const list3 =
+    pair
+    (8)
+    (pair
+        (pair
+            (pair(0)(1))
+            (pair(2)(3))
+        )
+        (pair
+            (pair(4)(5))
+            (pair(6)(7))
+        )
+    );
 
 const list2 = pair(8)(pair(pair(pair(0)(1))(pair(2)(3)))(pair(pair(4)(5))(pair(6)(7))
         )
@@ -80,9 +91,20 @@ const get6 = list(snd)(snd)(fst);
 const get7 = list(snd)(snd)(snd);
 
 // experiment
-const constructPair = x;
-const listStarter = size => constructPair(size);
-const randomList = list(8)(1)(2)(3)(4)(5)(6)(7)(8);
+const build4 = a => b => c => d => Blackbird(pair)(pair)(a)(b) ((pair)(c)(d));
+const build222 = Blackbird(pair)(pair);
+const shortPair4 = a => b => (build222(a)(b))(pair);
+
+const build22 = Blackbird(pair)(pair);
+const shortPair42 = build222(pair);
+
+const build5 = p1 => p2 => Blackbird(pair)(p1)(p2);
+const constructPair = 1;
+
+
+
+// const listStarter = size => constructPair(size);
+//const randomList = list(8)(1)(2)(3)(4)(5)(6)(7)(8);
 
 
 console.log(get0);
