@@ -3,6 +3,8 @@
  * @typedef {church-number} church-number
  */
 
+
+
 /**
  * Combinators
  */
@@ -19,7 +21,7 @@ const Blackbird = f => g => a => b => f(g(a)(b));
 /**
  * Boolean logic
  */
-const F = KI;
+const False = KI;
 const True = K;
 
 
@@ -107,15 +109,15 @@ const constructPair = 1;
 //const randomList = list(8)(1)(2)(3)(4)(5)(6)(7)(8);
 
 
-console.log(get0);
-console.log(get1);
-console.log(get2);
-console.log(get3);
-console.log(get4);
-console.log(get5);
-console.log(get6);
-console.log(get7);
-console.log(showPair(list(fst)(snd)));
+// console.log(get0);
+// console.log(get1);
+// console.log(get2);
+// console.log(get3);
+// console.log(get4);
+// console.log(get5);
+// console.log(get6);
+// console.log(get7);
+// console.log(showPair(list(fst)(snd)));
 
 const pairMap = f => p => pair(f(p(fst)))(f(p(snd)));
 
@@ -257,9 +259,9 @@ const churchResult = jsnum(startChurchCalc
 const subtractionResult = jsnum(startChurchCalc
                                     (n9)(churchSub)(n4)
                                         (churchSub)(n2)
-                                    (I));
-console.log(churchResult);
-console.log(subtractionResult);
+                                     (I));
+// console.log(churchResult);
+// console.log(subtractionResult);
 
 const q = x => x + 1;
 const k = x => x * 2;
@@ -269,5 +271,32 @@ const compose2 = f => g => k => k(f(g));
 const startCompose = f => g => g(f);
 
 // console.log(startCompose(q)(compose2)(k)(compose2)(d)(I)(2));
+
+
+/**
+ * stack implementation
+ */
+const id = I;
+const not = C;
+const beq = p => q => p(q)(not(q));
+const stack = x => y => z => f => f(x)(y)(z);
+
+const show = b => b("True")("False");
+
+const stackHasPred = x => y => z => x;
+const stackPredecessor = x => y => z => y;
+const stackValue = x => y => z => z;
+
+const emptyStack = stack (False) (id) (id);
+
+const hasPre = s => s(stackHasPred);
+
+console.log
+            (show
+                (beq
+                    (hasPre(emptyStack))
+                    (False)
+                )
+            );
 
 
