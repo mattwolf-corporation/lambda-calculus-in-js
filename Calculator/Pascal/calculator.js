@@ -290,13 +290,25 @@ const stackValue = x => y => z => z;
 const emptyStack = stack (False) (id) (id);
 
 const hasPre = s => s(stackHasPred);
+const push = s => x => stack (True) (s) (x);
 
+/**
+ * has empty stack a predecessor
+ */
 console.log
-            (show
+            ("has empty stack no predecessor: ", show
                 (beq
                     (hasPre(emptyStack))
                     (False)
                 )
             );
+
+console.log
+("has non-empty stack a predecessor: ", show
+    (beq
+        (hasPre(push(emptyStack)(id)))
+        (True)
+    )
+);
 
 
