@@ -1,4 +1,4 @@
-
+export {Z}
 
 // z-combinator
 const Z = f => (x => f(v => x(x)(v)))(x => f(v => x(x)(v)));
@@ -10,5 +10,3 @@ const fibonacci = n => Z(F)(n);
 
 const result = fibonacci(0);
 console.log(result);
-
-const $ = 1;
