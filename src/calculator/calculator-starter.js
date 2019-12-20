@@ -1,9 +1,9 @@
 import {
-    calc, result, Minus, Add, Pow, Multi, Div,
-    jsnum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, cAdd, cMulti, cMinus
+    calc, result, add, multi, sub, pow, div, churchAdd as cadd, churchMulti as cmulti, churchSub as csub, churchPow as cpow
 } from "./calculator.js";
-
-// import {ifels, end} from "../LambdaCalculus/lambda.js";
+import {
+    jsnum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9
+} from "../lambda-calculus-libraray/church-numerals.js";
 
 let functionalOp = "calc";
 let lambdaOp = "jsnum( calc";

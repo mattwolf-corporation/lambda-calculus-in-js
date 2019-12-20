@@ -67,7 +67,9 @@ const shortPair42 = build222(pair);
 const build5 = p1 => p2 => Blackbird(pair)(p1)(p2);
 const constructPair = 1;
 
-// const listStarter = size => constructPair(size);
-//const randomList = list(8)(1)(2)(3)(4)(5)(6)(7)(8);
+
+const pair4 = a => b => c => d => Blackbird(pair)(pair)(a)(b) ((pair)(c)(d));   // WORKS
+const pair8 = v1 => v2 => v3 => v4 => v5 => v6 => v7 => v8 => pair( (pair4)(v1)(v2)(v3)(v4)) ((pair4)(v5)(v6)(v7)(v8) ) // WORKS
+
 
 ///// end of experiment
