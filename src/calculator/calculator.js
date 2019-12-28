@@ -2,8 +2,8 @@ export {
     calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum} from '../lambda-calculus-libraray/church-numerals.js'
-import {id, T, B} from '../lambda-calculus-libraray/lambda-calculus.js'
+import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum} from '../lambda-calculus-library/church-numerals.js'
+import {id, T, B} from '../lambda-calculus-library/lambda-calculus.js'
 
 
 // ------------------------------------------------------

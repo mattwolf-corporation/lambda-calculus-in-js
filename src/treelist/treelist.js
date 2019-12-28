@@ -1,4 +1,4 @@
-import {pair, fst, snd, Blackbird, showPair} from '../lambda-calculus-libraray/lambda-calculus.js'
+import {pair, fst, snd, Blackbird, showPair} from '../lambda-calculus-library/lambda-calculus.js'
 /**
 * immutable list of n values
 * List constructed of pairs

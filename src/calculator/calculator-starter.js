@@ -3,7 +3,7 @@ import {
 } from "./calculator.js";
 import {
     jsnum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9
-} from "../lambda-calculus-libraray/church-numerals.js";
+} from "../lambda-calculus-library/church-numerals.js";
 
 let functionalOp = "calc";
 let lambdaOp = "jsnum( calc";

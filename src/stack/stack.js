@@ -1,4 +1,4 @@
-import {id, beq, True, False, showBoolean as show, pair} from '../lambda-calculus-libraray/lambda-calculus.js'
+import {id, beq, True, False, showBoolean as show, pair} from '../lambda-calculus-library/lambda-calculus.js'
 
 /**
  * stack implementation
