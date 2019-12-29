@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, beq, showBoolean, pair, pairMap, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, beq, showBoolean, evaluatBoolean, pair, pairMap, showPair}
 
 /**
  * Generic Types
@@ -91,6 +91,7 @@ const not = C;
 const beq = p => q => p(q)(not(q));
 
 const showBoolean = b => b("True")("False");
+const evaluatBoolean = b => b(true)(false);
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair

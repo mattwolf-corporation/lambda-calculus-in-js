@@ -74,5 +74,3 @@ const subtractionResult = jsnum(calc
 (churchSub)(n2)
 (result));
 
-console.log(churchResult);
-console.log(subtractionResult);
