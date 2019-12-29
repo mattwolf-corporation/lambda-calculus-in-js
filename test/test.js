@@ -1,18 +1,13 @@
 import {pair, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
 
-export {test}
+export {TestSuite}
 
 
 const Assert = () => {
     let counter = 1;
     const ok = [];
     const equals = (actual, expected) => {
-
         const result = (actual === expected);
-        if (!result) {
-            console.error(`not equal! actual was '${actual}' but expected '${expected}'`);
-        }
-
         ok.push({actual, expected, result, counter});
         counter++;
     };
@@ -22,44 +17,61 @@ const Assert = () => {
     }
 };
 
-const test = (origin, callback) => {
-    const assert = Assert();          //    das ok anlegen
-    callback(assert);                 //    das ok befüllen
-    report(origin, assert.getOk());   //    report mit name und ok aufrufen
+const TestSuite = name => {
+    const tests = [];
+    const add = (origin, callback) => {
+        const assert = Assert();          //    das ok anlegen
+        callback(assert);
+        tests.push({
+            origin,
+            asserts: [...assert.getOk()]
+        });
+    };
+
+    const report = () => {
+        renderReport(name, tests);
+    };
+
+    return {
+        report: report,
+        getName: () => name,
+        getTests: () => tests,
+        add: add
+    }
+
 };
 
 
-function report(origin, ok) {
+function renderReport(name, tests) {
+    let outputHtml = "";
 
-    const output = document.getElementById("output");
+    tests.forEach(test => {
+        const {origin, asserts} = test;
 
-    const failed = ok.filter(testResult => !testResult.result);
-    const passed = ok.length - failed.length;
+        const failed = asserts.filter(testResult => !testResult.result);
+        const passed = asserts.length - failed.length;
+        let resultLine = "";
+        let passedLine = ` <span> - Passed: ${passed} / ${asserts.length} <span class="dot green"></span> </span>`;
 
-    let resultLine = `<p> ${passed} Test's passed of ${ok.length}`;
-    failed.forEach(failedTest => {
-        const {actual, expected, result, counter} = failedTest;
-        resultLine += `<li><p>Test Nr. ${counter} failed: not equal! actual was ${actual} but expected ${expected}</p></li>`;
+        failed.forEach(failedTest => {
+            const {actual, expected, result, counter} = failedTest;
+            resultLine += `<p><span class="dot red"></span>Test Nr. ${counter} failed: not equal! actual was ${actual} but expected ${expected}</p>`;
+        });
+
+        outputHtml += `
+            <h6> ${origin} ${passedLine} </h6>
+            <div class="testContainer">
+                ${resultLine}
+            </div>
+        `;
     });
 
+    const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",
-        `
-        <h3> ${origin} </h3>
-        <ul>
-            ${resultLine}
-        </ul>
-    `);
-    // ok.forEach(e => {
-    //     const {actual, expected, result} = e;
-    //     // TODO : anzeige Total "passed" und "failed" anstelle, jedes einzeln Zeigen. Wenn "failed" zeige "actual & expected" und Testnummer
+        `<fieldset>
+                <legend>${name}</legend>
+                     ${outputHtml}
+                </fieldset>`
+    );
 
-    //     testList += `<p> <span class="dot ${result ? "green" : "red"}"></span> ${actual} ${expected} </p>`;
-    // });
-    // output.insertAdjacentHTML("beforeend",
-    //     `
-    //     <h3> ${origin} </h3>
-    //     <ul>
-    //         ${testList}
-    //     </ul>
-    // `);
 }
