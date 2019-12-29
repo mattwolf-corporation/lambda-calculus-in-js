@@ -6,13 +6,10 @@ export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, be
  * @typedef {*} b
  * @typedef {*} c
  * @typedef {(a|b|c)} abc
- *
  * @typedef {function} fn
- */
-
-
-/**
- * Combinators
+ * @typedef {function} gn
+ * @typedef {function} pn
+ * @typedef {function} qn
  */
 
 /**
@@ -25,36 +22,58 @@ const I = x => x;
 /**
  * a -> b -> a ; Constant
  * @param {a} x
- * @returns {function({b}): {a}} a function that ignores its argument and returns {@link x}
+ * @returns { function(y:{b}): {a} } a function that ignores its argument and returns {@link x}
  */
 const K = x => y => x;
 
 /**
  * a -> b -> b ; Kite
  * @param {a} x
- * @returns {function({b}): {b}} a function that returns its argument {@link y}
+ * @returns { function(y:{b}): {b} } a function that returns its argument {@link y}
  */
 const KI = x => y => y;
 
 /**
  * fn -> fn( fn ) ; Mockingbird
  * @param {fn} f
- * @returns TODO
+ * @returns { fn( f:{fn} ) }
  */
 const M = f => f(f);
 
 /**
- * fn -> a -> b -> fn( b )( a ) ; Cardinal
+ * fn -> a -> b -> fn( b )( a ) ; Cardinal (flip)
  * @param  {fn} f
- * @returns {function(fst:{a}): function(snd:{b}) } returns a function that hold two arguments
+ * @returns { function(x:{a}): function(y:{b}): { fn (y:{b}) (x:{a}) } }
  */
-const C = f => x => y => f(x)(y);
+const C = f => x => y => f(y)(x);
 
+/**
+ * fn -> gn -> a -> fn( gn(a) ) ; Bluebird (Function composition)
+ * @param {fn} f
+ * @returns { function(g:{gn}): function(x:{a}): { fn( g:{gn}(x:{a}) )} }
+ */
+const B = f => g => x => f(g(x));
 
-const B = f => g => a => f(g(a));
-const T = a => f => f(a);
-const V = a => b => f => f(a)(b);
-const Blackbird = f => g => a => b => f(g(a)(b));
+/**
+ * a -> fn -> fn( a ) ; Trush (hold an argument)
+ * @param {a} x
+ * @returns { function(f:{fn}): { fn( x:{a} )} }
+ */
+const T = x => f => f(x);
+
+/**
+ * a -> b -> fn -> fn(a)(b) ; Vireo (hold pair of args)
+ * @param {a} x
+ * @returns { function(y:{b}): function(f:{fn})  { fn (x:{a}) (y:{b}) } }
+ */
+const V = x => y => f => f(x)(y);
+
+/**
+ * fn -> gn -> a -> b -> fn( gn(a)(b) ) ; Blackbird (Function composition with two args)
+ * @param {fn} f
+ * @returns { function(g:{gn}): function(x:{a}): function(y:{b}): { fn( gn (x:{a}) (y:{b}) ) } }
+ */
+const Blackbird = f => g => x => y => f(g(x)(y));
 
 /**
  * Church Encodings: Booleans
@@ -63,10 +82,15 @@ const False = KI;
 const True = K;
 
 const not = C;
+
+/**
+ * pn -> qn -> pn( qn )(not( qn)) ; Boolean-Equality
+ * @param {pn} p
+ * @returns { function(q:{qn}): { pn(q:{qn}) (not (q:{qn}) ) } }
+ */
 const beq = p => q => p(q)(not(q));
 
 const showBoolean = b => b("True")("False");
-
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair
