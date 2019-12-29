@@ -33,10 +33,8 @@ const TestSuite = name => {
     };
 
     return {
-        report: report,
-        getName: () => name,
-        getTests: () => tests,
-        add: add
+        add: add,
+        report: report
     }
 
 };
