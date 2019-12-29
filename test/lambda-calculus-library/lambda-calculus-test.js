@@ -1,24 +1,69 @@
 import { TestSuite } from "../test.js";
 
-import {id, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n1} from "../../src/lambda-calculus-library/church-numerals.js";
+import {id, K, KI, M, C, B, T, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
-lambdaCTest.add("identity", assert => {
 
+lambdaCTest.add("identity", assert => {
     assert.equals(id(1), 1 );
     assert.equals(id(n1), n1 );
-    assert.equals(true, true );
-    assert.equals(true, true );
-
+    assert.equals(id(true), true );
+    assert.equals(id(id), id );
+    assert.equals(id === id, true);
 });
 
-lambdaCTest.add("konst", assert => {
-
-    assert.equals(true, true );
-    assert.equals(true, true );
-    assert.equals(true, true );
-    assert.equals(true, true );
-
+lambdaCTest.add("kestrel", assert => {
+    assert.equals(K(1)(2), 1);
+    assert.equals(K(n1)(n2), n1);
+    assert.equals(K(id)(KI), id);
+    assert.equals(K(K)(id), K);
+    assert.equals(K(K)(id) (1)(2), 1);
 });
+
+lambdaCTest.add("kite", assert => {
+    assert.equals(KI(1)(2), 2);
+    assert.equals(KI(n1)(n2), n2);
+    assert.equals(KI(id)(KI), KI);
+    assert.equals(KI(KI)(id), id);
+    assert.equals(KI(id)(KI) (1)(2), 2);
+});
+
+lambdaCTest.add("mockingbird", assert => {
+    assert.equals(M(id), id);
+    assert.equals(M(id)(5), 5);
+    assert.equals(M(K)(5), K);
+    assert.equals(M(KI)(5), 5);
+    assert.equals(M(id)(KI) (2)(7), 7);
+});
+
+lambdaCTest.add("cardinal", assert => {
+    assert.equals(C(fst)(1)(2), 2);
+    assert.equals(C(snd)(1)(2), 1);
+    assert.equals((C(snd)(id)(7))(6), 6);
+    assert.equals((C(snd)(id)(7))(id), id);
+    assert.equals(C(fst)(id)(7), 7);
+});
+
+lambdaCTest.add("bluebird", assert => {
+    const f = x => x + 1;
+    const g = x => x * 2;
+
+    assert.equals(B(f)(g)(4), 9);
+    assert.equals(B(g)(f)(4), 10);
+    assert.equals(B(id)(id)(5), 5);
+    assert.equals(B(f)(id)(5), 6);
+    assert.equals(B(id)(g)(5), 10);
+});
+
+lambdaCTest.add("thrush", assert => {
+    const f = x => x + 1;
+
+    assert.equals(T(2)(f), 3);
+    assert.equals(T(2)(id), 2);
+    assert.equals(T(id)(id), id);
+    assert.equals(jsnum(T(n2)(n3)), 8);
+    assert.equals(jsnum(T(n3)(n2)), 9);
+});
+
 lambdaCTest.report();

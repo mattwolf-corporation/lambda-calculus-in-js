@@ -13,14 +13,14 @@ export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, be
  */
 
 /**
- * a -> a ; Identity
+ * a -> a ; Identity (id)
  * @param   {a} x
  * @returns {a} {@link x}
  */
 const I = x => x;
 
 /**
- * a -> b -> a ; Constant
+ * a -> b -> a ; Kestrel (Constant)
  * @param {a} x
  * @returns { function(y:{b}): {a} } a function that ignores its argument and returns {@link x}
  */
@@ -55,7 +55,7 @@ const C = f => x => y => f(y)(x);
 const B = f => g => x => f(g(x));
 
 /**
- * a -> fn -> fn( a ) ; Trush (hold an argument)
+ * a -> fn -> fn( a ) ; Thrush (hold an argument)
  * @param {a} x
  * @returns { function(f:{fn}): { fn( x:{a} )} }
  */
