@@ -83,12 +83,11 @@ function renderReport(name, tests) {
 
     const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",
-        `<fieldset>
+        `<fieldset style="border-color: ${totalFailed > 0 ? 'red' : 'green'}">
                 <legend>${name}</legend>
                      ${outputHtml}
                      
                      <h5>Total passed: ${totalPassed}   failed: ${totalFailed} </h5>
                 </fieldset>`
     );
-
 }
