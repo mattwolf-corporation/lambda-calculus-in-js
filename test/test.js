@@ -1,7 +1,4 @@
-import {pair, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
-
 export {TestSuite}
-
 
 const Assert = () => {
     let counter = 1;
@@ -65,7 +62,7 @@ function renderReport(name, tests) {
         });
 
         outputHtml += `
-            <h6> ${origin} ${passedLine} </h6>
+            <h4> ${origin} ${passedLine} </h4>
             <div class="testContainer">
                 ${resultLine}
             </div>
@@ -78,7 +75,7 @@ function renderReport(name, tests) {
                 <legend>${name}</legend>
                      ${outputHtml}
                      
-                     <h6>Total passed: ${totalPassed}   failed: ${totalFailed} </h6>
+                     <h5>Total passed: ${totalPassed}   failed: ${totalFailed} </h5>
                 </fieldset>`
     );
 
