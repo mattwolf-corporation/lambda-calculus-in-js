@@ -43,17 +43,25 @@ const TestSuite = name => {
 function renderReport(name, tests) {
     let outputHtml = "";
 
+    console.log(tests)
+    let totalPassed = 0;
+    let totalFailed = 0;
+
     tests.forEach(test => {
         const {origin, asserts} = test;
 
         const failed = asserts.filter(testResult => !testResult.result);
         const passed = asserts.length - failed.length;
+
+        totalPassed += passed;
+        totalFailed += failed.length;
+
         let resultLine = "";
         let passedLine = ` <span> - Passed: ${passed} / ${asserts.length} <span class="dot green"></span> </span>`;
 
         failed.forEach(failedTest => {
             const {actual, expected, result, counter} = failedTest;
-            resultLine += `<p><span class="dot red"></span>Test Nr. ${counter} failed: not equal! actual was ${actual} but expected ${expected}</p>`;
+            resultLine += `<p><span class="dot red"></span>Test Nr.  <b>${counter} </b> failed: not equal! actual was ${actual} but expected ${expected}</p>`;
         });
 
         outputHtml += `
@@ -69,6 +77,8 @@ function renderReport(name, tests) {
         `<fieldset>
                 <legend>${name}</legend>
                      ${outputHtml}
+                     
+                     <h6>Total passed: ${totalPassed}   failed: ${totalFailed} </h6>
                 </fieldset>`
     );
 

@@ -1,6 +1,5 @@
 import { TestSuite } from "../test.js";
 
-import * as lambdaCalculus from '../../src/lambda-calculus-library/lambda-calculus.js'
 import {id, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1} from "../../src/lambda-calculus-library/church-numerals.js";
 
