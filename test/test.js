@@ -1,4 +1,3 @@
-import {beq, evaluatBoolean} from "../src/lambda-calculus-library/lambda-calculus.js";
 import {jsnum} from "../src/lambda-calculus-library/church-numerals.js";
 
 export {TestSuite}
@@ -8,12 +7,15 @@ const Assert = () => {
     const ok = [];
     const equals = (actual, expected) => {
         const result = (actual === expected);
-        ok.push({actual, expected, result, counter});
-        counter++;
+        addTest(actual, expected, result);
     };
-    const lambdaEquals = (actual, expected) => {
+
+    const churchNumberEquals = (actual, expected) => {
         const result = (jsnum(actual) === jsnum(expected));
-        console.log(result)
+        addTest(actual, expected, result);
+    };
+
+    const addTest = (actual, expected, result) =>{
         ok.push({actual, expected, result, counter});
         counter++;
     };
@@ -22,7 +24,7 @@ const Assert = () => {
     return {
         getOk: () => ok,
         equals: equals,
-        lambdaEquals: lambdaEquals
+        churchNumberEquals: churchNumberEquals
     }
 };
 

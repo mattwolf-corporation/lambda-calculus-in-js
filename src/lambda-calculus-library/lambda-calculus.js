@@ -91,7 +91,6 @@ const not = C;
 const beq = p => q => p(q)(not(q));
 
 const showBoolean = b => b("True")("False");
-const evaluatBoolean = b => b(true)(false);
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair
