@@ -1,4 +1,5 @@
 import {id, beq, True, False, showBoolean as show, pair,fst, snd} from '../lambda-calculus-library/lambda-calculus.js'
+import {n0} from "../lambda-calculus-library/church-numerals.js";
 
 /**
  * stack implementation
