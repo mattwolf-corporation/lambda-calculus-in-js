@@ -1,4 +1,6 @@
-import {id, beq, True, False, showBoolean as show, pair,fst, snd} from '../lambda-calculus-library/lambda-calculus.js'
+import {id, beq, True, False, showBoolean as show, convertToJsBool , pair,fst, snd, not} from '../lambda-calculus-library/lambda-calculus.js'
+import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../lambda-calculus-library/church-numerals.js'
+
 
 /**
  * stack implementation
@@ -9,12 +11,13 @@ const stackIndex = x => y => z => x;
 const stackPredecessor = x => y => z => y;
 const stackValue = x => y => z => z;
 
-const emptyStack = stack (False) (id) (id);
+const emptyStack = stack (n0) (id) (id);
 
-const hasPre = s => s(stackIndex); // give true/false (function)
-const push = s => x => stack (True) (s) (x);
+const hasPre = s => not(is0(s(stackIndex)));  // give true/false (function)
+const push = s => x => stack (succ(s(stackIndex))) (s) (x);
 const pop = s => pair (s(stackPredecessor)) (head(s));
 const head = s => s(stackValue);
+const size = s => (s(stackIndex));
 
 /**
  * todo: map, filter, reduce
