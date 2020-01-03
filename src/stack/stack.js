@@ -65,3 +65,28 @@ console.log
         (True)
     )
 );
+
+
+// Experiment: reduce function with lambda stack
+// reducePair = pair(stack)(0)
+
+const testStack = push( push( push(emptyStack)(0) ) (1) ) (2);
+
+console.log('has emptyStack a pre: ' + convertToJsBool(hasPre(emptyStack)));
+console.log('has stack with 3 elements a pre: ' + convertToJsBool(hasPre(testStack)));
+
+const reducePairTest = pair(testStack)(0);
+
+const reduceAdd = reducePair => {
+    const stack = reducePair(fst);
+
+    if(convertToJsBool(hasPre(stack))){
+        const acc = (reducePair)(snd) + (pop(stack))(snd);
+        return pair((pop(stack))(fst))(acc);
+    }
+
+    return reducePair;
+};
+
+console.log('reduce Test: ' + (n4(reduceAdd)(reducePairTest))(snd));
+
