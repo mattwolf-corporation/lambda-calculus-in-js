@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, beq, showBoolean, evaluatBoolean, pair, pairMap, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, True, False, not, beq, showBoolean, pair, pairMap, showPair}
 
 /**
  * Generic Types

@@ -54,7 +54,6 @@ const TestSuite = name => {
 function renderReport(name, tests) {
     let outputHtml = "";
 
-    console.log(tests)
     let totalPassed = 0;
     let totalFailed = 0;
 

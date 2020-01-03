@@ -39,7 +39,7 @@ const div = calculatorOperator(division);
 
 // demonstration / test
 const number = calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result);
-document.writeln(number === 42); // true
+console.log(number === 42); // true
 
 
 // ------------------------------------------------------
