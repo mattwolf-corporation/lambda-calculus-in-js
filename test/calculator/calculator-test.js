@@ -24,7 +24,7 @@ calculatorJSTest.add("sub", assert => {
     assert.equals(  calc(20)(sub)(2)(sub)(5)(result), 13);
 });
 
-calculatorJSTest.add("sub", assert => {
+calculatorJSTest.add("multi", assert => {
     assert.equals(  calc(0)(multi)(10)(result), 0);
     assert.equals(  calc(1)(multi)(1)(result), 1);
     assert.equals(  calc(5)(multi)(2)(multi)(5)(result), 50);
