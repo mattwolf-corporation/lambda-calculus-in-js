@@ -1,4 +1,4 @@
-import {id, beq, True, False, showBoolean as show, convertToJsBool , pair,fst, snd, not} from '../lambda-calculus-library/lambda-calculus.js'
+import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, first, second, third, not} from '../lambda-calculus-library/lambda-calculus.js'
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../lambda-calculus-library/church-numerals.js'
 
 
@@ -68,25 +68,47 @@ console.log
 
 
 // Experiment: reduce function with lambda stack
-// reducePair = pair(stack)(0)
+// reducePair = pair(stack)(0)(reduce-function)
 
 const testStack = push( push( push(emptyStack)(0) ) (1) ) (2);
 
 console.log('has emptyStack a pre: ' + convertToJsBool(hasPre(emptyStack)));
 console.log('has stack with 3 elements a pre: ' + convertToJsBool(hasPre(testStack)));
 
-const reducePairTest = pair(testStack)(0);
+const reduceFunctionSum = (acc, curr) => acc + curr;
 
-const reduceAdd = reducePair => {
-    const stack = reducePair(fst);
+const reduceTripleTest = triple(testStack)(0)(reduceFunctionSum);
+
+const reduceBuilder = reduceTriple => {
+    const stack = reduceTriple(first);
 
     if(convertToJsBool(hasPre(stack))){
-        const acc = (reducePair)(snd) + (pop(stack))(snd);
-        return pair((pop(stack))(fst))(acc);
-    }
+        const reduceFunction = reduceTriple(third);
+        // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
-    return reducePair;
+        const preAcc = reduceTriple(second);
+        // console.log("debug: " + preAcc);
+
+        const curr = (pop(stack))(snd);
+        // console.log("debug: " + curr);
+
+        const acc = reduceFunction( preAcc , curr );
+        // console.log("debug: " + acc);
+
+        return triple((pop(stack))(fst))(acc)(reduceFunction);
+    }
+    return reduceTriple;
 };
 
-console.log('reduce Test: ' + (n4(reduceAdd)(reducePairTest))(snd));
+const lambdaStackReducer = s => initValue => reduceFunction=> {
+    const times = size(s);
+    const t = triple(s)(initValue)(reduceFunction);
+
+    return (times(reduceBuilder)(t))(second);
+};
+
+// const result = (n4(reduceBuilder)(reduceTripleTest))(second);
+const reduceF = (acc, curr) => acc - curr;
+const result = lambdaStackReducer(testStack)(0)(reduceF);
+console.log('reduce Test: ' + result);
 
