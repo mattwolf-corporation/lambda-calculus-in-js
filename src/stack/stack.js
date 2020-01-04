@@ -1,5 +1,6 @@
 import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, first, second, third, not} from '../lambda-calculus-library/lambda-calculus.js'
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../lambda-calculus-library/church-numerals.js'
+import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
 
 
 /**
@@ -67,7 +68,7 @@ console.log
 );
 
 
-// Experiment: reduce function with lambda stack
+// Experiment: reduce function with lambda stack (reduce with head element of the stack)
 // reducePair = pair(stack)(0)(reduce-function)
 
 const testStack = push( push( push(emptyStack)(0) ) (1) ) (2);
@@ -87,13 +88,13 @@ const reduceBuilder = reduceTriple => {
         // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
         const preAcc = reduceTriple(second);
-        // console.log("debug: " + preAcc);
+        console.log("debug: " + preAcc);
 
         const curr = (pop(stack))(snd);
-        // console.log("debug: " + curr);
+        console.log("debug: " + curr);
 
         const acc = reduceFunction( preAcc , curr );
-        // console.log("debug: " + acc);
+        console.log("debug: " + acc);
 
         return triple((pop(stack))(fst))(acc)(reduceFunction);
     }
@@ -108,7 +109,68 @@ const lambdaStackReducer = s => initValue => reduceFunction=> {
 };
 
 // const result = (n4(reduceBuilder)(reduceTripleTest))(second);
-const reduceF = (acc, curr) => acc - curr;
-const result = lambdaStackReducer(testStack)(0)(reduceF);
-console.log('reduce Test: ' + result);
+const convertStackToArray = (acc, curr) => [...acc, curr];
+const reverseStack = (acc, curr) => push(acc)(curr);
 
+const result = lambdaStackReducer(testStack)(emptyStack)(reverseStack);
+console.log('reduce Test: ' + result);
+console.log('has result pre: ' + convertToJsBool(result(hasPre)));
+console.log('reduce Test: ' + head(result(stackPredecessor)));
+console.log('reduce Test: ' + jsnum(size(result)));
+console.log('reduce Test: ' + head(result));
+
+
+const testStackForGetByIndex = push(push(push( push( push(emptyStack)(5) ) (10) ) (45) )(50) ) (51);
+
+const getElementByIndex = s => i => {
+    const times = churchSubtraction(size(s))(i);
+
+    const func = s => s(stackPredecessor);
+
+    return head(times(func)(s));
+};
+
+console.log('Element at Index 1: ' + getElementByIndex(testStackForGetByIndex)(n1));
+console.log('Element at Index 2: ' + getElementByIndex(testStackForGetByIndex)(n2));
+console.log('Element at Index 3: ' + getElementByIndex(testStackForGetByIndex)(n3));
+console.log('Element at Index 4: ' + getElementByIndex(testStackForGetByIndex)(n4));
+console.log('Element at Index 4: ' + getElementByIndex(testStackForGetByIndex)(n5));
+console.log('Element at Index 0: ' + (getElementByIndex(testStackForGetByIndex)(n0))(true));
+
+
+// TODO: function convert js-num in church-num
+// TODO: stack erstellen mit schleife & push
+
+const add10 = x => x + 10;
+
+const mapStack = s => mapFunction => {
+
+    const times = size(s);
+    const mapPair = pair(emptyStack)(n0);
+
+    const map = mapPair => {
+
+        if(convertToJsBool(is0(churchSubtraction(times)(mapPair(snd))))){
+            return mapPair;
+        }
+        const index = succ(mapPair(snd));
+        const valueToMap = getElementByIndex(s)(index);
+        const mappedValue = mapFunction(valueToMap);
+        const resultStack = push(mapPair(fst))(mappedValue);
+
+        return pair(resultStack)(index);
+    };
+
+    return (times(map)(mapPair))(fst);
+};
+
+const mappedStack = mapStack(testStackForGetByIndex)(add10);
+
+console.log('Element at Index 1: ' + getElementByIndex(mappedStack)(n1));
+console.log('Element at Index 2: ' + getElementByIndex(mappedStack)(n2));
+console.log('Element at Index 3: ' + getElementByIndex(mappedStack)(n3));
+console.log('Element at Index 4: ' + getElementByIndex(mappedStack)(n4));
+console.log('Element at Index 4: ' + getElementByIndex(mappedStack)(n5));
+console.log('Element at Index 0: ' + (getElementByIndex(mappedStack)(n0))(true));
+
+// TODO: map ausgabe schreiben
