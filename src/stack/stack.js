@@ -101,7 +101,7 @@ const reduceBuilder = reduceTriple => {
     return reduceTriple;
 };
 
-const lambdaStackReducer = s => initValue => reduceFunction=> {
+const lambdaStackReducer = s => initValue => reduceFunction => {
     const times = size(s);
     const t = triple(s)(initValue)(reduceFunction);
 
@@ -127,7 +127,7 @@ const logStack = s => {
 
     const logStack = (acc, curr) => {
         const index = acc + 1;
-        console.log('element at: ' + index + ': ' + curr);
+        console.log('element at: ' + index + ': ' + JSON.stringify(curr));
         return index;
     };
 
@@ -208,3 +208,23 @@ const filteredStack = filterStack(mappedStack)(filterFunc);
 console.log('filtered stack: ');
 logStack(filteredStack);
 
+const personList = [
+    {firstName: 'Peter', lastName: 'Pan', age: 30, income: 1000},
+    {firstName: 'Marc', lastName: 'Hunt', age: 28, income: 2000},
+    {firstName: 'Luc', lastName: 'Skywalker', age: 36, income: 3000},
+    {firstName: 'Han', lastName: 'Solo', age: 55, income: 4000},
+    {firstName: 'Tyrion', lastName: 'Lennister', age: 40, income: 5000}
+];
+
+const testData = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
+logStack(testData);
+
+const filteredData = filterStack(testData)(person => person.firstName.startsWith('L'));
+logStack(filteredData);
+
+const mappedData = mapStack(testData)(person => person.lastName);
+logStack(mappedData);
+
+const reduceIncome = (acc, curr) => acc + curr.income;
+const reducedData = lambdaStackReducer(testData)(0)(reduceIncome);
+console.log('reduced Data: ' + reducedData);
