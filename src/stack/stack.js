@@ -179,6 +179,32 @@ logStack(mappedStack);
 console.log('Element at Index 0: ' + (getElementByIndex(mappedStack)(n0))(true));
 
 
+const filterStack = s => filterFunction => {
+    const times = size(s);
+    const filterPair = pair(emptyStack)(n0);
 
+    const filter = filterPair => {
+        const index = succ(filterPair(snd));
 
+        if(convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))){
+            const value = getElementByIndex(s)(index);
+
+            if(filterFunction(value)){
+                const resultStack = push(filterPair(fst))(value);
+                return pair(resultStack)(index);
+            }
+        }
+
+        return pair(filterPair(fst))(index);
+    };
+
+    return (times(filter)(filterPair))(fst);
+};
+const filterFunc = x =>  10 < x && x < 100;
+
+console.log('filter func test: ' + filterFunc(5));
+
+const filteredStack = filterStack(mappedStack)(filterFunc);
+console.log('filtered stack: ');
+logStack(filteredStack);
 
