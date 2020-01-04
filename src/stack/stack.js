@@ -88,13 +88,13 @@ const reduceBuilder = reduceTriple => {
         // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
         const preAcc = reduceTriple(second);
-        console.log("debug: " + preAcc);
+        // console.log("debug: " + preAcc);
 
         const curr = (pop(stack))(snd);
-        console.log("debug: " + curr);
+        // console.log("debug: " + curr);
 
         const acc = reduceFunction( preAcc , curr );
-        console.log("debug: " + acc);
+        // console.log("debug: " + acc);
 
         return triple((pop(stack))(fst))(acc)(reduceFunction);
     }
@@ -122,6 +122,18 @@ console.log('reduce Test: ' + head(result));
 
 const testStackForGetByIndex = push(push(push( push( push(emptyStack)(5) ) (10) ) (45) )(50) ) (51);
 
+const logStack = s => {
+    const reversedStack = lambdaStackReducer(s)(emptyStack)(reverseStack);
+
+    const logStack = (acc, curr) => {
+        const index = acc + 1;
+        console.log('element at: ' + index + ': ' + curr);
+        return index;
+    };
+
+    lambdaStackReducer(reversedStack)(0)(logStack);
+};
+
 const getElementByIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
 
@@ -130,18 +142,15 @@ const getElementByIndex = s => i => {
     return head(times(func)(s));
 };
 
-console.log('Element at Index 1: ' + getElementByIndex(testStackForGetByIndex)(n1));
-console.log('Element at Index 2: ' + getElementByIndex(testStackForGetByIndex)(n2));
-console.log('Element at Index 3: ' + getElementByIndex(testStackForGetByIndex)(n3));
-console.log('Element at Index 4: ' + getElementByIndex(testStackForGetByIndex)(n4));
-console.log('Element at Index 4: ' + getElementByIndex(testStackForGetByIndex)(n5));
+logStack(testStackForGetByIndex);
+
 console.log('Element at Index 0: ' + (getElementByIndex(testStackForGetByIndex)(n0))(true));
 
 
 // TODO: function convert js-num in church-num
 // TODO: stack erstellen mit schleife & push
 
-const add10 = x => x + 10;
+const add10 = x => x * 2;
 
 const mapStack = s => mapFunction => {
 
@@ -166,11 +175,10 @@ const mapStack = s => mapFunction => {
 
 const mappedStack = mapStack(testStackForGetByIndex)(add10);
 
-console.log('Element at Index 1: ' + getElementByIndex(mappedStack)(n1));
-console.log('Element at Index 2: ' + getElementByIndex(mappedStack)(n2));
-console.log('Element at Index 3: ' + getElementByIndex(mappedStack)(n3));
-console.log('Element at Index 4: ' + getElementByIndex(mappedStack)(n4));
-console.log('Element at Index 4: ' + getElementByIndex(mappedStack)(n5));
+logStack(mappedStack);
 console.log('Element at Index 0: ' + (getElementByIndex(mappedStack)(n0))(true));
 
-// TODO: map ausgabe schreiben
+
+
+
+
