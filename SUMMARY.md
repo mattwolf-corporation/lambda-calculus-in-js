@@ -1,4 +1,8 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [Lambda Calculus IP5](README.md)
+
+## docs
+
+* [Untitled](docs/untitled.md)
 
