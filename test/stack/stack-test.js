@@ -58,15 +58,38 @@ stackSuite.add("size", assert => {
     assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
 });
 
-stackSuite.add("reduce", assert => {
+stackSuite.add("random", assert => {
+    // has empty stack no predecessor
+    assert.equals(convertToJsBool
+    (beq
+        (hasPre(emptyStack))
+        (False)
+    ), true);
 
+    // has non-empty stack a predecessor
+    assert.equals(convertToJsBool
+    (beq
+        (hasPre(push(emptyStack)(id)))
+        (True)
+    ), true);
+
+    // pop returns the pushed value
+    assert.equals(convertToJsBool
+    (beq
+        ((pop(push(emptyStack)(id)))(snd) (True))
+        (True)
+    ), true);
+
+    // pop returns predecessor stack
+    assert.equals(pop(push(emptyStack)(id)) (fst) === emptyStack, true);
+
+    // returns head
+    assert.equals(convertToJsBool
+    (beq
+        ((head(push(emptyStack)(id))) (True))
+        (True)
+    ), true);
 });
-
-
-
-
-
-
 
 
 stackSuite.report();

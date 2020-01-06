@@ -7,7 +7,7 @@ export { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
 
 
 /**
- * stack implementation
+ * stack implementation (purely functional)
  */
 const stack = x => y => z => f => f(x)(y)(z);
 
@@ -22,48 +22,6 @@ const push = s => x => stack (succ(s(stackIndex))) (s) (x);
 const pop = s => pair (s(stackPredecessor)) (head(s));
 const head = s => s(stackValue);
 const size = s => (s(stackIndex));
-
-// Tests
-/**
- * has empty stack a predecessor
- */
-console.log
-("has empty stack no predecessor: ", show
-    (beq
-        (hasPre(emptyStack))
-        (False)
-    )
-);
-
-console.log
-("has non-empty stack a predecessor: ", show
-    (beq
-        (hasPre(push(emptyStack)(id)))
-        (True)
-    )
-);
-
-console.log
-("pop returns the pushed value: ", show
-    (beq
-        ((pop(push(emptyStack)(id)))(snd) (True))
-        (True)
-    )
-);
-
-console.log
-("pop returns predecessor stack: ",
-    pop(push(emptyStack)(id)) (fst) === emptyStack
-);
-
-console.log
-("returns head: ", show
-    (beq
-        ((head(push(emptyStack)(id))) (True))
-        (True)
-    )
-);
-
 
 // Experiment: reduce function with lambda stack (reduce with head element of the stack)
 // reducePair = pair(stack)(0)(reduce-function)
