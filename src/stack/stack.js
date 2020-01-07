@@ -1,9 +1,42 @@
-import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from '../lambda-calculus-library/lambda-calculus.js'
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../lambda-calculus-library/church-numerals.js'
+import {
+    id,
+    beq,
+    True,
+    False,
+    showBoolean as show,
+    convertToJsBool,
+    pair,
+    triple,
+    fst,
+    snd,
+    firstOfTriple,
+    secondOfTriple,
+    thirdOfTriple,
+    not
+} from '../lambda-calculus-library/lambda-calculus.js'
+import {
+    n0,
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    pred,
+    succ,
+    jsnum,
+    is0
+} from '../lambda-calculus-library/church-numerals.js'
 import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
-export { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
+
+export {
+    stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, getElementByIndexJs, logStack}
+    getElementByIndex, getElementByIndexJs, logStack
+}
 
 
 /**
@@ -15,18 +48,18 @@ const stackIndex = firstOfTriple;
 const stackPredecessor = secondOfTriple;
 const stackValue = thirdOfTriple;
 
-const emptyStack = stack (n0) (id) (id);
+const emptyStack = stack(n0)(id)(id);
 
 const hasPre = s => not(is0(s(stackIndex)));  // give true/false (function)
-const push = s => x => stack (succ(s(stackIndex))) (s) (x);
-const pop = s => pair (s(stackPredecessor)) (head(s));
+const push = s => x => stack(succ(s(stackIndex)))(s)(x);
+const pop = s => pair(s(stackPredecessor))(head(s));
 const head = s => s(stackValue);
 const size = s => (s(stackIndex));
 
 // Experiment: reduce function with lambda stack (reduce with head element of the stack)
 // reducePair = pair(stack)(0)(reduce-function)
 
-const testStack = push( push( push(emptyStack)(0) ) (1) ) (2);
+const testStack = push(push(push(emptyStack)(0))(1))(2);
 
 console.log('has emptyStack a pre: ' + convertToJsBool(hasPre(emptyStack)));
 console.log('has stack with 3 elements a pre: ' + convertToJsBool(hasPre(testStack)));
@@ -38,7 +71,7 @@ const reduceTripleTest = triple(testStack)(0)(reduceFunctionSum);
 const reduceBuilder = reduceTriple => {
     const stack = reduceTriple(firstOfTriple);
 
-    if(convertToJsBool(hasPre(stack))){
+    if (convertToJsBool(hasPre(stack))) {
         const reduceFunction = reduceTriple(thirdOfTriple);
         // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
@@ -48,7 +81,7 @@ const reduceBuilder = reduceTriple => {
         const curr = (pop(stack))(snd);
         // console.log("debug: " + curr);
 
-        const acc = reduceFunction( preAcc , curr );
+        const acc = reduceFunction(preAcc, curr);
         // console.log("debug: " + acc);
 
         return triple((pop(stack))(fst))(acc)(reduceFunction);
@@ -68,14 +101,14 @@ const convertStackToArray = (acc, curr) => [...acc, curr];
 const reverseStack = (acc, curr) => push(acc)(curr);
 
 const result = lambdaStackReducer(testStack)(emptyStack)(reverseStack);
-console.log('reduce Test: ' + result);
-console.log('has result pre: ' + convertToJsBool(result(hasPre)));
-console.log('reduce Test: ' + head(result(stackPredecessor)));
-console.log('reduce Test: ' + jsnum(size(result)));
-console.log('reduce Test: ' + head(result));
+// console.log('reduce Test: ' + result);
+// console.log('has result pre: ' + convertToJsBool(result(hasPre)));
+// console.log('reduce Test: ' + head(result(stackPredecessor)));
+// console.log('reduce Test: ' + jsnum(size(result)));
+// console.log('reduce Test: ' + head(result));
 
 
-const testStackForGetByIndex = push(push(push( push( push(emptyStack)(5) ) (10) ) (45) )(50) ) (51);
+const testStackForGetByIndex = push(push(push(push(push(emptyStack)(5))(10))(45))(50))(51);
 
 const logStack = s => {
     const reversedStack = lambdaStackReducer(s)(emptyStack)(reverseStack);
@@ -102,13 +135,13 @@ const getElementByIndexJs = s => i => {
     const elemPair = pair(s)(id);
 
     const getElement = getElmPair => {
-
         const predecessorStack = (getElmPair(fst))(stackPredecessor);
 
-       if( jsnum((getElmPair(fst))(stackIndex)) === i){
-           const stack = getElmPair(fst);
-           return pair(predecessorStack)(head(stack));
-       }
+        if (jsnum((getElmPair(fst))(stackIndex)) === i) {
+            const stack = getElmPair(fst);
+
+            return pair(predecessorStack)(head(stack));
+        }
 
         return pair(predecessorStack)(getElmPair(snd));
     };
@@ -116,14 +149,8 @@ const getElementByIndexJs = s => i => {
     return (times(getElement)(elemPair))(snd);
 };
 
-console.log("getElementByJsNum: " + getElementByIndexJs(testStackForGetByIndex)(4));
-
 logStack(testStackForGetByIndex);
 
-console.log('Element at Index 0: ' + (getElementByIndex(testStackForGetByIndex)(n0))(true));
-
-
-// TODO: function convert js-num in church-num
 // TODO: stack erstellen mit schleife & push
 
 const add10 = x => x * 2;
@@ -135,7 +162,7 @@ const mapStack = s => mapFunction => {
 
     const map = mapPair => {
 
-        if(convertToJsBool(is0(churchSubtraction(times)(mapPair(snd))))){
+        if (convertToJsBool(is0(churchSubtraction(times)(mapPair(snd))))) {
             return mapPair;
         }
         const index = succ(mapPair(snd));
@@ -152,8 +179,6 @@ const mapStack = s => mapFunction => {
 const mappedStack = mapStack(testStackForGetByIndex)(add10);
 
 logStack(mappedStack);
-console.log('Element at Index 0: ' + (getElementByIndex(mappedStack)(n0))(true));
-
 
 const filterStack = s => filterFunction => {
     const times = size(s);
@@ -162,10 +187,10 @@ const filterStack = s => filterFunction => {
     const filter = filterPair => {
         const index = succ(filterPair(snd));
 
-        if(convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))){
+        if (convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))) {
             const value = getElementByIndex(s)(index);
 
-            if(filterFunction(value)){
+            if (filterFunction(value)) {
                 const resultStack = push(filterPair(fst))(value);
                 return pair(resultStack)(index);
             }
@@ -176,9 +201,9 @@ const filterStack = s => filterFunction => {
 
     return (times(filter)(filterPair))(fst);
 };
-const filterFunc = x =>  10 < x && x < 100;
+const filterFunc = x => 10 < x && x < 100;
 
-console.log('filter func test: ' + filterFunc(5));
+// console.log('filter func test: ' + filterFunc(5));
 
 const filteredStack = filterStack(mappedStack)(filterFunc);
 console.log('filtered stack: ');
@@ -192,7 +217,7 @@ const personList = [
     {firstName: 'Tyrion', lastName: 'Lennister', age: 40, income: 5000}
 ];
 
-const testData = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
+const testData = push(push(push(push(push(emptyStack)(personList[0]))(personList[1]))(personList[2]))(personList[3]))(personList[4]);
 logStack(testData);
 
 const filteredData = filterStack(testData)(person => person.firstName.startsWith('L'));

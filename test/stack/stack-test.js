@@ -101,11 +101,23 @@ stackSuite.add("random", assert => {
 });
 
 stackSuite.add("getElementByIndex", assert => {
-    assert.equals(getElementByIndexJs(stackWithNumbers)(n4), 34);
+    assert.equals(getElementByIndex(stackWithNumbers)(n0), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(n1), 0);
+    assert.equals(getElementByIndex(stackWithNumbers)(n2), 1);
+    assert.equals(getElementByIndex(stackWithNumbers)(n3), 2);
+    assert.equals(getElementByIndex(stackWithNumbers)(n4), 33);
+    assert.equals(getElementByIndex(stackWithNumbers)(n5), 34);
+    assert.equals(getElementByIndex(stackWithNumbers)(n6), 35);
 });
 
 stackSuite.add("getElementByIndexJs", assert => {
-    assert.equals(getElementByIndexJs(stackWithNumbers)(4), 34);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(0), id);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(1), 0);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(2), 1);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(3), 2);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(4), 33);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(5), 34);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(6), 35);
 });
 
 stackSuite.add("reduce", assert => {
@@ -120,7 +132,6 @@ stackSuite.add("reduce", assert => {
     assert.equals(lambdaStackReducer(push(stackWithNumbers)(3))(0)(reduceFunctionSum), 6);
     assert.equals(lambdaStackReducer(personStack)(0)((acc, curr) => acc + curr.income), 15000);
     assert.equals(jsnum(lambdaStackReducer(stackWithChurchNumbers)(n0)(reduceFunctionChurchNumbersSum)), 14);
-    // TODO: Array & Object equals method
     assert.arrayEquals(lambdaStackReducer(stackWithNumbers)([])(reduceToArray), [2, 1, 0]);
 });
 
