@@ -64,31 +64,31 @@ calculatorChurchNumeralsTest.add("basic", assert => {
 
 calculatorChurchNumeralsTest.add("churchAdd", assert => {
     assert.equals(  calc(n0)(churchAdd)(n1)(result), n1);
-    assert.churchNumberEquals( calc(n1)(churchAdd)(n1)(result) , n2);
-    assert.churchNumberEquals(  calc(n2)(churchAdd)(n2)(churchAdd)(n4)(result), n8 );
+    assert.churchEquals( calc(n1)(churchAdd)(n1)(result) , n2);
+    assert.churchEquals(  calc(n2)(churchAdd)(n2)(churchAdd)(n4)(result), n8 );
 });
 
 calculatorChurchNumeralsTest.add("churchSub", assert => {
-    assert.churchNumberEquals(  calc(n1)(churchSub)(n1)(result), n0);
-    assert.churchNumberEquals(  calc(n1)(churchSub)(n3)(result), n0); // church Numerals can't be negativ, so it will be Zero (n0)
-    assert.churchNumberEquals(  calc(n7)(churchSub)(n5)(result), n2);
-    assert.churchNumberEquals(  calc(n9)(churchSub)(n2)(churchSub)(n5)(result), n2);
+    assert.churchEquals(  calc(n1)(churchSub)(n1)(result), n0);
+    assert.churchEquals(  calc(n1)(churchSub)(n3)(result), n0); // church Numerals can't be negativ, so it will be Zero (n0)
+    assert.churchEquals(  calc(n7)(churchSub)(n5)(result), n2);
+    assert.churchEquals(  calc(n9)(churchSub)(n2)(churchSub)(n5)(result), n2);
 });
 
 calculatorChurchNumeralsTest.add("churchMulti", assert => {
-    assert.churchNumberEquals(  calc(n0)(churchMulti)(n7)(result), n0);
-    assert.churchNumberEquals(  calc(n1)(churchMulti)(n1)(result), n1);
-    assert.churchNumberEquals(  calc(n2)(churchMulti)(n2)(churchMulti)(n2)(result), n8);
+    assert.churchEquals(  calc(n0)(churchMulti)(n7)(result), n0);
+    assert.churchEquals(  calc(n1)(churchMulti)(n1)(result), n1);
+    assert.churchEquals(  calc(n2)(churchMulti)(n2)(churchMulti)(n2)(result), n8);
 });
 
 calculatorChurchNumeralsTest.add("churchPow", assert => {
-    assert.churchNumberEquals(  calc(n1)(churchPow)(n1)(result), n1);
-    assert.churchNumberEquals(  calc(n6)(churchPow)(n0)(result), n1);
-    assert.churchNumberEquals(  calc(n2)(churchPow)(n1)(result), n2);
-    assert.churchNumberEquals(  calc(n2)(churchPow)(n2)(result), n4);
-    assert.churchNumberEquals(  calc(n2)(churchPow)(n3)(result), n8);
-    assert.churchNumberEquals(  calc(n3)(churchPow)(n2)(result), n9);
-    assert.churchNumberEquals(  calc(n3)(churchPow)(n2)(churchPow)(n1)(result), n9);
+    assert.churchEquals(  calc(n1)(churchPow)(n1)(result), n1);
+    assert.churchEquals(  calc(n6)(churchPow)(n0)(result), n1);
+    assert.churchEquals(  calc(n2)(churchPow)(n1)(result), n2);
+    assert.churchEquals(  calc(n2)(churchPow)(n2)(result), n4);
+    assert.churchEquals(  calc(n2)(churchPow)(n3)(result), n8);
+    assert.churchEquals(  calc(n3)(churchPow)(n2)(result), n9);
+    assert.churchEquals(  calc(n3)(churchPow)(n2)(churchPow)(n1)(result), n9);
 });
 
 calculatorChurchNumeralsTest.add("church Calculation", assert => {

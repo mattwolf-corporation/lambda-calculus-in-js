@@ -35,19 +35,26 @@ const successor = n => f => a => f(n(f)(a));
 const succ = n => f => B(f)(n(f));
 
 /**
- * phi combinator -
+ * phi combinator
  * creates a new pair
  * @param p - pair
+ * @returns a pair
  */
-const phi = p => pair(p(snd))(succ(p(snd)));
+const phi = p => pair(p(snd)) (succ(p(snd)));
 
 /**
- *
+ * predecessor
  * @param n {church-number}
  * @returns predecessor of n
  */
-const pred = n => n(phi)(pair(n0)(n0))(fst);
+const pred = n => n(phi) (pair(n0)(n0)) (fst);
 
+
+/**
+ * query if the church number is zero (n0)
+ * @param n {church-number}
+ * @return {churchBoolean} True / False
+ */
 const is0 = n => n(K(False))(True);
 
 /**
