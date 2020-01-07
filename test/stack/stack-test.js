@@ -4,7 +4,7 @@ import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, tripl
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../../src/lambda-calculus-library/church-numerals.js';
 import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, logStack} from "../../src/stack/stack.js";
+    getElementByIndex, logStack, getElementByIndexJs} from "../../src/stack/stack.js";
 import {churchAddition} from "../../src/calculator/calculator.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -20,7 +20,8 @@ const personList = [
 Object.freeze(personList);
 
 const personStack = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
-
+const nonEmptyStack = push( push( push(emptyStack)(0) ) (1) ) (2);
+const stackWithNumbers = push( push( push(nonEmptyStack)(33) ) (34) ) (35);
 
 stackSuite.add("emptyStack", assert => {
     assert.equals(convertToJsBool(hasPre(emptyStack)), false);
@@ -31,16 +32,12 @@ stackSuite.add("emptyStack", assert => {
 });
 
 stackSuite.add("hasPre", assert => {
-    const nonEmptyStack = push( push( push(emptyStack)(0) ) (1) ) (2);
-
     assert.equals(convertToJsBool(hasPre(emptyStack)), false);
     assert.equals(convertToJsBool(hasPre(nonEmptyStack)), true);
     assert.equals(convertToJsBool(hasPre(pop(push(emptyStack)(0))(fst))), false);
 });
 
 stackSuite.add("push", assert => {
-    const nonEmptyStack = push( push( push(emptyStack)(0) ) (1) ) (2);
-
     assert.equals(convertToJsBool(hasPre(push(emptyStack)(5))), true);
     assert.equals(head(nonEmptyStack), 2);
     assert.equals(jsnum(size(nonEmptyStack)), 3);
@@ -48,8 +45,6 @@ stackSuite.add("push", assert => {
 });
 
 stackSuite.add("pop", assert => {
-    const nonEmptyStack = push( push( push(emptyStack)(0) ) (1) ) (2);
-
     assert.equals(pop(nonEmptyStack)(snd), 2);
     assert.equals(pop(pop(nonEmptyStack)(fst))(snd), 1);
     assert.equals(pop(pop(pop(nonEmptyStack)(fst))(fst))(snd), 0);
@@ -106,15 +101,15 @@ stackSuite.add("random", assert => {
 });
 
 stackSuite.add("getElementByIndex", assert => {
-    const nonEmptyStack = push( push(emptyStack)(0) ) (1);
+    assert.equals(getElementByIndexJs(stackWithNumbers)(n4), 34);
+});
 
-    assert.equals(jsnum(size(nonEmptyStack)), 2);
-    assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
-    assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
+stackSuite.add("getElementByIndexJs", assert => {
+    assert.equals(getElementByIndexJs(stackWithNumbers)(4), 34);
 });
 
 stackSuite.add("reduce", assert => {
-    const stackWithNumbers = push( push( push(emptyStack)(0) ) (1) ) (2);
+    const stackWithNumbers = nonEmptyStack;
     const stackWithChurchNumbers = push( push( push(emptyStack)(n9) ) (n2) ) (n3);
 
     const reduceFunctionSum = (acc, curr) => acc + curr;
@@ -157,11 +152,6 @@ stackSuite.add("filter", assert => {
 
     const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 50 && x > 10);
     const filteredStackWithChurchNumbers = filterStack(personStack)(person => person.lastName);
-
-    assert.equals()
-
-    assert.equals()
-
 });
 
 

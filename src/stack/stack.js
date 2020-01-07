@@ -3,7 +3,7 @@ import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '..
 import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
 export { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, logStack}
+    getElementByIndex, getElementByIndexJs, logStack}
 
 
 /**

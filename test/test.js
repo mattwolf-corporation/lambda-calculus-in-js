@@ -40,7 +40,7 @@ const Assert = () => {
     return {
         getOk: () => ok,
         equals: equals,
-        churchEquals: churchEquals
+        churchEquals: churchEquals,
         arrayEquals: arrayEquals,
     }
 };
