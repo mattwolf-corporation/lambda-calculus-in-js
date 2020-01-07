@@ -97,6 +97,27 @@ const getElementByIndex = s => i => {
     return head(times(func)(s));
 };
 
+const getElementByIndexJs = s => i => {
+    const times = size(s);
+    const elemPair = pair(s)(id);
+
+    const getElement = getElmPair => {
+
+        const predecessorStack = (getElmPair(fst))(stackPredecessor);
+
+       if( jsnum((getElmPair(fst))(stackIndex)) === i){
+           const stack = getElmPair(fst);
+           return pair(predecessorStack)(head(stack));
+       }
+
+        return pair(predecessorStack)(getElmPair(snd));
+    };
+
+    return (times(getElement)(elemPair))(snd);
+};
+
+console.log("getElementByJsNum: " + getElementByIndexJs(testStackForGetByIndex)(4));
+
 logStack(testStackForGetByIndex);
 
 console.log('Element at Index 0: ' + (getElementByIndex(testStackForGetByIndex)(n0))(true));

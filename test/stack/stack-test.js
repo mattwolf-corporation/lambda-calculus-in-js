@@ -19,6 +19,9 @@ const personList = [
 ];
 Object.freeze(personList);
 
+const personStack = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
+
+
 stackSuite.add("emptyStack", assert => {
     assert.equals(convertToJsBool(hasPre(emptyStack)), false);
     assert.equals((pop(emptyStack))(fst), id);
@@ -102,6 +105,14 @@ stackSuite.add("random", assert => {
     ), true);
 });
 
+stackSuite.add("getElementByIndex", assert => {
+    const nonEmptyStack = push( push(emptyStack)(0) ) (1);
+
+    assert.equals(jsnum(size(nonEmptyStack)), 2);
+    assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
+    assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
+});
+
 stackSuite.add("reduce", assert => {
     const stackWithNumbers = push( push( push(emptyStack)(0) ) (1) ) (2);
     const stackWithChurchNumbers = push( push( push(emptyStack)(n9) ) (n2) ) (n3);
@@ -110,18 +121,50 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    const personStack = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
-
     assert.equals(lambdaStackReducer(stackWithNumbers)(0)(reduceFunctionSum), 3);
     assert.equals(lambdaStackReducer(push(stackWithNumbers)(3))(0)(reduceFunctionSum), 6);
     assert.equals(lambdaStackReducer(personStack)(0)((acc, curr) => acc + curr.income), 15000);
     assert.equals(jsnum(lambdaStackReducer(stackWithChurchNumbers)(n0)(reduceFunctionChurchNumbersSum)), 14);
     // TODO: Array & Object equals method
-    // assert.equals(lambdaStackReducer(stackWithNumbers)([])(reduceToArray), [2, 1, 0]);
+    assert.arrayEquals(lambdaStackReducer(stackWithNumbers)([])(reduceToArray), [2, 1, 0]);
 });
 
 stackSuite.add("map", assert => {
+    const stackWithNumbers = push( push( push(emptyStack)(10) ) (20) ) (30);
+    const stackWithChurchNumbers = push( push( push(emptyStack)(n2) ) (n4) ) (n8);
+
+    const multiplyWith2 = x => x * 2;
+    const mapToJsnum = churchNum => jsnum(churchNum);
+
+    const mappedStackWithNumbers = mapStack(stackWithNumbers)(multiplyWith2);
+    const mappedStackWithChurchNumbers = mapStack(stackWithChurchNumbers)(mapToJsnum);
+
+    assert.equals(head(mappedStackWithNumbers), 60);
+    assert.equals(jsnum(size(mappedStackWithNumbers)), 3);
+    assert.equals(head(pop(mappedStackWithNumbers)(fst)), 40);
+    assert.equals(head(pop(pop(mappedStackWithNumbers)(fst))(fst)), 20);
+    assert.equals(head(pop(pop(pop(mappedStackWithNumbers)(fst))(fst))(fst)), id);
+
+    assert.equals(head(mappedStackWithChurchNumbers), 8);
+    assert.equals(jsnum(size(mappedStackWithChurchNumbers)), 3);
+    assert.equals(head(pop(mappedStackWithChurchNumbers)(fst)), 4);
+    assert.equals(head(pop(pop(mappedStackWithChurchNumbers)(fst))(fst)), 2);
+    assert.equals(head(pop(pop(pop(mappedStackWithChurchNumbers)(fst))(fst))(fst)), id);
 });
+
+stackSuite.add("filter", assert => {
+    const stackWithNumbers = push(push( push( push(emptyStack)(10) ) (20) ) (30)) (50);
+
+    const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 50 && x > 10);
+    const filteredStackWithChurchNumbers = filterStack(personStack)(person => person.lastName);
+
+    assert.equals()
+
+    assert.equals()
+
+});
+
+
 
 
 

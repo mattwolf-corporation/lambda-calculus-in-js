@@ -10,6 +10,22 @@ const Assert = () => {
         addTest(actual, expected, result);
     };
 
+    const arrayEquals = (actual, expected) => {
+        if(actual.length === expected.length) {
+            let counter = 0;
+            let result = true;
+
+            while (result && counter < actual.length){
+                result = actual[counter] === expected[counter];
+                counter++;
+            }
+
+            addTest(actual, expected, result);
+        }else {
+            addTest(actual, expected, false);
+        }
+    };
+
     const churchNumberEquals = (actual, expected) => {
         const result = (jsnum(actual) === jsnum(expected));
         addTest(actual, expected, result);
@@ -24,6 +40,7 @@ const Assert = () => {
     return {
         getOk: () => ok,
         equals: equals,
+        arrayEquals: arrayEquals,
         churchNumberEquals: churchNumberEquals
     }
 };
