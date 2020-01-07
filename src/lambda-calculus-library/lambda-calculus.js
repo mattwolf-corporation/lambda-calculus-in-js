@@ -95,15 +95,26 @@ const convertToJsBool = b => b(true)(false);
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair
- * @param {*} x:  firstOfTriple argument of the pair
+ * @param {*} x:  firstOfPair argument of the pair
  * @returns {function} - returns a function, that takes an argument y
  */
 const pair = x => y => f => f(x)(y);
+
+/**
+ * fst ; Get first value of Pair
+ */
+const fst = K;
+const snd = KI;
+
+/**
+ *  a -> b -> -> c -> fn -> fn(a)(b)(c) ; Triple
+ * @param {*} x:  firstOfTriple argument of the Triple
+ * @returns {function} - returns a function, that takes an argument y
+ */
 const triple = x => y => z => f => f(x)(y)(z);
 
 
-const fst = K;
-const snd = KI;
+
 
 // triple getter
 const firstOfTriple = x => y => z => x;

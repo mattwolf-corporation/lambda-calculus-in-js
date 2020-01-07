@@ -10,6 +10,16 @@ const Assert = () => {
         addTest(actual, expected, result);
     };
 
+    const churchEquals = (actual, expected) => {
+        const result = (jsnum(actual) === jsnum(expected));
+        addTest(actual, expected, result);
+    };
+
+    const addTest = (actual, expected, result) =>{
+        ok.push({actual, expected, result, counter});
+        counter++;
+    };
+
     const arrayEquals = (actual, expected) => {
         if(actual.length === expected.length) {
             let counter = 0;
@@ -26,22 +36,12 @@ const Assert = () => {
         }
     };
 
-    const churchNumberEquals = (actual, expected) => {
-        const result = (jsnum(actual) === jsnum(expected));
-        addTest(actual, expected, result);
-    };
-
-    const addTest = (actual, expected, result) =>{
-        ok.push({actual, expected, result, counter});
-        counter++;
-    };
-
 
     return {
         getOk: () => ok,
         equals: equals,
+        churchEquals: churchEquals
         arrayEquals: arrayEquals,
-        churchNumberEquals: churchNumberEquals
     }
 };
 
