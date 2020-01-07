@@ -159,10 +159,17 @@ stackSuite.add("map", assert => {
 });
 
 stackSuite.add("filter", assert => {
-    const stackWithNumbers = push(push( push( push(emptyStack)(10) ) (20) ) (30)) (50);
+    const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 35 && x > 2);
+    const filteredStackWithLastNames = mapStack(filterStack(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
 
-    const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 50 && x > 10);
-    const filteredStackWithChurchNumbers = filterStack(personStack)(person => person.lastName);
+    assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
+    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(0), id);
+    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(1), 33);
+    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(2), 34);
+    assert.equals(jsnum(size(filteredStackWithLastNames)), 2);
+    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(0), id);
+    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(1), "Skywalker");
+    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(2), "Solo");
 });
 
 

@@ -180,6 +180,7 @@ const mappedStack = mapStack(testStackForGetByIndex)(add10);
 
 logStack(mappedStack);
 
+// TODO: was wenn kein element dem Filter entspricht -> empty Stack zurückgeben
 const filterStack = s => filterFunction => {
     const times = size(s);
     const filterPair = pair(emptyStack)(n0);
@@ -220,7 +221,8 @@ const personList = [
 const testData = push(push(push(push(push(emptyStack)(personList[0]))(personList[1]))(personList[2]))(personList[3]))(personList[4]);
 logStack(testData);
 
-const filteredData = filterStack(testData)(person => person.firstName.startsWith('L'));
+const filteredData = filterStack(testData)(person => person.firstName.startsWith('Q'));
+console.log("filter Data Test with no results");
 logStack(filteredData);
 
 const mappedData = mapStack(testData)(person => person.lastName);
