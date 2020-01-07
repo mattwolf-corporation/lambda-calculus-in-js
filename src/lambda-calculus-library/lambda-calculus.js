@@ -36,42 +36,43 @@ const KI = x => y => y;
 /**
  * fn -> fn( fn ) ; Mockingbird
  * @param {fn} f
- * @returns { fn( f:{fn} ) }
+ * @returns {  function(f {fn})  }
  */
 const M = f => f(f);
 
 /**
  * fn -> a -> b -> fn( b )( a ) ; Cardinal (flip)
  * @param  {fn} f
- * @returns { function(x:{a}): function(y:{b}): { fn (y:{b}) (x:{a}) } }
+ * @returns { function(x:{a}): function(y:{b}): function(fn y:{b} x:{a}  ) }
  */
 const C = f => x => y => f(y)(x);
 
 /**
  * fn -> gn -> a -> fn( gn(a) ) ; Bluebird (Function composition)
  * @param {fn} f
- * @returns { function(g:{gn}): function(x:{a}): { fn( g:{gn}(x:{a}) )} }
+ * @returns { function(g:{gn}): function(x:{a}):  function({ fn:{ gn:{a} } } ) }
  */
 const B = f => g => x => f(g(x));
 
 /**
  * a -> fn -> fn( a ) ; Thrush (hold an argument)
  * @param {a} x
- * @returns { function(f:{fn}): { fn( x:{a} )} }
+ * @returns { function(f:{fn}): function(f x:{a} ) }
  */
 const T = x => f => f(x);
 
 /**
  * a -> b -> fn -> fn(a)(b) ; Vireo (hold pair of args)
  * @param {a} x
- * @returns { function(y:{b}): function(f:{fn})  { fn (x:{a}) (y:{b}) } }
+ * @returns { function(y:{b}): function(f:{fn}): function(fn x:{a} y:{b} ) }
  */
 const V = x => y => f => f(x)(y);
 
 /**
  * fn -> gn -> a -> b -> fn( gn(a)(b) ) ; Blackbird (Function composition with two args)
+ * @Typedef {function} Blackbird
  * @param {fn} f
- * @returns { function(g:{gn}): function(x:{a}): function(y:{b}): { fn( gn (x:{a}) (y:{b}) ) } }
+ * @returns { function(g:{gn}): function(x:{a}): function(y:{b}): function({ fn:{ gn x:{a} y:{b}  } }) }
  */
 const Blackbird = f => g => x => y => f(g(x)(y));
 

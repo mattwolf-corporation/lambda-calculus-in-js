@@ -5,11 +5,22 @@ export {
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum} from '../lambda-calculus-library/church-numerals.js'
 import {id, T, B} from '../lambda-calculus-library/lambda-calculus.js'
 
+/**
+ * Generic Types
+ * @typedef {function} operator
+ * @typedef {*} number
+ *  @typedef {function} fn
+ */
 
 // ------------------------------------------------------
-// --------  Calculator ------------
+// -------------------- Calculator ----------------------
 // ------------------------------------------------------
-// how the calculator handle the operator
+
+/**
+ * operator -> number -> number -> fn -> fn( operator(number)(number) ) ; CalculatorOperator - handle the arithmetic-operator
+ * @param {operator} op
+ * @return {function(): function(*=): function(*): *}
+ */
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 
 // end the calculator and print the result
