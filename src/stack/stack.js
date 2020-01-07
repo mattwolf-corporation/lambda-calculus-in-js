@@ -1,16 +1,19 @@
-import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, first, second, third, not} from '../lambda-calculus-library/lambda-calculus.js'
+import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from '../lambda-calculus-library/lambda-calculus.js'
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../lambda-calculus-library/church-numerals.js'
 import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
+export { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
+    hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
+    getElementByIndex, logStack}
 
 
 /**
- * stack implementation
+ * stack implementation (purely functional)
  */
 const stack = x => y => z => f => f(x)(y)(z);
 
-const stackIndex = x => y => z => x;
-const stackPredecessor = x => y => z => y;
-const stackValue = x => y => z => z;
+const stackIndex = firstOfTriple;
+const stackPredecessor = secondOfTriple;
+const stackValue = thirdOfTriple;
 
 const emptyStack = stack (n0) (id) (id);
 
@@ -19,54 +22,6 @@ const push = s => x => stack (succ(s(stackIndex))) (s) (x);
 const pop = s => pair (s(stackPredecessor)) (head(s));
 const head = s => s(stackValue);
 const size = s => (s(stackIndex));
-
-/**
- * todo: map, filter, reduce
- */
-
-
-
-// Tests
-/**
- * has empty stack a predecessor
- */
-console.log
-("has empty stack no predecessor: ", show
-    (beq
-        (hasPre(emptyStack))
-        (False)
-    )
-);
-
-console.log
-("has non-empty stack a predecessor: ", show
-    (beq
-        (hasPre(push(emptyStack)(id)))
-        (True)
-    )
-);
-
-console.log
-("pop returns the pushed value: ", show
-    (beq
-        ((pop(push(emptyStack)(id)))(snd) (True))
-        (True)
-    )
-);
-
-console.log
-("pop returns predecessor stack: ",
-    pop(push(emptyStack)(id)) (fst) === emptyStack
-);
-
-console.log
-("returns head: ", show
-    (beq
-        ((head(push(emptyStack)(id))) (True))
-        (True)
-    )
-);
-
 
 // Experiment: reduce function with lambda stack (reduce with head element of the stack)
 // reducePair = pair(stack)(0)(reduce-function)
@@ -81,13 +36,13 @@ const reduceFunctionSum = (acc, curr) => acc + curr;
 const reduceTripleTest = triple(testStack)(0)(reduceFunctionSum);
 
 const reduceBuilder = reduceTriple => {
-    const stack = reduceTriple(first);
+    const stack = reduceTriple(firstOfTriple);
 
     if(convertToJsBool(hasPre(stack))){
-        const reduceFunction = reduceTriple(third);
+        const reduceFunction = reduceTriple(thirdOfTriple);
         // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
-        const preAcc = reduceTriple(second);
+        const preAcc = reduceTriple(secondOfTriple);
         // console.log("debug: " + preAcc);
 
         const curr = (pop(stack))(snd);
@@ -105,10 +60,10 @@ const lambdaStackReducer = s => initValue => reduceFunction => {
     const times = size(s);
     const t = triple(s)(initValue)(reduceFunction);
 
-    return (times(reduceBuilder)(t))(second);
+    return (times(reduceBuilder)(t))(secondOfTriple);
 };
 
-// const result = (n4(reduceBuilder)(reduceTripleTest))(second);
+// const result = (n4(reduceBuilder)(reduceTripleTest))(secondOfTriple);
 const convertStackToArray = (acc, curr) => [...acc, curr];
 const reverseStack = (acc, curr) => push(acc)(curr);
 

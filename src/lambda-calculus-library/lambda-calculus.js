@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, first, second, third, True, False, not, beq, showBoolean, convertToJsBool, pair, triple, pairMap, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, beq, showBoolean, convertToJsBool, pair, triple, pairMap, showPair}
 
 /**
  * Generic Types
@@ -95,7 +95,7 @@ const convertToJsBool = b => b(true)(false);
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair
- * @param {*} x:  first argument of the pair
+ * @param {*} x:  firstOfTriple argument of the pair
  * @returns {function} - returns a function, that takes an argument y
  */
 const pair = x => y => f => f(x)(y);
@@ -106,9 +106,9 @@ const fst = K;
 const snd = KI;
 
 // triple getter
-const first = x => y => z => x;
-const second = x => y => z => y;
-const third = x => y => z => z;
+const firstOfTriple = x => y => z => x;
+const secondOfTriple = x => y => z => y;
+const thirdOfTriple = x => y => z => z;
 
 const pairMap = f => p => pair(f(p(fst)))(f(p(snd)));
 

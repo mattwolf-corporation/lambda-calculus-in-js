@@ -2,7 +2,7 @@ import {pair, fst, snd, Blackbird, showPair} from '../lambda-calculus-library/la
 /**
 * immutable list of n values
 * List constructed of pairs
-* first value is the size of the list
+* firstOfTriple value is the size of the list
 */
 const list =
     pair

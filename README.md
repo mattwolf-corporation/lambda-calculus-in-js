@@ -1,8 +1,14 @@
-# Lambda Calculus in JavaScript
+# Lambda Calculus IP5 HS2019
 
-## IP5 Project HS 2019
+![](.gitbook/assets/kisspng-lambda-symbol-anonymous-function-computer-icons-gr-clolorful-letters-5ac7084c063612.87468970.png)
 
-Author
-* Benjamin Brodwolf [GitHub](http://github.com/BenjaminBrodwolf)
-* Pascal Andermatt [GitHub](https://github.com/PascalAndermatt)
+
+
+
+
+
+
+
+
+
 
