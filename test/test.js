@@ -84,7 +84,7 @@ function renderReport(name, tests) {
         totalFailed += failed.length;
 
         let resultLine = "";
-        let passedLine = ` <span> - Passed: ${passed} / ${asserts.length} <span class="dot green"></span> </span>`;
+        let passedLine = ` <span> - Passed: ${passed} / ${asserts.length}   </span>`;
 
         failed.forEach(failedTest => {
             const {actual, expected, result, counter} = failedTest;
@@ -92,7 +92,7 @@ function renderReport(name, tests) {
         });
 
         outputHtml += `
-            <h4> ${origin} ${passedLine} </h4>
+            <pre> <span class="dot ${passed > 0 ? 'green' : 'red'}"></span> ${origin} ${passedLine} </pre>
             <div class="testContainer">
                 ${resultLine}
             </div>
