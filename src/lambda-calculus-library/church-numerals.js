@@ -63,6 +63,8 @@ const is0 = n => n(K(False))(True);
  * @param n {church-number} -
  * @returns {number} js number of n
  */
+
+// TODO: addition usw. hier intergrieren sonst import probleme
 const jsnum = n => n(x => x + 1)(0);
 
 const subtraction     = n => k => k(pred)(n);
