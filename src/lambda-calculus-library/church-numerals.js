@@ -1,8 +1,8 @@
-import {B, K, True, False, and, or, pair, fst, snd, Blackbird, not} from "./lambda-calculus.js";
-// import {churchSubtraction} from "../calculator/calculator.js";
+import {B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "./lambda-calculus.js";
 
 export { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
-    succ, pred, phi, is0, jsnum, eq, leq, gt
+    succ, pred, phi, churchAddition, churchSubtraction,
+    churchMultiplication, churchPotency, is0, jsnum, eq, leq, gt
 }
 
 /**
@@ -50,6 +50,13 @@ const phi = p => pair(p(snd)) (succ(p(snd)));
  */
 const pred = n => n(phi) (pair(n0)(n0)) (fst);
 
+// Arithmetic operation with Church-Numbers
+// TODO: document
+const churchAddition        = n1 => n2 => n1(succ)(n2);
+const churchSubtraction     = n => k => k(pred)(n);
+const churchMultiplication  = B;
+const churchPotency         = T;
+
 
 /**
  * query if the church number is zero (n0)
@@ -67,8 +74,7 @@ const is0 = n => n(K(False))(True);
 // TODO: addition usw. hier intergrieren sonst import probleme
 const jsnum = n => n(x => x + 1)(0);
 
-const subtraction     = n => k => k(pred)(n);
 // TODO:  document
-const leq = n => k => is0(subtraction(n)(k));
+const leq = n => k => is0(churchSubtraction(n)(k));
 const eq = n => k => and(leq(n)(k))(leq(k)(n));
 const gt = Blackbird(not)(leq);

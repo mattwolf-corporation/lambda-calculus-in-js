@@ -1,8 +1,8 @@
 import {TestSuite} from "../test.js";
 
 import { id, True, False, fst, snd, pair } from "../../src/lambda-calculus-library/lambda-calculus.js";
-import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, jsnum } from "../../src/lambda-calculus-library/church-numerals.js";
-import {churchAddition, churchMultiplication, churchPotency, churchSubtraction} from "../../src/calculator/calculator.js";
+import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, jsnum,
+    churchAddition, churchSubtraction, churchMultiplication, churchPotency } from "../../src/lambda-calculus-library/church-numerals.js";
 
 const churchTest = TestSuite("Church Numerals");
 

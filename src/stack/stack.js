@@ -29,9 +29,8 @@ import {
     pred,
     succ,
     jsnum,
-    is0, gt, leq, eq, phi
+    is0, gt, leq, eq, phi, churchAddition, churchSubtraction
 } from '../lambda-calculus-library/church-numerals.js'
-import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
 
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,

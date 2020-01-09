@@ -1,8 +1,12 @@
 export {
-    calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow, churchSubtraction, churchAddition, churchMultiplication, churchPotency
+    calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum} from '../lambda-calculus-library/church-numerals.js'
+import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
+    succ, pred, phi, churchAddition, churchSubtraction,
+    churchMultiplication, churchPotency, is0, jsnum, eq, leq, gt
+} from '../lambda-calculus-library/church-numerals.js'
+
 import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
 
 /**
@@ -68,13 +72,6 @@ console.log(number === 42); // true
 // ------------------------------------------------------
 // --------  Calculation with Church-Numerals ------------
 // ------------------------------------------------------
-
-
-// Arithmetic operation with Church-Numbers
-const churchAddition        = n1 => n2 => n1(succ)(n2);
-const churchSubtraction     = n => k => k(pred)(n);
-const churchMultiplication  = B;
-const churchPotency         = T;
 
 // combine the calculator with the church arithmetic operator via POINT-FREESTYLE
 const churchAdd     = calculatorOperator(churchAddition);

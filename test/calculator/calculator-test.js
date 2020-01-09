@@ -1,7 +1,6 @@
 import { TestSuite } from "../test.js";
 import { calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow} from "../../src/calculator/calculator.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9} from "../../src/lambda-calculus-library/church-numerals.js";
-import {jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
+import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
 
 
 const calculatorJSTest = TestSuite("Calculation with JS-Nums");
@@ -97,4 +96,4 @@ calculatorChurchNumeralsTest.add("church Calculation", assert => {
 
 
 calculatorJSTest.report();
-calculatorChurchNumeralsTest.report()
+calculatorChurchNumeralsTest.report();

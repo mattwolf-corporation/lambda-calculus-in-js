@@ -1,11 +1,10 @@
 import {TestSuite} from "../test.js";
 
 import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../../src/lambda-calculus-library/church-numerals.js';
+import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
 import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
     getElementByIndex, logStackToConsole, getElementByIndexJs, startStack, pushToStack} from "../../src/stack/stack.js";
-import {churchAddition} from "../../src/calculator/calculator.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
