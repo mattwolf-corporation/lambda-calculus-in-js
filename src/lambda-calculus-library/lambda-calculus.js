@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, beq, showBoolean, convertToJsBool, pair, triple, pairMap, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, pairMap, showPair}
 
 /**
  * Generic Types
@@ -90,6 +90,10 @@ const False = KI;
 const True = K;
 
 const not = C;
+
+// TODO: doku
+const and = p => q => p(q)(False);
+const or = p => q => p(True)(q);
 
 /**
  * pn -> qn -> pn( qn )(not( qn)) ; Boolean-Equality

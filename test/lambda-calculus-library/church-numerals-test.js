@@ -2,30 +2,23 @@ import {TestSuite} from "../test.js";
 
 import { id, True, False, fst, snd, pair } from "../../src/lambda-calculus-library/lambda-calculus.js";
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, jsnum } from "../../src/lambda-calculus-library/church-numerals.js";
+import {churchAddition, churchMultiplication, churchPotency, churchSubtraction} from "../../src/calculator/calculator.js";
 
 const churchTest = TestSuite("Church Numerals");
 
 churchTest.add("numbers", assert => {
-
-    assert.equals(jsnum(n0), 0);
-    assert.equals(jsnum(n1), 1);
-    assert.equals(jsnum(n2), 2);
-    assert.equals(jsnum(n3), 3);
-    assert.equals(jsnum(n4), 4);
-    assert.equals(jsnum(n5), 5);
-
-
+    assert.equals(n2(x => x * 2)(1), 4);
+    assert.equals(n3(x => x + '!')('Hello World'), 'Hello World!!!');
+    // TODO: mehr solche Tests
 });
 
 churchTest.add("succ", assert => {
-
     assert.churchEquals(succ(n0), n1);
     assert.churchEquals(succ(n5), n6);
     assert.equals(jsnum(succ(n9)), 10);
 });
 
 churchTest.add("pre", assert => {
-
     assert.churchEquals( pred(n1), n0 );
     assert.churchEquals( pred(n5), n4 );
     assert.equals( pred(n0), n0);
@@ -88,7 +81,23 @@ churchTest.add("isZero", assert => {
 });
 
 churchTest.add("jsNum", assert => {
+    assert.equals(jsnum(n0), 0);
+    assert.equals(jsnum(n1), 1);
+    assert.equals(jsnum(n2), 2);
+    assert.equals(jsnum(n3), 3);
+    assert.equals(jsnum(n4), 4);
+    assert.equals(jsnum(n5), 5);
+    assert.equals(jsnum(n6), 6);
+    assert.equals(jsnum(n7), 7);
+    assert.equals(jsnum(n8), 8);
+    assert.equals(jsnum(n9), 9);
 
+    assert.equals(jsnum(churchAddition(n9)(n9)), 18);
+    assert.equals(jsnum(churchAddition(n6)(n8)), 14);
+    assert.equals(jsnum(churchMultiplication(n9)(n9)), 81);
+    assert.equals(jsnum(churchPotency(n2)(n5)), 32);
+    assert.equals(jsnum(churchSubtraction(n9)(n4)), 5);
 });
+
 churchTest.report();
 

@@ -161,7 +161,7 @@ stackSuite.add("map", assert => {
 stackSuite.add("filter", assert => {
     const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 35 && x > 2);
     const filteredStackWithLastNames = mapStack(filterStack(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 5000);
+    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 0);
 logStackToConsole(filteredStackWithNumbers);
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
     assert.equals(getElementByIndexJs(filteredStackWithNumbers)(0), id);
@@ -171,7 +171,7 @@ logStackToConsole(filteredStackWithNumbers);
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(0), id);
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(1), "Skywalker");
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(2), "Solo");
-    assert.equals(jsnum(size(filteredStackWithIncome)), 0);
+    assert.equals(jsnum(size(filteredStackWithIncome)), 5);
     logStackToConsole(filteredStackWithIncome);
 });
 

@@ -1,7 +1,8 @@
-import {B, K, True, False, pair, fst, snd, } from "./lambda-calculus.js";
+import {B, K, True, False, and, or, pair, fst, snd, Blackbird, not} from "./lambda-calculus.js";
+// import {churchSubtraction} from "../calculator/calculator.js";
 
 export { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
-    succ, pred, phi, is0, jsnum
+    succ, pred, phi, is0, jsnum, eq, leq, gt
 }
 
 /**
@@ -63,3 +64,9 @@ const is0 = n => n(K(False))(True);
  * @returns {number} js number of n
  */
 const jsnum = n => n(x => x + 1)(0);
+
+const subtraction     = n => k => k(pred)(n);
+// TODO:  document
+const leq = n => k => is0(subtraction(n)(k));
+const eq = n => k => and(leq(n)(k))(leq(k)(n));
+const gt = Blackbird(not)(leq);

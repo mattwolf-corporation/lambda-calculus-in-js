@@ -12,7 +12,8 @@ import {
     firstOfTriple,
     secondOfTriple,
     thirdOfTriple,
-    not
+    not,
+    and, or
 } from '../lambda-calculus-library/lambda-calculus.js'
 import {
     n0,
@@ -28,7 +29,7 @@ import {
     pred,
     succ,
     jsnum,
-    is0
+    is0, gt, leq, eq, phi
 } from '../lambda-calculus-library/church-numerals.js'
 import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
 
@@ -157,6 +158,7 @@ const filterStack = s => filterFunction => {
     const filter = filterPair => {
         const index = succ(filterPair(snd));
 
+       //  if(convertToJsBool(e))
         if (convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))) {
             const value = getElementByIndex(s)(index);
 
