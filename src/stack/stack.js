@@ -36,7 +36,7 @@ import {churchSubtraction, churchAddition} from "../calculator/calculator.js";
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, getElementByIndexJs, logStackToConsole
+    getElementByIndex, getElementByIndexJs, logStackToConsole, startStack, pushToStack
 }
 
 
@@ -174,10 +174,8 @@ const filterStack = s => filterFunction => {
     return (times(filter)(filterPair))(fst);
 };
 
+
 const stackOp = op => s => x => f => f(op(s)(x));
 const pushToStack = stackOp(push);
-
 const startStack = f => f(emptyStack);
-console.log("stack starter test: ");
-logStackToConsole(startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id));
 
