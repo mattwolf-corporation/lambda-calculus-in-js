@@ -4,7 +4,7 @@ import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, tripl
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0} from '../../src/lambda-calculus-library/church-numerals.js';
 import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, logStack, getElementByIndexJs} from "../../src/stack/stack.js";
+    getElementByIndex, logStackToConsole, getElementByIndexJs} from "../../src/stack/stack.js";
 import {churchAddition} from "../../src/calculator/calculator.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -161,7 +161,8 @@ stackSuite.add("map", assert => {
 stackSuite.add("filter", assert => {
     const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 35 && x > 2);
     const filteredStackWithLastNames = mapStack(filterStack(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-
+    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 5000);
+logStackToConsole(filteredStackWithNumbers);
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
     assert.equals(getElementByIndexJs(filteredStackWithNumbers)(0), id);
     assert.equals(getElementByIndexJs(filteredStackWithNumbers)(1), 33);
@@ -170,6 +171,8 @@ stackSuite.add("filter", assert => {
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(0), id);
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(1), "Skywalker");
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(2), "Solo");
+    assert.equals(jsnum(size(filteredStackWithIncome)), 0);
+    logStackToConsole(filteredStackWithIncome);
 });
 
 
