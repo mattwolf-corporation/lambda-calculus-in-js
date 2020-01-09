@@ -60,10 +60,10 @@ const reduceBuilder = reduceTriple => {
     const stack = reduceTriple(firstOfTriple);
 
     if (convertToJsBool(hasPre(stack))) {
-        const reduceFunction = reduceTriple(thirdOfTriple);
+        const reduceFunction = reduceTriple(secondOfTriple);
         // const acc = (reducePair)(snd) + (pop(stack))(snd);
 
-        const preAcc = reduceTriple(secondOfTriple);
+        const preAcc = reduceTriple(thirdOfTriple);
         // console.log("debug: " + preAcc);
 
         const curr = (pop(stack))(snd);
@@ -72,23 +72,23 @@ const reduceBuilder = reduceTriple => {
         const acc = reduceFunction(preAcc, curr);
         // console.log("debug: " + acc);
 
-        return triple((pop(stack))(fst))(acc)(reduceFunction);
+        return triple((pop(stack))(fst))(reduceFunction)(acc);
     }
     return reduceTriple;
 };
-
-const lambdaStackReducer = s => initValue => reduceFunction => {
+// pair initial value + function
+const lambdaStackReducer = s => reducePair => {
     const times = size(s);
-    const t = triple(s)(initValue)(reduceFunction);
+    const t = triple(s)(reducePair(fst))(reducePair(snd));
 
-    return (times(reduceBuilder)(t))(secondOfTriple);
+    return (times(reduceBuilder)(t))(thirdOfTriple);
 };
 
 const convertStackToArray = (acc, curr) => [...acc, curr];
 const reverseStack = (acc, curr) => push(acc)(curr);
 
 const logStackToConsole = s => {
-    const reversedStack = lambdaStackReducer(s)(emptyStack)(reverseStack);
+    const reversedStack = lambdaStackReducer(s)(reverseStack)(emptyStack);
 
     const logStack = (acc, curr) => {
         const index = acc + 1;
@@ -96,7 +96,7 @@ const logStackToConsole = s => {
         return index;
     };
 
-    lambdaStackReducer(reversedStack)(0)(logStack);
+    lambdaStackReducer(reversedStack)(pair(logStack)(0));
 };
 
 const getElementByIndex = s => i => {
@@ -126,7 +126,6 @@ const getElementByIndexJs = s => i => {
     return (times(getElement)(elemPair))(snd);
 };
 
-// TODO: stack erstellen mit schleife & push
 
 const mapStack = s => mapFunction => {
 
@@ -177,4 +176,8 @@ const filterStack = s => filterFunction => {
 const stackOp = op => s => x => f => f(op(s)(x));
 const pushToStack = stackOp(push);
 const startStack = f => f(emptyStack);
+
+const map = stackOp(mapStack);
+const filter = stackOp(filterStack);
+
 

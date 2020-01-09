@@ -127,11 +127,11 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    assert.equals(lambdaStackReducer(stackWithNumbers)(0)(reduceFunctionSum), 3);
-    assert.equals(lambdaStackReducer(push(stackWithNumbers)(3))(0)(reduceFunctionSum), 6);
-    assert.equals(lambdaStackReducer(personStack)(0)((acc, curr) => acc + curr.income), 15000);
-    assert.equals(jsnum(lambdaStackReducer(stackWithChurchNumbers)(n0)(reduceFunctionChurchNumbersSum)), 14);
-    assert.arrayEquals(lambdaStackReducer(stackWithNumbers)([])(reduceToArray), [2, 1, 0]);
+    assert.equals(lambdaStackReducer(stackWithNumbers)(pair(reduceFunctionSum)(0)), 3);
+    assert.equals(lambdaStackReducer(push(stackWithNumbers)(3))(pair(reduceFunctionSum)(0)), 6);
+    assert.equals(lambdaStackReducer(personStack)(pair((acc, curr) => acc + curr.income)(0)), 15000);
+    assert.equals(jsnum(lambdaStackReducer(stackWithChurchNumbers)(pair(reduceFunctionChurchNumbersSum)(n0))), 14);
+    assert.arrayEquals(lambdaStackReducer(stackWithNumbers)(pair(reduceToArray)([])), [2, 1, 0]);
 });
 
 stackSuite.add("map", assert => {
@@ -160,7 +160,7 @@ stackSuite.add("map", assert => {
 stackSuite.add("filter", assert => {
     const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 35 && x > 2);
     const filteredStackWithLastNames = mapStack(filterStack(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 0);
+    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 5000);
 
 
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
@@ -171,8 +171,8 @@ stackSuite.add("filter", assert => {
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(0), id);
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(1), "Skywalker");
     assert.equals(getElementByIndexJs(filteredStackWithLastNames)(2), "Solo");
-    assert.equals(jsnum(size(filteredStackWithIncome)), 5);
-    logStackToConsole(filteredStackWithIncome);
+    assert.equals(jsnum(size(filteredStackWithIncome)), 0);
+    assert.equals(head(filteredStackWithIncome), id);
 });
 
 stackSuite.add("startStack", assert => {
