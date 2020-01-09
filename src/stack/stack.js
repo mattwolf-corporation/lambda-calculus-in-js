@@ -35,7 +35,8 @@ import {
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, getElementByIndexJs, logStackToConsole, startStack, pushToStack
+    getElementByIndex, getElementByIndexJs, logStackToConsole, startStack,
+    pushToStack, map, filter, reduce, startStream
 }
 
 
@@ -76,9 +77,10 @@ const reduceBuilder = reduceTriple => {
     }
     return reduceTriple;
 };
-// pair initial value + function
+
 const lambdaStackReducer = s => reducePair => {
     const times = size(s);
+    // const reversedStack = (times(reduceBuilder)(triple(s)(reverseStack)(emptyStack)))(thirdOfTriple);
     const t = triple(s)(reducePair(fst))(reducePair(snd));
 
     return (times(reduceBuilder)(t))(thirdOfTriple);
@@ -88,7 +90,7 @@ const convertStackToArray = (acc, curr) => [...acc, curr];
 const reverseStack = (acc, curr) => push(acc)(curr);
 
 const logStackToConsole = s => {
-    const reversedStack = lambdaStackReducer(s)(reverseStack)(emptyStack);
+    const reversedStack = lambdaStackReducer(s)(pair(reverseStack)(emptyStack));
 
     const logStack = (acc, curr) => {
         const index = acc + 1;
@@ -154,19 +156,20 @@ const filterStack = s => filterFunction => {
     const filterPair = pair(emptyStack)(n0);
 
     const filter = filterPair => {
-        const index = succ(filterPair(snd));
+        const index = filterPair(snd);
+        const increasedIndex = succ(index);
 
-       //  if(convertToJsBool(e))
-        if (convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))) {
-            const value = getElementByIndex(s)(index);
+       if(convertToJsBool(not(eq(times)(index)))){
+        // if (convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))) {
+            const value = getElementByIndex(s)(increasedIndex);
 
             if (filterFunction(value)) {
                 const resultStack = push(filterPair(fst))(value);
-                return pair(resultStack)(index);
+                return pair(resultStack)(increasedIndex);
             }
         }
 
-        return pair(filterPair(fst))(index);
+        return pair(filterPair(fst))(increasedIndex);
     };
 
     return (times(filter)(filterPair))(fst);
@@ -179,5 +182,15 @@ const startStack = f => f(emptyStack);
 
 const map = stackOp(mapStack);
 const filter = stackOp(filterStack);
+const reduce = stackOp(reduceBuilder);
+
+const startStream = s => f => f(s);
+
+const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
+logStackToConsole(result);
+const mapF = x => x * 2;
+const mapWithReduce = (acc, curr) => push(acc)(mapF(curr));
+
+logStackToConsole(lambdaStackReducer(result)(pair(mapWithReduce)(emptyStack)));
 
 

@@ -4,7 +4,8 @@ import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, tripl
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
 import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, logStackToConsole, getElementByIndexJs, startStack, pushToStack} from "../../src/stack/stack.js";
+    getElementByIndex, logStackToConsole, getElementByIndexJs, startStack,
+    pushToStack, filter, map, reduce, startStream} from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
