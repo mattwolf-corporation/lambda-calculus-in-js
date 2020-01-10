@@ -71,7 +71,6 @@ const is0 = n => n(K(False))(True);
  * @returns {number} js number of n
  */
 
-// TODO: addition usw. hier intergrieren sonst import probleme
 const jsnum = n => n(x => x + 1)(0);
 
 // TODO:  document

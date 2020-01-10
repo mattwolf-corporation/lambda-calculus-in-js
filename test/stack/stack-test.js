@@ -3,9 +3,9 @@ import {TestSuite} from "../test.js";
 import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
 import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
-    hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, logStackToConsole, getElementByIndexJs, startStack,
-    pushToStack, filter, map, reduce, startStream} from "../../src/stack/stack.js";
+    hasPre, push, pop, head, size, reduce, filter, map,
+    getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
+    pushToStack} from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
@@ -65,6 +65,7 @@ stackSuite.add("size", assert => {
     assert.equals(jsnum(size(nonEmptyStack)), 2);
     assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
     assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
+    assert.equals(jsnum(size(emptyStack)), 0);
 });
 
 stackSuite.add("random", assert => {
@@ -111,13 +112,13 @@ stackSuite.add("getElementByIndex", assert => {
 });
 
 stackSuite.add("getElementByIndexJs", assert => {
-    assert.equals(getElementByIndexJs(stackWithNumbers)(0), id);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(1), 0);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(2), 1);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(3), 2);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(4), 33);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(5), 34);
-    assert.equals(getElementByIndexJs(stackWithNumbers)(6), 35);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(0), id);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(1), 0);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(2), 1);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(3), 2);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(4), 33);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(5), 34);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(6), 35);
 });
 
 stackSuite.add("reduce", assert => {
@@ -128,11 +129,11 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    assert.equals(lambdaStackReducer(stackWithNumbers)(pair(reduceFunctionSum)(0)), 3);
-    assert.equals(lambdaStackReducer(push(stackWithNumbers)(3))(pair(reduceFunctionSum)(0)), 6);
-    assert.equals(lambdaStackReducer(personStack)(pair((acc, curr) => acc + curr.income)(0)), 15000);
-    assert.equals(jsnum(lambdaStackReducer(stackWithChurchNumbers)(pair(reduceFunctionChurchNumbersSum)(n0))), 14);
-    assert.arrayEquals(lambdaStackReducer(stackWithNumbers)(pair(reduceToArray)([])), [2, 1, 0]);
+    assert.equals(reduce(stackWithNumbers)(pair(reduceFunctionSum)(0)), 3);
+    assert.equals(reduce(push(stackWithNumbers)(3))(pair(reduceFunctionSum)(0)), 6);
+    assert.equals(reduce(personStack)(pair((acc, curr) => acc + curr.income)(0)), 15000);
+    assert.equals(jsnum(reduce(stackWithChurchNumbers)(pair(reduceFunctionChurchNumbersSum)(n0))), 14);
+    assert.arrayEquals(reduce(stackWithNumbers)(pair(reduceToArray)([])), [0, 1, 2]);
 });
 
 stackSuite.add("map", assert => {
@@ -142,8 +143,8 @@ stackSuite.add("map", assert => {
     const multiplyWith2 = x => x * 2;
     const mapToJsnum = churchNum => jsnum(churchNum);
 
-    const mappedStackWithNumbers = mapStack(stackWithNumbers)(multiplyWith2);
-    const mappedStackWithChurchNumbers = mapStack(stackWithChurchNumbers)(mapToJsnum);
+    const mappedStackWithNumbers = map(stackWithNumbers)(multiplyWith2);
+    const mappedStackWithChurchNumbers = map(stackWithChurchNumbers)(mapToJsnum);
 
     assert.equals(head(mappedStackWithNumbers), 60);
     assert.equals(jsnum(size(mappedStackWithNumbers)), 3);
@@ -159,30 +160,32 @@ stackSuite.add("map", assert => {
 });
 
 stackSuite.add("filter", assert => {
-    const filteredStackWithNumbers = filterStack(stackWithNumbers)(x => x < 35 && x > 2);
-    const filteredStackWithLastNames = mapStack(filterStack(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-    const filteredStackWithIncome = filterStack(personStack)(person => person.income > 5000);
+    const filteredStackWithNumbers = filter(stackWithNumbers)(x => x < 35 && x > 2);
+    const filteredStackWithLastNames = map(filter(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
+    const filteredStackWithIncome = filter(personStack)(person => person.income > 5000);
 
 
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
-    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(0), id);
-    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(1), 33);
-    assert.equals(getElementByIndexJs(filteredStackWithNumbers)(2), 34);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(1), 33);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(2), 34);
     assert.equals(jsnum(size(filteredStackWithLastNames)), 2);
-    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(0), id);
-    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(1), "Skywalker");
-    assert.equals(getElementByIndexJs(filteredStackWithLastNames)(2), "Solo");
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(1), "Skywalker");
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(2), "Solo");
     assert.equals(jsnum(size(filteredStackWithIncome)), 0);
     assert.equals(head(filteredStackWithIncome), id);
+    assert.equals(filteredStackWithIncome(stackPredecessor), id);
+    assert.equals(filteredStackWithIncome, emptyStack);
 });
 
 stackSuite.add("startStack", assert => {
     const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
 
-    assert.equals(getElementByIndexJs(result)(0), id);
-    assert.equals(getElementByIndexJs(result)(1), 2);
-    assert.equals(getElementByIndexJs(result)(2), 3);
-    assert.equals(getElementByIndexJs(result)(3), 4);
+    assert.equals(getElementByJsnumIndex(result)(0), id);
+    assert.equals(getElementByJsnumIndex(result)(1), 2);
+    assert.equals(getElementByJsnumIndex(result)(2), 3);
+    assert.equals(getElementByJsnumIndex(result)(3), 4);
     assert.equals(jsnum(size(result)), 3);
 });
 

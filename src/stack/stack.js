@@ -34,9 +34,9 @@ import {
 
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
-    hasPre, push, pop, head, size, lambdaStackReducer, filterStack, mapStack,
-    getElementByIndex, getElementByIndexJs, logStackToConsole, startStack,
-    pushToStack, map, filter, reduce, startStream
+    hasPre, push, pop, head, size, reduce, filter, map,
+    getElementByIndex, getElementByJsnumIndex, logStackToConsole,
+    startStack, pushToStack
 }
 
 
@@ -51,146 +51,127 @@ const stackValue = thirdOfTriple;
 
 const emptyStack = stack(n0)(id)(id);
 
-const hasPre = s => not(is0(s(stackIndex)));  // give true/false (function)
+const hasPre = s => not(is0(s(stackIndex)));
 const push = s => x => stack(succ(s(stackIndex)))(s)(x);
 const pop = s => pair(s(stackPredecessor))(head(s));
 const head = s => s(stackValue);
-const size = s => (s(stackIndex));
+const size = s => s(stackIndex);
 
-const reduceBuilder = reduceTriple => {
-    const stack = reduceTriple(firstOfTriple);
+const getElementByIndex = s => i => {
+    const times = churchSubtraction(size(s))(i);
+    const getStackPredecessor = s => s(stackPredecessor);
 
-    if (convertToJsBool(hasPre(stack))) {
-        const reduceFunction = reduceTriple(secondOfTriple);
-        // const acc = (reducePair)(snd) + (pop(stack))(snd);
-
-        const preAcc = reduceTriple(thirdOfTriple);
-        // console.log("debug: " + preAcc);
-
-        const curr = (pop(stack))(snd);
-        // console.log("debug: " + curr);
-
-        const acc = reduceFunction(preAcc, curr);
-        // console.log("debug: " + acc);
-
-        return triple((pop(stack))(fst))(reduceFunction)(acc);
-    }
-    return reduceTriple;
+    return head(times(getStackPredecessor)(s));
 };
 
-const lambdaStackReducer = s => reducePair => {
+const getElementByJsnumIndex = s => i => {
     const times = size(s);
-    // const reversedStack = (times(reduceBuilder)(triple(s)(reverseStack)(emptyStack)))(thirdOfTriple);
-    const t = triple(s)(reducePair(fst))(reducePair(snd));
+    const initArgsPair = pair(s)(id);
 
-    return (times(reduceBuilder)(t))(thirdOfTriple);
+    const getElement = argsPair => {
+        const stack = argsPair(fst);
+        const predecessorStack = (stack)(stackPredecessor);
+
+        if (jsnum((stack)(stackIndex)) === i) {
+
+            return pair(predecessorStack)(head(stack));
+        }
+
+        return pair(predecessorStack)(argsPair(snd));
+    };
+
+    return (times(getElement)(initArgsPair))(snd);
 };
 
 const convertStackToArray = (acc, curr) => [...acc, curr];
 const reverseStack = (acc, curr) => push(acc)(curr);
 
-const logStackToConsole = s => {
-    const reversedStack = lambdaStackReducer(s)(pair(reverseStack)(emptyStack));
+const mapF = x => x * 2;
+const mapWithReduce = (acc, curr) => push(acc)(mapF(curr));
 
-    const logStack = (acc, curr) => {
+const reduce = s => argsPair => {
+    const times = size(s);
+    const reversedStack = (times(reduceIteration)(triple(s)(reverseStack)(emptyStack)))(thirdOfTriple);
+    const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
+
+    return (times(reduceIteration)(argsTriple))(thirdOfTriple);
+};
+
+const reduceIteration = argsTriple => {
+    const stack = argsTriple(firstOfTriple);
+
+    if (convertToJsBool(hasPre(stack))) {
+        const reduceFunction = argsTriple(secondOfTriple);
+
+        const preAcc = argsTriple(thirdOfTriple);
+
+        const curr = head(stack);
+
+        const acc = reduceFunction(preAcc, curr);
+
+        const preStack = stack(stackPredecessor);
+
+        return triple(preStack)(reduceFunction)(acc);
+    }
+    return argsTriple;
+};
+
+const map = s => mapFunction => {
+    const times = size(s);
+    const initArgsPair = pair(emptyStack)(n0);
+
+    const mapIteration = argsPair => {
+        const index = argsPair(snd);
+
+        if (convertToJsBool(eq(times)(index))) {
+            return argsPair;
+        }
+        const increasedIndex = succ(argsPair(snd));
+        const valueToMap = getElementByIndex(s)(increasedIndex);
+        const mappedValue = mapFunction(valueToMap);
+        const resultStack = push(argsPair(fst))(mappedValue);
+
+        return pair(resultStack)(increasedIndex);
+    };
+
+    return (times(mapIteration)(initArgsPair))(fst);
+};
+
+const filter = s => filterFunction => {
+    const times = size(s);
+    const initArgsPair = pair(emptyStack)(n0);
+
+    const filterIteration = argsPair => {
+        const stack = argsPair(fst);
+        const index = argsPair(snd);
+        const increasedIndex = succ(index);
+
+        if (convertToJsBool(not(eq(times)(index)))) {
+            const value = getElementByIndex(s)(increasedIndex);
+
+            if (filterFunction(value)) {
+                const resultStack = push(stack)(value);
+                return pair(resultStack)(increasedIndex);
+            }
+        }
+
+        return pair(stack)(increasedIndex);
+    };
+
+    return (times(filterIteration)(initArgsPair))(fst);
+};
+
+const logStackToConsole = s => {
+
+    const logIteration = (acc, curr) => {
         const index = acc + 1;
         console.log('element at: ' + index + ': ' + JSON.stringify(curr));
         return index;
     };
 
-    lambdaStackReducer(reversedStack)(pair(logStack)(0));
+    reduce(s)(pair(logIteration)(0));
 };
-
-const getElementByIndex = s => i => {
-    const times = churchSubtraction(size(s))(i);
-
-    const func = s => s(stackPredecessor);
-
-    return head(times(func)(s));
-};
-
-const getElementByIndexJs = s => i => {
-    const times = size(s);
-    const elemPair = pair(s)(id);
-
-    const getElement = getElmPair => {
-        const predecessorStack = (getElmPair(fst))(stackPredecessor);
-
-        if (jsnum((getElmPair(fst))(stackIndex)) === i) {
-            const stack = getElmPair(fst);
-
-            return pair(predecessorStack)(head(stack));
-        }
-
-        return pair(predecessorStack)(getElmPair(snd));
-    };
-
-    return (times(getElement)(elemPair))(snd);
-};
-
-
-const mapStack = s => mapFunction => {
-
-    const times = size(s);
-    const mapPair = pair(emptyStack)(n0);
-
-    const map = mapPair => {
-
-        if (convertToJsBool(is0(churchSubtraction(times)(mapPair(snd))))) {
-            return mapPair;
-        }
-        const index = succ(mapPair(snd));
-        const valueToMap = getElementByIndex(s)(index);
-        const mappedValue = mapFunction(valueToMap);
-        const resultStack = push(mapPair(fst))(mappedValue);
-
-        return pair(resultStack)(index);
-    };
-
-    return (times(map)(mapPair))(fst);
-};
-
-// TODO: was wenn kein element dem Filter entspricht -> empty Stack zurückgeben
-const filterStack = s => filterFunction => {
-    const times = size(s);
-    const filterPair = pair(emptyStack)(n0);
-
-    const filter = filterPair => {
-        const index = filterPair(snd);
-        const increasedIndex = succ(index);
-
-       if(convertToJsBool(not(eq(times)(index)))){
-        // if (convertToJsBool(not(is0(churchSubtraction(times)(filterPair(snd)))))) {
-            const value = getElementByIndex(s)(increasedIndex);
-
-            if (filterFunction(value)) {
-                const resultStack = push(filterPair(fst))(value);
-                return pair(resultStack)(increasedIndex);
-            }
-        }
-
-        return pair(filterPair(fst))(increasedIndex);
-    };
-
-    return (times(filter)(filterPair))(fst);
-};
-
 
 const stackOp = op => s => x => f => f(op(s)(x));
 const pushToStack = stackOp(push);
 const startStack = f => f(emptyStack);
-
-const map = stackOp(mapStack);
-const filter = stackOp(filterStack);
-const reduce = stackOp(reduceBuilder);
-
-const startStream = s => f => f(s);
-
-const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
-logStackToConsole(result);
-const mapF = x => x * 2;
-const mapWithReduce = (acc, curr) => push(acc)(mapF(curr));
-
-logStackToConsole(lambdaStackReducer(result)(pair(mapWithReduce)(emptyStack)));
-
-

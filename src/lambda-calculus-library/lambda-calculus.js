@@ -91,7 +91,7 @@ const True = K;
 
 const not = C;
 
-// TODO: doku
+// TODO: doku & test
 const and = p => q => p(q)(False);
 const or = p => q => p(True)(q);
 
