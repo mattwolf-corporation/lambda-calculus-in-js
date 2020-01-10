@@ -36,7 +36,8 @@ export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
-    startStack, pushToStack
+    startStack, pushToStack, reverseStack, filterWithReduce,
+    mapWithReduce, convertStackToArray, convertArrayToStack
 }
 
 /**
@@ -82,15 +83,16 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const convertStackToArray = (acc, curr) => [...acc, curr];
-const reverseStack = (acc, curr) => push(acc)(curr);
+const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])(emptyStack));
+const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
+const reverseStack = s => reduce(s)(pair((acc, curr) => push(acc)(curr))(emptyStack));
 
-const mapF = x => x * 2;
-const mapWithReduce = (acc, curr) => push(acc)(mapF(curr));
+const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 
 const reduce = s => argsPair => {
     const times = size(s);
-    const reversedStack = (times(reduceIteration)(triple(s)(reverseStack)(emptyStack)))(thirdOfTriple);
+    const reversedStack = (times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)))(thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);

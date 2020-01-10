@@ -37,7 +37,8 @@ import {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
-    pushToStack
+    pushToStack, reverseStack, filterWithReduce,
+    mapWithReduce, convertStackToArray, convertArrayToStack
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -220,6 +221,26 @@ stackSuite.add("startStack", assert => {
     assert.equals(getElementByJsnumIndex(result)(2), 3);
     assert.equals(getElementByJsnumIndex(result)(3), 4);
     assert.equals(jsnum(size(result)), 3);
+});
+
+stackSuite.add("reverse stack", assert => {
+    // TODO
+});
+
+stackSuite.add("filter with reduce-function", assert => {
+    // TODO
+});
+
+stackSuite.add("map with reduce-function", assert => {
+    // TODO
+});
+
+stackSuite.add("convert stack to array", assert => {
+    // TODO
+});
+
+stackSuite.add("convert array to stack", assert => {
+    // TODO
 });
 
 stackSuite.report();
