@@ -11,6 +11,7 @@ export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secon
  * @typedef {function} pn
  * @typedef {function} qn
  * @typedef {function} boolean
+ * @typedef {function} pair
  */
 
 /**
@@ -30,7 +31,7 @@ const K = x => y => x;
 /**
  * a -> b -> b ; Kite
  * @param {a} x
- * @returns { function(y:{b}): {b} } a function that returns its argument {@link a}
+ * @returns { function(y:{b}): function(y:{b} } a function that returns its argument {@link a}
  */
 const KI = x => y => y;
 
@@ -84,54 +85,107 @@ const V = x => y => f => f(x)(y);
 const Blackbird = f => g => x => y => f(g(x)(y));
 
 /**
- * Church Encodings: Booleans
+ * a -> b -> b ; {churchBoolean} False Church-Boolean
+ * @type {function(a): function(*): {b}}
  */
 const False = KI;
+
+/**
+ * a -> b -> a ; {churchBoolean} True Church-Boolean
+ * @type {K.props|*}
+ */
 const True = K;
 
+
+/**
+ * fn -> a -> b -> fn( b )( a ) ; not
+ * @param {churchBoolean} Church-Boolean
+ * @returns {churchBoolean} negation of the insert Church-Boolean
+ * @example
+ * not(True)      === False;
+ * not(False)     === True;
+ * not(not(True)) === True;
+ * @type {function(fn): function(*=): function(*=): *}
+ */
 const not = C;
 
-// TODO: doku & test
+/**
+ * pn -> qn -> pn( qn )(False) ; and
+ * @param {pn} p
+ * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ */
 const and = p => q => p(q)(False);
+
+
+/**
+ * pn -> qn -> pn( qn )(False) ; and
+ * @param {pn} p
+ * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ */
 const or = p => q => p(True)(q);
 
 /**
- * pn -> qn -> pn( qn )(not( qn)) ; Boolean-Equality
+ * pn -> qn -> pn( qn )(not( qn)) ; beq (ChurchBoolean-Equality)
  * @param {pn} p
- * @returns { function(q:{qn}):  True/False  }
+ * @returns { function(q:{qn}): {ChurchBoolean} } True or False
  */
 const beq = p => q => p(q)(not(q));
 
+
+/**
+ * b -> b("True")("False") ; showBoolean
+ * @param b {churchBoolean}
+ * @return string - "True" or "False"
+ * @example
+ * showBoolean(True)  === "True";
+ * showBoolean(False) === "False";
+ */
 const showBoolean = b => b("True")("False");
+
+/**
+ * b -> b(true)(false) ; convertToJsBool
+ * @param b {churchBoolean}
+ * @return {boolean} - true or false
+ * @example
+ * convertToJsBool(True)  === true;
+ * convertToJsBool(False) === false;
+ */
 const convertToJsBool = b => b(true)(false);
 
 /**
  *  a -> b -> fn -> fn(a)(b) ; Pair
- * @param {*} x:  firstOfPair argument of the pair
- * @returns {function} - returns a function, that takes an argument y
+ * @param {a} x:  firstOfPair argument of the pair
+ * @returns {pair} - returns a function, that store two value
  */
-const pair = V; //x => y => f => f(x)(y);
+const pair = V;
 
 /**
  * fst ; Get first value of Pair
  * @type {K.props|*}
- *
- * @return pair first storaged value
+ * @return pair first stored value
  * @example
- * par(n1)(n2)(fst) === n1
+ * pair(n2)(n5)(fst) === n2
  */
 const fst = K;
 
+
+/**
+ * snd ; Get second value of Pair
+ * @type {function(a): function(*): {b}}
+ * @return pair second stored value
+ * @example
+ * pair(n2)(n5)(snd) === n5
+ */
 const snd = KI;
 
 /**
  *  a -> b -> -> c -> fn -> fn(a)(b)(c) ; Triple
  * @param {*} x:  firstOfTriple argument of the Triple
- * @returns {function} - returns a function, that takes an argument y
+ * @returns {function} - returns a function, that storage three arguments
  */
 const triple = x => y => z => f => f(x)(y)(z);
 
-// triple getter
+
 const firstOfTriple = x => y => z => x;
 const secondOfTriple = x => y => z => y;
 const thirdOfTriple = x => y => z => z;
@@ -140,9 +194,12 @@ const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
 
 
 /**
- *
- * @param p
- * @return {string}
+ * p -> p `${p(fst)} | ${p(snd)} ; showPair
+ * @param p {pair}
+ * @return string with first and second value
+ * @example
+ * const testPair = pair('Erster')('Zweiter');
+ * showPair(testPair) === 'Erster | Zweiter'
  */
 const showPair = p => `${p(fst)} | ${p(snd)}`;
 
