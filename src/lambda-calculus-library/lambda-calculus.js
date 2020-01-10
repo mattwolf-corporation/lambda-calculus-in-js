@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, pairMap, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, mapPair, showPair}
 
 /**
  * Generic Types
@@ -136,7 +136,7 @@ const firstOfTriple = x => y => z => x;
 const secondOfTriple = x => y => z => y;
 const thirdOfTriple = x => y => z => z;
 
-const pairMap = f => p => pair(f(p(fst)))(f(p(snd)));
+const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
 
 
 /**

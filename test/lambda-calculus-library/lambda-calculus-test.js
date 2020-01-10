@@ -1,6 +1,6 @@
 import { TestSuite } from "../test.js";
 
-import {id, K, KI, M, C, B, T, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {id, K, KI, M, C, B, T, fst, snd, and, or, not, True, False, pair, showPair, mapPair, convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
@@ -66,7 +66,70 @@ lambdaCTest.add("thrush", assert => {
     assert.equals(jsnum(T(n3)(n2)), 9);
 });
 
-lambdaCTest.add("firstOfTriple", assert => {
+lambdaCTest.add("convert to js-bool", assert => {
+    assert.equals(convertToJsBool(True), true);
+    assert.equals(convertToJsBool(False), false);
+});
+
+lambdaCTest.add("show boolean", assert => {
+    assert.equals(showBoolean(True), 'True');
+    assert.equals(showBoolean(False), 'False');
+});
+
+lambdaCTest.add("boolean and", assert => {
+    assert.equals(and(True)(True), True);
+    assert.equals(and(False)(True), False);
+    assert.equals(and(True)(False), False);
+    assert.equals(and(False)(False), False);
+
+    assert.equals(or(and(False)(False))(True), True);
+    assert.equals(and(or(True)(False))(True), True);
+});
+
+lambdaCTest.add("boolean or", assert => {
+    assert.equals(or(True)(True), True);
+    assert.equals(or(False)(True), True);
+    assert.equals(or(True)(False), True);
+    assert.equals(or(False)(False), False);
+});
+
+lambdaCTest.add("boolean not", assert => {
+    assert.equals(convertToJsBool(not(True)), false);
+    assert.equals(convertToJsBool(not(False)), true);
+    assert.equals(convertToJsBool(not(not(False))), false);
+    assert.equals(convertToJsBool(not(not(True))), true);
+    assert.equals(convertToJsBool(not(and(True)(or(False)(True)))), false);
+});
+
+lambdaCTest.add("boolean equality", assert => {
+    assert.equals(convertToJsBool(not(True)), false);
+});
+
+lambdaCTest.add("show pair", assert => {
+    const p1 = pair(2)(3);
+    const p2 = pair("Hello")("World");
+    const p3 = pair(x => x)(x => y => x);
+
+    assert.equals(showPair(p1), '2 | 3');
+    assert.equals(showPair(p2), 'Hello | World');
+    assert.equals(showPair(p3), 'x => x | x => y => x');
+});
+
+lambdaCTest.add("map pair", assert => {
+    const p1 = pair(2)(3);
+    const p2 = pair("Hello")("World");
+
+    const f = x => x * 4;
+    const g = x => x + '!';
+
+    assert.equals(showPair(mapPair(f)(p1)), '8 | 12');
+    assert.equals(showPair(mapPair(g)(p2)), 'Hello! | World!');
+});
+
+
+
+
+lambdaCTest.add("first of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 
@@ -77,7 +140,7 @@ lambdaCTest.add("firstOfTriple", assert => {
     assert.equals(firstOfTriple(testArray)(1)(2), testArray );
 });
 
-lambdaCTest.add("secondOfTriple", assert => {
+lambdaCTest.add("second of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 
@@ -88,7 +151,7 @@ lambdaCTest.add("secondOfTriple", assert => {
     assert.equals(secondOfTriple(2)(testObject)(1), testObject );
 });
 
-lambdaCTest.add("thirdOfTriple", assert => {
+lambdaCTest.add("third of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 

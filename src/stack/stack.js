@@ -39,7 +39,6 @@ export {
     startStack, pushToStack
 }
 
-
 /**
  * stack implementation (purely functional)
  */
