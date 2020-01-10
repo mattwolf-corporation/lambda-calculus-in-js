@@ -81,7 +81,6 @@ function renderReport(name, tests) {
         const failed = asserts.filter(testResult => !testResult.result);
         const passed = asserts.length - failed.length;
 
-        console.log( failed)
         totalPassed += passed;
         totalFailed += failed.length;
 
