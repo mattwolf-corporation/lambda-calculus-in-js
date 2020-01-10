@@ -224,7 +224,13 @@ stackSuite.add("startStack", assert => {
 });
 
 stackSuite.add("reverse stack", assert => {
-    // TODO
+    const reversedStack = reverseStack(nonEmptyStack);
+
+    assert.equals(getElementByJsnumIndex(reversedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(reversedStack)(1), 2);
+    assert.equals(getElementByJsnumIndex(reversedStack)(2), 1);
+    assert.equals(getElementByJsnumIndex(reversedStack)(3), 0);
+    assert.equals(jsnum(size(reversedStack)), 3);
 });
 
 stackSuite.add("filter with reduce-function", assert => {
