@@ -57,7 +57,6 @@ const churchSubtraction     = n => k => k(pred)(n);
 const churchMultiplication  = B;
 const churchPotency         = T;
 
-
 /**
  * query if the church number is zero (n0)
  * @param n {church-number}

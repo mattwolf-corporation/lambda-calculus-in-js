@@ -15,23 +15,23 @@ const Assert = () => {
         addTest(actual, expected, result);
     };
 
-    const addTest = (actual, expected, result) =>{
+    const addTest = (actual, expected, result) => {
         ok.push({actual, expected, result, counter});
         counter++;
     };
 
     const arrayEquals = (actual, expected) => {
-        if(actual.length === expected.length) {
+        if (actual.length === expected.length) {
             let counter = 0;
             let result = true;
 
-            while (result && counter < actual.length){
+            while (result && counter < actual.length) {
                 result = actual[counter] === expected[counter];
                 counter++;
             }
 
             addTest(actual, expected, result);
-        }else {
+        } else {
             addTest(actual, expected, false);
         }
     };
@@ -67,7 +67,8 @@ const TestSuite = name => {
 
 };
 
-
+// TODO: fix red and green dots & einrückung
+// const renderReport = (name, tests) => {};
 function renderReport(name, tests) {
     let outputHtml = "";
 

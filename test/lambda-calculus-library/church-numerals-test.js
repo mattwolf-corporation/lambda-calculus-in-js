@@ -99,5 +99,17 @@ churchTest.add("jsNum", assert => {
     assert.equals(jsnum(churchSubtraction(n9)(n4)), 5);
 });
 
+churchTest.add("church less or equal", assert => {
+    // TODO:
+});
+
+churchTest.add("church equal", assert => {
+    // TODO:
+});
+
+churchTest.add("church greater than", assert => {
+    // TODO:
+});
+
 churchTest.report();
 

@@ -1,11 +1,44 @@
 import {TestSuite} from "../test.js";
 
-import {id, beq, True, False, showBoolean as show, convertToJsBool , pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
-import { stack, stackIndex, stackPredecessor, stackValue, emptyStack,
+import {
+    id,
+    beq,
+    True,
+    False,
+    showBoolean as show,
+    convertToJsBool,
+    pair,
+    triple,
+    fst,
+    snd,
+    firstOfTriple,
+    secondOfTriple,
+    thirdOfTriple,
+    not
+} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {
+    n0,
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    pred,
+    succ,
+    jsnum,
+    is0,
+    churchAddition
+} from '../../src/lambda-calculus-library/church-numerals.js';
+import {
+    stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
-    pushToStack} from "../../src/stack/stack.js";
+    pushToStack
+} from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
@@ -19,9 +52,9 @@ const personList = [
 ];
 Object.freeze(personList);
 
-const personStack = push(push(push( push( push(emptyStack)(personList[0]) ) (personList[1]) ) (personList[2]) )(personList[3]) ) (personList[4]);
-const nonEmptyStack = push( push( push(emptyStack)(0) ) (1) ) (2);
-const stackWithNumbers = push( push( push(nonEmptyStack)(33) ) (34) ) (35);
+const personStack = push(push(push(push(push(emptyStack)(personList[0]))(personList[1]))(personList[2]))(personList[3]))(personList[4]);
+const nonEmptyStack = push(push(push(emptyStack)(0))(1))(2);
+const stackWithNumbers = push(push(push(nonEmptyStack)(33))(34))(35);
 
 stackSuite.add("emptyStack", assert => {
     assert.equals(convertToJsBool(hasPre(emptyStack)), false);
@@ -53,14 +86,14 @@ stackSuite.add("pop", assert => {
 });
 
 stackSuite.add("head", assert => {
-    const nonEmptyStack = push( push(emptyStack)(0) ) (1);
+    const nonEmptyStack = push(push(emptyStack)(0))(1);
 
     assert.equals(head(nonEmptyStack), 1);
     assert.equals(head((pop(nonEmptyStack))(fst)), 0);
 });
 
 stackSuite.add("size", assert => {
-    const nonEmptyStack = push( push(emptyStack)(0) ) (1);
+    const nonEmptyStack = push(push(emptyStack)(0))(1);
 
     assert.equals(jsnum(size(nonEmptyStack)), 2);
     assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
@@ -86,17 +119,17 @@ stackSuite.add("random", assert => {
     // pop returns the pushed value
     assert.equals(convertToJsBool
     (beq
-        ((pop(push(emptyStack)(id)))(snd) (True))
+        ((pop(push(emptyStack)(id)))(snd)(True))
         (True)
     ), true);
 
     // pop returns predecessor stack
-    assert.equals(pop(push(emptyStack)(id)) (fst) === emptyStack, true);
+    assert.equals(pop(push(emptyStack)(id))(fst) === emptyStack, true);
 
     // returns head
     assert.equals(convertToJsBool
     (beq
-        ((head(push(emptyStack)(id))) (True))
+        ((head(push(emptyStack)(id)))(True))
         (True)
     ), true);
 });
@@ -123,7 +156,7 @@ stackSuite.add("getElementByIndexJs", assert => {
 
 stackSuite.add("reduce", assert => {
     const stackWithNumbers = nonEmptyStack;
-    const stackWithChurchNumbers = push( push( push(emptyStack)(n9) ) (n2) ) (n3);
+    const stackWithChurchNumbers = push(push(push(emptyStack)(n9))(n2))(n3);
 
     const reduceFunctionSum = (acc, curr) => acc + curr;
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
@@ -137,8 +170,8 @@ stackSuite.add("reduce", assert => {
 });
 
 stackSuite.add("map", assert => {
-    const stackWithNumbers = push( push( push(emptyStack)(10) ) (20) ) (30);
-    const stackWithChurchNumbers = push( push( push(emptyStack)(n2) ) (n4) ) (n8);
+    const stackWithNumbers = push(push(push(emptyStack)(10))(20))(30);
+    const stackWithChurchNumbers = push(push(push(emptyStack)(n2))(n4))(n8);
 
     const multiplyWith2 = x => x * 2;
     const mapToJsnum = churchNum => jsnum(churchNum);
