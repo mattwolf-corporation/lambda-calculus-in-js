@@ -234,19 +234,39 @@ stackSuite.add("reverse stack", assert => {
 });
 
 stackSuite.add("filter with reduce-function", assert => {
-    // TODO
+    const filteredStack = filterWithReduce(stackWithNumbers)(x => x >= 2 && x < 34);
+
+    assert.equals(getElementByJsnumIndex(filteredStack)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStack)(1), 2);
+    assert.equals(getElementByJsnumIndex(filteredStack)(2), 33);
+    assert.equals(jsnum(size(filteredStack)), 2);
 });
 
 stackSuite.add("map with reduce-function", assert => {
-    // TODO
+    const mappedStack = mapWithReduce(nonEmptyStack)(x => x * 3);
+
+    assert.equals(getElementByJsnumIndex(mappedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(mappedStack)(1), 0);
+    assert.equals(getElementByJsnumIndex(mappedStack)(2), 3);
+    assert.equals(getElementByJsnumIndex(mappedStack)(3), 6);
+    assert.equals(jsnum(size(mappedStack)), 3);
 });
 
 stackSuite.add("convert stack to array", assert => {
-    // TODO
+    const result = convertStackToArray(stackWithNumbers);
+
+    assert.equals(result.length, 6);
+    assert.arrayEquals(result, [0, 1, 2, 33, 34, 35]);
 });
 
 stackSuite.add("convert array to stack", assert => {
-    // TODO
+    const result = convertArrayToStack([1, 2, 3]);
+
+    assert.equals(jsnum(size(result)), 3);
+    assert.equals(getElementByJsnumIndex(result)(0), id);
+    assert.equals(getElementByJsnumIndex(result)(1), 1);
+    assert.equals(getElementByJsnumIndex(result)(2), 2);
+    assert.equals(getElementByJsnumIndex(result)(3), 3);
 });
 
 stackSuite.report();

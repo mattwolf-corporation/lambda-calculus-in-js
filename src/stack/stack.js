@@ -83,9 +83,8 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])(emptyStack));
+const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])([]));
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
-
 const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))))(snd);
 
 const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
