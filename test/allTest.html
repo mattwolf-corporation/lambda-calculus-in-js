@@ -10,6 +10,12 @@
             padding: 0px;
         }
 
+        .centerDiv {
+            width: 60%;
+            min-width: 50%;
+            margin: 0 auto;
+        }
+
         .dot {
             height: 5px;
             width: 5px;
@@ -33,15 +39,11 @@
             font-size: 0.9em;
         }
 
-        pre, h5 {
+        h4 {
             padding-top: 10px;
-            margin: 3px;
+            margin: 0px;
         }
 
-        pre {
-            font-size: 1.2em;
-
-        }
 
         legend {
             font-size: 1.2em;
@@ -53,13 +55,28 @@
             margin: 30px;
             border-style: solid;
         }
+
+        th {
+            text-align: left;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            padding-left: 55px;
+            padding-top: 5px;
+        }
+
+        .failMessage {
+            padding-left: 25px;
+        }
+
     </style>
 </head>
 <body>
 
-<h1>All Tests</h1>
-
-<div id="output"></div>
+<div class="centerDiv">
+    <h1>All Tests</h1>
+    <div id="output"></div>
+</div>
 
 <script src="lambda-calculus-library/lambda-calculus-test.js" type="module"></script>
 <script src="lambda-calculus-library/church-numerals-test.js" type="module"></script>

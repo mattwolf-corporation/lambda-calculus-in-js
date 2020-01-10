@@ -81,32 +81,54 @@ function renderReport(name, tests) {
         const failed = asserts.filter(testResult => !testResult.result);
         const passed = asserts.length - failed.length;
 
+        console.log( failed)
         totalPassed += passed;
         totalFailed += failed.length;
 
-        let resultLine = "";
-        let passedLine = ` <span> - Passed: ${passed} / ${asserts.length}   </span>`;
+        let failMessage = "";
+        let passedLine = ` <span>${passed} / ${asserts.length}   </span>`;
 
         failed.forEach(failedTest => {
             const {actual, expected, result, counter} = failedTest;
-            resultLine += `<p><span class="dot red"></span>Test Nr.  <b>${counter} </b> failed: not equal! actual was ${actual} but expected ${expected}</p>`;
+            failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
         });
 
         outputHtml += `
-            <pre> <span class="dot ${passed > 0 ? 'green' : 'red'}"></span> ${origin} ${passedLine} </pre>
-            <div class="testContainer">
-                ${resultLine}
-            </div>
+            <tr>
+                <td> 
+                    <span class="dot ${passed === asserts.length ? 'green' : 'red'}"></span>${origin} 
+                </td>
+                <td>  
+                    ${passedLine} 
+                </td>
+            </tr>    
         `;
+
+        if (failed.length > 0){
+            outputHtml += `
+            <tr>
+                <td> 
+                   <div class="failMessage">${failMessage} </div> 
+                </td>
+            </tr>    
+        `;
+        }
     });
 
     const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",
         `<fieldset style="border-color: ${totalFailed > 0 ? 'red' : 'green'}">
-                <legend>${name}</legend>
-                     ${outputHtml}
+                    <legend>${name}</legend>
+                        <table style="width: fit-content"> 
+                            <tr>
+                                <th>Function</th>
+                                <th>Passed</th>
+                            </tr>
+                            
+                            ${outputHtml}
                      
-                     <h5>Total passed: ${totalPassed}   failed: ${totalFailed} </h5>
+                        </table>
+                     <h4>Total passed: ${totalPassed}   failed: ${totalFailed} </h4>
                 </fieldset>`
     );
 }
