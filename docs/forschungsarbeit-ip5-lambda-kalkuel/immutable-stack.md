@@ -101,8 +101,21 @@ Beispiel:
 
 ```javascript
 const array = [1, 2, 3];
-const stack = convertArrayToStack(array); // stack with 3 elements: 1, 2, 3
+const stack = convertArrayToStack(array); // stack: 1, 2, 3
 ```
+
+### Stack umkehren
+
+Die Funktion reverseStack nimmt einen Stack entgegen und gibt einen neuen Stack zurück, bei diesem die Elemente in umgekehrter Reihenfolge sind.
+
+Beispiel:
+
+```javascript
+const stackWithTwoElements = push(push(emptyStack)(1))(2);
+const reversedStack = reverseStack(stackWithTwoElements); // stack: 2, 1
+```
+
+### Stack - Map, Filter, Reduce
 
 
 
