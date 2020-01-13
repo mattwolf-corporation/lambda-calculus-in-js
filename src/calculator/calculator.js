@@ -1,5 +1,5 @@
 export {
-    calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
+    calc, calculatorOperator, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
