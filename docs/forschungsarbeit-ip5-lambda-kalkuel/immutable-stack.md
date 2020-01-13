@@ -67,3 +67,15 @@ Beispiel:
 const result = hasPre(stackWithOneValue); // false (as church-boolean)
 ```
 
+### Element per Index
+
+Die Funktion getElementByIndex nimmt einen Stack und eine Church-Zahl, die den Index des Elements, repräsentiert entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
+
+Beispiel:
+
+```javascript
+const element = getElementByIndex(stackWithOneValue)(n1); // 1
+```
+
+Die Funktion getElementByJsnumIndex ..
+
