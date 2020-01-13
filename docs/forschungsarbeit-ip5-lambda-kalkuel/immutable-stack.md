@@ -67,15 +67,42 @@ Beispiel:
 const result = hasPre(stackWithOneValue); // false (as church-boolean)
 ```
 
-### Element per Index
+### Element per Index holen
 
 Die Funktion getElementByIndex nimmt einen Stack und eine Church-Zahl, die den Index des Elements, repräsentiert entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
 
 Beispiel:
 
 ```javascript
-const element = getElementByIndex(stackWithOneValue)(n1); // 1
+const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
+const element = getElementByIndex(stackWithTwoElements)(n1); // "World"
 ```
 
-Die Funktion getElementByJsnumIndex ..
+Die Funktion getElementByJsnumIndex nimmt einen Stack und einen Index \(normale Zahl\) entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
+
+```javascript
+const element = getElementByJsnumIndex(stackWithTwoElements)(1); // "Hello"
+```
+
+### Stack zu einem Array konvertieren und umgekehrt
+
+Die Funktion convertStackToArray nimmt einen Stack entgegen und gibt einen Array mit denselben Elementen zurück.
+
+Beispiel:
+
+```javascript
+const stackWithTwoElements = push(push(emptyStack)(1))(2);
+const arrayWithTwoElements = convertStackToArray(stackWithTwoElements); // [1, 2] 
+```
+
+Die Funktion convertArrayToStack nimmt einen Array entgegen und gibt einen neuen Stack mit den Elementenn vom übergebenen Array zurück.
+
+Beispiel:
+
+```javascript
+const array = [1, 2, 3];
+const stack = convertArrayToStack(array); // stack with 3 elements: 1, 2, 3
+```
+
+
 
