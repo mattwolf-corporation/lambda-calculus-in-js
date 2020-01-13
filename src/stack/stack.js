@@ -39,6 +39,24 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack
 }
+/**
+ * Generic Types
+ * @typedef {*} a
+ * @typedef {*} b
+ * @typedef {*} c
+ * @typedef {(a|b|c)} abc
+ * @typedef {funcation} fn
+ * @typedef {function} gn
+ * @typedef {function} pn
+ * @typedef {function} qn
+ * @typedef {function} boolean
+ * @typedef {function} pair
+ * @typedef {function} churchBoolean
+ * @typedef {function} churchNumber
+ * @typedef {function} stack
+ * @typedef {number} JsNumber
+ * @typedef {*} number
+ */
 
 /**
  * The stack is a pure functional data structure and is therefore immutable.
@@ -47,21 +65,30 @@ export {
  * At the same time the first value represents the index of the head (top value) of the stack.
  * The second value represents the predecessor stack
  * The third value represents the head ( top value ) of the stack
+ *
+ * @param x {a}
+ * @return { function(y:{b}): function(z:{c}): function(f:{fn}): function(fn x:{a} y:{b} z:{c} ) }
  */
 const stack = x => y => z => f => f(x)(y)(z);
 
 /**
  * getter function - first of a triple
+ *
+ * @type {function(*=): function(*): function(*): *}
  */
 const stackIndex = firstOfTriple;
 
 /**
  * getter function - second of a triple
+ *
+ * @type {function(*): function(*): function(*): *}
  */
 const stackPredecessor = secondOfTriple;
 
 /**
  * getter function - third of a triple
+ *
+ * @type {function(*): function(*): function(*): *}
  */
 const stackValue = thirdOfTriple;
 
@@ -70,18 +97,27 @@ const stackValue = thirdOfTriple;
  * The empty stack has the size/index zero (has zero elements).
  * The empty stack has no predecessor stack, but the identity function as placeholder.
  * The empty stack has no head ( top value ), but the identity function as placeholder.
+ *
+ * @type {function({fn}): function(fn, {a}, {b}, {c})}
  */
 const emptyStack = stack(n0)(id)(id);
+
 
 /**
  * A function that takes a stack
  * The function returns a church-boolean, which indicates whether the stack has a predecessor stack
+ *
+ * @param {stack} s
+ * @return {churchBoolean}
  */
 const hasPre = s => not(is0(s(stackIndex)));
 
 /**
  * A function that takes a stack and a value
  * The function returns a new stack with the pushed value
+ *
+ * @param {stack} s
+ * @return { function(x:{a}): {stack} } stack with value x
  */
 const push = s => x => stack(succ(s(stackIndex)))(s)(x);
 
@@ -90,24 +126,36 @@ const push = s => x => stack(succ(s(stackIndex)))(s)(x);
  * The function returns a value pair.
  * The first element of the pair is the predecessor stack.
  * The second element of the pair is the head (the top element) of the stack
+ *
+ * @param {stack} s
+ * @return {pair} pair
  */
 const pop = s => pair(s(stackPredecessor))(head(s));
 
 /**
  * A function that takes a stack
  * The function returns the head (the top value) of the stack
+ *
+ * @param {stack} s
+ * @return {*} stack-value
  */
 const head = s => s(stackValue);
 
 /**
  * A function that takes a stack
  * The function returns the size (number of elements) in the stack
+ *
+ * @param {stack} s
+ * @return {*} stack-index
  */
 const size = s => s(stackIndex);
 
 /**
  * A function that takes a stack and an index (as church number)
  * The function returns the element at the passed index
+ *
+ * @param {stack} s
+ * @return { function(i:{churchNumber}) : * } stack-value
  */
 const getElementByIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
@@ -119,6 +167,10 @@ const getElementByIndex = s => i => {
 /**
  * A function that takes a stack and an index
  * The function returns the element at the passed index
+ *
+ *
+ * @param {stack} s
+ * @return { function(i:{JsNumber}) : * } stack-value
  */
 const getElementByJsnumIndex = s => i => {
     const times = size(s);
@@ -142,30 +194,45 @@ const getElementByJsnumIndex = s => i => {
 /**
  * A function that takes an stack and converts the stack into an array.
  * The function returns an array
+ *
+ * @param {stack} s
+ * @return {Array} Array
  */
 const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])([]));
 
 /**
  * A function that takes an array and converts the array into a stack.
  * The function returns a stack
+ *
+ * @param {Array} array
+ * @return {stack} stack
  */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
  * A function that accepts a stack.
  * The function returns the reversed stack.
+ *
+ * @param {stack} s
+ * @return {stack} stack (reversed)
  */
 const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))))(snd);
 
 /**
  * A function that accepts a stack and a map function.
  * The function returns the mapped stack.
+ *
+ * @param {stack} s
+ * @return {function(map:{function}): stack } stack
  */
 const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
 
 /**
  * A function that accepts a stack and a filter function.
  * The function returns the filtered stack.
+ *
+ * @param {stack} s
+ * @return {function(filter:{function}): stack } stack
  */
 const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 
@@ -174,6 +241,9 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
  * The first argument of the pair must be a reducer function.
  * The second argument of the pair must be a start value.
  * The function reduces the stack using the passed reduce function and the passed start value
+ *
+ * @param {stack} s
+ * @return {function(argsPair:{pair}): * } value
  */
 const reduce = s => argsPair => {
     const times = size(s);
@@ -183,6 +253,13 @@ const reduce = s => argsPair => {
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
 
+
+/**
+ * TODO: Description for reduceIteration
+ *
+ * @param {triple} argsTriple
+ * @return {triple } triple or argsTriple
+ */
 const reduceIteration = argsTriple => {
     const stack = argsTriple(firstOfTriple);
 
@@ -205,6 +282,9 @@ const reduceIteration = argsTriple => {
 /**
  * A function that takes a stack and a map function.
  * The function returns the mapped stack
+ *
+ * @param {stack} s
+ * @return {function(mapFunction:{function}): stack / pair } stack / pair
  */
 const map = s => mapFunction => {
     const times = size(s);
@@ -230,6 +310,9 @@ const map = s => mapFunction => {
 /**
  * A function that accepts a stack and a filter function.
  * The function returns the filtered stack
+ *
+ * @param {stack} s
+ * @return {function(filterFunction:{function}): stack / pair } stack / pair
  */
 const filter = s => filterFunction => {
     const times = size(s);
@@ -259,6 +342,8 @@ const filter = s => filterFunction => {
  * A function that accepts a stack.
  * The function performs a side effect.
  * The side effect logs the stack to the console.
+ *
+ * @param {stack} s
  */
 const logStackToConsole = s => {
 
@@ -270,6 +355,7 @@ const logStackToConsole = s => {
 
     reduce(s)(pair(logIteration)(0));
 };
+
 
 const stackOp = op => s => x => f => f(op(s)(x));
 const pushToStack = stackOp(push);
