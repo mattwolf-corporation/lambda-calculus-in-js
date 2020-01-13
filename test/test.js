@@ -71,12 +71,11 @@ const TestSuite = name => {
         add: add,
         report: report
     }
-
 };
 
-// TODO: fix red and green dots & einrückung
-// const renderReport = (name, tests) => {};
-function renderReport(name, tests) {
+let totalTests = 0;
+const renderReport = (name, tests) => {
+
     let outputHtml = "";
 
     let totalPassed = 0;
@@ -84,6 +83,8 @@ function renderReport(name, tests) {
 
     tests.forEach(test => {
         const {origin, asserts} = test;
+
+        totalTests += asserts.length;
 
         const failed = asserts.filter(testResult => !testResult.result);
         const passed = asserts.length - failed.length;
@@ -121,6 +122,9 @@ function renderReport(name, tests) {
         }
     });
 
+
+    document.getElementById("totalTests").innerText = totalTests;
+
     const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",
         `<fieldset style="border-color: ${totalFailed > 0 ? 'red' : 'green'}">
@@ -137,4 +141,4 @@ function renderReport(name, tests) {
                      <h4>Total passed: ${totalPassed}   failed: ${totalFailed} </h4>
                 </fieldset>`
     );
-}
+};

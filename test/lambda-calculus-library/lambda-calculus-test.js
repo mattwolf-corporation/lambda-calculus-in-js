@@ -63,8 +63,8 @@ lambdaCTest.add("thrush", assert => {
     assert.equals(T(2)(f), 3);
     assert.equals(T(2)(id), 2);
     assert.equals(T(id)(id), id);
-    assert.equals(jsnum(T(n2)(n3)), 8);
-    assert.equals(jsnum(T(n3)(n2)), 9);
+    assert.churchNumberEquals( T(n2)(n3), n8);
+    assert.churchNumberEquals( T(n3)(n2), n9);
 });
 
 lambdaCTest.add("vireo / pair", assert => {
@@ -92,7 +92,7 @@ lambdaCTest.add("blackbird", assert => {
 
     assert.equals( B(id)(id)(n7),  n7);
     assert.equals( B(id)(jsnum)(n7),  7);
-    assert.equals( convertToJsBool( B(not)(not)(True) ) ,  true);
+    assert.churchBooleanEquals(  B(not)(not)(True) ,  True);
     assert.churchNumberEquals(  B(not)(not)(id)  ,  id);
     assert.equals(  B(id)(jsnum)(n3)  ,  3);
     assert.equals(  B(id)(jsnum)(n3)  ,  3);
@@ -110,35 +110,35 @@ lambdaCTest.add("show boolean", assert => {
 });
 
 lambdaCTest.add("boolean and", assert => {
-    assert.equals(and(True)(True), True);
-    assert.equals(and(False)(True), False);
-    assert.equals(and(True)(False), False);
-    assert.equals(and(False)(False), False);
+    assert.equals( and(True)(True), True);
+    assert.equals( and(False)(True), False);
+    assert.equals( and(True)(False), False);
+    assert.equals( and(False)(False), False);
 
-    assert.equals(or(and(False)(False))(True), True);
-    assert.equals(and(or(True)(False))(True), True);
+    assert.equals( or(and(False)(False))(True), True);
+    assert.equals( and(or(True)(False))(True), True);
 });
 
 lambdaCTest.add("boolean or", assert => {
-    assert.equals(or(True)(True), True);
-    assert.equals(or(False)(True), True);
-    assert.equals(or(True)(False), True);
-    assert.equals(or(False)(False), False);
+    assert.equals( or(True)(True), True);
+    assert.equals( or(False)(True), True);
+    assert.equals( or(True)(False), True);
+    assert.equals( or(False)(False), False);
 });
 
 lambdaCTest.add("boolean not", assert => {
-    assert.equals(convertToJsBool(not(True)), false);
-    assert.equals(convertToJsBool(not(False)), true);
-    assert.equals(convertToJsBool(not(not(False))), false);
-    assert.equals(convertToJsBool(not(not(True))), true);
-    assert.equals(convertToJsBool(not(and(True)(or(False)(True)))), false);
+    assert.churchBooleanEquals( not(True), False);
+    assert.churchBooleanEquals( not(False), True);
+    assert.churchBooleanEquals( not(not(False)), False);
+    assert.churchBooleanEquals( not(not(True)), True);
+    assert.churchBooleanEquals( not(and(True)(or(False)(True))), False);
 });
 
 lambdaCTest.add("boolean equality", assert => {
-    assert.equals( convertToJsBool(beq(True)(True)), true);
-    assert.equals( convertToJsBool(beq(False)(False)), true);
-    assert.equals( convertToJsBool(beq(True)(False)), false);
-    assert.equals( convertToJsBool(beq(False)(True)), false);
+    assert.churchBooleanEquals( beq(True)(True), True);
+    assert.churchBooleanEquals( beq(False)(False), True);
+    assert.churchBooleanEquals( beq(True)(False), False);
+    assert.churchBooleanEquals( beq(False)(True), False);
 });
 
 lambdaCTest.add("show pair", assert => {
@@ -146,9 +146,9 @@ lambdaCTest.add("show pair", assert => {
     const p2 = pair("Hello")("World");
     const p3 = pair(x => x)(x => y => x);
 
-    assert.equals(showPair(p1), '2 | 3');
-    assert.equals(showPair(p2), 'Hello | World');
-    assert.equals(showPair(p3), 'x => x | x => y => x');
+    assert.equals( showPair(p1), '2 | 3');
+    assert.equals( showPair(p2), 'Hello | World');
+    assert.equals( showPair(p3), 'x => x | x => y => x');
 });
 
 lambdaCTest.add("map pair", assert => {
@@ -158,8 +158,8 @@ lambdaCTest.add("map pair", assert => {
     const f = x => x * 4;
     const g = x => x + '!';
 
-    assert.equals(showPair(mapPair(f)(p1)), '8 | 12');
-    assert.equals(showPair(mapPair(g)(p2)), 'Hello! | World!');
+    assert.equals( showPair(mapPair(f)(p1)), '8 | 12');
+    assert.equals( showPair(mapPair(g)(p2)), 'Hello! | World!');
 });
 
 lambdaCTest.add("triple", assert => {
