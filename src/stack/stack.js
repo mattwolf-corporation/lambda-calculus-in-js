@@ -52,10 +52,10 @@ const stackValue = thirdOfTriple;
 const emptyStack = stack(n0)(id)(id);
 
 const hasPre = s => not(is0(s(stackIndex)));
-const push = s => x => stack(succ(s(stackIndex)))(s)(x);
-const pop = s => pair(s(stackPredecessor))(head(s));
-const head = s => s(stackValue);
-const size = s => s(stackIndex);
+const push   = s => x => stack(succ(s(stackIndex)))(s)(x);
+const pop    = s => pair(s(stackPredecessor))(head(s));
+const head   = s => s(stackValue);
+const size   = s => s(stackIndex);
 
 const getElementByIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
@@ -93,7 +93,7 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
 
 const reduce = s => argsPair => {
     const times = size(s);
-    const reversedStack = (times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)))(thirdOfTriple);
+    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)) (thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
