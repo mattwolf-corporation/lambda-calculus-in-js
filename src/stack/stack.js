@@ -41,22 +41,74 @@ export {
 }
 
 /**
- * stack implementation (purely functional)
+ * The stack is a pure functional data structure and is therefore immutable.
+ * The stack is implemented as a triplet.
+ * The first value of the triple represents the size (number of elements) of the stack.
+ * At the same time the first value represents the index of the head (top value) of the stack.
+ * The second value represents the predecessor stack
+ * The third value represents the head ( top value ) of the stack
  */
 const stack = x => y => z => f => f(x)(y)(z);
 
+/**
+ * getter function - first of a triple
+ */
 const stackIndex = firstOfTriple;
+
+/**
+ * getter function - second of a triple
+ */
 const stackPredecessor = secondOfTriple;
+
+/**
+ * getter function - third of a triple
+ */
 const stackValue = thirdOfTriple;
 
+/**
+ * Representation of the empty stack
+ * The empty stack has the size/index zero (has zero elements).
+ * The empty stack has no predecessor stack, but the identity function as placeholder.
+ * The empty stack has no head ( top value ), but the identity function as placeholder.
+ */
 const emptyStack = stack(n0)(id)(id);
 
+/**
+ * A function that takes a stack
+ * The function returns a church-boolean, which indicates whether the stack has a predecessor stack
+ */
 const hasPre = s => not(is0(s(stackIndex)));
+
+/**
+ * A function that takes a stack and a value
+ * The function returns a new stack with the pushed value
+ */
 const push = s => x => stack(succ(s(stackIndex)))(s)(x);
+
+/**
+ * A function that takes a stack
+ * The function returns a value pair.
+ * The first element of the pair is the predecessor stack.
+ * The second element of the pair is the head (the top element) of the stack
+ */
 const pop = s => pair(s(stackPredecessor))(head(s));
+
+/**
+ * A function that takes a stack
+ * The function returns the head (the top value) of the stack
+ */
 const head = s => s(stackValue);
+
+/**
+ * A function that takes a stack
+ * The function returns the size (number of elements) in the stack
+ */
 const size = s => s(stackIndex);
 
+/**
+ * A function that takes a stack and an index (as church number)
+ * The function returns the element at the passed index
+ */
 const getElementByIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
     const getStackPredecessor = s => s(stackPredecessor);
@@ -64,6 +116,10 @@ const getElementByIndex = s => i => {
     return head(times(getStackPredecessor)(s));
 };
 
+/**
+ * A function that takes a stack and an index
+ * The function returns the element at the passed index
+ */
 const getElementByJsnumIndex = s => i => {
     const times = size(s);
     const initArgsPair = pair(s)(id);
@@ -83,13 +139,42 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
+/**
+ * A function that takes an stack and converts the stack into an array.
+ * The function returns an array
+ */
 const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])([]));
+
+/**
+ * A function that takes an array and converts the array into a stack.
+ * The function returns a stack
+ */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
+
+/**
+ * A function that accepts a stack.
+ * The function returns the reversed stack.
+ */
 const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))))(snd);
 
+/**
+ * A function that accepts a stack and a map function.
+ * The function returns the mapped stack.
+ */
 const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+
+/**
+ * A function that accepts a stack and a filter function.
+ * The function returns the filtered stack.
+ */
 const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 
+/**
+ * A function that takes a stack and argument pair.
+ * The first argument of the pair must be a reducer function.
+ * The second argument of the pair must be a start value.
+ * The function reduces the stack using the passed reduce function and the passed start value
+ */
 const reduce = s => argsPair => {
     const times = size(s);
     const reversedStack = (times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)))(thirdOfTriple);
@@ -117,6 +202,10 @@ const reduceIteration = argsTriple => {
     return argsTriple;
 };
 
+/**
+ * A function that takes a stack and a map function.
+ * The function returns the mapped stack
+ */
 const map = s => mapFunction => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -138,6 +227,10 @@ const map = s => mapFunction => {
     return (times(mapIteration)(initArgsPair))(fst);
 };
 
+/**
+ * A function that accepts a stack and a filter function.
+ * The function returns the filtered stack
+ */
 const filter = s => filterFunction => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -162,6 +255,11 @@ const filter = s => filterFunction => {
     return (times(filterIteration)(initArgsPair))(fst);
 };
 
+/**
+ * A function that accepts a stack.
+ * The function performs a side effect.
+ * The side effect logs the stack to the console.
+ */
 const logStackToConsole = s => {
 
     const logIteration = (acc, curr) => {
@@ -175,4 +273,8 @@ const logStackToConsole = s => {
 
 const stackOp = op => s => x => f => f(op(s)(x));
 const pushToStack = stackOp(push);
+
+/**
+ * A help function to create a new stack
+ */
 const startStack = f => f(emptyStack);
