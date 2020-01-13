@@ -115,7 +115,39 @@ const stackWithTwoElements = push(push(emptyStack)(1))(2);
 const reversedStack = reverseStack(stackWithTwoElements); // stack: 2, 1
 ```
 
-### Stack - Map, Filter, Reduce
+### Stack - Reduce, Map und Filter
+
+Die JavaScript Funktionen reduce, map und filter gibt es auch für den Stack. 
+
+#### Reduce
+
+Reduce nimmt einen Stack entgegen und ein Argument-Pair. Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den redizierten Wert zurück.
+
+Beispiel:
+
+```javascript
+const stackWithTwoElements = push(push(emptyStack)(1))(2);
+const reduceFunctionSum = (acc, curr) => acc + curr;
+
+const sumOfTheStack = reduce(stackWithTwoElements)(pair(reduceFunctionSum)(0); // 3
+```
+
+#### Map
+
+Map nimmt einen Stack entgegen und eine map-Funktion \(wie bei JavaScript map\). Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
+
+Beispiel:
+
+```javascript
+const stackWithTwoElements = push(push(emptyStack)(1))(2);
+const multiplyWithTwo = x => x * 2;
+
+const mappedStack = map(stackWithTwoElements)(multiplyWith2); // stack: 2, 4
+```
 
 
+
+#### Filter
+
+...
 
