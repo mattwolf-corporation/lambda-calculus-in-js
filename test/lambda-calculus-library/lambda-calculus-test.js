@@ -81,10 +81,10 @@ lambdaCTest.add("vireo / pair", assert => {
     assert.equals(pairString(fst) + pairString(snd), "HelloWorld");
 
     assert.equals(pairChurchNr(fst) , n1);
-    assert.churchEquals(pairChurchNr(fst) , n1);
+    assert.churchNumberEquals(pairChurchNr(fst) , n1);
 
     assert.equals(pairChurchNr(snd) , n5);
-    assert.churchEquals(pairChurchNr(snd) , n5);
+    assert.churchNumberEquals(pairChurchNr(snd) , n5);
     assert.equals( jsnum( pairChurchNr(snd) ) , 5)
 });
 
@@ -93,7 +93,7 @@ lambdaCTest.add("blackbird", assert => {
     assert.equals( B(id)(id)(n7),  n7);
     assert.equals( B(id)(jsnum)(n7),  7);
     assert.equals( convertToJsBool( B(not)(not)(True) ) ,  true);
-    assert.churchEquals(  B(not)(not)(id)  ,  id);
+    assert.churchNumberEquals(  B(not)(not)(id)  ,  id);
     assert.equals(  B(id)(jsnum)(n3)  ,  3);
     assert.equals(  B(id)(jsnum)(n3)  ,  3);
 
@@ -135,10 +135,10 @@ lambdaCTest.add("boolean not", assert => {
 });
 
 lambdaCTest.add("boolean equality", assert => {
-    assert.equals(convertToJsBool(beq(True)(True)), true);
-    assert.equals(convertToJsBool(beq(False)(False)), true);
-    assert.equals(convertToJsBool(beq(True)(False)), false);
-    assert.equals(convertToJsBool(beq(False)(True)), false);
+    assert.equals( convertToJsBool(beq(True)(True)), true);
+    assert.equals( convertToJsBool(beq(False)(False)), true);
+    assert.equals( convertToJsBool(beq(True)(False)), false);
+    assert.equals( convertToJsBool(beq(False)(True)), false);
 });
 
 lambdaCTest.add("show pair", assert => {
@@ -163,7 +163,11 @@ lambdaCTest.add("map pair", assert => {
 });
 
 lambdaCTest.add("triple", assert => {
-    // TODO:
+    const testTripel = triple(1)(2)(3);
+
+    assert.equals( testTripel(firstOfTriple), 1);
+    assert.equals( testTripel(secondOfTriple), 2);
+    assert.equals( testTripel(thirdOfTriple), 3);
 });
 
 lambdaCTest.add("first of triple", assert => {

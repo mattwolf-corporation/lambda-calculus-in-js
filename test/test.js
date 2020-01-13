@@ -1,4 +1,5 @@
 import {jsnum} from "../src/lambda-calculus-library/church-numerals.js";
+import {convertToJsBool} from "../src/lambda-calculus-library/lambda-calculus.js";
 
 export {TestSuite}
 
@@ -10,8 +11,13 @@ const Assert = () => {
         addTest(actual, expected, result);
     };
 
-    const churchEquals = (actual, expected) => {
+    const churchNumberEquals = (actual, expected) => {
         const result = (jsnum(actual) === jsnum(expected));
+        addTest(actual, expected, result);
+    };
+
+    const churchBooleanEquals = (actual, expected) => {
+        const result = (convertToJsBool(actual) === convertToJsBool(expected));
         addTest(actual, expected, result);
     };
 
@@ -40,7 +46,8 @@ const Assert = () => {
     return {
         getOk: () => ok,
         equals: equals,
-        churchEquals: churchEquals,
+        churchNumberEquals: churchNumberEquals,
+        churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
     }
 };
