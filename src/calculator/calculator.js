@@ -15,7 +15,7 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
  * @typedef {*} number
  * @typedef {function} fn
  * @typedef {function} churchBoolean
- * @typedef {function} churchNumber
+ * @typedef {(function|number)} churchNumberORjsNumber
  */
 
 // ------------------------------------------------------
@@ -25,30 +25,31 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
 /**
  * operator -> number -> number -> fn -> fn( operator(number)(number) ) ; CalculatorOperator - handle the arithmetic-operator
  * @param {operator} op
- * @return {function(): function(*=): function(*): *}
+ * @return { function(n1:{churchNumberORjsNumber}): function(n2:{churchNumberORjsNumber}):  function(*): *}
  */
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 
 // end the calculator and print the result
 
 /**
- * result
- * @type {function(a): I.props|*}
- * @return {a} end the calculator
- */
-const result = id;
-
-// start the Calculator_experiment
-
-
-/**
- * calc
- * @param {number/churchNumera}
- * @type {function(a): function(*): *}
+ * calc ; start the Calculator
+ * @example
+ * calc(n1)(add)(n2)(result) ==> n3
+ *
+ * @param {number/churchNumber} number
+ * @returns {operator} Operator
  */
 const calc = T;
 
-
+/**
+ * result ; end the Calculator
+ * @example
+ * calc(n1)(add)(n2)(result) ==> n3
+ *
+ * @type {function(a): I.props|*}
+ * @return {churchNumber|number} ChurchNumber / JsNumber
+ */
+const result = id;
 
 // ------------------------------------------------------
 // --------  Calculation with JS-Nums ------------
