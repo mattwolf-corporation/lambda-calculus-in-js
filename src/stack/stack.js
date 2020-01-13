@@ -247,7 +247,7 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
  */
 const reduce = s => argsPair => {
     const times = size(s);
-    const reversedStack = (times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)))(thirdOfTriple);
+    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)) (thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
