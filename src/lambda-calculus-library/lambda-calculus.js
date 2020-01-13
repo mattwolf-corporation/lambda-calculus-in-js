@@ -12,6 +12,7 @@ export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secon
  * @typedef {function} qn
  * @typedef {function} boolean
  * @typedef {function} pair
+ * @typedef {function} churchBoolean
  */
 
 /**
@@ -112,7 +113,7 @@ const not = C;
 /**
  * pn -> qn -> pn( qn )(False) ; and
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const and = p => q => p(q)(False);
 
@@ -120,14 +121,14 @@ const and = p => q => p(q)(False);
 /**
  * pn -> qn -> pn( qn )(False) ; and
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const or = p => q => p(True)(q);
 
 /**
  * pn -> qn -> pn( qn )(not( qn)) ; beq (ChurchBoolean-Equality)
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const beq = p => q => p(q)(not(q));
 

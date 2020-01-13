@@ -13,7 +13,9 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
  * Generic Types
  * @typedef {function} operator
  * @typedef {*} number
- *  @typedef {function} fn
+ * @typedef {function} fn
+ * @typedef {function} churchBoolean
+ * @typedef {function} churchNumber
  */
 
 // ------------------------------------------------------
@@ -38,10 +40,11 @@ const result = id;
 
 // start the Calculator_experiment
 
+
 /**
  * calc
- * @param num
- * @return {function(*): *:operator}
+ * @param {number/churchNumera}
+ * @type {function(a): function(*): *}
  */
 const calc = T;
 
