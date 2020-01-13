@@ -57,7 +57,7 @@ const C = f => x => y => f(y)(x);
  * @example
  * B(id)(id)(n7) === n7
  * B(id)(jsnum)(n7) === 7
- * B(not)(not)(True) === True
+ * B(not)(not)(True) == True
  */
 const B = f => g => x => f(g(x));
 
