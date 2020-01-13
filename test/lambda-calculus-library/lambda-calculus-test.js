@@ -1,33 +1,7 @@
 import {TestSuite} from "../test.js";
 
-import {
-    id,
-    K,
-    KI,
-    M,
-    C,
-    B,
-    T,
-    V,
-    Blackbird,
-    fst,
-    beq,
-    snd,
-    and,
-    or,
-    not,
-    True,
-    False,
-    pair,
-    triple,
-    showPair,
-    mapPair,
-    convertToJsBool,
-    showBoolean,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple
-} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, pair, triple, showPair, mapPair,
+    convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
@@ -93,12 +67,36 @@ lambdaCTest.add("thrush", assert => {
     assert.equals(jsnum(T(n3)(n2)), 9);
 });
 
-lambdaCTest.add("vireo", assert => {
-    // TODO:
+lambdaCTest.add("vireo / pair", assert => {
+    assert.equals(V, pair);
+
+    const pairNumber = pair(1)(2);
+    const pairString = pair("Hello")("World");
+    const pairChurchNr = pair(n1)(n5);
+
+    assert.equals(pairNumber(fst), 1 );
+    assert.equals(pairNumber(snd), 2 );
+
+    assert.equals(pairString(fst) , "Hello");
+    assert.equals(pairString(fst) + pairString(snd), "HelloWorld");
+
+    assert.equals(pairChurchNr(fst) , n1);
+    assert.churchNumberEquals(pairChurchNr(fst) , n1);
+
+    assert.equals(pairChurchNr(snd) , n5);
+    assert.churchNumberEquals(pairChurchNr(snd) , n5);
+    assert.equals( jsnum( pairChurchNr(snd) ) , 5)
 });
 
 lambdaCTest.add("blackbird", assert => {
-    // TODO:
+
+    assert.equals( B(id)(id)(n7),  n7);
+    assert.equals( B(id)(jsnum)(n7),  7);
+    assert.equals( convertToJsBool( B(not)(not)(True) ) ,  true);
+    assert.churchNumberEquals(  B(not)(not)(id)  ,  id);
+    assert.equals(  B(id)(jsnum)(n3)  ,  3);
+    assert.equals(  B(id)(jsnum)(n3)  ,  3);
+
 });
 
 lambdaCTest.add("convert to js-bool", assert => {
@@ -137,10 +135,10 @@ lambdaCTest.add("boolean not", assert => {
 });
 
 lambdaCTest.add("boolean equality", assert => {
-    assert.equals(convertToJsBool(beq(True)(True)), true);
-    assert.equals(convertToJsBool(beq(False)(False)), true);
-    assert.equals(convertToJsBool(beq(True)(False)), false);
-    assert.equals(convertToJsBool(beq(False)(True)), false);
+    assert.equals( convertToJsBool(beq(True)(True)), true);
+    assert.equals( convertToJsBool(beq(False)(False)), true);
+    assert.equals( convertToJsBool(beq(True)(False)), false);
+    assert.equals( convertToJsBool(beq(False)(True)), false);
 });
 
 lambdaCTest.add("show pair", assert => {
@@ -165,7 +163,11 @@ lambdaCTest.add("map pair", assert => {
 });
 
 lambdaCTest.add("triple", assert => {
-    // TODO:
+    const testTripel = triple(1)(2)(3);
+
+    assert.equals( testTripel(firstOfTriple), 1);
+    assert.equals( testTripel(secondOfTriple), 2);
+    assert.equals( testTripel(thirdOfTriple), 3);
 });
 
 lambdaCTest.add("first of triple", assert => {

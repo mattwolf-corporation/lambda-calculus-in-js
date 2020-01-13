@@ -85,8 +85,6 @@ const is0 = n => n(K(False))(True);
  */
 const jsnum = n => n(x => x + 1)(0);
 
-// TODO:  document
-
 /**
  * "less-than-or-equal-to" with Church-Numbers
  * @param n1 {churchNumber} -
