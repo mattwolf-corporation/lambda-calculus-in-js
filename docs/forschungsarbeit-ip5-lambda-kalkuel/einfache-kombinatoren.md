@@ -1,12 +1,12 @@
 # Einfache Kombinatoren
 
-### Beschreibung
+## Beschreibung
 
 Folgende Konstruktionen dienen als Grundbausteine für unsere späteren Implementation. Diese Grundbausteine kommen zum Teil aus dem Lambda Kalkül.
 
-### Wichtige Funktionen \(Grundbausteine\)
+## Wichtige Funktionen \(Grundbausteine\)
 
-#### id - Die Identitätsfunktion
+### id - Die Identitätsfunktion
 
 Die Identitätsfunktion nimmt einen Wert entgegen und gibt diesen wieder zurück.
 
@@ -24,7 +24,9 @@ id(I);            // I
 id("Hello");      // "Hello"
 ```
 
-#### Kestrel - Die Konstante Funktion 
+### 
+
+### Kestrel - Die Konstante Funktion 
 
 Die Konstante Funktion nimmt zwei Paramter entgegen und gibt den ersten wieder zurück.
 
@@ -42,7 +44,9 @@ K(8)(id);        // 8
 K('q')('t');     // 'q'
 ```
 
-#### Kite
+#### 
+
+### Kite
 
 Der Kite ist eine Funktion, die zwei Parameter entgegennimmt und den zweiten Parameter zurückgibt.
 
@@ -60,7 +64,9 @@ KI(id)(3);               // 3
 KI("Hello")("World");    // "World"
 ```
 
-#### Mockingbird
+### 
+
+### Mockingbird
 
 Der Mockingbird nimmt einen Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
 
@@ -78,7 +84,9 @@ M(id)(5);     // 5
 M(M);         // stack overflow
 ```
 
-#### Cardinal \(Flip\) - Vertauschungsfunktion
+### 
+
+### Cardinal \(Flip\) - Vertauschungsfunktion
 
 Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funnktion an.
 
@@ -97,7 +105,9 @@ C(diff)(2)(3);        //  1
 C(diff)(3)(2);        // -1
 ```
 
-#### Bluebird - Funktionskomposition
+### 
+
+### Bluebird - Funktionskomposition
 
 Der Bluebird nimmt zwei Funnktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
 
@@ -118,7 +128,9 @@ Beispiele:
     B(id)(id)(5);                // 5
 ```
 
-#### Trush
+### 
+
+### Trush
 
 Der Trush nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der Trush auf die übergebene Funktion an.
 
@@ -137,7 +149,9 @@ T(2)(f);                    // 3
 T(2)(id);                   // 2 
 ```
 
-#### Vireo
+### 
+
+### Vireo
 
 Der Vireo ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der Vireo ist gleichzeitig eine unveränderliche Datenstruktur, siehe Pair.
 
@@ -147,7 +161,9 @@ Implementation:
 const V = x => y => f => f(x)(y);
 ```
 
-#### Pair
+### 
+
+### Pair
 
 Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implmentiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die Konstante Funktion. Die snd-Funktion ist gerade die KI-Funktion.
 
