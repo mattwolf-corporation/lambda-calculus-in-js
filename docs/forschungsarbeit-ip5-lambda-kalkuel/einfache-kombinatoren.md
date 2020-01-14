@@ -189,6 +189,8 @@ Beispiele:
     pairOfStrings(snd);        // "World"
 ```
 
+### 
+
 ### MapPair
 
 Die Funktion mapPair nimmt eine map-Funktion und ein Pair entgegen. Die Funktion gibt ein neues Pair mit den gemappten Werten zurück.
@@ -207,6 +209,8 @@ const pairOfNNumbers = pair(5)(6);
 
 const mappedPair = mapPair(mapFunction)(pairOfNNumbers); // pair(10)(12)
 ```
+
+### 
 
 ### ShowPair
 
@@ -230,7 +234,31 @@ const stringOfPair = showPair(pairOfNNumbers); // '5 | 6'
 
 ### Triple
 
+Das Triple ist eine unveränderliche Datenstruktur bestehend aus drei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für alle Werte des Triple gibt es eine "getter"-Funktion. Ein Triple ist fast wie ein Pair, nur hat es einen Wert mehr.
 
+Implementation:
+
+```javascript
+const triple = x => y => z => f => f(x)(y)(z);
+```
+
+Beispiele:
+
+```javascript
+// getter functions of triple
+const firstOfTriple = x => y => z => x;
+const secondOfTriple = x => y => z => y;
+const thirdOfTriple = x => y => z => z;
+
+// triple with 3 numbers
+const tripleOfNumbers = triple(1)(2)(3);
+
+tripleOfNumbers(firstOfTriple);         // 1
+tripleOfNumbers(secondOfTriple);        // 2
+tripleOfNumbers(thirdOfTriple);         // 3
+```
+
+### 
 
 ### Blackbird
 
@@ -304,6 +332,8 @@ and(True)(False)        // False
 and(False)(False)       // False
 ```
 
+### 
+
 ### Or
 
 Die Or-Funktion nimmt zwei Church-Booleans entgegen und liefert ein Church-Boolean zurück. Die Funktion funktioniert genau gleich wie der or-Operator in der mathematischen Logik. 
@@ -322,6 +352,8 @@ or(False)(True)        // True
 or(True)(False)        // True
 or(False)(False)       // False
 ```
+
+### 
 
 ### Boolean Equality
 
@@ -342,7 +374,13 @@ beq(True)(False)        // False
 beq(False)(False)       // True
 ```
 
+### 
 
+### Show Boolean
+
+
+
+### Connvert to js Bool
 
 
 
