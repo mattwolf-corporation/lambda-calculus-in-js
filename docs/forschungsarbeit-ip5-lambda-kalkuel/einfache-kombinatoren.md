@@ -189,6 +189,47 @@ Beispiele:
     pairOfStrings(snd);        // "World"
 ```
 
+### MapPair
+
+Die Funktion mapPair nimmt eine map-Funktion und ein Pair entgegen. Die Funktion gibt ein neues Pair mit den gemappten Werten zurück.
+
+Implementation:
+
+```javascript
+const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
+```
+
+Beispiele:
+
+```javascript
+const mapFunction = x => x * 2;
+const pairOfNNumbers = pair(5)(6);
+
+const mappedPair = mapPair(mapFunction)(pairOfNNumbers); // pair(10)(12)
+```
+
+### ShowPair
+
+Die Funktion nimmt ein Pair entgegen und gibt die String Representation des Pairs zurück.
+
+Implementation:
+
+```javascript
+const showPair = p => `${p(fst)} | ${p(snd)}`;
+```
+
+Beispiele:
+
+```javascript
+const pairOfNNumbers = pair(5)(6);
+
+const stringOfPair = showPair(pairOfNNumbers); // '5 | 6'
+```
+
+### Triple
+
+
+
 ### Blackbird
 
 Der Blackbird ist eine Funktion, die zwei Funktionen und zwei Argumente entgegennimmt. Die zweite Funktion wird auf die zwei übergebenen Argumente angewendet, das Ergebnis wird auf auf die erste Funktion angewendet. Der Blackbird hat ähnlichkeiten mit dem Bluebird.
