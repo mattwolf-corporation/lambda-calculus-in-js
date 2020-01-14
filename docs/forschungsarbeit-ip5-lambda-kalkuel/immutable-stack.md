@@ -162,6 +162,8 @@ const filteredStack = filter(stackWithTwoElements)(filterFunction); // stack: 2
 
 ### Nützliche Helferfunktionen
 
+#### Stack auf der Konsole ausgeben
+
 Die Funktion logStackToConsole nimmt einen Stack entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt den Stack auf die JavaScript-Konsole. 
 
 Beispiel:
@@ -171,11 +173,17 @@ const stackWithThreeElements = push(push(push(emptyStack)(1))(2))(3);
 logStackToConsole(stackWithThreeElements);
 ```
 
-Hier Bild einfügen 
+![](../../.gitbook/assets/bildschirmfoto-2020-01-14-um-06.54.01.png)
 
-Die Funktion startStack nimmt eine Funktion entgegen. Mit der startStack Funktion kann einfacher ein Stack erstellt werden. 
+#### Stack erstellen mit Helferfunktion
+
+Die pushToStack Funktion wird der startStack Funktion übergeben. Danach folgt der erste Wert, der hinzugefügt werden soll. Für weitere Werte kann nochmals die pushToStack Funktion und ein weiteres Element hinzugefügt werden. Dies kann solange gemacht werden, wie man möchte. Um das Erstellen abzuschliessen, wird am Schluss die Identitätsfunktion übergeben.
 
 ```javascript
-const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
+const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id); // Stack: 2, 3, 4
 ```
+
+Durch diese Helferfunktion lassen sich Stacks bequemer erstellen.
+
+
 
