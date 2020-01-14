@@ -1,5 +1,5 @@
 export {
-    calc, calculatorOperator, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
+    calc, calculatorHandler, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
@@ -29,9 +29,9 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
 /**
  * operator -> jsChurchNumber -> jsChurchNumber -> fn -> fn( operator(jsChurchNumber)(jsChurchNumber) ) ; CalculatorOperator - handle the arithmetic-operator
  * @param {operator} op
- * @return { function(n1:{jsChurchNumber}): function(n2:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
+ * @return { function(n:{jsChurchNumber}): function(k:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
-const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
+const calculatorHandler = op => n => k => f => f(op(n)(k));
 
 /**
  * calc ; start the Calculator
@@ -61,11 +61,11 @@ const result = id;
 /**
  * JavaScript Arithmetic-Operators
  */
-const plus              = n1 => n2 => n1 + n2;
-const multiplication    = n1 => n2 => n1 * n2;
-const subtraction       = n1 => n2 => n1 - n2;
-const exponentiation    = n1 => n2 => n1 ** n2;
-const division          = n1 => n2 => n1 / n2;
+const plus              = n => k => n + k;
+const multiplication    = n => k => n * k;
+const subtraction       = n => k => n - k;
+const exponentiation    = n => k => n ** k;
+const division          = n => k => n / k;
 
 /**
  * Combining the JavaScript-Arithmetic to the CalculatorOperator
@@ -74,11 +74,11 @@ const division          = n1 => n2 => n1 / n2;
  * @example
  * calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) === 42
  */
-const add   = calculatorOperator(plus);
-const multi = calculatorOperator(multiplication);
-const sub   = calculatorOperator(subtraction);
-const pow   = calculatorOperator(exponentiation);
-const div   = calculatorOperator(division);
+const add   = calculatorHandler(plus);
+const multi = calculatorHandler(multiplication);
+const sub   = calculatorHandler(subtraction);
+const pow   = calculatorHandler(exponentiation);
+const div   = calculatorHandler(division);
 
 
 /** ----------------------------------------------------
@@ -93,8 +93,8 @@ const div   = calculatorOperator(division);
  * @example
  * calc(n2)(churchAdd)(n3)(churchMulti)(n2)(churchPow)(n2)(churchSub)(n1)(result) ==> 99
  */
-const churchAdd     = calculatorOperator(churchAddition);
-const churchMulti   = calculatorOperator(churchMultiplication);
-const churchPow     = calculatorOperator(churchPotency);
-const churchSub     = calculatorOperator(churchSubtraction);
+const churchAdd     = calculatorHandler(churchAddition);
+const churchMulti   = calculatorHandler(churchMultiplication);
+const churchPow     = calculatorHandler(churchPotency);
+const churchSub     = calculatorHandler(churchSubtraction);
 

@@ -66,17 +66,17 @@ const pred = n => n(phi)(pair(n0)(n0))(fst);
 
 /**
  * Addition with two Church-Numbers
- * @param n1 {churchNumber}
- * @returns {function(n2:{churchNumber}): churchNumber } Church-Number
+ * @param n {churchNumber}
+ * @returns {function(k:{churchNumber}): churchNumber } Church-Number
  */
-const churchAddition = n1 => n2 => n1(succ)(n2);
+const churchAddition = n => k => n(succ)(k);
 
 /**
  * Subtraction with two Church-Numbers
  * @param n1 {churchNumber}
  * @return {function(n2:{churchNumber}): churchNumber } Church-Number
  */
-const churchSubtraction = n1 => n2 => n2(pred)(n1);
+const churchSubtraction = n => k => k(pred)(n);
 
 /**
  * Multiplication with two Church-Numbers
@@ -111,14 +111,14 @@ const jsnum = n => n(x => x + 1)(0);
  * @param n1 {churchNumber} -
  * @return {function(n2:{churchNumber}): churchBoolean} True / False
  */
-const leq = n1 => n2 => is0(churchSubtraction(n1)(n2));
+const leq = n => k => is0(churchSubtraction(n)(k));
 
 /**
  * "equal-to" with Church-Number
  * @param n1 {churchNumber} -
  * @return {function(n2:{churchNumber}): churchBoolean} True / False
  */
-const eq = n1 => n2 => and(leq(n1)(n2))(leq(n2)(n1));
+const eq = n => k => and(leq(n)(k))(leq(k)(n));
 
 
 /**
