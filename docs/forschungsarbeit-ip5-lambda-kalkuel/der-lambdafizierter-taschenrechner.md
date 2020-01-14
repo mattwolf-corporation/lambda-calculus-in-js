@@ -87,23 +87,45 @@ Mit diesen [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-bo
 calc(n5)(churchMulti)(n9)(churchAdd)(n4)(churchSub)(n7)(result) // 42
 ```
 
+### 
+
+### Die Probleme der Church-Zahlen
+
+#### Negative Zahle
+
+Was der lambdafizierter Taschenrechner im vergleich zum JavaScript-Taschenrechner nicht kann sind mit negative Zahlen rechnen, da mit Church-Zahlen nur Werte der Natürlichen-Zahlen angegeben werde kann:
+
+```javascript
+calc(1)(sub)(7)(result)         // -6
+
+calc(n1)(churchSub)(n7)(result) // 0 bzw. n0
+```
+
+#### 
+
+#### Division
+
+Gleiches Problem wie mit den negativen Zahlen, können die Church-Zahlen keine Rationale-Zahlen repräsentiere. Darum gibt es auch keinen lambdafizierte Division-Operator.
 
 
-Was der lambdafizierter Taschenrechner im vergleich zum JavaScript-Taschenrechner nicht kann sind mit negative Zahlen rechnen, da mit Church-Zahlen nur Werte der Natürlichen-Zahlen ausgeben kann:
 
+#### Maximum call stack size exceeded
 
+Bei Berechnung mit grösseren Church-Zahlen und längerer Verkettungen kann es zu einem _Maximum call stack size exceeded_ - Error kommen:
 
+```javascript
+calc(n5)(cpow)(n8)(cmulti)(n6)(cadd)(n8)(csub)(n9) ... // Maximum call stack size exceeded 
+```
 
-
-
+### 
 
 ### Taschenrechner User-Interface
 
-Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch einmal bedienen zu können, wurde eine statische HTML-Webseite mit einer grafischen Taschenrechner und den von hier gezeigten Funktionen implementiert: 
+Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch visuell bedienen zu können, wurde eine statische HTML-Webseite, mit einem grafischen Taschenrechner und den von hier gezeigten Funktionen implementiert: 
 
 Lambdafizierter Taschenrechner UI
 
-
+![The Functional Calculator](../../.gitbook/assets/image.png)
 
 
 
