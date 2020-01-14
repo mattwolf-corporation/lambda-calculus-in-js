@@ -88,7 +88,7 @@ M(M);         // stack overflow
 
 ### Cardinal \(Flip\) - Vertauschungsfunktion
 
-Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funnktion an.
+Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funktion an.
 
 Implementation:
 
@@ -153,7 +153,7 @@ T(2)(id);                   // 2
 
 ### Vireo
 
-Der Vireo ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der Vireo ist gleichzeitig eine unveränderliche Datenstruktur, siehe Pair.
+Der Vireo ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der Vireo ist gleichzeitig eine unveränderliche Datenstruktur, siehe [Pair](einfache-kombinatoren.md#pair).
 
 Implementation:
 
@@ -165,7 +165,7 @@ const V = x => y => f => f(x)(y);
 
 ### Pair
 
-Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implmentiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die Konstante Funktion. Die snd-Funktion ist gerade die KI-Funktion.
+Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implmentiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die [Konstante Funktion](einfache-kombinatoren.md#kestrel-die-konstante-funktion). Die snd-Funktion ist gerade der [Kite](einfache-kombinatoren.md#kite).
 
 Implementation :
 
@@ -190,6 +190,28 @@ Beispiele:
 ```
 
 ### Blackbird
+
+Der Blackbird ist eine Funktion, die zwei Funktionen und zwei Argumente entgegennimmt. Die zweite Funktion wird auf die zwei übergebenen Argumente angewendet, das Ergebnis wird auf auf die erste Funktion angewendet. Der Blackbird hat ähnlichkeiten mit dem Bluebird.
+
+Implementation:
+
+```javascript
+const Blackbird = f => g => x => y => f(g(x)(y));
+```
+
+Beispiele:
+
+```javascript
+const add = x => y => x + y;
+const multiplyWithTwo = x => x * 2;
+
+Blackbird(multiplyWithTwo)(add)(2)(3);      // 10
+Blackbird(multiplyWithTwo)(add)(10)(20);    // 60
+```
+
+## Church-Boolean
+
+### True & False
 
 
 
