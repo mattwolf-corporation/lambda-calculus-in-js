@@ -2,7 +2,7 @@ import {TestSuite} from "../test.js";
 
 import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, pair, triple, showPair, mapPair,
     convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
+import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum, churchAddition, churchSubtraction} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
 
@@ -89,14 +89,16 @@ lambdaCTest.add("vireo / pair", assert => {
 });
 
 lambdaCTest.add("blackbird", assert => {
+    const add = x => y => x + y;
+    const multiplyWithTwo = x => x * 2;
 
-    assert.equals( B(id)(id)(n7),  n7);
-    assert.equals( B(id)(jsnum)(n7),  7);
-    assert.churchBooleanEquals(  B(not)(not)(True) ,  True);
-    assert.churchNumberEquals(  B(not)(not)(id)  ,  id);
-    assert.equals(  B(id)(jsnum)(n3)  ,  3);
-    assert.equals(  B(id)(jsnum)(n3)  ,  3);
+    const churchAddFive = churchAddition(n5);
 
+    assert.equals( Blackbird(multiplyWithTwo)(add)(2)(3),  10);
+    assert.equals( Blackbird(multiplyWithTwo)(add)(10)(20),  60);
+
+    assert.equals( jsnum(Blackbird(churchAddFive)(churchAddition)(n3)(n7)),  15);
+    assert.equals( jsnum(Blackbird(churchAddFive)(churchSubtraction)(n9)(n7)),  7);
 });
 
 lambdaCTest.add("convert to js-bool", assert => {
