@@ -62,5 +62,82 @@ KI("Hello")("World");    // "World"
 
 #### Mockingbird
 
+Der Mockingbird nimmt einen Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
 
+Implementation:
+
+```javascript
+const M = f => f(f);
+```
+
+Beispiele:
+
+```javascript
+M(id);        // id
+M(id)(5);     // 5
+M(M);         // stack overflow
+```
+
+#### Vertauschungsfunktion - Cardinal \(Flip\)
+
+Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funnktion an.
+
+Implementation:
+
+```javascript
+const C = f => x => y => f(y)(x);
+```
+
+Beispiel:
+
+```javascript
+const diff = x => y => x - y;
+
+C(diff)(2)(3);        //  1
+C(diff)(3)(2);        // -1
+```
+
+#### Funktionskomposition - Bluebird
+
+Der Bluebird nimmt zwei Funnktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
+
+Implementation:
+
+```javascript
+const B = f => g => x => f(g(x));
+```
+
+Beispiele:
+
+```javascript
+    const f = x => x + 1;
+    const g = x => x * 2;
+    
+    B(f)(g)(4);                  // 9
+    B(g)(f)(4);                  // 10
+    B(id)(id)(5);                // 5
+```
+
+#### Trush
+
+Der Trush nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der Trush auf die übergebene Funktion an.
+
+Implementation:
+
+```javascript
+const T = x => f => f(x);
+```
+
+Beispiele:
+
+```javascript
+const f = x => x + 1;
+
+T(2)(f);                    // 3
+T(2)(id);                   // 2 
+```
+
+#### Pair
+
+Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. 
 
