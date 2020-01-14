@@ -6,7 +6,7 @@ Folgende Konstruktionen dienen als Grundbausteine für unsere späteren Implemen
 
 ### Wichtige Funktionen \(Grundbausteine\)
 
-#### Die Identitätsfunktion
+#### id - Die Identitätsfunktion
 
 Die Identitätsfunktion nimmt einen Wert entgegen und gibt diesen wieder zurück.
 
@@ -24,7 +24,7 @@ id(I);            // I
 id("Hello");      // "Hello"
 ```
 
-#### Die Konstante Funktion \(Kestrel\)
+#### Kestrel - Die Konstante Funktion 
 
 Die Konstante Funktion nimmt zwei Paramter entgegen und gibt den ersten wieder zurück.
 
@@ -78,7 +78,7 @@ M(id)(5);     // 5
 M(M);         // stack overflow
 ```
 
-#### Vertauschungsfunktion - Cardinal \(Flip\)
+#### Cardinal \(Flip\) - Vertauschungsfunktion
 
 Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funnktion an.
 
@@ -97,7 +97,7 @@ C(diff)(2)(3);        //  1
 C(diff)(3)(2);        // -1
 ```
 
-#### Funktionskomposition - Bluebird
+#### Bluebird - Funktionskomposition
 
 Der Bluebird nimmt zwei Funnktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
 

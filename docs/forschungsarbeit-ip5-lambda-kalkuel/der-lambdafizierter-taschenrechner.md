@@ -4,7 +4,9 @@ Für ein Einstieg-Projekt, um sich am beste einmal mit den [Kombinatoren](einfac
 
 ### Beschreibung
 
-Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um dies zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein. Dafür wurde eine sogenannter _CalculatorHandler_ entwickelt, welche jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen nimmt:
+Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um dies zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein. Dafür wurde eine sogenannter _CalculatorHandler_ entwickelt, welche jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen nimmt.
+
+CaluclatorHandler Implementation:
 
 ```javascript
 const calculatorHandler = op => n => k => f => f(op(n)(k));
@@ -23,7 +25,7 @@ Mit den einfachen JavaScript-Operatoren \(  `plus = x => y => x + y`   `substrac
  plus(1)( plus(2)(3) ) // 6 
 ```
 
-#### **Addition mit JavaScript-Operatoren und dem** _**CalculatorHandler**_**:**
+#### **Addition mit JavaScript-Operator und dem** _**CalculatorHandler**_**:**
 
 ```javascript
 calculatorHandler(plus)(1)(2)(id)                                   // 3
@@ -40,13 +42,17 @@ const pow   = calculatorHandler(exponentiation);
 const div   = calculatorHandler(division);
 ```
 
-... und die [Thrush-Funktion](einfache-kombinatoren.md) `T = x => f => f(x)`  als den Taschenrechner-Starter verwendet, kann eine unendliche Verkettungen von Zahlen und Operationen erstellt werden:
+... und die [Thrush-Funktion](einfache-kombinatoren.md) `T = x => f => f(x)`  als den Taschenrechner-Starter verwendet, kann eine unendliche Verkettungen von Zahlen und Operationen erstellt werden.
+
+Beispiel:
 
 ```javascript
 T(1)(add)(2)(pow)(6)(sub)(2)(div)(8)(add)(7)(multi)(4)(sub)...
 ```
 
-Um diese Verkettung jedoch abzubrechen und das Resultat der Berechnung zu erhalten, braucht man jeglich die [Identity-Funktion](einfache-kombinatoren.md) `id = x => x`  als Letztes anzuwenden:
+Um diese Verkettung jedoch abzubrechen und das Resultat der Berechnung zu erhalten, braucht man jeglich die [Identity-Funktion](einfache-kombinatoren.md) `id = x => x`  als Letztes anzuwenden.
+
+Beispiel:
 
 ```javascript
 T(1)(add)(2)(id)                     //   3
@@ -55,14 +61,22 @@ T(5)(multi)(4)(add)(2)(id)           //  22
 T(5)(div)(5)(multi)(100)(add)(1)(id) // 101
 ```
 
-Der Verständlichkeit halber für die Anwendung des Taschenrechner, wird die _Trush_- und _id_-Funktion einer passender Variable zugewiesen:
+
+
+Der Verständlichkeit halber für die Anwendung des Taschenrechner, wird die _Trush_- und _id_-Funktion einer passender Variable zugewiesen.
+
+Beispiel:
 
 ```javascript
 const calc   = T;
 const result = id;
 ```
 
-So werden nun mit **JavaScript-Zahlen** und **-Arithmetik** schöne verkettete Berechnungen erstellt:
+
+
+So werden nun mit **JavaScript-Zahlen** und **-Arithmetik** schöne verkettete Berechnungen erstellt.
+
+Beispiel:
 
 ```javascript
 calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) // 42
@@ -72,7 +86,9 @@ calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) // 42
 
 ### Rechnen mit Church Encodings-Zahlen
 
-Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(n0, n1, n2, ... \) gleich benutzen zu können, braucht es nur die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren:
+Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(n0, n1, n2, ... \) gleich benutzen zu können, braucht es nur die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
+
+Implementationen:
 
 ```javascript
 const churchAdd     = calculatorHandler(churchAddition);
@@ -81,7 +97,9 @@ const churchPow     = calculatorHandler(churchPotency);
 const churchSub     = calculatorHandler(churchSubtraction);
 ```
 
-Mit diesen [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md) und den Church-Zahlen lässt sich der Taschenrechner gleich bequem bedienen:
+Mit diesen [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md) und den Church-Zahlen lässt sich der Taschenrechner gleich bequem bedienen.
+
+Beispiel:
 
 ```javascript
 calc(n5)(churchMulti)(n9)(churchAdd)(n4)(churchSub)(n7)(result) // 42
@@ -101,13 +119,9 @@ calc(1)(sub)(7)(result)         // -6
 calc(n1)(churchSub)(n7)(result) // 0 bzw. n0
 ```
 
-#### 
-
 #### Division
 
 Gleiches Problem wie mit den negativen Zahlen, können die Church-Zahlen keine Rationale-Zahlen repräsentiere. Darum gibt es auch keinen lambdafizierte Division-Operator.
-
-
 
 #### Maximum call stack size exceeded
 
