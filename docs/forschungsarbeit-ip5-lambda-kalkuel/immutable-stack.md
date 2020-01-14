@@ -134,7 +134,7 @@ const sumOfTheStack = reduce(stackWithTwoElements)(pair(reduceFunctionSum)(0); /
 
 #### Map
 
-Map nimmt einen Stack entgegen und eine map-Funktion \(wie bei JavaScript map\). Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
+Map nimmt einen Stack und eine map-Funktion \(wie bei JavaScript Array map\) entgegen. Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
 
 Beispiel:
 
@@ -149,5 +149,33 @@ const mappedStack = map(stackWithTwoElements)(multiplyWith2); // stack: 2, 4
 
 #### Filter
 
-...
+Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funnktion gibt den gefilterten  Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
+
+Beispiel:
+
+```javascript
+const stackWithThreeElements = push(push(push(emptyStack)(1))(2))(3);
+const filterFunction = x => x > 1 && x < 3;
+
+const filteredStack = filter(stackWithTwoElements)(filterFunction); // stack: 2
+```
+
+### Nützliche Helferfunktionen
+
+Die Funktion logStackToConsole nimmt einen Stack entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt den Stack auf die JavaScript-Konsole. 
+
+Beispiel:
+
+```javascript
+const stackWithThreeElements = push(push(push(emptyStack)(1))(2))(3);
+logStackToConsole(stackWithThreeElements);
+```
+
+Hier Bild einfügen 
+
+Die Funktion startStack nimmt eine Funktion entgegen. Mit der startStack Funktion kann einfacher ein Stack erstellt werden. 
+
+```javascript
+const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
+```
 
