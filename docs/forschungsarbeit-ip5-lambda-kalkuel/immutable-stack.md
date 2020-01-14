@@ -165,7 +165,15 @@ const multiplyWithTwo = x => x * 2;
 const mappedStack = map(stackWithTwoElements)(multiplyWith2); // stack: 2, 4
 ```
 
+#### Map with Reduce
 
+Ausserdem gibt es noch eine MapWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Map-Funktion entgegen. Diese Funktion kann genau gleich wie die Map Funktion verwendet werden. 
+
+Implementation:
+
+```javascript
+const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+```
 
 #### Filter
 
@@ -178,6 +186,16 @@ const stackWithThreeElements = push(push(push(emptyStack)(1))(2))(3);
 const filterFunction = x => x > 1 && x < 3;
 
 const filteredStack = filter(stackWithTwoElements)(filterFunction); // stack: 2
+```
+
+#### Filter with Reduce
+
+Ausserdem gibt es noch eine FilterWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Filter-Funktion entgegen. Diese Funktion kann genau gleich wie die Filter Funktion verwendet werden. 
+
+Implementation:
+
+```javascript
+const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 ```
 
 ### Nützliche Helferfunktionen
