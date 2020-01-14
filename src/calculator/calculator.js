@@ -1,5 +1,5 @@
 export {
-    calc, calculatorOperator, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
+    calc, calculatorHandler, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
@@ -31,7 +31,7 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
  * @param {operator} op
  * @return { function(n1:{jsChurchNumber}): function(n2:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
-const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
+const calculatorHandler = op => n1 => n2 => f => f(op(n1)(n2));
 
 /**
  * calc ; start the Calculator
@@ -74,11 +74,11 @@ const division          = n1 => n2 => n1 / n2;
  * @example
  * calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) === 42
  */
-const add   = calculatorOperator(plus);
-const multi = calculatorOperator(multiplication);
-const sub   = calculatorOperator(subtraction);
-const pow   = calculatorOperator(exponentiation);
-const div   = calculatorOperator(division);
+const add   = calculatorHandler(plus);
+const multi = calculatorHandler(multiplication);
+const sub   = calculatorHandler(subtraction);
+const pow   = calculatorHandler(exponentiation);
+const div   = calculatorHandler(division);
 
 
 /** ----------------------------------------------------
@@ -93,8 +93,8 @@ const div   = calculatorOperator(division);
  * @example
  * calc(n2)(churchAdd)(n3)(churchMulti)(n2)(churchPow)(n2)(churchSub)(n1)(result) ==> 99
  */
-const churchAdd     = calculatorOperator(churchAddition);
-const churchMulti   = calculatorOperator(churchMultiplication);
-const churchPow     = calculatorOperator(churchPotency);
-const churchSub     = calculatorOperator(churchSubtraction);
+const churchAdd     = calculatorHandler(churchAddition);
+const churchMulti   = calculatorHandler(churchMultiplication);
+const churchPow     = calculatorHandler(churchPotency);
+const churchSub     = calculatorHandler(churchSubtraction);
 

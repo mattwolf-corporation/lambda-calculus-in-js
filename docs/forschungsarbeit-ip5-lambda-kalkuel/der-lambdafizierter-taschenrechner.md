@@ -11,18 +11,18 @@ const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 Jedoch spektakulärer rechnen kann mit dem alleine noch nicht:
 
 ```javascript
-calculatorOperator(plus)(1)(2)(id)        === 3
-calculatorOperator(subtraction)(5)(1)(id) === 4
+calculatorHandler(plus)(1)(2)(id)        === 3
+calculatorHandler(subtraction)(5)(1)(id) === 4
 ```
 
 ... ABER! Wenn man via Point-Freestyle neue Rechen-Operatoren mit dem _CalculatorOperator_ erstellt:
 
 ```javascript
-const add   = calculatorOperator(plus);
-const multi = calculatorOperator(multiplication);
-const sub   = calculatorOperator(subtraction);
-const pow   = calculatorOperator(exponentiation);
-const div   = calculatorOperator(division);
+const add   = calculatorHandler(plus);
+const multi = calculatorHandler(multiplication);
+const sub   = calculatorHandler(subtraction);
+const pow   = calculatorHandler(exponentiation);
+const div   = calculatorHandler(division);
 ```
 
 ...und die [Thrush-Funktion](einfache-kombinatoren.md) `T = x => f => f(x)`  als den Taschenrechner-Starter verwendet, kann man eine unendliche Verkettungen von Zahlen und Operationen erstellen:
