@@ -29,9 +29,9 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
 /**
  * operator -> jsChurchNumber -> jsChurchNumber -> fn -> fn( operator(jsChurchNumber)(jsChurchNumber) ) ; CalculatorOperator - handle the arithmetic-operator
  * @param {operator} op
- * @return { function(n1:{jsChurchNumber}): function(n2:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
+ * @return { function(n:{jsChurchNumber}): function(k:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
-const calculatorHandler = op => n1 => n2 => f => f(op(n1)(n2));
+const calculatorHandler = op => n => k => f => f(op(n)(k));
 
 /**
  * calc ; start the Calculator
@@ -61,11 +61,11 @@ const result = id;
 /**
  * JavaScript Arithmetic-Operators
  */
-const plus              = n1 => n2 => n1 + n2;
-const multiplication    = n1 => n2 => n1 * n2;
-const subtraction       = n1 => n2 => n1 - n2;
-const exponentiation    = n1 => n2 => n1 ** n2;
-const division          = n1 => n2 => n1 / n2;
+const plus              = n => k => n + k;
+const multiplication    = n => k => n * k;
+const subtraction       = n => k => n - k;
+const exponentiation    = n => k => n ** k;
+const division          = n => k => n / k;
 
 /**
  * Combining the JavaScript-Arithmetic to the CalculatorOperator
