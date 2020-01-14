@@ -1,8 +1,8 @@
-# Church Encodings - Zahlen und Boolesche Werte
+# Church Encodings - Zahlen
 
 ## Beschreibung
 
-Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Zahlen. Sie sind die bekannteste Form, welche die natürlichen Zahlen repräsentieren. Benannt sind sie nach [Alonzo Church ](https://de.wikipedia.org/wiki/Alonzo_Church)\(1903-1995\), Mathematiker und einer der Begründer der theoretischen Informatik.
+Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Zahlen. Sie sind die bekannteste Form, welche die natürlichen Zahlen repräsentieren. Benannt sind sie nach [Alonzo Church](https://de.wikipedia.org/wiki/Alonzo_Church), Mathematiker und einer der Begründer der theoretischen Informatik.
 
 ## Church-Zahlen
 
@@ -58,7 +58,24 @@ n0(x => x + '!')('λ')  // 'λ'
 
 ## Mathematische Operationen  mit Church-Zahlen
 
-Succesor
+### Succesor
+
+Der Successor nimmt eine Church-Zahl und gibt den Nachfolger zurück.
+
+Implementation:
+
+```javascript
+const successor = n => f => a => f(n(f)(a));
+```
+
+Beispiel:
+
+```javascript
+successor(n0)        // n1
+successor(n5)        // n6
+```
+
+
 
 
 
