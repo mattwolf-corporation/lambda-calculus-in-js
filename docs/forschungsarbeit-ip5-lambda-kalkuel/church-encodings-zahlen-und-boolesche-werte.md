@@ -58,7 +58,7 @@ n0(x => x + '!')('λ')  // 'λ'
 
 ## Mathematische Operationen  mit Church-Zahlen
 
-### Successor
+### Successor \(Nachfolger\)
 
 Der _Successor_ nimmt eine Church-Zahl und gibt den Nachfolger zurück.
 
@@ -77,7 +77,7 @@ successor(n5)        // n6
 
 ### 
 
-### Phi
+### Phi  \(-Kombinator\)
 
 Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt einen neuen zurück, dessen erster Wert gleich dem Zweiten ist und der zweite Wert der Nachfolger von sich selber ist.
 
@@ -99,7 +99,7 @@ testPhiPair(snd)    // n3
 
 
 
-### Predecessor
+### Predecessor \(Vorgänger\)
 
 Der _Predecessor_ nimmt eine Church-Zahl und gibt dessen Vorgänger zurück.
 
@@ -124,7 +124,7 @@ Beispiel:
 
 
 
-### Church-Addition
+### Church-Addition \(Addieren\)
 
 _ChurchAddition_ nimmt zwei Church-Zahlen und gibt den addierten Wert als Church-Zahl zurück.
 
@@ -141,22 +141,20 @@ const churchAddition = n => k => n(successor)(k);
 Beispiel:
 
 ```javascript
-churchAddition(n0)(n0)     // 0
-churchAddition(n1)(n0)     // 1
-churchAddition(n2)(n5)     // 7
+churchAddition(n0)(n0)     //  0
+churchAddition(n1)(n0)     //  1
+churchAddition(n2)(n5)     //  7
 churchAddition(n9)(n9)     // 18
 ```
 
 
 
-
-
-### Church-Substraction
+### Church-Substraction \(Substrahieren\)
 
 _ChurchSubstraction_ nimmt zwei Church-Zahlen und gibt den subtrahierten Wert als Church-Zahl zurück.
 
 {% hint style="info" %}
-Der [Predecessor ](church-encodings-zahlen-und-boolesche-werte.md#predecessor)ist dabei eine unterstützende Funktion. Die zweite Church-Zahl ruft dabei n-Mal den `pred` und nimmt die zweite Church-Zahl als Argument.
+Der [Predecessor ](church-encodings-zahlen-und-boolesche-werte.md#predecessor)ist dabei eine unterstützende Funktion. Die zweite Church-Zahl ruft dabei n-Mal den `pred` und nimmt die erste Church-Zahl als Argument.
 {% endhint %}
 
 Implementation:
@@ -173,6 +171,87 @@ churchSubtraction(n2)(n0)     // 2
 churchSubtraction(n2)(n5)     // 0
 churchSubtraction(n9)(n4)     // 5
 ```
+
+
+
+### Church-Multiplication \(Multiplizieren\)
+
+_ChurchMultiplication_ nimmt zwei Church-Zahlen und gibt den multiplizierten Wert als Church-Zahl zurück.
+
+{% hint style="info" %}
+Die _ChurchMultiplication_ entspricht exakt dem [Bluebird ](einfache-kombinatoren.md#bluebird-funktionskomposition)!
+{% endhint %}
+
+Implementation:
+
+```javascript
+const churchMultiplication = B;    // Bluebird
+```
+
+Beispiel:
+
+```javascript
+churchMultiplication(n2)(n1)     //  1
+churchMultiplication(n2)(n0)     //  0
+churchMultiplication(n2)(n5)     // 10
+churchMultiplication(n9)(n4)     // 36
+```
+
+
+
+### Church-Potency \(Potenzieren\)
+
+_ChurchPotency_  nimmt zwei Church-Zahlen und gibt den potenzierende Wert als Church-Zahl zurück.
+
+{% hint style="info" %}
+Die _ChurchPotency_ entspricht exakt dem [Trush](einfache-kombinatoren.md#trush) !
+{% endhint %}
+
+Implementation:
+
+```javascript
+const churchMultiplication = T;    // Trush
+```
+
+Beispiel:
+
+```javascript
+churchMultiplication(n2)(n1)     //  1
+churchMultiplication(n2)(n0)     //  0
+churchMultiplication(n2)(n5)     // 10
+churchMultiplication(n9)(n4)     // 36
+```
+
+
+
+### isZero
+
+_isZero_ nimmt eine Church-Zahlen und gibt eine [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die Church-Zahl `n0` ist erhalt man das Church-Boolean `True`, ansonsten `False` zurück.
+
+{% hint style="info" %}
+Beachte den Kestral `k`  in der Funktion, der nur zum Zug kommt, wenn die Church-Zahl nicht `n0` ist und somit den ersten bzw. `False` zurück gibt.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const is0 = n => n(K(False))(True);
+```
+
+Beispiel:
+
+```javascript
+is0(n0)     // True
+is0(n1)     // False
+is0(n2)     // False
+is0(n7)     // False
+```
+
+
+
+
+
+
 
 
 

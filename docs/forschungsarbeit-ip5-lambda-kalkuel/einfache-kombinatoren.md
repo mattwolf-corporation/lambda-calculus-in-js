@@ -109,7 +109,7 @@ C(diff)(3)(2);        // -1
 
 ### Bluebird - Funktionskomposition
 
-Der Bluebird nimmt zwei Funnktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
+Der Bluebird nimmt zwei Funktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
 
 Implementation:
 
@@ -291,7 +291,7 @@ Alonzo Church hat einen Weg gefunden um boolesche Logik mit Funktionen auszudrü
 Implementation
 
 ```javascript
-const True = K;
+const True  = K;
 const False = KI;
 ```
 
@@ -378,9 +378,37 @@ beq(False)(False)       // True
 
 ### Show Boolean
 
+Die Funktion showBoolean ist eine Helferfunktion um eine String Representation, eines church-Boolean zu erhalten. Die Funktion nimmt ein church-Booleann entgegen und gibt die String Representation davon zurück.
 
+Implementation:
+
+```javascript
+const showBoolean = b => b("True")("False");
+```
+
+Beispiele:
+
+```javascript
+showBoolean(True);        // 'True'
+showBoolean(False);       // 'False'
+```
+
+### 
 
 ### Connvert to js Bool
 
+Die Funnktion convertToJsBool nimmt ein church-Boolean entgegen und liefert die JavaScript Representation davon zurück.
 
+Implementation:
+
+```javascript
+const convertToJsBool = b => b(true)(false);
+```
+
+Beispiele:
+
+```javascript
+convertToJsBool(True)        // true
+convertToJsBool(False)       // false
+```
 
