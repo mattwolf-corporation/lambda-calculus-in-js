@@ -205,5 +205,11 @@ const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id); /
 
 Durch diese Helferfunktion lassen sich Stacks bequemer erstellen.
 
+### Eigenschaften der Funktionen vom Stack
+
+* Alle Funktionen sind **rein** \(mit Ausnahme logStackToConsole\). 
+* In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**. 
+* Die [Iteration ist mit church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) implementiert.
+
 
 
