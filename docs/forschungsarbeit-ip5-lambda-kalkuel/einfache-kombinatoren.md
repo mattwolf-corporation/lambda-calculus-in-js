@@ -139,7 +139,13 @@ T(2)(id);                   // 2
 
 #### Vireo
 
+Der Vireo ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der Vireo ist gleichzeitig eine unveränderliche Datenstruktur, siehe Pair.
 
+Implementation:
+
+```javascript
+const V = x => y => f => f(x)(y);
+```
 
 #### Pair
 
@@ -157,6 +163,13 @@ const snd     =   KI;    // get second element from pair
 Beispiele:
 
 ```javascript
-
+    const pairOfNumbers = pair(1)(2);
+    const pairOfStrings = pair("Hello")("World");
+    
+    pairOfNumbers(fst);        // 1
+    pairOfNumbers(snd);        // 2
+    
+    pairOfStrings(fst);        // "Hello"
+    pairOfStrings(snd);        // "World"
 ```
 
