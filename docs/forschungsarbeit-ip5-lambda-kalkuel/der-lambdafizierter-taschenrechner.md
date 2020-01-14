@@ -2,7 +2,7 @@
 
 Für ein Einstieg-Projekt, um sich am beste einmal mit den [Kombinatoren](einfache-kombinatoren.md) und den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) auseinander zusetzen, haben wir uns für einen Taschenrechner entschieden.
 
-### Beschreibung
+## Beschreibung
 
 Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um dies zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein. Dafür wurde eine sogenannter _CalculatorHandler_ entwickelt, welche jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen nimmt.
 
@@ -14,18 +14,18 @@ const calculatorHandler = op => n => k => f => f(op(n)(k));
 
 ### 
 
-### Rechnen mit JavaScript-Zahlen
+## Rechnen mit JavaScript-Zahlen
 
 Mit den einfachen JavaScript-Operatoren \(  `plus = x => y => x + y`   `substraction = x => y => x - y` etc. \) und dem _CalculatorHandler_ können Berechnungen durchgeführt werden, jedoch unspektakulärer und nicht einfacher bedienbarer, als wenn die JavaScript-Operatoren direkt benutzt würde:
 
-#### **Einfach Addition mit JavaScript-Operatoren:**
+### **Einfach Addition mit JavaScript-Operatoren:**
 
 ```javascript
  plus(1)(2)            // 3
  plus(1)( plus(2)(3) ) // 6 
 ```
 
-#### **Addition mit JavaScript-Operator und dem** _**CalculatorHandler**_**:**
+### **Addition mit JavaScript-Operator und dem** _**CalculatorHandler**_**:**
 
 ```javascript
 calculatorHandler(plus)(1)(2)(id)                                   // 3
@@ -84,7 +84,7 @@ calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) // 42
 
 
 
-### Rechnen mit Church Encodings-Zahlen
+## Rechnen mit Church Encodings-Zahlen
 
 Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(n0, n1, n2, ... \) gleich benutzen zu können, braucht es nur die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
 
@@ -107,7 +107,7 @@ calc(n5)(churchMulti)(n9)(churchAdd)(n4)(churchSub)(n7)(result) // 42
 
 ### 
 
-### Die Probleme der Church-Zahlen
+### Die Probleme mit den Church-Zahlen
 
 #### Negative Zahle
 
@@ -133,7 +133,7 @@ calc(n5)(cpow)(n8)(cmulti)(n6)(cadd)(n8)(csub)(n9) ... // Maximum call stack siz
 
 ### 
 
-### Taschenrechner User-Interface
+## Taschenrechner User-Interface
 
 Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch visuell bedienen zu können, wurde eine statische HTML-Webseite, mit einem grafischen Taschenrechner und den von hier gezeigten Funktionen implementiert: 
 
@@ -143,7 +143,7 @@ Lambdafizierter Taschenrechner UI
 
 
 
-### Eigenschaften der Funktionen vom lambdafizierter Taschenrechner
+## Eigenschaften des lambdafizierter Taschenrechner
 
 * Alle Funktionen sind **rein**  
 * In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**. 
