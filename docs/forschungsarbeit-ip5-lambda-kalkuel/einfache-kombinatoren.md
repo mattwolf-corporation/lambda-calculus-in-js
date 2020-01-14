@@ -28,6 +28,8 @@ id("Hello");      // "Hello"
 
 Die Konstante Funktion nimmt zwei Paramter entgegen und gibt den ersten wieder zurück.
 
+Implementation:
+
 ```javascript
 const K = x => y => x;
 ```
@@ -35,12 +37,30 @@ const K = x => y => x;
 Beispiele:
 
 ```javascript
-K(1)(2);        // 1
-K(8)(3);        // 8
-K('q')('t');    // 'q'
+K(1)(2);         // 1
+K(8)(id);        // 8
+K('q')('t');     // 'q'
 ```
 
 #### Kite
+
+Der Kite ist eine Funktion, die zwei Parameter entgegennimmt und den zweiten Parameter zurückgibt.
+
+Implementation:
+
+```javascript
+const KI = x => y => y;
+```
+
+Beispiele:
+
+```javascript
+KI(1)(2);                // 2
+KI(id)(3);               // 3
+KI("Hello")("World");    // "World"
+```
+
+#### Mockingbird
 
 
 
