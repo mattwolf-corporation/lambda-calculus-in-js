@@ -1,10 +1,10 @@
 import {B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "./lambda-calculus.js";
 
-export { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
+export {
+    n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
     succ, pred, phi, churchAddition, churchSubtraction,
     churchMultiplication, churchPotency, is0, jsnum, eq, leq, gt
 }
-
 
 /**
  * Generic Types
@@ -37,39 +37,60 @@ const n9 = f => a => f(f(f(f(f(f(f(f(f(a)))))))));
 
 /**
  * successor of a church number
- * @param n {churchNumber} -
- * @returns successor of n
+ * @param {churchNumber} n
+ * @returns {churchNumber} successor of n
  */
 const successor = n => f => a => f(n(f)(a));
 
 /**
  * successor with bluebird
- * @param n {churchNumber} -
- * @returns {function(*=): function(*=): *}
+ * @param {churchNumber} n
+ * @returns {churchNumber} successor of n
  */
 const succ = n => f => B(f)(n(f));
 
 /**
- * phi combinator
- * creates a new pair
- * @param p - pair
- * @returns a pair
+ * phi combinator ;
+ * creates a new pair, replace first value with the second and increase the second value
+ * @param {pair} p
+ * @returns {pair} pair
  */
-const phi = p => pair(p(snd)) (succ(p(snd)));
+const phi = p => pair(p(snd))(succ(p(snd)));
 
 /**
  * predecessor
- * @param n {churchNumber}
- * @returns predecessor of n
+ * @param {churchNumber} n
+ * @returns {churchNumber} predecessor of n
  */
-const pred = n => n(phi) (pair(n0)(n0)) (fst);
+const pred = n => n(phi)(pair(n0)(n0))(fst);
 
-// Arithmetic operation with Church-Numbers
-// TODO: document
-const churchAddition        = n1 => n2 => n1(succ)(n2);
-const churchSubtraction     = n => k => k(pred)(n);
-const churchMultiplication  = B;
-const churchPotency         = T;
+/**
+ * Addition with two Church-Numbers
+ * @param n1 {churchNumber}
+ * @returns {function(n2:{churchNumber}): churchNumber } Church-Number
+ */
+const churchAddition = n1 => n2 => n1(succ)(n2);
+
+/**
+ * Subtraction with two Church-Numbers
+ * @param n1 {churchNumber}
+ * @return {function(n2:{churchNumber}): churchNumber } Church-Number
+ */
+const churchSubtraction = n1 => n2 => n2(pred)(n1);
+
+/**
+ * Multiplication with two Church-Numbers
+ * @param n1 {churchNumber}
+ * @returns {function(n1:{fn}): function(n2:{gn}): churchNumber } Church-Number
+ */
+const churchMultiplication = B;
+
+/**
+ * Potency with two Church-Numbers
+ * @param n1 {churchNumber}
+ * @returns {function(n1:{x}): function(n2:{f}): churchNumber } Church-Number
+ */
+const churchPotency = T;
 
 /**
  * query if the church number is zero (n0)

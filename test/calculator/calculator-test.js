@@ -1,7 +1,26 @@
 import { TestSuite } from "../test.js";
-import { calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow} from "../../src/calculator/calculator.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum} from "../../src/lambda-calculus-library/church-numerals.js";
+import { calc, calculatorOperator, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow} from "../../src/calculator/calculator.js";
+import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum, churchAddition, churchSubtraction, churchMultiplication} from "../../src/lambda-calculus-library/church-numerals.js";
 
+
+const calculatorOperatorTest = TestSuite("Calculator Operator ");
+
+calculatorOperatorTest.add("JS-Arithmetic-Operator", assert => {
+    assert.equals( calculatorOperator(plus)(1)(2)(result), 3);
+    assert.equals( calculatorOperator(plus)(5)(1)(result), 6);
+    assert.equals( calculatorOperator(subtraction)(5)(1)(result), 4);
+    assert.equals( calculatorOperator(multiplication)(5)(3)(result), 15);
+
+    // assert.equals( calculatorOperator(plus)(2)(plus)(2)(result), 15);
+});
+
+calculatorOperatorTest.add("Church-Arithmetic-Operator", assert => {
+    assert.churchNumberEquals( calculatorOperator(churchAddition)(n1)(n2)(result), n3);
+    assert.churchNumberEquals( calculatorOperator(churchAddition)(n5)(n1)(result), n6);
+    assert.churchNumberEquals( calculatorOperator(churchSubtraction)(n5)(n1)(result), n4);
+    assert.churchNumberEquals( calculatorOperator(churchSubtraction)(n3)(n7)(result), n0);
+    assert.churchNumberEquals( calculatorOperator(churchMultiplication)(n2)(n4)(result), n8);
+});
 
 const calculatorJSTest = TestSuite("Calculation with JS-Nums");
 
@@ -114,6 +133,6 @@ calculatorChurchNumeralsTest.add("church Calculation", assert => {
     assert.churchNumberEquals( testCalc1 , testCalc2  );
 });
 
-
+calculatorOperatorTest.report();
 calculatorJSTest.report();
 calculatorChurchNumeralsTest.report();

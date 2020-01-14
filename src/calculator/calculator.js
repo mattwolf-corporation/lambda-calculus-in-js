@@ -1,5 +1,5 @@
 export {
-    calc, result, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
+    calc, calculatorOperator, result, plus, subtraction, multiplication, add, multi, sub, pow, div, churchAdd, churchMulti, churchSub, churchPow
 }
 
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
@@ -13,84 +13,88 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
  * Generic Types
  * @typedef {function} operator
  * @typedef {*} number
- *  @typedef {function} fn
+ * @typedef {number} jsNumber
+ * @typedef {function} fn
+ * @typedef {function} churchBoolean
+ * @typedef {(function)} churchNumber
+ * @typedef {(churchNumber|jsNumber)} jsChurchNumber
+
  */
 
-// ------------------------------------------------------
-// -------------------- Calculator ----------------------
-// ------------------------------------------------------
+/** -----------------------------------------------------
+ * --------- Calculator (JS- & Church-Numbers) ----------
+ * ------------------------------------------------------
+ */
 
 /**
- * operator -> number -> number -> fn -> fn( operator(number)(number) ) ; CalculatorOperator - handle the arithmetic-operator
+ * operator -> jsChurchNumber -> jsChurchNumber -> fn -> fn( operator(jsChurchNumber)(jsChurchNumber) ) ; CalculatorOperator - handle the arithmetic-operator
  * @param {operator} op
- * @return {function(): function(*=): function(*): *}
+ * @return { function(n1:{jsChurchNumber}): function(n2:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
 const calculatorOperator = op => n1 => n2 => f => f(op(n1)(n2));
 
-// end the calculator and print the result
-
 /**
- * result
- * @type {function(a): I.props|*}
- * @return {a} end the calculator
- */
-const result = id;
-
-// start the Calculator_experiment
-
-/**
- * calc
- * @param num
- * @return {function(*): *:operator}
+ * calc ; start the Calculator
+ * @example
+ * calc(n1)(add)(n2)(result) ==> n3
+ *
+ * @param {jsChurchNumber} number
+ * @returns {operator} Operator
  */
 const calc = T;
 
+/**
+ * result ; end the Calculator
+ * @example
+ * calc(n1)(add)(n2)(result) ==> n3
+ *
+ * @type {function(a): I.props|*}
+ * @return {churchNumber|number} ChurchNumber / JsNumber
+ */
+const result = id;
 
+/** ----------------------------------------------------
+ * -------------  Calculation with JS-Numbers ----------
+ * ------------------------------------------------------
+ */
 
-// ------------------------------------------------------
-// --------  Calculation with JS-Nums ------------
-// ------------------------------------------------------
-// some arithmetic operator
+/**
+ * JavaScript Arithmetic-Operators
+ */
 const plus              = n1 => n2 => n1 + n2;
 const multiplication    = n1 => n2 => n1 * n2;
 const subtraction       = n1 => n2 => n1 - n2;
 const exponentiation    = n1 => n2 => n1 ** n2;
 const division          = n1 => n2 => n1 / n2;
 
-// combine the calculator with the arithmetic operator via POINT-FREESTYLE
+/**
+ * Combining the JavaScript-Arithmetic to the CalculatorOperator
+ * and creating Arithmetic-Function to us with the Calc-Function.
+ *
+ * @example
+ * calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) === 42
+ */
 const add   = calculatorOperator(plus);
 const multi = calculatorOperator(multiplication);
 const sub   = calculatorOperator(subtraction);
 const pow   = calculatorOperator(exponentiation);
 const div   = calculatorOperator(division);
 
-// demonstration / test
-const number = calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result);
-console.log(number === 42); // true
 
+/** ----------------------------------------------------
+ * ----------  Calculation with Church-Numbers ---------
+ * -----------------------------------------------------
+ */
 
-// ------------------------------------------------------
-// --------  Calculation with Church-Numerals ------------
-// ------------------------------------------------------
-
-// combine the calculator with the church arithmetic operator via POINT-FREESTYLE
+/**
+ * Combining the Church-Arithmetic to the CalculatorOperator
+ * and creating Arithmetic-Function to us with the Calc-Function.
+ *
+ * @example
+ * calc(n2)(churchAdd)(n3)(churchMulti)(n2)(churchPow)(n2)(churchSub)(n1)(result) ==> 99
+ */
 const churchAdd     = calculatorOperator(churchAddition);
 const churchMulti   = calculatorOperator(churchMultiplication);
 const churchPow     = calculatorOperator(churchPotency);
 const churchSub     = calculatorOperator(churchSubtraction);
-
-/**
- * Church calculation  ((((2 + 3) * 2) ^ 2) - 1) = 99
- */
-const churchResult = jsnum(calc
-(n2)(churchAdd)(n3)
-(churchMulti)(n2)
-(churchPow)(n2)
-(churchSub)(n1)
-(result));
-
-const subtractionResult = jsnum(calc
-(n9)(churchSub)(n4)
-(churchSub)(n2)
-(result));
 

@@ -12,6 +12,7 @@ export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secon
  * @typedef {function} qn
  * @typedef {function} boolean
  * @typedef {function} pair
+ * @typedef {function} churchBoolean
  */
 
 /**
@@ -96,7 +97,6 @@ const False = KI;
  */
 const True = K;
 
-
 /**
  * fn -> a -> b -> fn( b )( a ) ; not
  * @param {churchBoolean} Church-Boolean
@@ -112,25 +112,23 @@ const not = C;
 /**
  * pn -> qn -> pn( qn )(False) ; and
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const and = p => q => p(q)(False);
-
 
 /**
  * pn -> qn -> pn( qn )(False) ; and
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const or = p => q => p(True)(q);
 
 /**
  * pn -> qn -> pn( qn )(not( qn)) ; beq (ChurchBoolean-Equality)
  * @param {pn} p
- * @returns { function(q:{qn}): {ChurchBoolean} } True or False
+ * @returns { function(q:{qn}): {churchBoolean} } True or False
  */
 const beq = p => q => p(q)(not(q));
-
 
 /**
  * b -> b("True")("False") ; showBoolean
@@ -168,7 +166,6 @@ const pair = V;
  */
 const fst = K;
 
-
 /**
  * snd ; Get second value of Pair
  * @type {function(a): function(*): {b}}
@@ -185,13 +182,33 @@ const snd = KI;
  */
 const triple = x => y => z => f => f(x)(y)(z);
 
-
+/**
+ * a -> b -> -> c -> a ; firstOfTriple
+ * @param {a} x
+ * @return { function(y:{b}): function(z:{c}): a } x
+ */
 const firstOfTriple = x => y => z => x;
+
+/**
+ * a -> b -> -> c -> b ; secondOfTriple
+ * @param {a} x
+ * @return { function(y:{b}): function(z:{c}): b } y
+ */
 const secondOfTriple = x => y => z => y;
+
+/**
+ * a -> b -> -> c -> b ; thirdOfTriple
+ * @param {a} x
+ * @return { function(y:{b}): function(z:{c}): c } z
+ */
 const thirdOfTriple = x => y => z => z;
 
+/**
+ * mapPair
+ * @param f {function}
+ * @return {function(p:{pair}): pair} pair
+ */
 const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
-
 
 /**
  * p -> p `${p(fst)} | ${p(snd)} ; showPair
