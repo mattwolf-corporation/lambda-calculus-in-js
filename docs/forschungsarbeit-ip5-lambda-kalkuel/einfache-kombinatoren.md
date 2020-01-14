@@ -189,3 +189,7 @@ Beispiele:
     pairOfStrings(snd);        // "World"
 ```
 
+### Blackbird
+
+
+
