@@ -42,7 +42,7 @@ n3(x => x + '!')('λ')  // 'λ!!!'
 ```
 
 [  
-](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als einen triviale Funktion implementiert, welche das Argument eben keinmal aufgerufen wird.
+](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als einen triviale Funktion implementiert, welche das Argument eben keinmal aufgerufen wird. Dabei wird die Funktion  `f`   ignoriert.
 
 Implementation der Church-Zahl  **`n0`**  \(Null\):
 
@@ -58,9 +58,9 @@ n0(x => x + '!')('λ')  // 'λ'
 
 ## Mathematische Operationen  mit Church-Zahlen
 
-### Succesor
+### Successor
 
-Der Successor nimmt eine Church-Zahl und gibt den Nachfolger zurück.
+Der _Successor_ nimmt eine Church-Zahl und gibt den Nachfolger zurück.
 
 Implementation:
 
@@ -75,7 +75,104 @@ successor(n0)        // n1
 successor(n5)        // n6
 ```
 
+### 
 
+### Phi
+
+Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt einen neuen zurück, dessen erster Wert gleich dem Zweiten ist und der zweite Wert der Nachfolger von sich selber ist.
+
+Implementation:
+
+```javascript
+const phi = p => pair(p(snd))(succ(p(snd)));
+```
+
+Beispiel:
+
+```javascript
+const testPair  = pair(n1)(n2);
+const testPhi   = phi(testPair);
+
+testPhiPair(fst)    // n2
+testPhiPair(snd)    // n3
+```
+
+
+
+### Predecessor
+
+Der _Predecessor_ nimmt eine Church-Zahl und gibt dessen Vorgänger zurück.
+
+{% hint style="info" %}
+Der [Phi-Kombinator](church-encodings-zahlen-und-boolesche-werte.md#phi) ist dabei eine unterstützende Funktion um den Vorgänger der Church-Zahl zu definieren.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const pred = n => n(phi)(pair(n0)(n0))(fst);
+```
+
+Beispiel:
+
+```javascript
+ pred(n0)   // n0
+ pred(n1)   // n0
+ pred(n2)   // n1
+ pred(n9)   // n8
+```
+
+
+
+### Church-Addition
+
+_ChurchAddition_ nimmt zwei Church-Zahlen und gibt den addierten Wert als Church-Zahl zurück.
+
+{% hint style="info" %}
+Der [Successor ](church-encodings-zahlen-und-boolesche-werte.md#successor)ist dabei eine unterstützende Funktion. Die erste Church-Zahl ruft dabei n-Mal den `successor`auf und nimmt die zweite Church-Zahl als Argument.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const churchAddition = n => k => n(successor)(k);
+```
+
+Beispiel:
+
+```javascript
+churchAddition(n0)(n0)     // 0
+churchAddition(n1)(n0)     // 1
+churchAddition(n2)(n5)     // 7
+churchAddition(n9)(n9)     // 18
+```
+
+
+
+
+
+### Church-Substraction
+
+_ChurchSubstraction_ nimmt zwei Church-Zahlen und gibt den subtrahierten Wert als Church-Zahl zurück.
+
+{% hint style="info" %}
+Der [Predecessor ](church-encodings-zahlen-und-boolesche-werte.md#predecessor)ist dabei eine unterstützende Funktion. Die zweite Church-Zahl ruft dabei n-Mal den `pred` und nimmt die zweite Church-Zahl als Argument.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const churchSubtraction = n => k => k(pred)(n);
+```
+
+Beispiel:
+
+```javascript
+churchSubtraction(n2)(n1)     // 1
+churchSubtraction(n2)(n0)     // 2
+churchSubtraction(n2)(n5)     // 0
+churchSubtraction(n9)(n4)     // 5
+```
 
 
 
