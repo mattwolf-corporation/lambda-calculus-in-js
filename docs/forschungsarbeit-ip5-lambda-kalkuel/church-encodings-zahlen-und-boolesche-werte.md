@@ -17,7 +17,7 @@ const n1 = f => a => f(a);
 // Demonstration
 n1(x => x + 1)(0)      // 1
 
-n3(x => x + '!')('λ')  // 'λ!'
+n1(x => x + '!')('λ')  // 'λ!'
 ```
 
 Das gleiche mit den Zahlen von Zwei bis Neun, welche jeweils n-Mal mehr den Funktion-Aufruf angefügt werden.
@@ -60,7 +60,7 @@ n0(x => x + '!')('λ')  // 'λ'
 
 ### Successor \(Nachfolger\)
 
-Der _Successor_ nimmt eine Church-Zahl und gibt den Nachfolger zurück.
+Der _Successor_ nimmt eine Church-Zahl und gibt dessen Nachfolger zurück.
 
 Implementation:
 
@@ -210,26 +210,26 @@ Die _ChurchPotency_ entspricht exakt dem [Trush](einfache-kombinatoren.md#trush)
 Implementation:
 
 ```javascript
-const churchMultiplication = T;    // Trush
+const churchPotency = T;    // Trush
 ```
 
 Beispiel:
 
 ```javascript
-churchMultiplication(n2)(n1)     //  1
-churchMultiplication(n2)(n0)     //  0
-churchMultiplication(n2)(n5)     // 10
-churchMultiplication(n9)(n4)     // 36
+churchPotency(n2)(n1)     //    2
+churchPotency(n2)(n0)     //    1
+churchPotency(n2)(n5)     //   32
+churchPotency(n9)(n4)     // 6561
 ```
 
 
 
 ### isZero
 
-_isZero_ nimmt eine Church-Zahlen und gibt eine [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die Church-Zahl `n0` ist erhalt man das Church-Boolean `True`, ansonsten `False` zurück.
+_isZero_ nimmt eine Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die Church-Zahl `n0` ist erhalt man das Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
-Beachte den Kestral `k`  in der Funktion, der nur zum Zug kommt, wenn die Church-Zahl nicht `n0` ist und somit den ersten bzw. `False` zurück gibt.
+Beachte den [Kestral ](einfache-kombinatoren.md#kestrel-die-konstante-funktion)`k`  in der Funktion, der nur zum Zug kommt, wenn die Church-Zahl nicht `n0` ist und somit den ersten Wert bzw. `False` zurück gibt.
 {% endhint %}
 
 Implementation:
@@ -249,7 +249,85 @@ is0(n7)     // False
 
 
 
+### Leq \(less-than-or-equal\)
 
+_Leq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert kleiner oder gleich dem zweiten Wert ist erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+
+{% hint style="info" %}
+[isZero ](church-encodings-zahlen-und-boolesche-werte.md#iszero)und [churchSubstraction ](church-encodings-zahlen-und-boolesche-werte.md#church-substraction-substrahieren)sind dabei die benötigten Funktionen um _Leq_ zu implementieren.  
+_churchSubstraction_ substrahiert die erste Church-Zahl mit der zweiten Church-Zahl. Der substrahierte Wert ist `n0` , wenn die zweite Church-Zahl grösser oder gleich der ersten Church-Zahl ist. Wenn dies stimmt, gibt _isZero_ ein `True` zurück.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const leq = n => k => is0(churchSubtraction(n)(k));
+```
+
+Beispiel:
+
+```javascript
+leq(n0)(n0)     // True
+leq(n0)(n3)     // True
+leq(n5)(n5)     // True
+leq(n5)(n1)     // False
+```
+
+
+
+### Eq \(equality-to\)
+
+_Eq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die beiden Church-Zahlen gleich sind, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+
+{% hint style="info" %}
+[And ](einfache-kombinatoren.md#and)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. Mit _And_ und _Leq_ werden die Church-Zahlen auf ihre Äquivalenz geprüft. Wenn dies Stimmt, erhält _And_ zwei `True`-Werte von _Leq_ zurück.
+{% endhint %}
+
+Implementation:
+
+```javascript
+const eq = n => k => and(leq(n)(k))(leq(k)(n));
+```
+
+Beispiel:
+
+```javascript
+ eq(n0)(n0)  // True
+ eq(n0)(n1)  // False
+ eq(n1)(n1)  // True
+ eq(n2)(n1)  // False
+```
+
+
+
+### Gt \(greater-than\)
+
+_Gt_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert grösser als der zweiten Wert ist, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+
+{% hint style="info" %}
+[Blackbird](einfache-kombinatoren.md#blackbird), [Not ](einfache-kombinatoren.md#not)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. 
+{% endhint %}
+
+
+
+Implementation:
+
+```javascript
+const gt = Blackbird(not)(leq);
+```
+
+Beispiel:
+
+```javascript
+gt(n0)(n0)     // False
+gt(n0)(n1)     // False
+gt(n1)(n1)     // False
+gt(n2)(n1)     // True 
+```
+
+
+
+### 
 
 
 
