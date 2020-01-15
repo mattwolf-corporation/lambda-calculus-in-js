@@ -12,7 +12,7 @@ Stack Implementation:
 const stack = x => y => z => f => f(x)(y)(z);
 ```
 
-### 
+
 
 ### Empty-Stack
 
@@ -23,6 +23,19 @@ Implementation des leeren Stacks:
 ```javascript
 const emptyStack = stack(n0)(id)(id);
 ```
+
+## Aufbau
+
+Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird ein Stack mit emotji erstellt:
+
+| stack-name | stack | code |
+| :--- | :--- | :--- |
+| emptyStack | \(n0\)\(id\)\(id\) | const s1 = push\(empyStack\)\( 😎 \); |
+| s1 | \(n1\)\(**emptyStack**\)\( 😎 \) | const s2 = push\(s1\)\( 🤓 \); |
+| s2 | \(n2\)\(**s1**\)\( 🤓 \) | const s3 = push\(s2\)\( 👾 \); |
+| s3 | \(n3\)\(s2\)\( 👾 \) |  |
+
+s3 =  \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
 
 ## Verwendung
 
