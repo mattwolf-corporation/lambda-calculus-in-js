@@ -249,7 +249,7 @@ is0(n7)     // False
 
 
 
-### Leq \(less-than-or-equal\)
+### leq \(less-than-or-equal\)
 
 _Leq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert kleiner oder gleich dem zweiten Wert ist erhält man das Church-Boolean `True`, ansonsten `False` zurück.
 
@@ -275,9 +275,9 @@ leq(n5)(n1)     // False
 
 
 
-### Eq \(equality-to\)
+### eq \(equality-to\)
 
-_Eq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die beiden Church-Zahlen gleich sind, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+_eq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die beiden Church-Zahlen gleich sind, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
 [And ](einfache-kombinatoren.md#and)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. Mit _And_ und _Leq_ werden die Church-Zahlen auf ihre Äquivalenz geprüft. Wenn dies Stimmt, erhält _And_ zwei `True`-Werte von _Leq_ zurück.
@@ -300,9 +300,9 @@ Beispiel:
 
 
 
-### Gt \(greater-than\)
+### gt \(greater-than\)
 
-_Gt_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert grösser als der zweiten Wert ist, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+_gt_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert grösser als der zweiten Wert ist, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
 [Blackbird](einfache-kombinatoren.md#blackbird), [Not ](einfache-kombinatoren.md#not)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. 
