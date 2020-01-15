@@ -57,7 +57,7 @@ const poppedValue = resultPair(snd);         // 1
 
 ### size
 
-Um auf den auf die Grösse eines Stacks zuzugreifen gibt es die Funktion size. Diese Funktion nimmt einen Stack entgegen und gibt die Grösse, des Stacks als Church-Zahl zurück.
+Um auf den auf die Grösse eines Stacks zuzugreifen gibt es die Funktion size. Diese Funktion nimmt einen Stack entgegen und gibt die Grösse, des Stacks als [Church-Zahl](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) zurück.
 
 Beispiel:
 
@@ -81,7 +81,7 @@ const headValue = head(stackWithOneValue); // 1
 
 ### hasPre
 
-Die Funktion hasPre nimmt einen Stack entgegen und gibt ein Church-Boolean zurück, der aussagt ob der übergegebene Stack einen Vorgänger hat oder nicht.
+Die Funktion hasPre nimmt einen Stack entgegen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück, der aussagt ob der übergegebene Stack einen Vorgänger hat oder nicht.
 
 Beispiel:
 
@@ -93,7 +93,7 @@ const result = hasPre(stackWithOneValue); // false (as church-boolean)
 
 ### getElementByIndex
 
-Die Funktion getElementByIndex nimmt einen Stack und eine Church-Zahl, die den Index des Elements, repräsentiert entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
+Die Funktion getElementByIndex nimmt einen Stack und eine [Church-Zahl](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen), die den Index des Elements, repräsentiert entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
 
 Beispiel:
 
