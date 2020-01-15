@@ -157,7 +157,7 @@ Die JavaScript Funktionen reduce, map und filter gibt es auch für den Stack.
 
 ### Reduce
 
-Reduce nimmt einen Stack entgegen und ein Argument-Pair. Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den redizierten Wert zurück.
+Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.md#pair). Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den redizierten Wert zurück.
 
 Beispiel:
 
@@ -199,7 +199,7 @@ const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(cu
 
 ### Filter
 
-Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funnktion gibt den gefilterten  Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
+Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funktion gibt den gefilterten  Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
 
 Beispiel:
 
@@ -243,7 +243,7 @@ logStackToConsole(stackWithThreeElements);
 
 ### Stack erstellen mit Helferfunktion - startStack
 
-Die pushToStack Funktion wird der startStack Funktion übergeben. Danach folgt der erste Wert, der hinzugefügt werden soll. Für weitere Werte kann nochmals die pushToStack Funktion und ein weiteres Element hinzugefügt werden. Dies kann solange gemacht werden, wie man möchte. Um das Erstellen abzuschliessen, wird am Schluss die Identitätsfunktion übergeben.
+Die pushToStack Funktion wird der startStack Funktion übergeben. Danach folgt der erste Wert, der hinzugefügt werden soll. Für weitere Werte kann nochmals die pushToStack Funktion und ein weiteres Element hinzugefügt werden. Dies kann solange gemacht werden, wie man möchte. Um das Erstellen abzuschliessen, wird am Schluss die [Identitätsfunktion](einfache-kombinatoren.md#id-die-identitaetsfunktion) übergeben.
 
 ```javascript
 const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id); // Stack: 2, 3, 4
