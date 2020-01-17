@@ -305,10 +305,8 @@ Beispiel:
 _gt_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert grösser als der zweiten Wert ist, erhält man das Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
-[Blackbird](einfache-kombinatoren.md#blackbird), [Not ](einfache-kombinatoren.md#not)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. 
+[Blackbird](einfache-kombinatoren.md#blackbird), [Not ](einfache-kombinatoren.md#not)und [Leq ](church-encodings-zahlen-und-boolesche-werte.md#leq-less-than-or-equal)sind dabei die unterstützende Funktionen. Der _Blackbird_ handelt die _not_ und _leq_-Funktion \(`not(leq(n)(k)` \). Dabei wird nichts andere als der Output bzw. die Church-Boolean der _leq_-Funktion  von der _not_-Funktion negiert.
 {% endhint %}
-
-
 
 Implementation:
 
