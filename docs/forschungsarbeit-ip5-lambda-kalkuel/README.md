@@ -34,9 +34,7 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
 
 ### Was nehmen wir aus dieser Arbeit mit...
 
-Der Lerneffekt in dieser Forschungsarbeit war für uns immens.
-
-Die auseinandersetzung mit der Materie des Lambda Kalkül hat unser wissen  Wir haben viel funktionales Programmieren gelernt, 
+Der Lerneffekt in dieser Forschungsarbeit war für uns immens. Wir haben viel funktionales Programmieren gelernt, 
 
 Diese Arbeit hat uns den Grundstein zu anderen Funktionalen Programmiersprachen gelegt. Wir beherschen die wichtigsten Funktionalen Konzepte und können diese nun anwenden. 
 

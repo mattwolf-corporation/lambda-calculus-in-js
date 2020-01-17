@@ -1,4 +1,4 @@
-# Church Encodings - Zahlen
+# Church Encodings - Booleans und Zahlen
 
 ## Beschreibung
 
