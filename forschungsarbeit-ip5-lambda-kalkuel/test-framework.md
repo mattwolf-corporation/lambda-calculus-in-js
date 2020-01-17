@@ -50,5 +50,5 @@ Die Testsuiten werden am Schluss auf einer Html Seite angezeigt, sodass man eine
 
 ![Ausschnitt aus der Gesamt&#xFC;bersicht von allen Test&apos;s](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.54.png)
 
-## Verwendung
+
 

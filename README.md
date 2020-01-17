@@ -1,3 +1,7 @@
+---
+description: IP5 HS2019
+---
+
 # Lambda Kalkül für praktisches JavaScript
 
 * [Forschungsarbeit - Lambda Kalkül mit JavaScript](forschungsarbeit-ip5-lambda-kalkuel/)
