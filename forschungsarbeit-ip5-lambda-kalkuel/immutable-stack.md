@@ -243,7 +243,7 @@ forEach(stackWithNumbers)(callbackFunc); // element at: 1: 5
 Bei der Implementierung von der forEach-Funktion wurde für die eigentliche Iteration [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) verwendet.
 
 {% hint style="info" %}
-Diese forEach-Funktion für Stacks funktioniert gleich wie die JavaScript forEach Schlaufe.
+Die forEach-Funktion für Stacks funktioniert gleich wie die JavaScript forEach Schlaufe.
 {% endhint %}
 
 ## Nützliche Helferfunktionen
