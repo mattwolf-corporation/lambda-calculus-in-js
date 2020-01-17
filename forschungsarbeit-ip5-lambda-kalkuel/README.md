@@ -26,9 +26,9 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
 3. Als weitere Herausforderung wollten wir eine unveränderliche Datenstruktur erstellen. Dabei wurde nach eine einfachen Datenstruktur  gesucht, auf welcher  weitere Datenstrukturen gebaut werden können. Dabei entstand der [Immutable Stack](immutable-stack.md). Das Ziel dieser unveränderlichen Datenstruktur ist, dass bei der Verarbeitung der Daten keine Fehler, die durch Seiteneffekte von anderen Funktionen, enstehen können. 
 4. Zum Testen von unseren Konstruktionen wurde ein eigenes [Test-Framework ](test-framework.md)implementiert. Es dienst als  Qualitätssicherung \(Überprüfung der Funktionalität\) und ist eine fortlaufende Unterstützung beim _Refactoring_ der Konstruktionen.
 
-## Was wir erreicht haben
+## Was wurde erreicht
 
-Wir haben eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JSDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
+Es wurde eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JSDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
 
 Beispiel JSDoc-Dokumentation mit Blackbird
 
@@ -36,13 +36,13 @@ Beispiel JSDoc-Dokumentation mit Blackbird
 
 ![IDE-Dokumentation](../.gitbook/assets/blackbirddokuhelp.PNG)
 
-Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und eine allgemeine Informationsübersicht über die Funktion.
+Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und eine allgemeine Informationsübersicht über die Funktionen.
 
-Mit unserem Forschungsprojekt haben wir eine solide Grundlage für weitere / zukünftige Forschung auf diesem Gebiet gelegt. 
+Mit diesem Forschungsprojekt wurde eine solide Grundlage für weitere / zukünftige Forschung auf diesem Gebiet gelegt. 
 
 ## Fazit
 
-Unsere Konstruktionen aus dem Lambda-Kalkül bringen folgende Vorteile mit sich:
+Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 
 * Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
