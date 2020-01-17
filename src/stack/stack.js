@@ -45,7 +45,7 @@ export {
  * @typedef {*} b
  * @typedef {*} c
  * @typedef {(a|b|c)} abc
- * @typedef {funcation} fn
+ * @typedef {function} fn
  * @typedef {function} gn
  * @typedef {function} pn
  * @typedef {function} qn
@@ -102,13 +102,12 @@ const stackValue = thirdOfTriple;
  */
 const emptyStack = stack(n0)(id)(id);
 
-
 /**
  * A function that takes a stack
  * The function returns a church-boolean, which indicates whether the stack has a predecessor stack
  *
  * @param {stack} s
- * @return {churchBoolean}
+ * @return {churchBoolean} churchBoolean
  */
 const hasPre = s => not(is0(s(stackIndex)));
 
@@ -117,7 +116,7 @@ const hasPre = s => not(is0(s(stackIndex)));
  * The function returns a new stack with the pushed value
  *
  * @param {stack} s
- * @return { function(x:{a}): {stack} } stack with value x
+ * @return { function(x:{a}): stack } stack with value x
  */
 const push = s => x => stack(succ(s(stackIndex)))(s)(x);
 
