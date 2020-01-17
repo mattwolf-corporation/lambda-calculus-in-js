@@ -30,9 +30,21 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
 
 ### Was wir erreicht haben
 
-Wir haben eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JsDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
+Wir haben eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JSDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
 
-![](../../.gitbook/assets/image.png)
+Beispiel JSDoc-Dokumentation mit Blackbird
+
+![JSDoc f&#xFC;r Blackbird](../../.gitbook/assets/blackbird.PNG)
+
+
+
+![IDE-Dokumentation](../../.gitbook/assets/blackbirddokuhelp.PNG)
+
+Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise  beim Programmieren  und gibt ihm eine allgemeine Informationsübersicht über die Funktion.
+
+
+
+
 
 Der Stack wurde in das Test-Framwork integriert, so dass ....
 

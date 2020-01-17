@@ -48,7 +48,7 @@ K('q')('t');     // 'q'
 
 ### Kite
 
-Der Kite ist eine Funktion, die zwei Parameter entgegennimmt und den zweiten Parameter zurückgibt.
+Der _Kite_ ist eine Funktion, die zwei Parameter entgegennimmt und den zweiten Parameter zurückgibt.
 
 Implementation:
 
@@ -68,7 +68,7 @@ KI("Hello")("World");    // "World"
 
 ### Mockingbird
 
-Der Mockingbird nimmt einen Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
+Der _Mockingbird_ nimmt einen Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
 
 Implementation:
 
@@ -81,7 +81,7 @@ Beispiele:
 ```javascript
 M(id);        // id
 M(id)(5);     // 5
-M(M);         // stack overflow
+M(M);         // stack overflow, da M(M) ==> M(M) ==> M(M) ....
 ```
 
 ### 
@@ -109,7 +109,7 @@ C(diff)(3)(2);        // -1
 
 ### Bluebird - Funktionskomposition
 
-Der Bluebird nimmt zwei Funktionen und ein Argument entgegen. Zuerst wendet der Bluebird das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der Bluebird funktioniert gleich wie die Funktionskomposition in der Mathematik .
+Der _Bluebird_ nimmt zwei Funktionen und ein Argument entgegen. Zuerst wendet der _Bluebird_ das Argument auf die zweite Funktion an und das Resultat wird auf die erste Funktion angewendet. Der _Bluebird_ funktioniert gleich wie die Funktionskomposition in der Mathematik .
 
 Implementation:
 
@@ -123,16 +123,16 @@ Beispiele:
     const f = x => x + 1;
     const g = x => x * 2;
     
-    B(f)(g)(4);                  // 9
-    B(g)(f)(4);                  // 10
-    B(id)(id)(5);                // 5
+    B(f)(g)(4);      // 9
+    B(g)(f)(4);      // 10
+    B(id)(id)(5);    // 5
 ```
 
 ### 
 
 ### Trush
 
-Der Trush nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der Trush auf die übergebene Funktion an.
+Der _Trush_ nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der _Trush_ auf die übergebene Funktion an.
 
 Implementation:
 
@@ -145,15 +145,15 @@ Beispiele:
 ```javascript
 const f = x => x + 1;
 
-T(2)(f);                    // 3
-T(2)(id);                   // 2 
+T(2)(f);            // 3
+T(2)(id);           // 2 
 ```
 
 ### 
 
 ### Vireo
 
-Der Vireo ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der Vireo ist gleichzeitig eine unveränderliche Datenstruktur, siehe [Pair](einfache-kombinatoren.md#pair).
+Der _Vireo_ ist eine Funktion, die zwei Argumente und eine Funktion entgegen nimmt. Die Funktion wendet die zwei übergebenen Argumente auf die übergebene Funktion an. Der _Vireo_ ist gleichzeitig eine unveränderliche Datenstruktur, siehe [Pair](einfache-kombinatoren.md#pair).
 
 Implementation:
 
@@ -165,7 +165,7 @@ const V = x => y => f => f(x)(y);
 
 ### Pair
 
-Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implementiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die [Konstante Funktion](einfache-kombinatoren.md#kestrel-die-konstante-funktion). Die snd-Funktion ist gerade der [Kite](einfache-kombinatoren.md#kite).
+Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implementiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die `fst`-Funktion ist gerade die [Konstante Funktion](einfache-kombinatoren.md#kestrel-die-konstante-funktion). Die `snd`-Funktion ist gerade der [Kite](einfache-kombinatoren.md#kite).
 
 Implementation :
 
@@ -179,21 +179,21 @@ const snd     =   KI;    // get second element from pair
 Beispiele:
 
 ```javascript
-    const pairOfNumbers = pair(1)(2);
-    const pairOfStrings = pair("Hello")("World");
+const pairOfNumbers = pair(1)(2);
+const pairOfStrings = pair("Hello")("World");
     
-    pairOfNumbers(fst);        // 1
-    pairOfNumbers(snd);        // 2
+pairOfNumbers(fst);        // 1
+pairOfNumbers(snd);        // 2
     
-    pairOfStrings(fst);        // "Hello"
-    pairOfStrings(snd);        // "World"
+pairOfStrings(fst);        // "Hello"
+pairOfStrings(snd);        // "World"
 ```
 
 ### 
 
 ### MapPair
 
-Die Funktion mapPair nimmt eine map-Funktion und ein Pair entgegen. Die Funktion gibt ein neues Pair mit den gemappten Werten zurück.
+Die Funktion _mapPair_ nimmt eine map-Funktion und ein [Pair ](einfache-kombinatoren.md#pair)entgegen. Die Funktion gibt ein neues Pair mit den gemappten Werten zurück.
 
 Implementation:
 
@@ -214,7 +214,7 @@ const mappedPair = mapPair(mapFunction)(pairOfNNumbers); // pair(10)(12)
 
 ### ShowPair
 
-Die Funktion nimmt ein Pair entgegen und gibt die String Representation des Pairs zurück.
+Die Funktion nimmt ein [Pair](einfache-kombinatoren.md#pair) entgegen und gibt die String Repräsentation des Pairs zurück.
 
 Implementation:
 
@@ -234,7 +234,7 @@ const stringOfPair = showPair(pairOfNNumbers); // '5 | 6'
 
 ### Triple
 
-Das Triple ist eine unveränderliche Datenstruktur bestehend aus drei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für alle Werte des Triple gibt es eine "getter"-Funktion. Ein Triple ist fast wie ein Pair, nur hat es einen Wert mehr.
+Das _Triple_ ist eine unveränderliche Datenstruktur bestehend aus drei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für alle Werte des Triple gibt es eine "getter"-Funktion. Ein Triple ist fast wie ein Pair, nur hat es einen Wert mehr.
 
 Implementation:
 
@@ -262,7 +262,7 @@ tripleOfNumbers(thirdOfTriple);         // 3
 
 ### Blackbird
 
-Der Blackbird ist eine Funktion, die zwei Funktionen und zwei Argumente entgegennimmt. Die zweite Funktion wird auf die zwei übergebenen Argumente angewendet, das Ergebnis wird auf auf die erste Funktion angewendet. Der Blackbird hat ähnlichkeiten mit dem Bluebird.
+Der _Blackbird_ ist eine Funktion, die zwei Funktionen und zwei Argumente entgegennimmt. Die zweite Funktion wird auf die zwei übergebenen Argumente angewendet, das Ergebnis wird auf auf die erste Funktion angewendet. Der Blackbird hat ähnlichkeiten mit dem Bluebird.
 
 Implementation:
 
