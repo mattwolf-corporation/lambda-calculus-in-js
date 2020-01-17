@@ -36,23 +36,23 @@ Bei diesem Testfall wird die [Identitätsfunktion](einfache-kombinatoren.md#id-d
 
 Mehrer zusammengehörende Testfälle werden einer Testsuite hinzugefügt. Dies dient dazu um mehrere Testfälle zu gruppieren. Zum Beispiel werden alle Testfälle vom Stack einer Testsuite hinzugefügt.
 
-![Testsuite - Stack](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.15.png)
+![Testsuite - Stack](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.15.png)
 
 In der Testsuite befinden Testfälle von allen Funktionen des Gruppierten Thema's\(Im Bild oben alle Testfälle von allen Stack-Konstruktionen\). Dabei sieht man bei einem einzelnen Testfall einer Funktion, wie viele Test's erfolgreich waren.
 
-![Einzelner Testfall einer Funktion](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.12.png)
+![Einzelner Testfall einer Funktion](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.12.png)
 
 
 
 Wenn in einem Testfall ein Test fehlschlägt, wird dies farblich angezeigt. Dabei wird die Nummer des Test's und was genau schiefgegangen ist angezeigt.
 
-![Ein fehlgeschlagener Test im Testfall, der Identit&#xE4;tsfunktion](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.46.png)
+![Ein fehlgeschlagener Test im Testfall, der Identit&#xE4;tsfunktion](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.46.png)
 
 
 
 Die Testsuiten werden am Schluss auf einer Html Seite angezeigt, sodass man eine Übersicht von allen Test's hat. Auf dieser Übersicht werden alle Test's von allen Testfällen zusammengezählt und als Total angezeigt.
 
-![Ausschnitt aus der Gesamt&#xFC;bersicht von allen Test&apos;s](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.54.png)
+![Ausschnitt aus der Gesamt&#xFC;bersicht von allen Test&apos;s](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.54.png)
 
 ## Verwendung
 

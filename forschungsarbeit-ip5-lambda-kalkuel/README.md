@@ -34,11 +34,11 @@ Wir haben eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angel
 
 Beispiel JSDoc-Dokumentation mit Blackbird
 
-![JSDoc f&#xFC;r Blackbird](../../.gitbook/assets/blackbird.PNG)
+![JSDoc f&#xFC;r Blackbird](../.gitbook/assets/blackbird.PNG)
 
 
 
-![IDE-Dokumentation](../../.gitbook/assets/blackbirddokuhelp.PNG)
+![IDE-Dokumentation](../.gitbook/assets/blackbirddokuhelp.PNG)
 
 Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise  beim Programmieren  und gibt ihm eine allgemeine Informationsübersicht über die Funktion.
 
