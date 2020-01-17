@@ -27,11 +27,11 @@ Mit den einfachen JavaScript-Operatoren \(  `plus = x => y => x + y`   `substrac
  plus(1)( plus(2)(3) ) // 6 
 ```
 
-### **Addition mit JavaScript-Operator und dem** _**CalculatorHandler**_**:**
+### **Addition mit JavaScript-Operatoren und dem** _**CalculatorHandler**_**:**
 
 ```javascript
 calculatorHandler(plus)(1)(2)(id)                                   // 3
-calculatorHandler(plus)(1)( calculatorHandler(plus)(1)(2)(id) )(id) // 6
+calculatorHandler(plus)(1)( calculatorHandler(plus)(2)(3)(id) )(id) // 6
 ```
 
 Wenn aber neue Funktionen  via Point-Freestyle mit dem _CalculatorHandler_ und den JavaScript-Operatoren __erstellt werden... 
@@ -88,7 +88,7 @@ calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) // 42
 
 ## Rechnen mit Church Encodings-Zahlen
 
-Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(n0, n1, n2, ... \) gleich benutzen zu können, braucht es nur die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
+Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(`n0, n1, n2, ...` \) gleich benutzen zu können, braucht es die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
 
 Implementationen:
 
