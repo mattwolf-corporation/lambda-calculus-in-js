@@ -50,6 +50,13 @@ const successor = n => f => a => f(n(f)(a));
 const succ = n => f => B(f)(n(f));
 
 /**
+ * Addition with two Church-Numbers
+ * @param n {churchNumber}
+ * @returns {function(k:{churchNumber}): churchNumber } Church-Number
+ */
+const churchAddition = n => k => n(succ)(k);
+
+/**
  * phi combinator ;
  * creates a new pair, replace first value with the second and increase the second value
  * @param {pair} p
@@ -63,13 +70,6 @@ const phi = p => pair(p(snd))(succ(p(snd)));
  * @returns {churchNumber} predecessor of n
  */
 const pred = n => n(phi)(pair(n0)(n0))(fst);
-
-/**
- * Addition with two Church-Numbers
- * @param n {churchNumber}
- * @returns {function(k:{churchNumber}): churchNumber } Church-Number
- */
-const churchAddition = n => k => n(succ)(k);
 
 /**
  * Subtraction with two Church-Numbers

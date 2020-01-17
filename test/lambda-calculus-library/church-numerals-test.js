@@ -8,6 +8,7 @@ import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, jsnum,
 const churchTest = TestSuite("Church Numerals");
 
 churchTest.add("numbers", assert => {
+    assert.equals( n2(id)(4), 4);
     assert.equals( n2(x => x * 2)(1), 4);
     assert.equals( n3(x => x + '!')('Hello World'), 'Hello World!!!');
     assert.equals( n5(x => x * x)(2), 4294967296 );
