@@ -48,7 +48,7 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
-* Funktions-Kompositionen ist ein sehr mächtiges Werkzeug, weil rasch nützliche neue Konstruktionen enstehen.
+* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen enstehen.
 
 
 
