@@ -380,5 +380,32 @@ const element = getElementByJsnumIndex(stackWithOneValue)(1);
 const test = convertStackToArray(stackWithOneValue);
 
 const stackWithTwoElements = push(push(push(emptyStack)(1))(2))(3);
-logStackToConsole(stackWithTwoElements);
+// logStackToConsole(stackWithTwoElements);
 /////////////
+
+
+const forEach = stack => f => {
+    const times = size(stack);
+    const reversedStack = reverseStack(stack);
+
+    const iteration = s => {
+        if(convertToJsBool(hasPre(s))) {
+            const element = head(s);
+            const index = jsnum(succ(churchSubtraction(times)(size(s))));
+            f(element, index);
+
+            return (pop(s))(fst);
+        }
+        return s;
+    };
+
+    times(iteration)(reversedStack);
+};
+
+console.log("/////// foreach test ////////");
+
+const testI = (element, index) => {
+    console.log('element at: ' + index + ': ' + JSON.stringify(element));
+};
+
+forEach(stackWithTwoElements)(testI);
