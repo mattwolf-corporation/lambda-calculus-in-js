@@ -4,6 +4,8 @@
 
 Für ein Einstieg-Projekt, um sich am beste einmal mit den [Kombinatoren](einfache-kombinatoren.md) und den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) auseinander zusetzen, haben wir uns für einen Taschenrechner entschieden.
 
+#### Link zum lambdafizierten Taschenrechner: [Calculator.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/src/calculator/calculator-view.html)
+
 ## Kern des Taschenrechner
 
 Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um diese Anforderungen zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein.
