@@ -7,7 +7,7 @@ import {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
     pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -236,6 +236,31 @@ stackSuite.add("convert array to stack", assert => {
     assert.equals(getElementByJsnumIndex(result)(1), 1);
     assert.equals(getElementByJsnumIndex(result)(2), 2);
     assert.equals(getElementByJsnumIndex(result)(3), 3);
+});
+
+stackSuite.add("for / foreach loop - stack implementation", assert => {
+    const stackWithNumbers = startStack(pushToStack)(5)(pushToStack)(10)(pushToStack)(15)(id);
+
+    const elements = [];
+    const indices = [];
+
+    const forEachCallback = (element, index) => {
+        elements.push(element);
+        indices.push(index);
+    };
+
+    forEach(stackWithNumbers)(forEachCallback);
+
+    assert.equals(elements.length, 3);
+    assert.equals(indices.length, 3);
+
+    assert.equals(elements[0], 5);
+    assert.equals(elements[1], 10);
+    assert.equals(elements[2], 15);
+
+    assert.equals(indices[0], 1);
+    assert.equals(indices[1], 2);
+    assert.equals(indices[2], 3);
 });
 
 stackSuite.report();

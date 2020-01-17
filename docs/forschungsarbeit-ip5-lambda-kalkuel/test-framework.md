@@ -4,6 +4,8 @@
 
 Um die Korrektheit unserer Konstruktionen zu verifizieren haben, wir ein eigenes Test Framework ohne externe Abhängikeiten geschrieben. Von der Architektur \(Aufbau/Struktur & Konzept\) haben wir uns vom Test Framework von Prof. Dierk König inspieren lassen.
 
+#### Ansicht aller Testergebnissen: [AllTest.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/test/allTest.html)
+
 ## Aufbau
 
 Zuerst ein paar wichtige Definition/Erklärungen zum Test-Framework.

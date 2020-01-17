@@ -37,7 +37,7 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach
 }
 /**
  * Generic Types
@@ -364,26 +364,11 @@ const pushToStack = stackOp(push);
  */
 const startStack = f => f(emptyStack);
 
-// Examples for gitbook
-const stackWithOneValue = push(emptyStack)(1);
-const resultPair = pop(stackWithOneValue);
-
-const predecessorStack = resultPair(fst);
-const poppedValue = resultPair(snd);
-
-const sizeOfStack = size(stackWithOneValue);
-const headValue = head(stackWithOneValue);
-const result = hasPre(stackWithOneValue);
-const element1 = getElementByIndex(stackWithOneValue)(n1);
-const element = getElementByJsnumIndex(stackWithOneValue)(1);
-
-const test = convertStackToArray(stackWithOneValue);
-
-const stackWithTwoElements = push(push(push(emptyStack)(1))(2))(3);
-// logStackToConsole(stackWithTwoElements);
-/////////////
-
-
+/**
+ * Foreach implementation for stack
+ * A function that expects a stack and a callback function.
+ * The current element of the stack iteration and the index of this element is passed to this callback function
+ */
 const forEach = stack => f => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -401,11 +386,3 @@ const forEach = stack => f => {
 
     times(iteration)(reversedStack);
 };
-
-console.log("/////// foreach test ////////");
-
-const testI = (element, index) => {
-    console.log('element at: ' + index + ': ' + JSON.stringify(element));
-};
-
-forEach(stackWithTwoElements)(testI);
