@@ -1,12 +1,144 @@
-# Church Encodings - Zahlen
+# Church Encodings - Booleans und Zahlen
 
 ## Beschreibung
 
-Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Zahlen. Sie sind die bekannteste Form, welche die natürlichen Zahlen repräsentieren. Benannt sind sie nach [Alonzo Church](https://de.wikipedia.org/wiki/Alonzo_Church), Mathematiker und einer der Begründer der theoretischen Informatik.
+Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Boolean und Church-Zahlen. Mit den Church-Boolean werden boolesche Logik mit Funktionen ausgedrückt und die Church-Zahlen sind die bekannteste Form, mit welche die natürlichen Zahlen repräsentiert werden. Benannt sind sie nach [Alonzo Church](https://de.wikipedia.org/wiki/Alonzo_Church), Mathematiker und einer der Begründer der theoretischen Informatik.
+
+## Church-Boolean
+
+### True & False
+
+ _True_ kann durch die Funktion [Kestrel](einfache-kombinatoren.md#kestrel-die-konstante-funktion) ausgedrückt werden. _False_ kann durch die Funktion [Kite](einfache-kombinatoren.md#kite) ausgedrückt werden.
+
+Implementation
+
+```javascript
+const True  = K;
+const False = KI;
+```
+
+### 
+
+### Not
+
+Der boolesche _not_ Operator kann mit der Funktion [Cardinal](einfache-kombinatoren.md#cardinal-flip-vertauschungsfunktion) ausgedrückt werden.
+
+Implementation & Beispiele:
+
+```javascript
+const not = C;
+
+not(True);         // False (Function)
+not(False);        // True  (Function)
+not(not(True));    // True  (Function)
+```
+
+
+
+### And
+
+Die _And_-Funktion nimmt zwei Church-Booleans entgegen und liefert ein Church-Boolean zurück. Die Funktion funktioniert genau gleich wie der and-Operator in der mathematischen Logik.
+
+Implementation:
+
+```javascript
+const and = p => q => p(q)(False);
+```
+
+Beispiele:
+
+```javascript
+and(True)(True)         // True
+and(False)(True)        // False
+and(True)(False)        // False
+and(False)(False)       // False
+```
+
+### 
+
+### Or
+
+Die _Or_-Funktion nimmt zwei Church-Booleans entgegen und liefert ein Church-Boolean zurück. Die Funktion funktioniert genau gleich wie der or-Operator in der mathematischen Logik. 
+
+Implementation:
+
+```javascript
+const or = p => q => p(True)(q);
+```
+
+Beispiele:
+
+```javascript
+or(True)(True)         // True
+or(False)(True)        // True
+or(True)(False)        // True
+or(False)(False)       // False
+```
+
+### 
+
+### Boolean Equality
+
+Diese Funktion nimmt zwei Church-Booleans entgegen und vergleicht diese miteinander. Nur wenn beide gleich sind, gibt die Funktion ein Church-True zurück, sonst ein Church-False.
+
+Implementation:
+
+```javascript
+const beq = p => q => p(q)(not(q));
+```
+
+Beispiele:
+
+```javascript
+beq(True)(True)         // True
+beq(False)(True)        // False
+beq(True)(False)        // False
+beq(False)(False)       // True
+```
+
+### 
+
+### Show Boolean
+
+Die Funktion _showBoolean_ ist eine Helferfunktion um eine String Repräsentation, eines [Church-Boolean](church-encodings-zahlen-und-boolesche-werte.md#church-boolean) zu erhalten. Die Funktion nimmt ein Church-Boolean entgegen und gibt die String Repräsentation davon zurück.
+
+Implementation:
+
+```javascript
+const showBoolean = b => b("True")("False");
+```
+
+Beispiele:
+
+```javascript
+showBoolean(True);        // 'True'
+showBoolean(False);       // 'False'
+```
+
+### 
+
+### Connvert to js Bool
+
+Die Funktion _convertToJsBool_ nimmt ein Church-Boolean entgegen und liefert die JavaScript Representation davon zurück.
+
+Implementation:
+
+```javascript
+const convertToJsBool = b => b(true)(false);
+```
+
+Beispiele:
+
+```javascript
+convertToJsBool(True)        // true
+convertToJsBool(False)       // false
+```
+
+
 
 ## Church-Zahlen
 
-Die Church-Zahlen sind keine "echte" Zahlen, sondern Funktionen die n-Mal ein Argument ausführen. Um zum Beispiel die Zahl Eins als eine Church-Zahl \( **`n1`**\) zu repräsentieren muss es eine Funktion geben die ein Argument genau einmal aufruft. 
+Die Church-Zahlen sind keine "echte" Zahlen, sondern Funktionen die n-Mal ein Argument ausführen. Um die Zahl Eins als eine Church-Zahl \( **`n1`**\) zu repräsentieren muss es eine Funktion geben die ein Argument genau einmal aufruft. 
 
 Implementation der Church-Zahl  **`n1`**  \(Eins\):
 
@@ -42,7 +174,7 @@ n3(x => x + '!')('λ')  // 'λ!!!'
 ```
 
 [  
-](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als einen triviale Funktion implementiert, welche das Argument eben keinmal aufgerufen wird. Dabei wird die Funktion  `f`   ignoriert.
+](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als einen triviale Funktion implementiert, welche das Argument keinmal aufgerufen wird. Somit wird die Funktion  `f`   ignoriert.
 
 Implementation der Church-Zahl  **`n0`**  \(Null\):
 
@@ -55,6 +187,12 @@ n0(x => x + 1)(0)      // 0
 
 n0(x => x + '!')('λ')  // 'λ'
 ```
+
+{% hint style="info" %}
+`n0` nimmt zwei Parameter und gibt den zweiten zurück. Gleich wie die Funktion: [Kite](einfache-kombinatoren.md#kite) \(`n0 === KI`\). 
+{% endhint %}
+
+
 
 ## Mathematische Operationen  mit Church-Zahlen
 
@@ -79,7 +217,7 @@ successor(n5)        // n6
 
 ### Phi  \(-Kombinator\)
 
-Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt einen neuen zurück, dessen erster Wert gleich dem Zweiten ist und der zweite Wert der Nachfolger von sich selber ist.
+Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt einen neuen zurück, dessen erster Wert gleich dem Zweiten ist und der zweite Wert sein eigener Nachfolger.
 
 Implementation:
 
@@ -129,7 +267,7 @@ Beispiel:
 _ChurchAddition_ nimmt zwei Church-Zahlen und gibt den addierten Wert als Church-Zahl zurück.
 
 {% hint style="info" %}
-Der [Successor ](church-encodings-zahlen-und-boolesche-werte.md#successor)ist dabei eine unterstützende Funktion. Die erste Church-Zahl ruft dabei n-Mal den `successor`auf und nimmt die zweite Church-Zahl als Argument.
+Der [Successor ](church-encodings-zahlen-und-boolesche-werte.md#successor)ist dabei unterstützende Funktion. Die erste Church-Zahl ruft dabei n-Mal den `successor`auf und nimmt die zweite Church-Zahl als Summand.
 {% endhint %}
 
 Implementation:
@@ -154,7 +292,7 @@ churchAddition(n9)(n9)     // 18
 _ChurchSubstraction_ nimmt zwei Church-Zahlen und gibt den subtrahierten Wert als Church-Zahl zurück.
 
 {% hint style="info" %}
-Der [Predecessor ](church-encodings-zahlen-und-boolesche-werte.md#predecessor)ist dabei eine unterstützende Funktion. Die zweite Church-Zahl ruft dabei n-Mal den `pred` und nimmt die erste Church-Zahl als Argument.
+Der [Predecessor ](church-encodings-zahlen-und-boolesche-werte.md#predecessor)ist dabei eine unterstützende Funktion. Die zweite Church-Zahl ruft dabei n-Mal den `pred`  als Subtrahend und nimmt die erste Church-Zahl als Minuend.
 {% endhint %}
 
 Implementation:
