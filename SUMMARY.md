@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Lambda Calculus with JavaScript - IP5 HS2019](README.md)
+* [Lambda Kalkül für praktisches JavaScript](README.md)
 * [Forschungsarbeit IP5 - Lambda Kalkül](forschungsarbeit-ip5-lambda-kalkuel/README.md)
   * [Einfache Kombinatoren](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md)
   * [Church Encodings - Booleans und Zahlen](forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md)
