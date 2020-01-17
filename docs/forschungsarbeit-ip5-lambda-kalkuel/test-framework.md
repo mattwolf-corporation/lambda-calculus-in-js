@@ -14,9 +14,9 @@ Die kleinste Einheit unseres Test-Frameworks ist ein einzelner Aufruf der equals
 assert.equals(1, 1);
 ```
 
-Die equals-Methode nimmt zwei Parameter entgegen. Das erste Argument ist der tatsächliche Wert \(z.b der Wert vom Aufruf, einer zu testenden Funktion\). Der zweite Parameter ist der erwartete Wert. Nun vergleicht die Funktion die beiden übergebenen Parameter auf Gleicheit. Wenn die Erwartung mit dem IST-Zustand übereinstimmt, so ist der Test erfolgreich.
+Die equals-Methode nimmt zwei Parameter entgegen. Das erste Argument ist der tatsächliche Wert \(z.b der Wert vom Aufruf, einer zu testenden Funktion\). Der zweite Parameter ist der erwartete Wert. Nun vergleicht die equals-Funktion die beiden übergebenen Parameter auf Gleicheit. Wenn der erwartete Wert mit dem IST-Zustand übereinstimmt, so ist der Test erfolgreich.
 
-Pro Konstruktion/Funktion gibt es mehrere solche Test's mit der equals Methode. Diese werden dann zu einem Testfall für die Funktion zusammengefasst.
+Pro Konstruktion/Funktion gibt es mehrere solche Test's mit der equals-Methode. Diese werden dann zu einem Testfall für die Funktion zusammengefasst.
 
 Beispiel eines Testfalles:
 
@@ -32,11 +32,11 @@ lambdaCTest.add("identity", assert => {
 
 Bei diesem Testfall wird die [Identitätsfunktion](einfache-kombinatoren.md#id-die-identitaetsfunktion) getestet. Der Testfall besteht hier aus 5 Tests.
 
-Mehrer zusammengehörende Testfälle werden einer Testsuite hinzugefügt. Dies dient dazu um mehrere Testfälle zu gruppieren. Zum Beispiel werden alle Testfälle vom Stack in einer Testsuite hinzugefügt.
+Mehrer zusammengehörende Testfälle werden einer Testsuite hinzugefügt. Dies dient dazu um mehrere Testfälle zu gruppieren. Zum Beispiel werden alle Testfälle vom Stack einer Testsuite hinzugefügt.
 
 ![Testsuite - Stack](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.34.15.png)
 
-In der Testsuite befinden Testfälle von allen Funktionen des Gruppierten Thema's. Dabei sieht man bei einem einzelnen Testfall einer Funktion, wie viele Test's erfolgreich waren.
+In der Testsuite befinden Testfälle von allen Funktionen des Gruppierten Thema's\(Im Bild oben alle Testfälle von allen Stack-Konstruktionen\). Dabei sieht man bei einem einzelnen Testfall einer Funktion, wie viele Test's erfolgreich waren.
 
 ![Einzelner Testfall einer Funktion](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.12.png)
 
@@ -44,7 +44,7 @@ In der Testsuite befinden Testfälle von allen Funktionen des Gruppierten Thema'
 
 Wenn in einem Testfall ein Test fehlschlägt, wird dies farblich angezeigt. Dabei wird die Nummer des Test's und was genau schiefgegangen ist angezeigt.
 
-![Fehlgeschlagener Test im Testfall, der Identit&#xE4;tsfunktion](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.46.png)
+![Ein fehlgeschlagener Test im Testfall, der Identit&#xE4;tsfunktion](../../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.46.png)
 
 
 
