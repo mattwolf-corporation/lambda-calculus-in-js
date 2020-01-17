@@ -12,11 +12,9 @@ Stack Implementation:
 const stack = x => y => z => f => f(x)(y)(z);
 ```
 
-
-
 ### Empty-Stack
 
-Zur späteren Verwendung von einem Stack wird der leere Stack als Grundbaustein benötigt. Der leere Stack hat die Grösse/ den Index Null. Der leere Stack hat keinen Vorgänger, stattdessen hat er die [Identitätsfunktion](einfache-kombinatoren.md) als Platzhalter. Ausserdem bestitzt der leere Stack keinen Kopf \(oberster Wert\), sondern hat als Platzhalter die Identitätsfunktion. 
+Zur späteren Verwendung von einem Stack wird der leere Stack als Grundbaustein benötigt. Der leere Stack hat die Grösse/ den Index Null. Der leere Stack hat keinen Vorgänger, stattdessen hat er die [Identitätsfunktion](einfache-kombinatoren.md) als Platzhalter. Ausserdem bestitzt der leere Stack keinen Kopf \(oberster Wert\), sondern hat als Platzhalter die Identitätsfunktion.
 
 Implementation des leeren Stacks:
 
@@ -35,7 +33,7 @@ Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird 
 | s2 | \(n2\)\(**s1**\)\( 🤓 \) | const s3 = push\(s2\)\( 👾 \); |
 | s3 | \(n3\)\(**s2**\)\( 👾 \) |  |
 
-s3 =  \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
+s3 = \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
 
 Der Stack **s3** besteht nun aus den Elementen: 😎, 🤓, 👾 .
 
@@ -57,8 +55,6 @@ const stackWithOneValue = push(emptyStack)(1);
 
 Nun besitzt der Stack von oben den Wert 1.
 
-#### 
-
 ### pop
 
 Um den obersten Wert vom Stack zu entfernen gibt es die pop-Funktion. Die pop-Funktion gibt ein [Pair](einfache-kombinatoren.md) zurück. Dieses Pair besteht aus dem vorgänger-Stack und dem Wert, der vom Stack entfernt wurde. Mit den "getter"-Funktionen für Pairs, kann auf die Werte zugegriffen werden.
@@ -69,7 +65,7 @@ Beispiel:
 const resultPair = pop(stackWithOneValue); 
 
 const predecessorStack = resultPair(fst);    // empty stack
-const poppedValue = resultPair(snd);         // 1    
+const poppedValue = resultPair(snd);         // 1
 ```
 
 ## Weitere Funktionen
@@ -84,8 +80,6 @@ Beispiel:
 const sizeOfStack = size(stackWithOneValue); // n1
 ```
 
-### 
-
 ### head
 
 Um auf den Kopf \(oberster Wert\) des Stacks zuzugreifen gibt es die Funktion head. Diese Funktion nimmt ein Stack entgegen und gibt den Kopf des Stacks zurück.
@@ -95,8 +89,6 @@ Beispiel:
 ```javascript
 const headValue = head(stackWithOneValue); // 1
 ```
-
-### 
 
 ### hasPre
 
@@ -121,8 +113,6 @@ const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
 const element = getElementByIndex(stackWithTwoElements)(n2); // "World"
 ```
 
-#### 
-
 ### getElementByJsnumIndex
 
 Die Funktion getElementByJsnumIndex nimmt einen Stack und einen Index \(normale Zahl\) entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
@@ -141,10 +131,8 @@ Beispiel:
 
 ```javascript
 const stackWithTwoElements = push(push(emptyStack)(1))(2);
-const arrayWithTwoElements = convertStackToArray(stackWithTwoElements); // [1, 2] 
+const arrayWithTwoElements = convertStackToArray(stackWithTwoElements); // [1, 2]
 ```
-
-#### 
 
 ### convertArrayToStack
 
@@ -187,8 +175,6 @@ const reduceFunctionSum = (acc, curr) => acc + curr;
 const sumOfTheStack = reduce(stackWithTwoElements)(pair(reduceFunctionSum)(0); // 3
 ```
 
-### 
-
 ### Map
 
 Map nimmt einen Stack und eine map-Funktion \(wie bei JavaScript Array map\) entgegen. Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
@@ -202,11 +188,9 @@ const multiplyWithTwo = x => x * 2;
 const mappedStack = map(stackWithTwoElements)(multiplyWith2); // stack: 2, 4
 ```
 
-### 
-
 ### Map with Reduce
 
-Ausserdem gibt es noch eine MapWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Map-Funktion entgegen. Diese Funktion kann genau gleich wie die Map Funktion verwendet werden. 
+Ausserdem gibt es noch eine MapWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Map-Funktion entgegen. Diese Funktion kann genau gleich wie die Map Funktion verwendet werden.
 
 Implementation:
 
@@ -214,11 +198,9 @@ Implementation:
 const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
 ```
 
-### 
-
 ### Filter
 
-Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funktion gibt den gefilterten  Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
+Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funktion gibt den gefilterten Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
 
 Beispiel:
 
@@ -229,11 +211,9 @@ const filterFunction = x => x > 1 && x < 3;
 const filteredStack = filter(stackWithTwoElements)(filterFunction); // stack: 2
 ```
 
-### 
-
 ### Filter with Reduce
 
-Ausserdem gibt es noch eine FilterWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Filter-Funktion entgegen. Diese Funktion kann genau gleich wie die Filter Funktion verwendet werden. 
+Ausserdem gibt es noch eine FilterWithReduce-Funktion die mittels der obenstehenden reduce-Funktion implementiert ist. Sie nimmt auch einen Stack und eine Filter-Funktion entgegen. Diese Funktion kann genau gleich wie die Filter Funktion verwendet werden.
 
 Implementation:
 
@@ -241,13 +221,36 @@ Implementation:
 const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 ```
 
+## ForEach-Loop
 
+Die Funktion forEach nimmt einen Stack und eine Callback-Funktion entgegen. Die Funktion iteriert über den Stack und ruft in jeder Iteration die Callbackfunktion auf. Der Callbackfunktion werden zwei Argumente übergeben. Das erste Argument ist das Element von der aktuellen Iterationsrunde. Das zweite Argument ist der Index, des Elements.
+
+Beispiel:
+
+```javascript
+const stackWithNumbers = startStack(pushToStack)(5)(pushToStack)(10)(id);
+
+const callbackFunc = (element, index) => {
+    console.log('element at: ' + index + ': ' + element);
+};
+
+forEach(stackWithNumbers)(callbackFunc); // element at: 1: 5
+                                         // element at: 2: 10
+
+
+```
+
+Bei der Implementierung von der forEach-Funktion wurde für die eigentliche Iteration [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) verwendet.
+
+{% hint style="info" %}
+Die forEach-Funktion für Stacks funktioniert gleich wie die JavaScript forEach Schlaufe.
+{% endhint %}
 
 ## Nützliche Helferfunktionen
 
 ### Stack auf der Konsole ausgeben - logStackToConsole
 
-Die Funktion logStackToConsole nimmt einen Stack entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt den Stack auf die JavaScript-Konsole. 
+Die Funktion logStackToConsole nimmt einen Stack entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt den Stack auf die JavaScript-Konsole.
 
 Beispiel:
 
@@ -257,8 +260,6 @@ logStackToConsole(stackWithThreeElements);
 ```
 
 ![](../.gitbook/assets/bildschirmfoto-2020-01-14-um-06.54.01.png)
-
-### 
 
 ### Stack erstellen mit Helferfunktion - startStack
 
@@ -275,6 +276,4 @@ Durch diese Helferfunktion lassen sich Stacks bequemer erstellen.
 * Alle Funktionen sind **rein** \(mit Ausnahme logStackToConsole\). 
 * In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**. 
 * Die [Iteration ist mit church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) implementiert.
-
-
 
