@@ -6,7 +6,9 @@ Für ein Einstieg-Projekt, um sich am beste einmal mit den [Kombinatoren](einfac
 
 ## Kern des Taschenrechner
 
-Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um dies zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein. Dafür wurde eine sogenannter _CalculatorHandler_ entwickelt, welche jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen nimmt.
+Die Idee war einen Taschenrechner so zu bauen, der möglichst leicht zu bedienen, und verständlich aufgebaut, ist. Um diese Anforderungen zu erreichen sollte eine einfache Verkettung der arithmetischen Zahlen und Operationen möglich sein.
+
+Als Helferfunktion wurde eine sogenannter _CalculatorHandler_ entwickelt, mit dem solch ein Konstruktion schlussendlich möglich ist.
 
 CaluclatorHandler Implementation:
 
@@ -14,27 +16,28 @@ CaluclatorHandler Implementation:
 const calculatorHandler = op => n => k => f => f(op(n)(k));
 ```
 
-### 
+Der _calculatorHandler_ nimmt jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen. Wie man ihn Anwendet:[ **Addition mit JavaScript-Operatoren und dem** _**CalculatorHandler**_](der-lambdafizierter-taschenrechner.md#addition-mit-javascript-operatoren-und-dem-calculatorhandler)_**.**_
 
 ## Rechnen mit JavaScript-Zahlen
 
-Mit den einfachen JavaScript-Operatoren \(  `plus = x => y => x + y`   `substraction = x => y => x - y` etc. \) und dem _CalculatorHandler_ können Berechnungen durchgeführt werden, jedoch unspektakulärer und nicht einfacher bedienbarer, als wenn die JavaScript-Operatoren direkt benutzt würde:
-
-### **Einfach Addition mit JavaScript-Operatoren:**
+Um mit JavaScript-Zahlen zu rechnen werden die Arithmetische-Operatoren von JavaScript benötigt: 
 
 ```javascript
- plus(1)(2)            // 3
- plus(1)( plus(2)(3) ) // 6 
+const plus              = n => k => n + k;
+const multiplication    = n => k => n * k;
+const subtraction       = n => k => n - k;
+const exponentiation    = n => k => n ** k;
+const division          = n => k => n / k;
+
+// example
+plus(1)(2)            // 3
+multiplication(2)(3)  // 6 
+subtraction(5)(2)     // 3      
 ```
 
-### **Addition mit JavaScript-Operatoren und dem** _**CalculatorHandler**_**:**
 
-```javascript
-calculatorHandler(plus)(1)(2)(id)                                   // 3
-calculatorHandler(plus)(1)( calculatorHandler(plus)(2)(3)(id) )(id) // 6
-```
 
-Wenn aber neue Funktionen  via Point-Freestyle mit dem _CalculatorHandler_ und den JavaScript-Operatoren __erstellt werden... 
+Mit dem _CalculatorHandler_  und den JavaScript-Operatoren kombiniert, werden vie Point-Freestyle neue \(Calculator-\)Funktionen erstellt:
 
 ```javascript
 const add   = calculatorHandler(plus);            
@@ -44,7 +47,9 @@ const pow   = calculatorHandler(exponentiation);
 const div   = calculatorHandler(division);
 ```
 
-... und die [Thrush-Funktion](einfache-kombinatoren.md) `T = x => f => f(x)`  als den Taschenrechner-Starter verwendet, kann eine unendliche Verkettungen von Zahlen und Operationen erstellt werden.
+
+
+Mit der  [Thrush-Funktion](einfache-kombinatoren.md) \(`T = x => f => f(x)` \)  als den Taschenrechner-Starter und den neue CalculatorFunktionen, ist es mögliche eine unendliche Verkettungen von Zahlen und Operationen zu erstellen.
 
 Beispiel:
 
@@ -52,7 +57,7 @@ Beispiel:
 T(1)(add)(2)(pow)(6)(sub)(2)(div)(8)(add)(7)(multi)(4)(sub)...
 ```
 
-Um diese Verkettung jedoch abzubrechen und das Resultat der Berechnung zu erhalten, braucht man jeglich die [Identity-Funktion](einfache-kombinatoren.md) `id = x => x`  als Letztes anzuwenden.
+Um diese Verkettung ein Ende zu setzen und das Resultat der Berechnung zu erhalten, braucht es jeglich die [Identity-Funktion](einfache-kombinatoren.md) `id = x => x`  als Letztes, als CalculatorFunktion, anzuwenden.
 
 Beispiel:
 
@@ -76,7 +81,7 @@ const result = id;
 
 
 
-So werden nun mit **JavaScript-Zahlen** und **-Arithmetik** schöne verkettete Berechnungen erstellt.
+So werden nun mit **JavaScript-Zahlen** und **-Arithmetik** verkettete Berechnungen erstellt.
 
 Beispiel:
 
@@ -88,7 +93,7 @@ calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) // 42
 
 ## Rechnen mit Church Encodings-Zahlen
 
-Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(`n0, n1, n2, ...` \) gleich benutzen zu können, braucht es die [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
+Um den Taschenrechner nicht nur mit JavaScript-Zahlen sondern auch mit den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) \(`n0, n1, n2, ...` \) gleich benutzen zu können, braucht es die[ lambdafizierte Arithmetik-Operatoren mit Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-addition-addieren)  \(`churchAddition = n => k => n(succ)(k)` , `churchSubstraction = n => k => k(pred)(n)`etc. \)  mit dem _CalculatorHandler_ zu kombinieren.
 
 Implementationen:
 
@@ -99,7 +104,7 @@ const churchPow     = calculatorHandler(churchPotency);
 const churchSub     = calculatorHandler(churchSubtraction);
 ```
 
-Mit diesen [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md) und den Church-Zahlen lässt sich der Taschenrechner gleich bequem bedienen.
+Mit diesen [lambdafizierte Arithmetik-Operatoren](church-encodings-zahlen-und-boolesche-werte.md) und den [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) lässt sich der Taschenrechner gleich bequem bedienen.
 
 Beispiel:
 
@@ -121,9 +126,13 @@ calc(1)(sub)(7)(result)         // -6
 calc(n1)(churchSub)(n7)(result) // 0 bzw. n0
 ```
 
+#### 
+
 #### Division
 
 Gleiches Problem wie mit den negativen Zahlen, können die Church-Zahlen keine Rationale-Zahlen repräsentiere. Darum gibt es auch keinen lambdafizierte Division-Operator.
+
+#### 
 
 #### Maximum call stack size exceeded
 
