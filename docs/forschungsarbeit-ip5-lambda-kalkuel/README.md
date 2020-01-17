@@ -26,23 +26,21 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
 3. Als weitere Herausforderung wollten wir eine unveränderliche Datenstruktur erstellen. Dabei wurde nach eine einfachen Datenstruktur  gesucht, auf welcher  weitere Datenstrukturen gebaut werden können. Dabei entstand der [Immutable Stack](immutable-stack.md). Das Ziel dieser unveränderlichen Datenstruktur ist, dass bei der Verarbeitung der Daten keine Fehler, die durch Seiteneffekte von anderen Funktionen, enstehen können. 
 4. Zum Testen von unseren Konstruktionen wurde ein eigenes [Test-Framework ](test-framework.md)implementiert. Es dienst als  Qualitätssicherung \(Überprüfung der Funktionalität\) und ist eine fortlaufende Unterstützung beim _Refactoring_ der Konstruktionen.
 
-### Was wir damit erreicht haben
+### 
 
+### Was wir erreicht haben
 
+Wir haben eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JsDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
 
+![](../../.gitbook/assets/image.png)
 
+Der Stack wurde in das Test-Framwork integriert, so dass ....
 
-### Was nehmen wir aus dieser Arbeit mit...
+Taschenrechenr, Stack, Test
 
-Der Lerneffekt in dieser Forschungsarbeit war für uns immens.
+Eigene "kleine" nützliche Konstruktionen
 
-Die Auseinandersetzung mit der Materie, des Lambda Kalkül hat unsere Fähigkeiten in der funktionalen Programmierung verbessert. Ausserdem haben wir nun ein tieferes Verständnis der Programmiersprache JavaScript.
-
-Diese Arbeit hat uns den Grundstein zu anderen funktionalen Programmiersprachen gelegt. Wir beherrschen die wichtigsten funktionalen Konzepte und können diese nun anwenden. 
-
-Das Projekt war ein grosses mentale Training für uns, welches unser abstraktes und analytischen Denkvermögen verbessert.
-
-Wir kenne nun die Unterschiede zwischen der funktionalen und der objektorientierter Programmierung. Mit diesen neuen Wissen werden wir in unseren zukünftigen Projekten die funktionalen Konzepte, da wo es sinn macht, geschickt einsetzten.   
+Solide Grundlagen für weitere Forschung in diesem Gebiet.
 
 
 
