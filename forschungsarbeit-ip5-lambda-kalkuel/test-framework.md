@@ -2,7 +2,7 @@
 
 ## Beschreibung
 
-Um die Korrektheit unserer Konstruktionen zu verifizieren haben, wir ein eigenes Test Framework ohne externe Abhängikeiten geschrieben. Von der Architektur \(Aufbau/Struktur & Konzept\) haben wir uns vom Test Framework von Prof. Dierk König inspieren lassen. Ausserdem wurde der [Immutable-Stack](immutable-stack.md#beschreibung) im Test-Framework eingebaut und verwendet. Zudem sind mehrere nützliche Funktionen vom Stack verwendet worden,  wie z.b die Filter- & forEach-Funktion.
+Um die Korrektheit unserer Konstruktionen zu verifizieren haben, wir ein eigenes Test Framework ohne externe Abhängikeiten geschrieben. Von der Architektur \(Aufbau/Struktur & Konzept\) haben wir uns vom Test Framework von Prof. Dierk König inspieren lassen. Ausserdem wurde der [Immutable-Stack](immutable-stack.md#beschreibung) im Test-Framework eingebaut und verwendet. Zudem sind mehrere nützliche Funktionen vom Stack verwendet worden,  wie z.b die [Filter](immutable-stack.md#filter)- & [forEach](immutable-stack.md#foreach-loop)-Funktion.
 
 ### Ansicht aller Testergebnissen: [AllTest.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/test/allTest.html)
 
