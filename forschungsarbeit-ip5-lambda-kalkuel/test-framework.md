@@ -2,15 +2,15 @@
 
 ## Beschreibung
 
-Um die Korrektheit unserer Konstruktionen zu verifizieren haben, wir ein eigenes Test Framework ohne externe Abhängikeiten geschrieben. Von der Architektur \(Aufbau/Struktur & Konzept\) haben wir uns vom Test Framework von Prof. Dierk König inspieren lassen.
+Um die Korrektheit unserer Konstruktionen zu verifizieren haben, wir ein eigenes Test Framework ohne externe Abhängikeiten geschrieben. Von der Architektur \(Aufbau/Struktur & Konzept\) haben wir uns vom Test Framework von Prof. Dierk König inspieren lassen. Ausserdem wurde der [Immutable-Stack](immutable-stack.md#beschreibung) im Test-Framework eingebaut und verwendet. Zudem sind mehrere nützliche Funktionen vom Stack verwendet worden,  wie z.b die Filter- & forEach-Funktion.
 
-#### Ansicht aller Testergebnissen: [AllTest.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/test/allTest.html)
+### Ansicht aller Testergebnissen: [AllTest.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/test/allTest.html)
 
 ## Aufbau
 
 Zuerst ein paar wichtige Definition/Erklärungen zum Test-Framework.
 
-Die kleinste Einheit unseres Test-Frameworks ist ein einzelner Aufruf der equals-Methode auf dem Assert Objekt. 
+Die kleinste Einheit unseres Test-Frameworks ist ein einzelner Aufruf der equals-Methode auf dem Assert Objekt.
 
 ```javascript
 assert.equals(1, 1);
@@ -42,13 +42,9 @@ In der Testsuite befinden Testfälle von allen Funktionen des Gruppierten Thema'
 
 ![Einzelner Testfall einer Funktion](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.12.png)
 
-
-
 Wenn in einem Testfall ein Test fehlschlägt, wird dies farblich angezeigt. Dabei wird die Nummer des Test's und was genau schiefgegangen ist angezeigt.
 
 ![Ein fehlgeschlagener Test im Testfall, der Identit&#xE4;tsfunktion](../.gitbook/assets/bildschirmfoto-2020-01-17-um-13.45.46.png)
-
-
 
 Die Testsuiten werden am Schluss auf einer Html Seite angezeigt, sodass man eine Übersicht von allen Test's hat. Auf dieser Übersicht werden alle Test's von allen Testfällen zusammengezählt und als Total angezeigt.
 
