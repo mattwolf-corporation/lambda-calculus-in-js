@@ -1,5 +1,5 @@
 import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
-import {emptyStack, push, filter, map, pop, size, logStackToConsole, hasPre, head} from "../src/stack/stack.js";
+import {emptyStack, push, filter, map, pop, size, logStackToConsole, hasPre, head, forEach} from "../src/stack/stack.js";
 import { jsnum } from '../src/lambda-calculus-library/church-numerals.js';
 
 export {TestSuite}
@@ -75,16 +75,13 @@ const TestSuite = name => {
 
 let totalTests = 0;
 const renderReport = (name, tests) => {
-    const times = size(tests);
     let outputHtml = "";
 
     let totalPassed = 0;
     let totalFailed = 0;
 
-    const iterationF = testStack => {
-        if(convertToJsBool(hasPre(testStack))) {
-            const test = head(testStack);
-            const {origin, asserts} = test;
+    const iterationF = (element, index) => {
+            const {origin, asserts} = element;
 
             const sizeOfAsserts = jsnum(size(asserts));
             totalTests += sizeOfAsserts;
@@ -101,20 +98,13 @@ const renderReport = (name, tests) => {
             let failMessage = "";
             let passedLine = ` <span>${passed} / ${sizeOfAsserts}   </span>`;
 
-            const failedFunc = stackOfFailedTests => {
-                if(convertToJsBool(hasPre(stackOfFailedTests))) {
-                    const failedTest = head(stackOfFailedTests);
-
-                    const {actual, expected, result, counter} = failedTest;
-                    failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
-
-                    return (pop(stackOfFailedTests))(fst);
-                }
-
-                return stackOfFailedTests;
+            const failedFunc = (element, index) => {
+                const failedTest = element;
+                const {actual, expected, result, counter} = failedTest;
+                failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
             };
 
-            churchSizeOfFailed(failedFunc)(failed);
+            forEach(failed)(failedFunc);
 
             outputHtml += `
             <tr>
@@ -136,14 +126,9 @@ const renderReport = (name, tests) => {
             </tr>    
         `;
             }
-
-            return (pop(testStack))(fst);
-        }
-
-        return testStack;
     };
 
-    times(iterationF)(tests);
+    forEach(tests)(iterationF);
 
     document.getElementById("totalTests").innerText = totalTests;
 

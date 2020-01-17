@@ -37,7 +37,7 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach
 }
 /**
  * Generic Types
