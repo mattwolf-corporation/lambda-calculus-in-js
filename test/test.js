@@ -1,6 +1,6 @@
-import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
-import {emptyStack, push, filter, map, pop, size, logStackToConsole, hasPre, head, forEach} from "../src/stack/stack.js";
-import { jsnum } from '../src/lambda-calculus-library/church-numerals.js';
+import {convertToJsBool} from "../src/lambda-calculus-library/lambda-calculus.js";
+import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
+import {jsnum} from '../src/lambda-calculus-library/church-numerals.js';
 
 export {TestSuite}
 
@@ -99,8 +99,7 @@ const renderReport = (name, tests) => {
             let passedLine = ` <span>${passed} / ${sizeOfAsserts}   </span>`;
 
             const failedFunc = (element, index) => {
-                const failedTest = element;
-                const {actual, expected, result, counter} = failedTest;
+                const {actual, expected, result, counter} = element;
                 failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
             };
 
