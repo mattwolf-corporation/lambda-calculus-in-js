@@ -22,8 +22,8 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
    const id = x => x;
    ```
 
-2. Einen Taschenrechner welcher nur aus Lambda-Kalkül-Konstruktionen programmiert wurde. Der Taschenrechner kann mit JavaScript-Zahlen und mit **Church-Zahlen** Berechnungen ausführen  \( [Der lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)\). Die Church-Zahlen gehören auch zum Fundament der Forschungsarbeit und dienen später dazu, um  **Iterationen** durchzuführen. 
-3. Als weitere Herausforderung wollten wir eine unveränderliche Datenstruktur erstellen. Dabei wurde nach eine einfachen Datenstruktur  gesucht, auf welche  weitere Datenstrukturen erstellt werden können. Dabei entstand der [Immutable Stack](immutable-stack.md). Das Ziel dieser unveränderlichen Datenstruktur ist, dass bei der Verarbeitung der Daten keine Fehler, die durch Seiteneffekte von anderen Funktionen, enstehen können. 
+2. Einen Taschenrechner welcher nur aus Lambda-Kalkül-Konstruktionen programmiert wurde. Der Taschenrechner kann mit JavaScript-Zahlen und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) ****Berechnungen ausführen  \( [Der lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)\). Die Church-Zahlen gehören auch zum Fundament der Forschungsarbeit und dienen später dazu, **Iterationen** durchzuführen. 
+3. Als weitere Herausforderung wollten wir eine unveränderliche Datenstruktur erstellen. Dabei wurde nach eine einfachen Datenstruktur  gesucht, auf welcher  weitere Datenstrukturen gebaut werden können. Dabei entstand der [Immutable Stack](immutable-stack.md). Das Ziel dieser unveränderlichen Datenstruktur ist, dass bei der Verarbeitung der Daten keine Fehler, die durch Seiteneffekte von anderen Funktionen, enstehen können. 
 4. Zum Testen von unseren Konstruktionen wurde ein eigenes [Test-Framework ](test-framework.md)implementiert. Es dienst als  Qualitätssicherung \(Überprüfung der Funktionalität\) und ist eine fortlaufende Unterstützung beim _Refactoring_ der Konstruktionen.
 
 ### Was wir damit erreicht haben
@@ -34,9 +34,15 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine 
 
 ### Was nehmen wir aus dieser Arbeit mit...
 
-Der Lerneffekt in dieser Forschungsarbeit war für uns immens. Wir haben viel funktionales Programmieren gelernt, 
+Der Lerneffekt in dieser Forschungsarbeit war für uns immens.
 
-Diese Arbeit hat uns den Grundstein zu anderen Funktionalen Programmiersprachen gelegt. Wir beherschen die wichtigsten Funktionalen Konzepte und können diese nun anwenden. 
+Die Auseinandersetzung mit der Materie, des Lambda Kalkül hat unsere Fähigkeiten in der funktionalen Programmierung verbessert. Ausserdem haben wir nun ein tieferes Verständnis der Programmiersprache JavaScript.
+
+Diese Arbeit hat uns den Grundstein zu anderen funktionalen Programmiersprachen gelegt. Wir beherrschen die wichtigsten funktionalen Konzepte und können diese nun anwenden. 
+
+Das Projekt war ein grosses mentale Training für uns, welches unser abstraktes und analytischen Denkvermögen verbessert.
+
+Wir kenne nun die Unterschiede zwischen der funktionalen und der objektorientierter Programmierung. Mit diesen neuen Wissen werden wir in unseren zukünftigen Projekten die funktionalen Konzepte, da wo es sinn macht, geschickt einsetzten.   
 
 
 
