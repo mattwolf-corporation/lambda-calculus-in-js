@@ -141,7 +141,7 @@ Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch vi
 
 Lambdafizierter Taschenrechner UI
 
-![The Functional Calculator](../../.gitbook/assets/image%20%282%29.png)
+![The Functional Calculator](../../.gitbook/assets/image%20%281%29.png)
 
 
 
