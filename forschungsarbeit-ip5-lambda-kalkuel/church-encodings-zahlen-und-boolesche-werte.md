@@ -2,7 +2,7 @@
 
 ## Beschreibung
 
-Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Boolean und Church-Zahlen. Mit den Church-Boolean werden boolesche Logik mit Funktionen ausgedrückt und die Church-Zahlen sind die bekannteste Form, mit welche die natürlichen Zahlen repräsentiert werden. Benannt sind sie nach [Alonzo Church](https://de.wikipedia.org/wiki/Alonzo_Church), Mathematiker und einer der Begründer der theoretischen Informatik.
+Nebst den bekannten [Lambda-Kombinatoren](einfache-kombinatoren.md) gibt es noch die Church-Booleans und Church-Zahlen. Mit den Church-Booleans werden boolesche Logik mit Funktionen ausgedrückt und die Church-Zahlen sind die bekannteste Form, mit welche die natürlichen Zahlen repräsentiert werden. Benannt sind sie nach [Alonzo Church](https://de.wikipedia.org/wiki/Alonzo_Church), Mathematiker und einer der Begründer der theoretischen Informatik.
 
 ## Church-Boolean
 
@@ -138,7 +138,7 @@ convertToJsBool(False)       // false
 
 ## Church-Zahlen
 
-Die Church-Zahlen sind keine "echte" Zahlen, sondern Funktionen die n-Mal ein Argument ausführen. Um die Zahl Eins als eine Church-Zahl \( **`n1`**\) zu repräsentieren muss es eine Funktion geben die ein Argument genau einmal aufruft. 
+Die Church-Zahlen sind keine "echte" Zahlen, sondern eine Funktionen wird n-Mal auf ein Argument angewendet. Um die Zahl Eins als eine Church-Zahl \( **`n1`**\) zu repräsentieren muss es eine Funktion geben die einmal auf das Argument angewendet wird. 
 
 Implementation der Church-Zahl  **`n1`**  \(Eins\):
 
@@ -152,7 +152,7 @@ n1(x => x + 1)(0)      // 1
 n1(x => x + '!')('λ')  // 'λ!'
 ```
 
-Das gleiche mit den Zahlen von Zwei bis Neun, welche jeweils n-Mal mehr den Funktion-Aufruf angefügt werden.
+Das gleiche mit den Zahlen von Zwei bis Neun, welche jeweils n-Mal auf ein Argument angewendet werden.
 
 ```javascript
 // Implementation n2...n9
@@ -174,7 +174,7 @@ n3(x => x + '!')('λ')  // 'λ!!!'
 ```
 
 [  
-](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als einen triviale Funktion implementiert, welche das Argument keinmal aufgerufen wird. Somit wird die Funktion  `f`   ignoriert.
+](https://app.gitbook.com/@mattwolf-corporation/s/ip5-lambda-calculus/~/diff/drafts/-LySdvLY72eVAhh8w8A8/docs/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)Die Zahl Null  **`n0`**  wird in den Church-Zahlen als Funktion die keinmal auf das Argument angewendet wird. Somit wird die Funktion  `f`   ignoriert.
 
 Implementation der Church-Zahl  **`n0`**  \(Null\):
 
@@ -217,7 +217,7 @@ successor(n5)        // n6
 
 ### Phi  \(-Kombinator\)
 
-Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt einen neuen zurück, dessen erster Wert gleich dem Zweiten ist und der zweite Wert sein eigener Nachfolger.
+Der _Phi-Kombinator_ nimmt eine [Pair ](einfache-kombinatoren.md#pair)und gibt ein neues Pair zurück. Der erste Wert entspricht dem zweiten des alten Pairs. Der zweite Wert ist der Nachfolger des zweiten Wertes vom alten Pair.
 
 Implementation:
 
@@ -364,10 +364,10 @@ churchPotency(n9)(n4)     // 6561
 
 ### isZero
 
-_isZero_ nimmt eine Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die Church-Zahl `n0` ist erhalt man das Church-Boolean `True`, ansonsten `False` zurück.
+_isZero_ nimmt eine Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die Church-Zahl `n0` ist gibt die Funktion ein Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
-Beachte den [Kestral ](einfache-kombinatoren.md#kestrel-die-konstante-funktion)`k`  in der Funktion, der nur zum Zug kommt, wenn die Church-Zahl nicht `n0` ist und somit den ersten Wert bzw. `False` zurück gibt.
+Beachte den [Kestrel ](einfache-kombinatoren.md#kestrel-die-konstante-funktion)`k`  in der Funktion, der nur zum Zug kommt, wenn die Church-Zahl nicht `n0` ist und somit den ersten Wert bzw. `False` zurück gibt.
 {% endhint %}
 
 Implementation:
@@ -389,7 +389,7 @@ is0(n7)     // False
 
 ### leq \(less-than-or-equal\)
 
-_Leq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn die erste Wert kleiner oder gleich dem zweiten Wert ist erhält man das Church-Boolean `True`, ansonsten `False` zurück.
+_Leq_ nimmt zwei Church-Zahlen und gibt ein [Church-Boolean](einfache-kombinatoren.md#church-boolean) zurück. Wenn der erste Wert kleiner oder gleich dem zweiten Wert ist gibt die Funktion ein Church-Boolean `True`, ansonsten `False` zurück.
 
 {% hint style="info" %}
 [isZero ](church-encodings-zahlen-und-boolesche-werte.md#iszero)und [churchSubstraction ](church-encodings-zahlen-und-boolesche-werte.md#church-substraction-substrahieren)sind dabei die benötigten Funktionen um _Leq_ zu implementieren.  

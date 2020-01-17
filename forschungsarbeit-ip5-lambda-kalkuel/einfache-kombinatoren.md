@@ -20,7 +20,7 @@ Beispiele:
 
 ```javascript
 id(10);           // 10
-id(id);           // id
+id(I);            // I
 id("Hello");      // "Hello"
 ```
 
@@ -88,7 +88,7 @@ M(M);         // stack overflow, da M(M) ==> M(M) ==> M(M) ....
 
 ### Cardinal \(Flip\) - Vertauschungsfunktion
 
-Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in vertauschter Reihenfolge auf die übergebene Funktion an.
+Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funktion an.
 
 Implementation:
 
