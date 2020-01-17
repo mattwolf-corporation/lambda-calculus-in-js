@@ -82,7 +82,7 @@ const renderReport = (name, tests) => {
     let totalFailed = 0;
 
     const iterationF = testStack => {
-        if(hasPre(testStack)) {
+        if(convertToJsBool(hasPre(testStack))) {
             const test = head(testStack);
             const {origin, asserts} = test;
 
@@ -102,7 +102,7 @@ const renderReport = (name, tests) => {
             let passedLine = ` <span>${passed} / ${sizeOfAsserts}   </span>`;
 
             const failedFunc = stackOfFailedTests => {
-                if(hasPre(stackOfFailedTests)) {
+                if(convertToJsBool(hasPre(stackOfFailedTests))) {
                     const failedTest = head(stackOfFailedTests);
 
                     const {actual, expected, result, counter} = failedTest;
