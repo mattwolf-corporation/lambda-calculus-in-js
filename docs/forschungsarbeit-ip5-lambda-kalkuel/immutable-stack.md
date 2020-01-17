@@ -33,7 +33,7 @@ Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird 
 | emptyStack | \(n0\)\(id\)\(id\) | const s1 = push\(empyStack\)\( 😎 \); |
 | s1 | \(n1\)\(**emptyStack**\)\( 😎 \) | const s2 = push\(s1\)\( 🤓 \); |
 | s2 | \(n2\)\(**s1**\)\( 🤓 \) | const s3 = push\(s2\)\( 👾 \); |
-| s3 | \(n3\)\(s2\)\( 👾 \) |  |
+| s3 | \(n3\)\(**s2**\)\( 👾 \) |  |
 
 s3 =  \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
 
@@ -61,7 +61,7 @@ Nun besitzt der Stack von oben den Wert 1.
 
 ### pop
 
-Um den obersten Wert vom Stack zu entfernen gibt es die pop-Funktion. Die pop-Funktion gibt ein [Pair](einfache-kombinatoren.md) zurück. Dieses Pair besteht aus dem vorgänger-Stack und dem Wert, der vom Stack entfernt wurde. Mit den ["getter"-Funktionen für Pairs](einfache-kombinatoren.md), kann auf die Werte zugegriffen werden.
+Um den obersten Wert vom Stack zu entfernen gibt es die pop-Funktion. Die pop-Funktion gibt ein [Pair](einfache-kombinatoren.md) zurück. Dieses Pair besteht aus dem vorgänger-Stack und dem Wert, der vom Stack entfernt wurde. Mit den "getter"-Funktionen für Pairs, kann auf die Werte zugegriffen werden.
 
 Beispiel:
 
@@ -172,11 +172,11 @@ const reversedStack = reverseStack(stackWithTwoElements); // stack: 2, 1
 
 ## Stack - Reduce, Map und Filter
 
-Die JavaScript Funktionen reduce, map und filter gibt es auch für den Stack. 
+Die JavaScript Funktionen reduce, map und filter wurden auch für den Stack implementiert.
 
 ### Reduce
 
-Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.md#pair). Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den redizierten Wert zurück.
+Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.md#pair). Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den reduzierten Wert zurück.
 
 Beispiel:
 

@@ -165,7 +165,7 @@ const V = x => y => f => f(x)(y);
 
 ### Pair
 
-Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implmentiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die [Konstante Funktion](einfache-kombinatoren.md#kestrel-die-konstante-funktion). Die snd-Funktion ist gerade der [Kite](einfache-kombinatoren.md#kite).
+Das Pair ist eine unveränderliche Datenstruktur bestehend aus zwei Elementen. Mit sogenannten "getter"-Funktionen kann auf diese Werte zugegriffen werden. Für beide Werte des Pairs gibt es eine "getter"-Funktion. Für den ersten Wert des Pairs gibt es die Funktion fst \(first\), für den zweiten Wert gibt es die Funktion snd \(second\). Für das Pair und die dazugehörigen getter muss nichts neues implementiert werden, sondern es können dafür bereits bestehende Funktionen \(Grundbausteine\) verwendet werden. Das Pair ist gerade der [Vireo](einfache-kombinatoren.md#vireo). Die fst-Funktion ist gerade die [Konstante Funktion](einfache-kombinatoren.md#kestrel-die-konstante-funktion). Die snd-Funktion ist gerade der [Kite](einfache-kombinatoren.md#kite).
 
 Implementation :
 
@@ -357,7 +357,7 @@ or(False)(False)       // False
 
 ### Boolean Equality
 
-Diese Funktion nimmt zwei Church-Booleans entgegen und vergleicht diese miteinander. Nur wenn beide gleich sind, gibt die Funktion ein church-True zurück, sonst ein church-False.
+Diese Funktion nimmt zwei Church-Booleans entgegen und vergleicht diese miteinander. Nur wenn beide gleich sind, gibt die Funktion ein Church-True zurück, sonst ein Church-False.
 
 Implementation:
 
@@ -378,7 +378,7 @@ beq(False)(False)       // True
 
 ### Show Boolean
 
-Die Funktion showBoolean ist eine Helferfunktion um eine String Representation, eines church-Boolean zu erhalten. Die Funktion nimmt ein church-Booleann entgegen und gibt die String Representation davon zurück.
+Die Funktion showBoolean ist eine Helferfunktion um eine String Representation, eines Church-Boolean zu erhalten. Die Funktion nimmt ein Church-Boolean entgegen und gibt die String Representation davon zurück.
 
 Implementation:
 
@@ -397,7 +397,7 @@ showBoolean(False);       // 'False'
 
 ### Connvert to js Bool
 
-Die Funnktion convertToJsBool nimmt ein church-Boolean entgegen und liefert die JavaScript Representation davon zurück.
+Die Funktion convertToJsBool nimmt ein Church-Boolean entgegen und liefert die JavaScript Representation davon zurück.
 
 Implementation:
 
