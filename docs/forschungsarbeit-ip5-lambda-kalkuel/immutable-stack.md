@@ -118,7 +118,7 @@ Beispiel:
 
 ```javascript
 const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
-const element = getElementByIndex(stackWithTwoElements)(n1); // "World"
+const element = getElementByIndex(stackWithTwoElements)(n2); // "World"
 ```
 
 #### 
