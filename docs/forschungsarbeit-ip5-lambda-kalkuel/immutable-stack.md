@@ -26,7 +26,7 @@ const emptyStack = stack(n0)(id)(id);
 
 ## Aufbau
 
-Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird ein Stack mit emotji erstellt:
+Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird ein Stack mit Emoji's erstellt:
 
 | stack-name | stack | code |
 | :--- | :--- | :--- |
@@ -36,6 +36,12 @@ Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird 
 | s3 | \(n3\)\(s2\)\( 👾 \) |  |
 
 s3 =  \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
+
+Der Stack **s3** besteht nun aus den Elementen: 😎, 🤓, 👾 .
+
+* Element an Index 1:😎 
+* Element an Index 2:🤓 
+* Element an Index 3:👾 
 
 ## Verwendung
 
