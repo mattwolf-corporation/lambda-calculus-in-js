@@ -89,6 +89,9 @@ lambdaCTest.add("vireo / pair", assert => {
 });
 
 lambdaCTest.add("blackbird", assert => {
+    assert.equals(  Blackbird(id)(x => y => x + y)(2)(3),  5);
+
+
     const add = x => y => x + y;
     const multiplyWithTwo = x => x * 2;
 
