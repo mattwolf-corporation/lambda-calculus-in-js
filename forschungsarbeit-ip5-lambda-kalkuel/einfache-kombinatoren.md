@@ -2,7 +2,7 @@
 
 ## Beschreibung
 
-Folgende Konstruktionen dienen als Grundbausteine für unsere späteren Implementation. Diese Grundbausteine kommen zum Teil aus dem Lambda Kalkül.
+Folgende Konstruktionen dienen als Grundbausteine für unsere späteren Implementationen. Diese Grundbausteine kommen zum Teil aus dem Lambda Kalkül.
 
 ## Wichtige Funktionen \(Grundbausteine\)
 

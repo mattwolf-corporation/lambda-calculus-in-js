@@ -2,7 +2,7 @@
 
 ## Einleitung
 
-Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der funktionalen Programmierung:
+Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der funktionalen Programmierung:
 
 * **Purity** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
 * **Immutabilty** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
@@ -12,10 +12,9 @@ Wir verwenden dabei keine Objektorientierte- oder sonstige nicht funktionale Kon
 
 ## Ausgangslage
 
-Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, haben wir uns eigene Aufgaben überlegt. Folgendes kam dabei raus:
+Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur eine Übergeordnetes Ziel, haben wir uns eigene Aufgaben überlegt. Folgendes kam dabei raus:
 
-1. Als erstes wurde eine eigene kleine Bibliothek von Lambda-Kalkül-Konstruktionen zusammengestellt \([Einfache Kombinatoren](einfache-kombinatoren.md)\). Die Bibliothek wurde mit eigenen Kreationen ergänzt, um diese später in weiteren grösseren Konstruktionen zu verwenden. Diese Bibliothek dient als Werkzeugkasten und ist somit das Fundament unserer Forschungsarbeit.  
-
+1. Als erstes wurde eine eigene kleine Bibliothek von Lambda-Kalkül-Konstruktionen zusammengestellt \([Einfache Kombinatoren](einfache-kombinatoren.md)\), und mit eigenen Kreationen ergänzt, um diese später in weiteren grösseren Konstruktionen zu verwenden. Diese Bibliothek dient als Werkzeugkasten und ist somit das Fundament unserer Forschungsarbeit.
 
    Wie zum Beispiel die _Identitätsfunktion_ :
 
@@ -23,21 +22,21 @@ Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein �
    const id = x => x;
    ```
 
-2. Einen Taschenrechner welcher nur aus Lambda-Kalkül-Konstruktionen gebaut wurde. Der Taschenrechner kann mit JavaScript- und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) Berechnungen ausführen       \([Der lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)\). Die Church-Zahlen gehören auch zum Fundament der Forschungsarbeit und dienen später dazu, Iterationen durchzuführen.
+2. Einen Taschenrechner welcher nur aus Lambda-Kalkül-Konstruktionen programmiert wurde. Der Taschenrechner kann mit JavaScript-Zahlen und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) **\*\*Berechnungen ausführen \(** [**Der lambdafizierter Taschenrechner**](der-lambdafizierter-taschenrechner.md)**\). Die Church-Zahlen gehören auch zum Fundament der Forschungsarbeit und dienen später dazu,** Iterationen\*\* durchzuführen.
 3. Als weitere Herausforderung wollten wir eine unveränderliche Datenstruktur erstellen. Dabei wurde nach eine einfachen Datenstruktur  gesucht, auf welcher  weitere Datenstrukturen gebaut werden können. Dabei entstand der [Immutable Stack](immutable-stack.md). Das Ziel dieser unveränderlichen Datenstruktur ist, dass bei der Verarbeitung der Daten keine Fehler, die durch Seiteneffekte von anderen Funktionen, enstehen können. 
-4. Zum Testen von unseren Konstruktionen wurde ein eigenes [Test-Framework ](test-framework.md)implementiert. Es dienst als  Qualitätssicherung \(Überprüfung der Funktionalität\) und ist eine fortlaufende Unterstützung beim Refactoring der Konstruktionen.
+4. Zum Testen von unseren Konstruktionen wurde ein eigenes [Test-Framework ](test-framework.md)implementiert. Es dienst als  Qualitätssicherung \(Überprüfung der Funktionalität\) und ist eine fortlaufende Unterstützung beim _Refactoring_ der Konstruktionen.
 
 ## Was wurde erreicht
 
 Es wurde eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angelehnt an das Lambda Kalkül, mit JavaScript erstellt. Diese Konstruktionen haben die Eigenschaft, dass sie robust und sicher sind. Die Bibliothek ist umfänglich mit JSDoc dokumentiert und kann in beliebigen JavaScript-Projekten verwendet werden.
 
-Beispiel JSDoc-Dokumentation der Blackbird Funktion
+Beispiel JSDoc-Dokumentation mit Blackbird
 
 ![JSDoc f&#xFC;r Blackbird](../.gitbook/assets/blackbird.PNG)
 
 ![IDE-Dokumentation](../.gitbook/assets/blackbirddokuhelp.PNG)
 
-Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und allgemeine Informationshinweise über die Funktionen.
+Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und eine allgemeine Informationsübersicht über die Funktionen.
 
 Mit diesem Forschungsprojekt wurde eine solide Grundlage für weitere / zukünftige Forschung auf diesem Gebiet gelegt. 
 
@@ -48,7 +47,7 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
-* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen enstehen.
+* Funktions-Kompositionen ist ein sehr mächtiges Werkzeug, weil rasch nützliche neue Konstruktionen enstehen.
 
 
 
