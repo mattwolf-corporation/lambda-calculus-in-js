@@ -1,15 +1,13 @@
----
-description: IP5 HS2019
----
 
-# Lambda Kalkül für praktisches JavaScript
 
-* [Forschungsarbeit - Lambda Kalkül mit JavaScript](forschungsarbeit-ip5-lambda-kalkuel/)
-  * [Einfache Kombinatoren](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md)
-  * [Church Encodings - Booleans und Zahlen](forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md)
-  * [Der lambdafizierter Taschenrechner](forschungsarbeit-ip5-lambda-kalkuel/der-lambdafizierter-taschenrechner.md)
-  * [Immutable Stack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
-  * [Test-Framework](forschungsarbeit-ip5-lambda-kalkuel/test-framework.md)
+# [Lambda Kalkül für praktisches JavaScript](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/)
+
+* [Forschungsarbeit - Lambda Kalkül mit JavaScript](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel)
+  * [Einfache Kombinatoren](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)
+  * [Church Encodings - Booleans und Zahlen](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte)
+  * [Der lambdafizierter Taschenrechner](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/der-lambdafizierter-taschenrechner)
+  * [Immutable Stack](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/immutable-stack)
+  * [Test-Framework](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/test-framework)
 
 ## Author
 
