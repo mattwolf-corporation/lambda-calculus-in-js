@@ -39,7 +39,7 @@ Beispiel JSDoc-Dokumentation der Blackbird Funktion
 
 Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und allgemeine Informationshinweise über die Funktionen.
 
-Mit diesem Forschungsprojekt wurde eine solide Grundlage für weitere / zukünftige Forschung auf diesem Gebiet gelegt. 
+Mit diesem Forschungsprojekt wurde eine solide Grundlage für weitere/zukünftige Forschung auf diesem Gebiet gelegt. 
 
 ## Fazit
 
@@ -48,7 +48,7 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
-* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen enstehen.
+* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
 
 
 
