@@ -9,22 +9,90 @@
 <p>Open console to test.</p>
 <br>
 
-<h4>Code-Snipped for Demo:</h4>
-
-
+<h4>Code-Snipped for Stack Demo:</h4>
 <section>
-    <h3>Stack</h3>
-    <h4>Filter:</h4>
+    <h4>convert array to stack</h4>
     <pre>
-    const filterTest = abcdefg;
+        const personList = [
+            {firstName: 'Peter', lastName: 'Pan', age: 30, income: 1000},
+            {firstName: 'Marc', lastName: 'Hunt', age: 28, income: 2000},
+            {firstName: 'Luke', lastName: 'Skywalker', age: 36, income: 3000},
+            {firstName: 'Han', lastName: 'Solo', age: 55, income: 4000},
+            {firstName: 'Tyrion', lastName: 'Lennister', age: 40, income: 5000}
+        ];
 
-
-
-
+        const stackWithPersons = convertArrayToStack(personList);
 
     </pre>
 </section>
 
+<section>
+    <h4>convert stack to array</h4>
+    <pre>
+        const arrayWithPersons = convertStackToArray(stackWithPersons);
+        console.table(arrayWithPersons);
+    </pre>
+</section>
+<section>
+    <h4>Filter</h4>
+    <pre>
+        stackWithPersons
+
+        const personFilter = person => person.lastName.startsWith('S');
+    </pre>
+</section>
+
+<section>
+    <h4>Map</h4>
+    <pre>
+        const stackWithNumbers = convertArrayToStack([1, 2, 3, 4, 5]);
+
+        const multiplyWith2 = x => x * 2;
+
+    </pre>
+</section>
+
+<section>
+    <h4>Reduce</h4>
+    <pre>
+        const reduceFunctionSum = (acc, curr) => acc + curr;
+
+        console.log("Summe: " + );
+    </pre>
+</section>
+
+<section>
+    <h4>ForEach - Loop</h4>
+    <pre>
+        const forEachCallback = (element, index) => {
+            console.log('element at: ' + index + ': ' + JSON.stringify(element));
+        };
+
+    </pre>
+</section>
+
+<section>
+    <h4>Reverse stack</h4>
+    <pre>
+        const reversedStack = reverseStack(stackWithNumbers);
+    </pre>
+</section>
+
+<section>
+    <h4>get Element by Js number Index</h4>
+    <pre>
+        const lukeSkywalker = getElementByJsnumIndex(stackWithPersons)(3);
+        console.table(lukeSkywalker);
+    </pre>
+</section>
+
+<section>
+    <h4>get Element by Index as church number</h4>
+    <pre>
+        const hanSolo = getElementByIndex(stackWithPersons)(n4);
+        console.table(hanSolo);
+    </pre>
+</section>
 
 
 <script src="allFunctions.js" ></script>
