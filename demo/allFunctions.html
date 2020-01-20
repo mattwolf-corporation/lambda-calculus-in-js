@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>All Functions Demo</title>
+    <style>
+        fieldset {
+
+        }
+    </style>
 </head>
 <body>
 <h2>Demo: all functions</h2>
@@ -10,91 +15,143 @@
 <br>
 
 <h4>Code-Snipped for Stack Demo:</h4>
-<section>
-    <h4>convert array to stack</h4>
-    <pre>
+
+<fieldset>
+    <legend><strong>convert array to stack</strong></legend>
+    <section>
+        <pre>
         const personList = [
             {firstName: 'Peter', lastName: 'Pan', age: 30, income: 1000},
-            {firstName: 'Marc', lastName: 'Hunt', age: 28, income: 2000},
+            {firstName: 'Tyrion', lastName: 'Lannister', age: 38, income: 2000},
             {firstName: 'Luke', lastName: 'Skywalker', age: 36, income: 3000},
             {firstName: 'Han', lastName: 'Solo', age: 55, income: 4000},
-            {firstName: 'Tyrion', lastName: 'Lennister', age: 40, income: 5000}
+            {firstName: 'Leia', lastName: 'Organa', age: 45, income: 5000}
         ];
 
         const stackWithPersons = convertArrayToStack(personList);
 
+        logStackToConsole(stackWithPersons);
     </pre>
-</section>
+    </section>
+</fieldset>
 
-<section>
-    <h4>convert stack to array</h4>
+<fieldset>
+    <legend><strong>size</strong></legend>
+    <section>
+    <pre>
+        const sizeOfStack = size(stackWithPersons);
+        console.log(jsnum(sizeOfStack));
+    </pre>
+    </section>
+</fieldset>
+
+<fieldset>
+    <legend><strong>hasPre</strong></legend>
+    <section>
+    <pre>
+        const hasPreResult = convertToJsBool(hasPre(stackWithPersons));
+        console.log("has stack with persons pre: " + hasPreResult);
+
+        const hasPreEmpty = convertToJsBool(hasPre(emptyStack));
+        console.log("has empty-stack a pre: " + hasPreEmpty);
+    </pre>
+    </section>
+</fieldset>
+
+<fieldset>
+    <legend><strong>convert stack to array</strong></legend>
+    <section>
     <pre>
         const arrayWithPersons = convertStackToArray(stackWithPersons);
+
         console.table(arrayWithPersons);
     </pre>
-</section>
-<section>
-    <h4>Filter</h4>
+    </section>
+</fieldset>
+
+<fieldset>
+    <legend><strong>filter</strong></legend>
+    <section>
     <pre>
         stackWithPersons
 
         const personFilter = person => person.lastName.startsWith('S');
-    </pre>
-</section>
 
-<section>
-    <h4>Map</h4>
+        logStackToConsole();
+    </pre>
+    </section>
+</fieldset>
+
+<fieldset>
+    <legend><strong>map</strong></legend>
+    <section>
     <pre>
         const stackWithNumbers = convertArrayToStack([1, 2, 3, 4, 5]);
 
+        logStackToConsole(stackWithNumbers);
+
         const multiplyWith2 = x => x * 2;
 
+        logStackToConsole();
     </pre>
-</section>
+    </section>
+</fieldset>
 
-<section>
-    <h4>Reduce</h4>
+<fieldset>
+    <legend><strong>reduce</strong></legend>
+    <section>
     <pre>
         const reduceFunctionSum = (acc, curr) => acc + curr;
 
         console.log("Summe: " + );
     </pre>
-</section>
+    </section>
+</fieldset>
 
-<section>
-    <h4>ForEach - Loop</h4>
+<fieldset>
+    <legend><strong>forEach - loop</strong></legend>
+    <section>
     <pre>
         const forEachCallback = (element, index) => {
             console.log('element at: ' + index + ': ' + JSON.stringify(element));
         };
-
     </pre>
-</section>
+    </section>
+</fieldset>
 
-<section>
-    <h4>Reverse stack</h4>
+<fieldset>
+    <legend><strong>reverse stack</strong></legend>
+    <section>
     <pre>
         const reversedStack = reverseStack(stackWithNumbers);
-    </pre>
-</section>
 
-<section>
-    <h4>get Element by Js number Index</h4>
+        logStackToConsole(reversedStack);
+    </pre>
+    </section>
+</fieldset>
+
+<fieldset>
+    <legend><strong>get element by js number index</strong></legend>
+    <section>
     <pre>
         const lukeSkywalker = getElementByJsnumIndex(stackWithPersons)(3);
+
         console.table(lukeSkywalker);
     </pre>
-</section>
+    </section>
+</fieldset>
 
-<section>
-    <h4>get Element by Index as church number</h4>
+<fieldset>
+    <legend><strong>get Element by Index as church number</strong></legend>
+    <section>
     <pre>
         const hanSolo = getElementByIndex(stackWithPersons)(n4);
         console.table(hanSolo);
     </pre>
-</section>
+    </section>
+</fieldset>
 
+<script src="allFunctions.js"></script>
 
-<script src="allFunctions.js" ></script>
 </body>
 </html>
