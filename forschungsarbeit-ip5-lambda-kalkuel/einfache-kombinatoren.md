@@ -20,7 +20,7 @@ Beispiele:
 
 ```javascript
 id(10);           // 10
-id(I);            // I
+id(id);           // id
 id("Hello");      // "Hello"
 ```
 
@@ -88,7 +88,7 @@ M(M);         // stack overflow, da M(M) ==> M(M) ==> M(M) ....
 
 ### Cardinal \(Flip\) - Vertauschungsfunktion
 
-Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in Vertauschter- Reihenfolge auf die übergebene Funktion an.
+Die Vertauschungsfunktion nimmt eine Funktion und zwei Argumente entgegen und wendet die Argumente in vertauschter Reihenfolge auf die übergebene Funktion an.
 
 Implementation:
 
@@ -130,9 +130,9 @@ Beispiele:
 
 ### 
 
-### Trush
+### Thrush
 
-Der _Trush_ nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der _Trush_ auf die übergebene Funktion an.
+Der _Thrush_ nimmt ein Argument und eine Funktion entgegen. Dieses Argument wendet der _Thrush_ auf die übergebene Funktion an.
 
 Implementation:
 

@@ -1,6 +1,4 @@
-
-
-# [Lambda Kalkül für praktisches JavaScript](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/)
+# Lambda Kalkül für praktisches JavaScript
 
 * [Forschungsarbeit - Lambda Kalkül mit JavaScript](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel)
   * [Einfache Kombinatoren](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)
@@ -13,4 +11,8 @@
 
 * Benjamin Brodwolf [GitHub](http://github.com/BenjaminBrodwolf)
 * Pascal Andermatt [GitHub](https://github.com/PascalAndermatt)
+
+
+
+
 
