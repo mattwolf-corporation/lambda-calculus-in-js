@@ -15,6 +15,27 @@ const Observable = value => {
     }
 };
 
+const ObsObject = listeners => callback => val => obsFn => obsFn(listeners)(callback)(val) // Triple Vireo
+
+const InitObservable = initVal => ObsObject([])(x => x)(initVal)
+
+const addListener = listeners => callback => val => newCallback => { // lambdafizieren mit compose
+    listeners.push(newCallback)
+    newCallback(val)
+    return ObsObject(listeners)(newCallback)(val)
+}
+
+const getValue = listeners => callback => val => val
+
+const setValue = listeners => callback => val => newVal => {
+    if (val === newVal) return;
+    listeners.forEach(callback => callback(newVal));
+    console.log(listeners)
+    return ObsObject(listeners)(callback)(newVal)
+}
+
+
+
 
 const ObservableList = newList => {
     const list = [...newList]
