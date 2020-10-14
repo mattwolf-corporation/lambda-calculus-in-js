@@ -17,6 +17,50 @@ const Observable = value => {
     }
 };
 
+const triple = x => y => z => f => f(x)(y)(z);
+
+const onChange = listeners => value => callback => {
+    listeners.push(callback); // callback is a function
+    callback(value, value);
+}
+
+const getValue =  value => value;
+
+const setValue = listeners => value => newValue => {
+    if (value === newValue) return;
+    const oldValue = value;
+    value = newValue;
+    listeners.forEach(callback => callback(value, oldValue));
+};
+
+const ObservableLambda = value => {
+    const listeners = [];
+
+
+    return triple(onChange(listeners)(value))(getValue(value))(setValue(listeners)(value));
+    // return {
+    //     onChange: callback => {
+    //         listeners.push(callback); // callback is a function
+    //         callback(value, value);
+    //     },
+    //     getValue: ()       => value,
+    //     setValue: newValue => {
+    //         if (value === newValue) return;
+    //         const oldValue = value;
+    //         value = newValue;
+    //         listeners.forEach(callback => callback(value, oldValue));
+    //     }
+    // }
+};
+
+// const firstOfTriple = x => y => z => x;
+// const secondOfTriple = x => y => z => y;
+// const thirdOfTriple = x => y => z => z;
+
+const getOnChange = x => _ => _ => x;
+const getGetValue = _ => y => _ => y;
+const getSetValue = _ => _ => z => z;
+
 
 const ObservableList = list => {
     const listToObserve = [...list];
