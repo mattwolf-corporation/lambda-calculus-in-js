@@ -1,5 +1,3 @@
-
-
 const Observable = value => {
     const listeners = [];
     return {
@@ -18,7 +16,8 @@ const Observable = value => {
 };
 
 
-const ObservableList = list => {
+const ObservableList = newList => {
+    const list = [...newList]
     const addListeners = [];
     const delListeners = [];
     const removeAt     = array => index => array.splice(index, 1);
@@ -39,6 +38,7 @@ const ObservableList = list => {
         },
         removeDeleteListener: removeItem(delListeners),
         count:   ()   => list.length,
-        countIf: pred => list.reduce( (sum, item) => pred(item) ? sum + 1 : sum, 0)
+        countIf: pred => list.reduce( (sum, item) => pred(item) ? sum + 1 : sum, 0),
+        getList: () => [...list]
     }
 };
