@@ -28,7 +28,7 @@ id("Hello");      // "Hello"
 
 ### Kestrel - Die Konstante Funktion 
 
-Die Konstante Funktion nimmt zwei Paramter entgegen und gibt den ersten wieder zurück.
+Die Konstante Funktion nimmt zwei Parameter entgegen und gibt den ersten wieder zurück.
 
 Implementation:
 
@@ -68,7 +68,7 @@ KI("Hello")("World");    // "World"
 
 ### Mockingbird
 
-Der _Mockingbird_ nimmt einen Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
+Der _Mockingbird_ nimmt eine Funktion entgegen und wendet die Funktion auf sich selber an. \(English: self-application\)
 
 Implementation:
 

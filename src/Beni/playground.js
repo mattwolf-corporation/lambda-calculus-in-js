@@ -50,3 +50,16 @@ const Monad = value => ({
 
 Monad(21).map(x => x * 2).map(console.log)
 
+//
+
+
+const createEvent = ({
+    title: "untitled",
+    date: Date.now(),
+    description: ""
+})
+
+const logs = [console.log, console.log]
+const logged = x => logs.reduce((_, fn) => fn(x), x)
+
+const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return returnValue}
