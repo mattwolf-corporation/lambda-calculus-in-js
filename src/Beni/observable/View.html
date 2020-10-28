@@ -15,12 +15,12 @@
     const label     = document.getElementById("label");
     const size      = document.getElementById("size");
 
-    const inputAttr = InitObservable
+    const inputObservable = InitObservable
                             ("") // init value
                             (addListener)(val => label.innerText  = val)
                             (addListener)(val => size.innerText  = val.length)
 
-    nameInput.oninput = _ => inputAttr(setValue)(nameInput.value);
+    nameInput.oninput = _ => inputObservable(setValue)(nameInput.value);
 
 </script>
 
