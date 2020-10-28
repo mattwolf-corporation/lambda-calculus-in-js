@@ -16,27 +16,29 @@ const removeFromList = array => index => {
     if(index >= 0) array.splice(index, 1)
 }
 
-const ObsObject = listeners => callback => val => obsFn => obsFn(listeners)(callback)(val)
+const ObsObject = listeners =>  val => obsFn => obsFn(listeners)(val)
 
-const InitObservable = initVal => ObsObject([])(x => x)(initVal)
+const InitObservable = ObsObject([])
 
-const getValue = listeners => callback => val => val
+const getValue = listeners => val => val
 
-const addListener = listeners => callback => val => newCallback => execute(
+
+// Obseverable Functions obsFN
+const addListener = listeners => val => newCallback => execute(
     listeners.push(newCallback),
     newCallback(val)
-)(ObsObject(listeners)(newCallback)(val))
+)(ObsObject(listeners)(val))
 
-const setValue = listeners => callback => val => newVal => execute(
+const setValue = listeners => val => newVal => execute(
     listeners.forEach(callback => callback(newVal))
 )()
 
-const removeListener = listeners => callback => val => index => execute(
-    removeFromList(listeners)(index), //listeners.splice(index, 1),  //
-    logListener(listeners)(callback)(val)
+const removeListener = listeners => val => index => execute(
+    removeFromList(listeners)(index),
+    logListener(listeners)(val)
 )()
 
-const logListener = listeners => callback => val => execute(
+const logListener = listeners => val => execute(
     console.log("Index\t:  Listener"),
     listeners.forEach((l, i) => console.log(i + "\t\t:  " + l))
 )()
