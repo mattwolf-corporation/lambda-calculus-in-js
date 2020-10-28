@@ -16,7 +16,7 @@ const removeFromList = array => index => {
     if(index >= 0) array.splice(index, 1)
 }
 
-const ObsObject = listeners =>  val => obsFn => obsFn(listeners)(val)
+const ObsObject = listeners => obsFn => obsFn(listeners)
 
 const InitObservable = ObsObject([])
 
@@ -24,21 +24,20 @@ const getValue = listeners => val => val
 
 
 // Obseverable Functions obsFN
-const addListener = listeners => val => newCallback => execute(
-    listeners.push(newCallback),
-    newCallback(val)
-)(ObsObject(listeners)(val))
+const addListener = listeners => newCallback => execute(
+    listeners.push(newCallback)
+)(ObsObject(listeners))
 
-const setValue = listeners => val => newVal => execute(
+const setValue = listeners => newVal => execute(
     listeners.forEach(callback => callback(newVal))
 )()
 
-const removeListener = listeners => val => index => execute(
+const removeListener = listeners => index => execute(
     removeFromList(listeners)(index),
-    logListener(listeners)(val)
+    logListener(listeners)
 )()
 
-const logListener = listeners => val => execute(
+const logListener = listeners => execute(
     console.log("Index\t:  Listener"),
     listeners.forEach((l, i) => console.log(i + "\t\t:  " + l))
 )()

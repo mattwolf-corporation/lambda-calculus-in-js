@@ -16,7 +16,6 @@
     const size      = document.getElementById("size");
 
     const inputObservable = InitObservable
-                            ("") // init value
                             (addListener)(val => label.innerText  = val)
                             (addListener)(val => size.innerText  = val.length)
 
