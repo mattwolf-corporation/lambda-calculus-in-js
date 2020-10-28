@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>View</title>
+    <script src="../../Pascal/playground.js"></script>
     <script src="observable.js"></script>
+
 </head>
 <body>
 
@@ -13,11 +15,13 @@
 <script>
     const nameInput = document.getElementById("name");
     const label     = document.getElementById("label");
-    const size      = document.getElementById("size");
+    const sizes      = document.getElementById("size");
 
-    const inputObservable = InitObservable
+    // "let" wenn soll zusätzliche Listener hinzugefügt werden,
+    // ansonsten, wenn immutable mit "const" vor veränderung schützen
+    let inputObservable = InitObservable
                             (addListener)(val => label.innerText  = val)
-                            (addListener)(val => size.innerText  = val.length)
+                            (addListener)(val => sizes.innerText  = val.length)
 
     nameInput.oninput = _ => inputObservable(setValue)(nameInput.value);
 

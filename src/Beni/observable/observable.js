@@ -1,9 +1,6 @@
 
-const id = x => x;
-
 const addToList = listener => callback => listener.push(callback)
 const notify = listener => val => listener.forEach(l => l(val))
-
 
 const pipe = (...fns) => x => fns.reduce((v, fn) => fn(v), x)
 
@@ -13,34 +10,40 @@ const execute = (...fns) => returnValue => {
 }
 
 const removeFromList = array => index => {
-    if(index >= 0) array.splice(index, 1)
+    if (index >= 0) array.splice(index, 1)
 }
 
 const ObsObject = listeners => obsFn => obsFn(listeners)
 
-const InitObservable = ObsObject([])
+const InitObservable = ObsObject(emptyStack)
 
 const getValue = listeners => val => val
 
-
 // Obseverable Functions obsFN
-const addListener = listeners => newCallback => execute(
-    listeners.push(newCallback)
-)(ObsObject(listeners))
+const addListener = listeners => newCallback =>
+    (ObsObject(push(listeners)(newCallback)))
 
-const setValue = listeners => newVal => execute(
-    listeners.forEach(callback => callback(newVal))
-)()
+const removeListener = listeners => index =>
+    removeFromList(listeners)(index)
 
-const removeListener = listeners => index => execute(
-    removeFromList(listeners)(index),
-    logListener(listeners)
-)()
+const setValue = listeners => newVal =>
+    forEach(listeners)((callback, index) => callback(newVal))
 
-const logListener = listeners => execute(
-    console.log("Index\t:  Listener"),
-    listeners.forEach((l, i) => console.log(i + "\t\t:  " + l))
-)()
+
+const logListener = s => {
+
+    const logIteration = (acc, curr) => {
+        const index = acc + 1;
+        const val = typeof(curr) === 'object' ? JSON.stringify(curr) : curr;
+        console.log('element at: ' + index + ': ' + val);
+        return index;
+    };
+
+    reduce(s)(pair(logIteration)(0));
+};
+
+    //     console.log("Index\t:  Listener"),
+    // forEach(listeners)((l, i) => console.log(i + "\t\t:  " + l))
 
 
 const Observable = value => {
