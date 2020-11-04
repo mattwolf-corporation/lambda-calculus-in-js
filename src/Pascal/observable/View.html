@@ -20,13 +20,13 @@
     inputAttr(getOnChange)(val => inputLength.innerText   = val.length);
 
     const testStack = convertArrayToStack(["11", "22", "33", "44", "55", "66"])
-    const re0 = removeByIndex2(testStack)(0)
-    const re1 = removeByIndex2(testStack)(1)
-    const re2 = removeByIndex2(testStack)(2)
-    const re3 = removeByIndex2(testStack)(3)
-    const re4 = removeByIndex2(testStack)(4)
-    const re5 = removeByIndex2(testStack)(5)
-    const re6 = removeByIndex2(testStack)(6)
+    const re0 = removeByIndex(testStack)(0)
+    const re1 = removeByIndex(testStack)(1)
+    const re2 = removeByIndex(testStack)(2)
+    const re3 = removeByIndex(testStack)(3)
+    const re4 = removeByIndex(testStack)(4)
+    const re5 = removeByIndex(testStack)(5)
+    const re6 = removeByIndex(testStack)(6)
 
 
     nameInput.oninput = _ => (inputAttr(getSetValue))(nameInput.value);

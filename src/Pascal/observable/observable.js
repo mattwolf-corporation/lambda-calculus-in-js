@@ -823,7 +823,7 @@ const Then = id;
 const Else = id;
 
 
-const removeByIndex2 = s => i => {
+const removeByIndex = s => i => {
     const times = size(s);
     const reversedStack = reverseStack(s);
 
