@@ -817,35 +817,56 @@ const forEach = stack => f => {
 ////////////////////////
 
 const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
-const If = condition => truthy => falshy => condition(truthy)(falshy)
+// const If = condition => truthy => falshy => condition(truthy)(falshy)
+const If = condition => truthy => falsy => condition(truthy)(falsy)
+const Then = id;
+const Else = id;
+
 
 const removeByIndex2 = s => i => {
     const times = size(s);
     const reversedStack = reverseStack(s);
 
-
     const iteration = argPair => {
         const currentStack = argPair(fst)
-        if (convertToJsBool(hasPre(currentStack))) {
-            const resultStack = argPair(snd)
 
-            const currentElement = head(currentStack);
-            //console.log("current elem: " + currentElement)
-
-            // const index = (size(currentStack));
-            const index = succ(churchSubtraction(times)(size(currentStack)));
-            // console.log("current size: " + jsnum(index))
-
-            const condition = eq(toChurchNum(i))(index);
-            const result = If(condition)(resultStack)(push(resultStack)(currentElement));
-
-
-            return pair((pop(currentStack))(fst))(result);
-        }
-        return argPair;
+        return If(hasPre(currentStack))
+                    (Then(removeByCondition(argPair)(times)(i)))
+                    (Else(argPair))
+        // if (convertToJsBool(hasPre(currentStack))) {
+        //     const resultStack = argPair(snd)
+        //
+        //     const currentElement = head(currentStack);
+        //
+        //     const index = succ(churchSubtraction(times)(size(currentStack)));
+        //
+        //     const condition = eq(toChurchNum(i))(index);
+        //     const result = If(condition)(resultStack)(push(resultStack)(currentElement));
+        //
+        //
+        //     return pair((pop(currentStack))(fst))(result);
+        // }
+        // return argPair;
     }
 
     return (times(iteration)(pair(reversedStack)(emptyStack)))(snd)
+}
+
+const removeByCondition = argPair => times => i => {
+    const currentStack = argPair(fst)
+    const resultStack = argPair(snd)
+
+    const currentElement = head(currentStack);
+
+    const index = succ(churchSubtraction(times)(size(currentStack)));
+
+    const condition = eq(toChurchNum(i))(index);
+    const result = If(condition)
+                        (Then(resultStack))
+                        (Else(push(resultStack)(currentElement)));
+
+
+    return pair((pop(currentStack))(fst))(result);
 }
 
 
