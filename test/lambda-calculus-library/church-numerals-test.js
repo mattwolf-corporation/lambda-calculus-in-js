@@ -1,7 +1,7 @@
 import {TestSuite} from "../test.js";
 
 import { id, True, False, fst, snd, pair } from "../../src/lambda-calculus-library/lambda-calculus.js";
-import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, jsnum,
+import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, toChurchNum, jsnum,
     churchAddition, churchSubtraction, churchMultiplication, churchPotency,
     leq, eq, gt} from "../../src/lambda-calculus-library/church-numerals.js";
 
@@ -84,6 +84,18 @@ churchTest.add("isZero", assert => {
     assert.equals( is0(n2), False );
     assert.equals( is0(n9), False );
 });
+
+churchTest.add("toChurchNumber", assert =>{
+   assert.churchNumberEquals(toChurchNum(0), n0);
+   assert.churchNumberEquals(toChurchNum(1), n1);
+   assert.churchNumberEquals(toChurchNum(5), n5);
+   assert.churchNumberEquals(toChurchNum(7), n7);
+   assert.churchNumberEquals(toChurchNum(9), n9);
+   assert.churchNumberEquals(toChurchNum(25), churchMultiplication(n5)(n5));
+   assert.churchNumberEquals(toChurchNum(54), churchMultiplication(n9)(n6));
+   assert.churchNumberEquals(toChurchNum(42), churchMultiplication(n6)(n7));
+});
+
 
 churchTest.add("jsNum", assert => {
     assert.equals(jsnum(n0), 0);

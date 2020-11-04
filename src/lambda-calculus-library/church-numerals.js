@@ -3,7 +3,7 @@ import {B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "./l
 export {
     n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
     succ, pred, phi, churchAddition, churchSubtraction,
-    churchMultiplication, churchPotency, is0, jsnum, eq, leq, gt
+    churchMultiplication, churchPotency, is0, toChurchNum, jsnum, eq, leq, gt
 }
 
 /**
@@ -100,11 +100,19 @@ const churchPotency = T;
 const is0 = n => n(K(False))(True);
 
 /**
+ * converts a js number to a church number
+ * @param n {number} -
+ * @returns {churchNumber} church number of n
+ */
+const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
+
+/**
  * converts a church number to a js number
  * @param n {churchNumber} -
  * @returns {number} js number of n
  */
 const jsnum = n => n(x => x + 1)(0);
+
 
 /**
  * "less-than-or-equal-to" with Church-Numbers
