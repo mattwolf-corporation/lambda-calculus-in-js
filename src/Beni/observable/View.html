@@ -18,18 +18,18 @@
     const getElement = id => document.getElementById(id);
     const getElements = (...id) => id.map(e => getElement(e))
 
-    // const nameInput = getElement("name");
-    // const label = getElement("label");
-    // const sizes = getElement("size");
+    const onInputListener  = (observable, input) => input.oninput = _ => observable(setValue)(input.value)
+    const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
+
     const [nameInput, label, sizes] = getElements("name", "label", "size")
 
     // "let" wenn soll zusätzliche Listener hinzugefügt werden,
     // ansonsten, wenn immutable mit "const" vor veränderung schützen
     let inputObservable = InitObservable
-    (addListener)(val => label.innerText = val)
-    (addListener)(val => sizes.innerText = val.length)
+                (addListener)(val => label.innerText = val)
+                (addListener)(val => sizes.innerText = val.length)
 
-    nameInput.oninput = _ => inputObservable(setValue)(nameInput.value);
+    onInputListener(inputObservable, nameInput)
 
 </script>
 <hr>
@@ -69,15 +69,14 @@
         <h2>RGB Calculator</h2>
         <br>
         <div class="row">
-            <div class="col w-50" style="background-color: rgb(128, 172, 0);"  id="resultColor"></div>
+            <div class="col w-50" style="background-color: rgb(0, 0, 0);" id="resultColor"></div>
             <div class="col w-10">&nbsp;</div>
             <div class="col w-40">
                 <div class="">
                     <input id="rgbValue" type="text" class="pt-3 pb-3">
                     <br>
                     <br>
-
-                    <div id="hex" class="pt-3 pb-3">#80ac00</div>
+                    <div id="hex" class="pt-3 pb-3"></div>
                     <br>
                     <div id="hsl" class="pt-3 pb-3">hsl(75, 100%, 34%)</div>
                 </div>
@@ -104,46 +103,64 @@
     </div>
 </div>
 <script>
+    const toRGBString = (r,g,b) => 'rgb(' + r + ',' + g+ ',' + b + ')'
+
+    const toHexString = (r,g,b) => "#" + toHex(r) + toHex(g) + toHex(b)
+
+    const toHex = n => {
+        if (n === undefined) n = 0
+        let hex = n.toString(16);
+        if (hex.length === 1) {
+            hex = "0" + hex;
+        }
+        return hex;
+    }
+
+
     const [resultColor, rgbValue, hex, hsl] = getElements("resultColor", "rgbValue", "hex", "hsl")
-    const [inputR, inputG, inputB] = getElements("inputR", "inputG", "inputB")
-    const [rangeR, rangeG, rangeB] = getElements("rangeR", "rangeG", "rangeB")
+    const [inputR, inputG, inputB]          = getElements("inputR", "inputG", "inputB")
+    const [rangeR, rangeG, rangeB]          = getElements("rangeR", "rangeG", "rangeB")
 
-    const inputListener  = (obs, inputer) => inputer.addEventListener('input', _ => obs(setValue)(inputer.value))
-    const inputListeners = (obs, ...inputers) => inputers.map(input => inputListener(obs, input))
-
-    let valueR, valueG, valueB
 
     const obsR = InitObservable
-            (addListener)(r => valueR = r)
-            (addListener)(r => inputR.value = r)
-            (addListener)(r => rangeR.value = r)
-            (addListener)(r => resultColor.style.backgroundColor  = 'rgb(' + r + ',' + valueG + ',' + inputB.value + ')' )
-            (addListener)(r => rgbValue.value = 'rgb(' + r + ',' + inputG.value + ',' + inputB.value + ')' )
+                    (addListener)(r => obsR.value                        = r )
+                    (addListener)(r => inputR.value                      = r )
+                    (addListener)(r => rangeR.value                      = r )
+                    (addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
+                    (addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
+                    (addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))
 
-
-    inputListeners(obsR, inputR, rangeR)
 
     const obsG = InitObservable
-            (addListener)(g => valueG = g)
-            (addListener)(g => inputG.value = g)
-            (addListener)(g => rangeG.value = g)
-            (addListener)(r => resultColor.style.backgroundColor  = 'rgb(' + r + ',' + valueG + ',' + inputB.value + ')' )
+                    (addListener)(g => obsG.value                        = g )
+                    (addListener)(g => inputG.value                      = g )
+                    (addListener)(g => rangeG.value                      = g )
+                    (addListener)(g => resultColor.style.backgroundColor = toRGBString(obsR.value, g, obsB.value))
+                    (addListener)(g => rgbValue.value                    = toRGBString(obsR.value, g, obsB.value))
+                    (addListener)(g => hex.innerText                     = toHexString(obsR.value, g, obsB.value))
 
-    inputListeners(obsG, inputG, rangeG)
 
     const obsB = InitObservable
-            (addListener)(b => inputB.value = b)
-            (addListener)(b => rangeB.value = b)
-
-    inputListeners(obsB, inputB, rangeB)
-
-
-
-    // const setRGBcolor = object => r => g => b => {
-    //     object.style.backgroundColor  = 'rgb(' + r + ',' + g + ',' + b + ')'; //"rgb(" + r + "," + g + "," + b + ");" //`rgb(${r},${g}.${b})`
-    // }
+                    (addListener)(b => obsB.value                        = b )
+                    (addListener)(b => inputB.value                      = b )
+                    (addListener)(b => rangeB.value                      = b )
+                    (addListener)(b => resultColor.style.backgroundColor = toRGBString(obsR.value, obsG.value, b))
+                    (addListener)(b => rgbValue.value                    = toRGBString(obsR.value, obsG.value, b))
+                    (addListener)(b => hex.innerText                     = toHexString(obsR.value, obsG.value, b))
 
 
+
+    onInputListeners(obsR, inputR, rangeR)
+    onInputListeners(obsG, inputG, rangeG)
+    onInputListeners(obsB, inputB, rangeB)
+
+
+
+    const setObservablesValue = (...observables) => value =>
+        observables.forEach(obs => obs(setValue)(value))
+
+
+    setObservablesValue(obsR, obsG, obsB)(42)
 
 </script>
 </body>
