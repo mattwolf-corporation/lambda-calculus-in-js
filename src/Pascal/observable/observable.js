@@ -822,17 +822,20 @@ const If = condition => truthy => falsy => condition(truthy)(falsy)
 const Then = id;
 const Else = id;
 
+const getPreStack = s => s(stackPredecessor)
 
 const removeByIndex = s => i => {
     const times = size(s);
     const reversedStack = reverseStack(s);
 
-    const iteration = argPair => {
-        const currentStack = argPair(fst)
+    const iteration = argsTriple => {
+        const currentStack = argsTriple(firstOfTriple)
+        const resultStack = argsTriple(secondOfTriple)
+        const currentIndex = argsTriple(thirdOfTriple)
 
         return If(hasPre(currentStack))
-                    (Then(removeByCondition(argPair)(times)(i)))
-                    (Else(argPair))
+                    (Then(removeByCondition(currentStack)(resultStack)(i)(currentIndex)))
+                    (Else(argsTriple))
         // if (convertToJsBool(hasPre(currentStack))) {
         //     const resultStack = argPair(snd)
         //
@@ -849,24 +852,21 @@ const removeByIndex = s => i => {
         // return argPair;
     }
 
-    return (times(iteration)(pair(reversedStack)(emptyStack)))(snd)
+    return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
 }
 
-const removeByCondition = argPair => times => i => {
-    const currentStack = argPair(fst)
-    const resultStack = argPair(snd)
-
+const removeByCondition = currentStack => resultStack => i => currentIndex => {
     const currentElement = head(currentStack);
 
-    const index = succ(churchSubtraction(times)(size(currentStack)));
-
-    const condition = eq(toChurchNum(i))(index);
+    const condition = eq(toChurchNum(i))(currentIndex);
     const result = If(condition)
                         (Then(resultStack))
                         (Else(push(resultStack)(currentElement)));
 
 
-    return pair((pop(currentStack))(fst))(result);
+    return triple(getPreStack(currentStack))
+                 (result)
+                 (successor(currentIndex));
 }
 
 
