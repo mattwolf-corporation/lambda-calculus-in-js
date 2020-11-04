@@ -1,6 +1,6 @@
 import {TestSuite} from "../test.js";
 
-import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, pair, triple, showPair, mapPair,
+import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, If, pair, triple, showPair, mapPair,
     convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum, churchAddition, churchSubtraction} from "../../src/lambda-calculus-library/church-numerals.js";
 
@@ -77,15 +77,15 @@ lambdaCTest.add("vireo / pair", assert => {
     assert.equals(pairNumber(fst), 1 );
     assert.equals(pairNumber(snd), 2 );
 
-    assert.equals(pairString(fst) , "Hello");
-    assert.equals(pairString(fst) + pairString(snd), "HelloWorld");
+    assert.equals(pairString(fst) ,                         "Hello"       );
+    assert.equals(pairString(fst) + pairString(snd), "HelloWorld"   );
 
     assert.equals(pairChurchNr(fst) , n1);
     assert.churchNumberEquals(pairChurchNr(fst) , n1);
 
-    assert.equals(pairChurchNr(snd) , n5);
-    assert.churchNumberEquals(pairChurchNr(snd) , n5);
-    assert.equals( jsnum( pairChurchNr(snd) ) , 5)
+    assert.equals(pairChurchNr(snd) ,                   n5  );
+    assert.churchNumberEquals(pairChurchNr(snd) ,       n5  );
+    assert.equals( jsnum( pairChurchNr(snd) ) , 5   );
 });
 
 lambdaCTest.add("blackbird", assert => {
@@ -97,53 +97,62 @@ lambdaCTest.add("blackbird", assert => {
 
     const churchAddFive = churchAddition(n5);
 
-    assert.equals( Blackbird(multiplyWithTwo)(add)(2)(3),  10);
-    assert.equals( Blackbird(multiplyWithTwo)(add)(10)(20),  60);
+    assert.equals( Blackbird(multiplyWithTwo)(add)(2)(3),       10  );
+    assert.equals( Blackbird(multiplyWithTwo)(add)(10)(20),     60  );
 
-    assert.equals( jsnum(Blackbird(churchAddFive)(churchAddition)(n3)(n7)),  15);
-    assert.equals( jsnum(Blackbird(churchAddFive)(churchSubtraction)(n9)(n7)),  7);
+    assert.equals( jsnum(Blackbird(churchAddFive)(churchAddition)(n3)(n7)),     15  );
+    assert.equals( jsnum(Blackbird(churchAddFive)(churchSubtraction)(n9)(n7)),  7   );
 });
 
 lambdaCTest.add("convert to js-bool", assert => {
-    assert.equals(convertToJsBool(True), true);
-    assert.equals(convertToJsBool(False), false);
+    assert.equals(convertToJsBool(True),    true    );
+    assert.equals(convertToJsBool(False),   false   );
+});
+
+lambdaCTest.add("if", assert => {
+    assert.equals( If( True)            ("Hello World")  ("Bye bye World"),"Hello World"    );
+    assert.equals( If( False)           ("Hello World")  ("Bye bye World"), "Bye bye World" );
+    assert.equals( If( or(True)(False) )("is truthy")    ("nope"),          "is truthy"     );
+    assert.equals( If( and(True)(True) )("Really truthy")("nope"),          "Really truthy" );
+
+
 });
 
 lambdaCTest.add("show boolean", assert => {
-    assert.equals(showBoolean(True), 'True');
-    assert.equals(showBoolean(False), 'False');
+    assert.equals( showBoolean(True),   'True'  );
+    assert.equals( showBoolean(False),  'False' );
 });
 
 lambdaCTest.add("boolean and", assert => {
-    assert.equals( and(True)(True), True);
-    assert.equals( and(False)(True), False);
-    assert.equals( and(True)(False), False);
-    assert.equals( and(False)(False), False);
+    assert.equals( and(True)(True),     True    );
+    assert.equals( and(False)(True),    False   );
+    assert.equals( and(True)(False),    False   );
+    assert.equals( and(False)(False),   False   );
 
-    assert.equals( or(and(False)(False))(True), True);
-    assert.equals( and(or(True)(False))(True), True);
+    assert.equals( or(and(False)(False))(True), True    );
+    assert.equals( and(or(True)(False))(True),  True    );
 });
 
 lambdaCTest.add("boolean or", assert => {
-    assert.equals( or(True)(True), True);
-    assert.equals( or(False)(True), True);
-    assert.equals( or(True)(False), True);
-    assert.equals( or(False)(False), False);
+    assert.equals( or(True)(True),      True    );
+    assert.equals( or(False)(True),     True    );
+    assert.equals( or(True)(False),     True    );
+    assert.equals( or(False)(False),    False   );
 });
 
 lambdaCTest.add("boolean not", assert => {
-    assert.churchBooleanEquals( not(True), False);
-    assert.churchBooleanEquals( not(False), True);
-    assert.churchBooleanEquals( not(not(False)), False);
-    assert.churchBooleanEquals( not(not(True)), True);
-    assert.churchBooleanEquals( not(and(True)(or(False)(True))), False);
+    assert.churchBooleanEquals( not(True),                       False  );
+    assert.churchBooleanEquals( not(False),                      True   );
+    assert.churchBooleanEquals( not(not(False)),                 False  );
+    assert.churchBooleanEquals( not(not(True)),                  True   );
+    assert.churchBooleanEquals( not(and(True)(or(False)(True))), False  );
 });
 
 lambdaCTest.add("boolean equality", assert => {
-    assert.churchBooleanEquals( beq(True)(True), True);
-    assert.churchBooleanEquals( beq(False)(False), True);
-    assert.churchBooleanEquals( beq(True)(False), False);
-    assert.churchBooleanEquals( beq(False)(True), False);
+    assert.churchBooleanEquals( beq(True)(True),    True    );
+    assert.churchBooleanEquals( beq(False)(False),  True    );
+    assert.churchBooleanEquals( beq(True)(False),   False   );
+    assert.churchBooleanEquals( beq(False)(True),   False   );
 });
 
 lambdaCTest.add("show pair", assert => {

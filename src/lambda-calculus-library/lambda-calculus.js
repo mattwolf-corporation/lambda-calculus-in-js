@@ -1,4 +1,4 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, mapPair, showPair}
+export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, If, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, mapPair, showPair}
 
 /**
  * Generic Types
@@ -110,6 +110,12 @@ const False = KI;
  * @type {K.props|*}
  */
 const True = K;
+
+
+/**
+ * TODO: Doc IF
+ */
+const If = condition => truthy => falshy => condition(truthy)(falshy)
 
 /**
  * fn -> a -> b -> fn( b )( a ) ; not
