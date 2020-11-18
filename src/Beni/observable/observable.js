@@ -10,6 +10,7 @@
 
 
 const ObsObject = listeners => obsFn => obsFn(listeners)
+
 const InitObservable = ObsObject(emptyStack)
 
 
@@ -21,14 +22,8 @@ const setValue = listeners => newVal =>
     forEach(listeners)((callback, index) => callback(newVal))
 
 const removeListener = listeners => index =>
-    (ObsObject(reduce(listeners)(pair( rf(index)  )( emptyStack ))))
+    (ObsObject( reduce(listeners) ( pair( removeByIndex(listeners)(index) )( emptyStack  )) ) )
 
-const rf = index => (acc, curr) => {
-    if(jsnum(size(acc)) === index){
-        return acc;
-    }
-    return push(acc)(curr)
-}
 
 
 const logListener = s => {

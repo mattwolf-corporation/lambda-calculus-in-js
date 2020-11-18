@@ -836,20 +836,6 @@ const removeByIndex = s => i => {
         return If(hasPre(currentStack))
                     (Then(removeByCondition(currentStack)(resultStack)(i)(currentIndex)))
                     (Else(argsTriple))
-        // if (convertToJsBool(hasPre(currentStack))) {
-        //     const resultStack = argPair(snd)
-        //
-        //     const currentElement = head(currentStack);
-        //
-        //     const index = succ(churchSubtraction(times)(size(currentStack)));
-        //
-        //     const condition = eq(toChurchNum(i))(index);
-        //     const result = If(condition)(resultStack)(push(resultStack)(currentElement));
-        //
-        //
-        //     return pair((pop(currentStack))(fst))(result);
-        // }
-        // return argPair;
     }
 
     return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)

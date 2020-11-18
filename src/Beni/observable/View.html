@@ -3,6 +3,7 @@
 <head>
     <title>View</title>
     <script src="../../Pascal/playground.js"></script>
+
     <script src="observable.js"></script>
     <link rel="stylesheet" href="../style.css">
 
@@ -12,20 +13,20 @@
 
 <input id="name" type="text">
 <div id="label"></div>
-<div id="size"></div>
+<div id="sizes"></div>
 
 <script>
-    const getElement = id => document.getElementById(id);
+    const getElement  = id => document.getElementById(id); // maybe impl for safety
     const getElements = (...id) => id.map(e => getElement(e))
 
     const onInputListener  = (observable, input) => input.oninput = _ => observable(setValue)(input.value)
     const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
 
-    const [nameInput, label, sizes] = getElements("name", "label", "size")
+    const [nameInput, label, sizes] = getElements("name", "label", "sizes")
 
     // "let" wenn soll zusätzliche Listener hinzugefügt werden,
     // ansonsten, wenn immutable mit "const" vor veränderung schützen
-    let inputObservable = InitObservable
+    const inputObservable = InitObservable
                 (addListener)(val => label.innerText = val)
                 (addListener)(val => sizes.innerText = val.length)
 
@@ -36,7 +37,7 @@
 
 <style>
 
-    .rgbView {
+    body {
         font-family: Consolas, 'courier new'
     }
 
@@ -113,6 +114,7 @@
         if (hex.length === 1) {
             hex = "0" + hex;
         }
+        console.log(hex)
         return hex;
     }
 
@@ -121,11 +123,14 @@
     const [inputR, inputG, inputB]          = getElements("inputR", "inputG", "inputB")
     const [rangeR, rangeG, rangeB]          = getElements("rangeR", "rangeG", "rangeB")
 
+    const gurkenSalat = valuable => x => valuable.value = x
 
-    const obsR = InitObservable
-                    (addListener)(r => obsR.value                        = r )
-                    (addListener)(r => inputR.value                      = r )
-                    (addListener)(r => rangeR.value                      = r )
+    let obsR = null;
+
+    obsR = InitObservable
+                    (addListener)( gurkenSalat( obsR ) )
+                    (addListener)( gurkenSalat( inputR ))
+                    (addListener)( gurkenSalat( rangeR ))
                     (addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))
