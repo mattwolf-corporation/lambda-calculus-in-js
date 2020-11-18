@@ -128,9 +128,9 @@
     let obsR = null;
 
     obsR = InitObservable
-                    (addListener)( gurkenSalat( obsR ) )
-                    (addListener)( gurkenSalat( inputR ))
-                    (addListener)( gurkenSalat( rangeR ))
+                    (addListener)(r => gurkenSalat( obsR )(r) )
+                    (addListener)(r => gurkenSalat( inputR )(r))
+                    (addListener)(r => gurkenSalat( rangeR )(r))
                     (addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))

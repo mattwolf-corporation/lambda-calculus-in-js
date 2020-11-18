@@ -7,7 +7,7 @@ import {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
     pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, removeByIndex
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -65,7 +65,7 @@ stackSuite.add("head", assert => {
 stackSuite.add("size", assert => {
     const nonEmptyStack = push(push(emptyStack)(0))(1);
 
-    assert.equals(jsnum(size(nonEmptyStack)), 2);
+    assert.churchNumberEquals(size(nonEmptyStack), n2);
     assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
     assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
     assert.equals(jsnum(size(emptyStack)), 0);
@@ -261,6 +261,36 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
     assert.equals(indices[0], 1);
     assert.equals(indices[1], 2);
     assert.equals(indices[2], 3);
+});
+
+stackSuite.add("removeByIndex", assert => {
+    const elements = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
+    const result = removeByIndex(elements)(2) // "Haskell"
+
+    assert.arrayEquals( convertStackToArray(result), ["Hello", "you", "Rock", "the", "World"]);
+    assert.churchNumberEquals( size(result), n5);
+
+    const resultEndIndex = removeByIndex(result)(5) // "World"
+    assert.arrayEquals( convertStackToArray(resultEndIndex), ["Hello", "you", "Rock", "the"]);
+    assert.churchNumberEquals( size(resultEndIndex), n4);
+
+    const resultStartIndex = removeByIndex(resultEndIndex)(1) // "Hello"
+    assert.arrayEquals( convertStackToArray(resultStartIndex), ["you", "Rock", "the"]);
+    assert.churchNumberEquals( size(resultStartIndex), n3);
+
+
+    const resultToEmptyStack = removeByIndex(removeByIndex(removeByIndex(resultStartIndex)(1))(1))(1)
+    assert.arrayEquals( convertStackToArray(resultToEmptyStack), []);
+    assert.churchNumberEquals( size(resultToEmptyStack), n0);
+
+    const resultEmpty = removeByIndex(emptyStack)(4)
+    assert.arrayEquals( convertStackToArray(resultEmpty), []);
+    assert.churchNumberEquals( size(resultEmpty), n0);
+
+    const resultNotAvailableIndex =  removeByIndex(elements)(42) // not existing Index
+    assert.arrayEquals( convertStackToArray(resultNotAvailableIndex), ["Hello", "Haskell", "you", "Rock", "the", "World"]);
+    assert.churchNumberEquals( size(resultNotAvailableIndex), n6);
+
 });
 
 stackSuite.report();

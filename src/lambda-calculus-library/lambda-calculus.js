@@ -1,4 +1,34 @@
-export {I as id, M, K, KI, C, B, T, V, Blackbird, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, True, False, If, not, and, or, beq, showBoolean, convertToJsBool, pair, triple, mapPair, showPair}
+export {
+    I as id,
+    M,
+    K,
+    KI,
+    C,
+    B,
+    T,
+    V,
+    Blackbird,
+    fst,
+    snd,
+    firstOfTriple,
+    secondOfTriple,
+    thirdOfTriple,
+    True,
+    False,
+    If,
+    Then,
+    Else,
+    not,
+    and,
+    or,
+    beq,
+    showBoolean,
+    convertToJsBool,
+    pair,
+    triple,
+    mapPair,
+    showPair
+}
 
 /**
  * Generic Types
@@ -77,7 +107,6 @@ const B = f => g => x => f(g(x));
 const T = x => f => f(x);
 
 
-
 /**
  * a -> b -> fn -> fn(a)(b) ; Vireo (hold pair of args)
  * @function V
@@ -116,6 +145,12 @@ const True = K;
  * TODO: Doc IF
  */
 const If = condition => truthy => falshy => condition(truthy)(falshy)
+
+/**
+ * Syntactic sugar for If-Construct
+ */
+const Then = I;
+const Else = I;
 
 /**
  * fn -> a -> b -> fn( b )( a ) ; not

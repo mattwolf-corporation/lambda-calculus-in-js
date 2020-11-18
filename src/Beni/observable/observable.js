@@ -22,9 +22,45 @@ const setValue = listeners => newVal =>
     forEach(listeners)((callback, index) => callback(newVal))
 
 const removeListener = listeners => index =>
-    (ObsObject( reduce(listeners) ( pair( removeByIndex(listeners)(index) )( emptyStack  )) ) )
+    (ObsObject( removeByIndex(listeners)(index) ) )
 
 
+const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
+
+
+
+const getPreStack = s => s(stackPredecessor)
+
+const removeByIndex = s => i => {
+    const times = size(s);
+    const reversedStack = reverseStack(s);
+
+    const iteration = argsTriple => {
+        const currentStack = argsTriple(firstOfTriple)
+        const resultStack = argsTriple(secondOfTriple)
+        const currentIndex = argsTriple(thirdOfTriple)
+
+        return If(hasPre(currentStack))
+        (Then(removeByCondition(currentStack)(resultStack)(i)(currentIndex)))
+        (Else(argsTriple))
+    }
+
+    return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
+}
+
+const removeByCondition = currentStack => resultStack => i => currentIndex => {
+    const currentElement = head(currentStack);
+
+    const condition = eq(toChurchNum(i))(currentIndex);
+    const result = If(condition)
+    (Then(resultStack))
+    (Else(push(resultStack)(currentElement)));
+
+
+    return triple(getPreStack(currentStack))
+    (result)
+    (successor(currentIndex));
+}
 
 const logListener = s => {
     const logIteration = (acc, curr) => {

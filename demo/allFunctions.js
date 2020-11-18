@@ -588,9 +588,12 @@ const size = s => s(stackIndex);
  */
 const getElementByIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
-    const getStackPredecessor = s => s(stackPredecessor);
 
-    return head(times(getStackPredecessor)(s));
+    console.log(times)
+    const getStackPredecessor = s => s(stackPredecessor);
+    console.log(getStackPredecessor)
+
+    return head( times( getStackPredecessor)(s) );
 };
 
 /**
@@ -617,7 +620,7 @@ const getElementByJsnumIndex = s => i => {
         return pair(predecessorStack)(argsPair(snd));
     };
 
-    return (times(getElement)(initArgsPair))(snd);
+    return (times (getElement)(initArgsPair)) (snd);
 };
 
 /**
@@ -799,7 +802,7 @@ const startStack = f => f(emptyStack);
  * A function that expects a stack and a callback function.
  * The current element of the stack iteration and the index of this element is passed to this callback function
  */
-const forEach = stack => f => {
+const forEach = stack => callback => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
 
@@ -807,7 +810,7 @@ const forEach = stack => f => {
         if(convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsnum(succ(churchSubtraction(times)(size(s))));
-            f(element, index);
+            callback(element, index);
 
             return (pop(s))(fst);
         }

@@ -7,6 +7,7 @@ export {TestSuite}
 const Assert = () => {
     let counter = 1;
     let ok = emptyStack;
+
     const equals = (actual, expected) => {
         const result = (actual === expected);
         addTest(actual, expected, result);

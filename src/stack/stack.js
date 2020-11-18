@@ -13,8 +13,10 @@ import {
     secondOfTriple,
     thirdOfTriple,
     not,
-    and, or
+    and, or,
+    If, Then, Else
 } from '../lambda-calculus-library/lambda-calculus.js'
+
 import {
     n0,
     n1,
@@ -29,7 +31,8 @@ import {
     pred,
     succ,
     jsnum,
-    is0, gt, leq, eq, phi, churchAddition, churchSubtraction
+    is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
+    toChurchNum
 } from '../lambda-calculus-library/church-numerals.js'
 
 export {
@@ -37,7 +40,7 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, removeByIndex
 }
 /**
  * Generic Types
@@ -85,12 +88,15 @@ const stackIndex = firstOfTriple;
  */
 const stackPredecessor = secondOfTriple;
 
+
 /**
  * getter function - third of a triple
  *
  * @type {function(*): function(*): function(*): *}
  */
 const stackValue = thirdOfTriple;
+
+
 
 /**
  * Representation of the empty stack
@@ -109,7 +115,14 @@ const emptyStack = stack(n0)(id)(id);
  * @param {stack} s
  * @return {churchBoolean} churchBoolean
  */
-const hasPre = s => not(is0(s(stackIndex)));
+const hasPre = s => not( is0( s( stackIndex)));
+
+
+/**
+ * Todo: getPreStack Docu
+ */
+const getPreStack = s => s(stackPredecessor)
+
 
 /**
  * A function that takes a stack and a value
@@ -118,7 +131,7 @@ const hasPre = s => not(is0(s(stackIndex)));
  * @param {stack} s
  * @return { function(x:{a}): stack } stack with value x
  */
-const push = s => x => stack(succ(s(stackIndex)))(s)(x);
+const push = s => x => stack( succ( s( stackIndex ) ) ) (s) (x);
 
 /**
  * A function that takes a stack
@@ -129,7 +142,7 @@ const push = s => x => stack(succ(s(stackIndex)))(s)(x);
  * @param {stack} s
  * @return {pair} pair
  */
-const pop = s => pair(s(stackPredecessor))(head(s));
+const pop = s => pair( s(stackPredecessor) )(head(s));
 
 /**
  * A function that takes a stack
@@ -189,6 +202,8 @@ const getElementByJsnumIndex = s => i => {
 
     return (times(getElement)(initArgsPair))(snd);
 };
+
+
 
 /**
  * A function that takes an stack and converts the stack into an array.
@@ -386,3 +401,38 @@ const forEach = stack => f => {
 
     times(iteration)(reversedStack);
 };
+
+/**
+ * Remove element by given Index
+ *
+ * @param {stack} stack without the element
+ */
+const removeByIndex = stack => index => {
+    const times = size(stack);
+    const reversedStack = reverseStack(stack);
+
+    const iteration = argsTriple => {
+        const currentStack  = argsTriple(firstOfTriple)
+        const resultStack   = argsTriple(secondOfTriple)
+        const currentIndex  = argsTriple(thirdOfTriple)
+
+        return If( hasPre(currentStack) )
+                (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex)))
+                (Else(argsTriple))
+    }
+
+    return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
+}
+
+const removeByCondition = currentStack => resultStack => index => currentIndex => {
+    const currentElement = head(currentStack);
+
+    const condition = eq(toChurchNum(index))(currentIndex);
+    const result    = If(condition)
+    (Then(resultStack))
+    (Else(push(resultStack)(currentElement)));
+
+    return triple(getPreStack(currentStack))
+                 (result)
+                 (succ(currentIndex));
+}
