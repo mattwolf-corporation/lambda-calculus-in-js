@@ -9,25 +9,39 @@
 // }
 
 
-const ObsObject = listeners => obsFn => obsFn(listeners)
+const ObsObject = listeners =>  obsFn => obsFn(listeners)
 
 const InitObservable = ObsObject(emptyStack)
 
-
 // Obseverable Functions obsFN
 const addListener = listeners => newCallback =>
-    (ObsObject(push(listeners)(newCallback)))
+    ObsObject( push(listeners) (newCallback) )
 
 const setValue = listeners => newVal =>
     forEach(listeners)((callback, index) => callback(newVal))
 
 const removeListener = listeners => index =>
-    (ObsObject( removeByIndex(listeners)(index) ) )
-
+    ObsObject( removeByIndex(listeners)(index) )
 
 const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
 
 
+// Variante mit x
+
+const InitObsverableVal = startVal => ObsObjectVal(emptyStack)(startVal)
+
+const ObsObjectVal = listeners => val => obsFn =>
+        obsFn(listeners)(val)
+
+const addListenerVal = listeners => val => callback =>
+        ObsObjectVal( push(listeners) (callback) )(val)
+
+const setValueVal = listeners => val => newVal => {
+    forEach(listeners)((callback, index) => callback(index, val, newVal))
+    return ObsObjectVal(listeners)(val)
+}
+
+const testValueGet = list => val => val
 
 const getPreStack = s => s(stackPredecessor)
 

@@ -19,7 +19,7 @@
     const getElement  = id => document.getElementById(id); // maybe impl for safety
     const getElements = (...id) => id.map(e => getElement(e))
 
-    const onInputListener  = (observable, input) => input.oninput = _ => observable(setValue)(input.value)
+    const onInputListener  = (observable, input) => input.oninput = _ => observable(setValue)(input.value) // maybe impl for safety
     const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
 
     const [nameInput, label, sizes] = getElements("name", "label", "sizes")
@@ -64,7 +64,6 @@
     }
 
 </style>
-
 <div class="overflow-hidden">
     <div class="padding-large w-full">
         <h2>RGB Calculator</h2>
@@ -103,6 +102,8 @@
         </div>
     </div>
 </div>
+
+<button onclick="changeValue()">Press my</button>
 <script>
     const toRGBString = (r,g,b) => 'rgb(' + r + ',' + g+ ',' + b + ')'
 
@@ -123,17 +124,22 @@
     const [inputR, inputG, inputB]          = getElements("inputR", "inputG", "inputB")
     const [rangeR, rangeG, rangeB]          = getElements("rangeR", "rangeG", "rangeB")
 
-    const gurkenSalat = valuable => x => valuable.value = x
+    const setElementValue = valuable => x => valuable.value = x
+
+
+
 
     let obsR = null;
 
+    let obsRKeys = []
     obsR = InitObservable
-                    (addListener)(r => gurkenSalat( obsR )(r) )
-                    (addListener)(r => gurkenSalat( inputR )(r))
-                    (addListener)(r => gurkenSalat( rangeR )(r))
+                    (addListener)(r => setElementValue( obsR )(r))
+                    (addListener)(r => setElementValue( inputR )(r))
+                    (addListener)(r => setElementValue( rangeR )(r))
                     (addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))
+
 
 
     const obsG = InitObservable
@@ -167,6 +173,40 @@
 
     setObservablesValue(obsR, obsG, obsB)(42)
 
+
+    let testObsVariabel = ""
+    console.log("testObsVariabel :" + testObsVariabel)
+
+
+
+    const logHandler  = index => oldValue => newValue => {
+       console.log(index)
+        console.log(`${oldValue}, ${newValue}`)
+        return index
+    }
+
+    const valueHandler = index => oldValue => newValue => {
+        testObsVariabel = newValue
+        return index
+    }
+
+    let testObs = InitObsverableVal("asd")
+                        // (addListenerVal)(valueHandler)
+                        (addListenerVal)(logHandler)
+
+    // testObs = testObs(setValueVal)("000")
+
+    // testObs(removeByIndex)(logHandler)
+
+    const changeValue = () =>{
+        testObs(testValueGet)("blo")("bla")
+
+        testObs(setValueVal)("Hello World")
+    }
+
 </script>
+<hr>
+
+
 </body>
 </html>
