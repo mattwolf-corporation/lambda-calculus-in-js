@@ -3,10 +3,10 @@
 
 // const pipe = (...fns) => x => fns.reduce((v, fn) => fn(v), x)
 
-// const execute = (...fns) => returnValue => {
-//     fns.reduce((_, fn) => fn); // use immutable Stack
-//     return returnValue
-// }
+const execute = (...fns) => returnValue => {
+    fns.reduce((_, fn) => fn); // use immutable Stack
+    return returnValue
+}
 
 
 const ObsObject = listeners =>  obsFn => obsFn(listeners)
@@ -34,14 +34,19 @@ const ObsObjectVal = listeners => val => obsFn =>
         obsFn(listeners)(val)
 
 const addListenerVal = listeners => val => callback =>
-        ObsObjectVal( push(listeners) (callback) )(val)
+        ObsObjectVal( push(listeners) (callback) ) (val)
 
 const setValueVal = listeners => val => newVal => {
-    forEach(listeners)((callback, index) => callback(index, val, newVal))
+    forEach(listeners)((callback, index) => callback(index)(val)(newVal) )
     return ObsObjectVal(listeners)(val)
 }
 
-const testValueGet = list => val => val
+const removeListenerVal = listeners => val => {
+
+}
+
+
+
 
 const getPreStack = s => s(stackPredecessor)
 

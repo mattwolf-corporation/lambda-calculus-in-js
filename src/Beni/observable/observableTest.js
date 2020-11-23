@@ -1,7 +1,7 @@
 
 test("observable-value", assert => {
 
-    const obs = Observable("");
+    const obs = ListMap("");
 
 //  initial state
     assert.equals(obs.getValue(),  "");
@@ -22,7 +22,7 @@ test("observable-value", assert => {
     assert.equals(found,  "secondValue");
 
 //  Attributes are isolated, no "new" needed
-    const secondAttribute = Observable("");
+    const secondAttribute = ListMap("");
 
 //  initial state
     assert.equals(secondAttribute.getValue(),  "");

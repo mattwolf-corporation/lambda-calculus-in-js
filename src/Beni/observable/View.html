@@ -178,30 +178,36 @@
     console.log("testObsVariabel :" + testObsVariabel)
 
 
+    let logHanlderIndex;
 
-    const logHandler  = index => oldValue => newValue => {
-       console.log(index)
-        console.log(`${oldValue}, ${newValue}`)
-        return index
+    const handlerConstruct =  fn => {
+        return index => oldValue => newValue => {
+            console.log(index)
+            console.log(`${oldValue}, ${newValue}`)
+            return fn(oldValue)(newValue)
+        }
     }
+
+    const logHandler = oldValue => newValue => {
+        console.log(`${oldValue}, ${newValue}`)
+    }
+
 
     const valueHandler = index => oldValue => newValue => {
         testObsVariabel = newValue
-        return index
+        return  index
     }
 
-    let testObs = InitObsverableVal("asd")
+    let testObs = InitObsverableVal(null)
+                        (addListenerVal)(handlerConstruct(logHandler))
                         // (addListenerVal)(valueHandler)
-                        (addListenerVal)(logHandler)
 
     // testObs = testObs(setValueVal)("000")
 
-    // testObs(removeByIndex)(logHandler)
+    testObs(removeListenerVal)(logHandler)
 
     const changeValue = () =>{
-        testObs(testValueGet)("blo")("bla")
 
-        testObs(setValueVal)("Hello World")
     }
 
 </script>
