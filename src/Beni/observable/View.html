@@ -4,6 +4,7 @@
     <title>View</title>
     <script src="../../Pascal/playground.js"></script>
 
+    <script src="../listMap/listMap.js"></script>
     <script src="observable.js"></script>
     <link rel="stylesheet" href="../style.css">
 
@@ -115,7 +116,6 @@
         if (hex.length === 1) {
             hex = "0" + hex;
         }
-        console.log(hex)
         return hex;
     }
 
@@ -178,33 +178,23 @@
     console.log("testObsVariabel :" + testObsVariabel)
 
 
-    let logHanlderIndex;
 
-    const handlerConstruct =  fn => {
-        return index => oldValue => newValue => {
-            console.log(index)
-            console.log(`${oldValue}, ${newValue}`)
-            return fn(oldValue)(newValue)
-        }
-    }
-
-    const logHandler = oldValue => newValue => {
-        console.log(`${oldValue}, ${newValue}`)
-    }
-
-
-    const valueHandler = index => oldValue => newValue => {
-        testObsVariabel = newValue
-        return  index
-    }
+    const logHandler = nVal => oVal => console.log(nVal, oVal)
+    const handlerPair1 = pair(1)(logHandler)
+    const handlerPair2 = pair(22)(logHandler)
+    const handlerPair3 = pair(44)(logHandler)
+    const handlerPair4 = pair(45)(logHandler)
 
     let testObs = InitObsverableVal(null)
-                        (addListenerVal)(handlerConstruct(logHandler))
+                        (addListenerVal)(handlerPair1)
+                        (addListenerVal)(handlerPair2)
+                        (addListenerVal)(handlerPair3)
+                        (addListenerVal)(handlerPair4)
                         // (addListenerVal)(valueHandler)
 
     // testObs = testObs(setValueVal)("000")
 
-    testObs(removeListenerVal)(logHandler)
+    // testObs(removeListenerVal)(logHandler)
 
     const changeValue = () =>{
 

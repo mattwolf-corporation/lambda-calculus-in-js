@@ -8,6 +8,15 @@ const execute = (...fns) => returnValue => {
     return returnValue
 }
 
+// const ObservableFP = value => {
+//     return {
+//         addListener:  callback => {
+//
+//         },
+//         getValue: () => value,
+//         setValue: newValue =>{}
+//     }
+// }
 
 const ObsObject = listeners =>  obsFn => obsFn(listeners)
 
@@ -23,8 +32,6 @@ const setValue = listeners => newVal =>
 const removeListener = listeners => index =>
     ObsObject( removeByIndex(listeners)(index) )
 
-const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
-
 
 // Variante mit x
 
@@ -37,18 +44,13 @@ const addListenerVal = listeners => val => callback =>
         ObsObjectVal( push(listeners) (callback) ) (val)
 
 const setValueVal = listeners => val => newVal => {
-    forEach(listeners)((callback, index) => callback(index)(val)(newVal) )
-    return ObsObjectVal(listeners)(val)
+    forEach(listeners)((callback, _) => (callback(snd))(newVal)(val) )
+    return ObsObjectVal(listeners)(newVal)
 }
 
-const removeListenerVal = listeners => val => {
+const removeListenerVal = listeners => val => key =>
+    ObsObjectVal( removeByKey(listeners)(key) )(val)
 
-}
-
-
-
-
-const getPreStack = s => s(stackPredecessor)
 
 const removeByIndex = s => i => {
     const times = size(s);
@@ -81,15 +83,16 @@ const removeByCondition = currentStack => resultStack => i => currentIndex => {
     (successor(currentIndex));
 }
 
-const logListener = s => {
+const logListener = s => _ => {
     const logIteration = (acc, curr) => {
         const index = acc + 1;
         const val = typeof(curr) === 'object' ? JSON.stringify(curr) : curr;
-        console.log('element at: ' + index + ': ' + val);
+        console.log('element at: ' + index + ': ' + showPair(val));
         return index;
     };
     reduce(s)(pair(logIteration)(0));
 };
+
 
 const Observable = value => {
     const listeners = [];

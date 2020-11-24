@@ -798,7 +798,7 @@ const pushToStack = stackOp(push);
 const startStack = f => f(emptyStack);
 
 /**
- * Foreach implementation for stack
+ * Foreach implementation for stack.
  * A function that expects a stack and a callback function.
  * The current element of the stack iteration and the index of this element is passed to this callback function
  */
