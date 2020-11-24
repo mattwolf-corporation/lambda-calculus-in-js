@@ -1,7 +1,15 @@
+export {
+    listMap, emptyListMap, getElementByKey, removeByKey, startListMap
+}
+import {stack, size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, startStack} from "../stack/stack.js";
+import {n0} from "../lambda-calculus-library/church-numerals.js";
+import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lambda-calculus.js";
 
 const listMap = stack
 
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
+
+const startListMap = startStack
 
 const getElementByKey = s => key => {
     const times = size(s);
@@ -33,7 +41,7 @@ const removeByKey = stack => key => {
         (Else(argsPair))
     }
 
-    return (times(iteration)(pair(reversedStack)(emptyStack)))(snd)
+    return (times(iteration)(pair(reversedStack)(emptyListMap)))(snd)
 }
 
 const removeByCon = currentStack => resultStack => key => {

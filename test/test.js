@@ -1,4 +1,4 @@
-import {convertToJsBool} from "../src/lambda-calculus-library/lambda-calculus.js";
+import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
 import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
 import {jsnum} from '../src/lambda-calculus-library/church-numerals.js';
 
@@ -44,12 +44,25 @@ const Assert = () => {
         }
     };
 
+
+    const pairEquals = (actual, expected) => {
+        const p1Fst = actual(fst)
+        const p1Snd = actual(snd)
+        const p2Fst = expected(fst)
+        const p2Snd = expected(snd)
+
+        const result = p1Fst === p2Fst && p1Snd === p2Snd
+
+        addTest(actual, expected, result);
+    }
+
     return {
         getOk: () => ok,
         equals: equals,
         churchNumberEquals: churchNumberEquals,
         churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
+        pairEquals: pairEquals
     }
 };
 

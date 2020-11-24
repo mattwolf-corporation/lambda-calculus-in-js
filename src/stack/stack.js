@@ -40,7 +40,7 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, removeByIndex
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, removeByIndex, getPreStack
 }
 /**
  * Generic Types
@@ -158,7 +158,7 @@ const head = s => s(stackValue);
  * The function returns the size (number of elements) in the stack
  *
  * @param {stack} s
- * @return {*} stack-index
+ * @return {*} stack-index as church numeral
  */
 const size = s => s(stackIndex);
 
