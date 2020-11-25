@@ -115,18 +115,21 @@ const notifyListenersWithInitialsValues = (...observables) =>
 notifyListenersWithInitialsValues(obsR, obsG, obsB)
 
 
-const unsubRangeR = getElement("unsubRangeR")
-unsubRangeR.onclick = _ => {
-    // obsR = obsR(removeListenerByHandler)(valueHandlerInputR  )
-    // obsR = obsR(removeListenerByHandler)(valueHandlerRangeR  )
-    obsR = obsR(removeListenerByHandler)(rgbHandlerBgColorR)
-    // obsR = obsR(removeListenerByHandler)(valueHandlerRgbTextR)
-    // obsR = obsR(removeListenerByHandler)(valueHandlerHexTextR)
+const unsubRgbBg = getElement("unsubRgbBg")
+unsubRgbBg.onclick = e => {
+    console.log(unsubRgbBg.checked)
 
-    // obsR(logListenersToConsole)
-    // inputR.oninput = _ => obsR(setValue)(inputR.value)
-    // rangeR.oninput = _ => obsR(setValue)(rangeR.value)
-    // onInputListeners(obsR, inputR, rangeR)
+    if (unsubRgbBg.checked){
+        obsR = obsR(removeListenerByHandler)(rgbHandlerBgColorR)
+        obsG = obsG(removeListenerByHandler)(rgbHandlerBgColorG)
+        obsB = obsB(removeListenerByHandler)(rgbHandlerBgColorB)
+        unsubRgbBg.labels[0].innerText = "Subscribe RGB-Background"
+    } else {
+        obsR = obsR(addListener)(rgbHandlerBgColorR)
+        obsG = obsG(addListener)(rgbHandlerBgColorG)
+        obsB = obsB(addListener)(rgbHandlerBgColorB)
+        unsubRgbBg.labels[0].innerText = "UnSubscribe RGB-Background"
+    }
 
 }
 
