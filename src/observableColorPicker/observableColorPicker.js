@@ -3,16 +3,10 @@ import {
     removeListenerByKey, removeListenerByHandler,
     handlerFnLogToConsole, buildHandlerFnInnerText, handlerBuilder, buildHandlerFnInnerTextLength,
     buildHandlerFnValue
-
 } from "../observableListMap/observableListMap.js";
+
 import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../lambda-calculus-library/lambda-calculus.js";
-
-const getElement = id => document.getElementById(id); // maybe impl for safety
-const getElements = (...id) => id.map(e => getElement(e))
-
-const onInputListener = (observable, input) => input.oninput = _ => observable = observable(setValue)(input.value) // maybe impl for safety
-const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
-
+import { getElement, getElements, onInputListener, onInputListeners, toHexString, toRGBString } from "./colorPickerUtilities.js";
 
 const [nameInput, label, sizes] = getElements("name", "label", "sizes")
 
@@ -30,14 +24,6 @@ const inputObservable = InitObservable("")
 
 onInputListener(inputObservable, nameInput)
 
-
-const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'
-const toHexString = (r, g, b) => "#" + toHex(r) + toHex(g) + toHex(b)
-const toHex = n => {
-    if (n === undefined) n = 0
-    let hex = Math.round(n).toString(16)
-    return hex.length === 1 ? "0" + hex : hex
-}
 
 const [resultColor, rgbValue, hex, hsl] = getElements("resultColor", "rgbValue", "hex", "hsl")
 const [inputR, inputG, inputB] = getElements("inputR", "inputG", "inputB")
@@ -118,6 +104,8 @@ const notifyListenersWithInitialsValues = (...observables) =>
 
 notifyListenersWithInitialsValues(rgbObservable)
 
+
+
 // Toggle (Un/Subscribe)-Handler of RGB-Background
 const unsubRgbBg = getElement("unsubRgbBg")
 unsubRgbBg.onclick = e => {
@@ -130,6 +118,5 @@ unsubRgbBg.onclick = e => {
         rgbObservable = rgbObservable(addListener)(rgbHandlerBgColorRGB)
         unsubRgbBg.labels[0].innerText = "UnSubscribe RGB-Background"
     }
-
 }
 
