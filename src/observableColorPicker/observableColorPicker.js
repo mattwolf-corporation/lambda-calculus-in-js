@@ -1,30 +1,36 @@
-import {InitObservable, addListener, setValue,
+import {InitObservable, addListener, setValue, getValue,
     removeListener, logListenersToConsole,
-    handlerLog, handlerInnerText, handlerBuilder } from "../observableListMap/observableListMap.js";
+    handlerFnLogToConsole, buildHandlerFnInnerText, handlerBuilder, buildHandlerFnInnerTextLength,
+    buildHandlerFnValue
+
+} from "../observableListMap/observableListMap.js";
 
 import { pair} from "../lambda-calculus-library/lambda-calculus.js";
 
 const getElement  = id => document.getElementById(id); // maybe impl for safety
 const getElements = (...id) => id.map(e => getElement(e))
 
-const onInputListener  = (observable, input) => input.oninput = _ => observable(setValue)(input.value) // maybe impl for safety
+const onInputListener  = (observable, input) => input.oninput = _ => observable = observable(setValue)(input.value) // maybe impl for safety
 const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
 
 const [nameInput, label, sizes] = getElements("name", "label", "sizes")
 
-const labelHandler = handlerBuilder(1) (nVal => oVal => label.innerText = nVal)
 // "let" wenn soll zusätzliche Listener hinzugefügt werden,
 // ansonsten, wenn immutable mit "const" vor veränderung schützen
-const logHandler = nVal => oVal => console.log(nVal, oVal)
-const handlerPair1 = pair(1)(logHandler)
 
+const labelHandler     = handlerBuilder(1)(buildHandlerFnInnerText(label))
+const labelSizeHandler = handlerBuilder(2)(buildHandlerFnInnerTextLength(sizes))
+const consoleHandler   = handlerBuilder(3)(handlerFnLogToConsole)
 
-const inputObservable = InitObservable("4")
+const inputObservable = InitObservable(23523523)
 (addListener)( labelHandler )
-// (addListener)( labelHandler )
-// (addListener)( handlerBuilder(2)(handlerInnerText(sizes)) )
+(addListener)( labelSizeHandler )
+//(addListener)( consoleHandler )
+
 
 onInputListener(inputObservable, nameInput)
+
+console.log(inputObservable(getValue))
 
 
 const toRGBString = (r,g,b) => 'rgb(' + r + ',' + g+ ',' + b + ')'
@@ -40,45 +46,53 @@ const toHex = n => {
     return hex;
 }
 
-/*
+
 const [resultColor, rgbValue, hex, hsl] = getElements("resultColor", "rgbValue", "hex", "hsl")
 const [inputR, inputG, inputB]          = getElements("inputR", "inputG", "inputB")
 const [rangeR, rangeG, rangeB]          = getElements("rangeR", "rangeG", "rangeB")
 
-const setElementValue = valuable => x => valuable.value = x
+const valueHandlerInputR          = handlerBuilder(1)(buildHandlerFnValue(inputR))
+const valueHandlerRangeR          = handlerBuilder(2)(buildHandlerFnValue(rangeR))
+const rgbHandlerR                 = handlerBuilder(3)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal, obsG(getValue), obsB(getValue)))
+const valueHandlerRgbTextR        = handlerBuilder(4)(nVal => oVal => rgbValue.value                    = toRGBString(nVal, obsG(getValue), obsB(getValue)))
+const valueHandlerHexTextR        = handlerBuilder(5)(nVal => oVal => hex.innerText                     = toHexString(nVal, obsG(getValue), obsB(getValue)))
+
+const obsR = InitObservable("55")
+(addListener)(valueHandlerInputR)
+(addListener)(valueHandlerRangeR)
+(addListener)(rgbHandlerR)
+(addListener)(valueHandlerRgbTextR)
+(addListener)(valueHandlerHexTextR)
 
 
 
 
-let obsR = null;
+const valueHandlerInputG          = handlerBuilder(1)(buildHandlerFnValue(inputG))
+const valueHandlerRangeG          = handlerBuilder(2)(buildHandlerFnValue(rangeG))
+const rgbHandlerG                 = handlerBuilder(3)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(obsR(getValue), nVal, obsB(getValue)))
+const valueHandlerRgbTextG        = handlerBuilder(4)(nVal => oVal => rgbValue.value                    = toRGBString(obsR(getValue), nVal, obsB(getValue)))
+const valueHandlerHexTextG        = handlerBuilder(5)(nVal => oVal => hex.innerText                     = toHexString(obsR(getValue), nVal, obsB(getValue)))
 
-let obsRKeys = []
-obsR = InitObservable(55)
-(addListener)(r => setElementValue( obsR )(r))
-(addListener)(r => setElementValue( inputR )(r))
-(addListener)(r => setElementValue( rangeR )(r))
-(addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
-(addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
-(addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))
-
-
-
-const obsG = InitObservable(66)
-(addListener)(g => obsG.value                        = g )
-(addListener)(g => inputG.value                      = g )
-(addListener)(g => rangeG.value                      = g )
-(addListener)(g => resultColor.style.backgroundColor = toRGBString(obsR.value, g, obsB.value))
-(addListener)(g => rgbValue.value                    = toRGBString(obsR.value, g, obsB.value))
-(addListener)(g => hex.innerText                     = toHexString(obsR.value, g, obsB.value))
+const obsG = InitObservable(34)
+(addListener)(valueHandlerInputG)
+(addListener)(valueHandlerRangeG)
+(addListener)(rgbHandlerG)
+(addListener)(valueHandlerRgbTextG)
+(addListener)(valueHandlerHexTextG)
 
 
-const obsB = InitObservable(77)
-(addListener)(b => obsB.value                        = b )
-(addListener)(b => inputB.value                      = b )
-(addListener)(b => rangeB.value                      = b )
-(addListener)(b => resultColor.style.backgroundColor = toRGBString(obsR.value, obsG.value, b))
-(addListener)(b => rgbValue.value                    = toRGBString(obsR.value, obsG.value, b))
-(addListener)(b => hex.innerText                     = toHexString(obsR.value, obsG.value, b))
+const valueHandlerInputB          = handlerBuilder(2)(buildHandlerFnValue(inputB))
+const valueHandlerRangeB          = handlerBuilder(2)(buildHandlerFnValue(rangeB))
+const rgbHandlerB                 = handlerBuilder(4)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(obsR(getValue), obsG(getValue), nVal))
+const valueHandlerRgbTextB        = handlerBuilder(4)(nVal => oVal => rgbValue.value                    = toRGBString(obsR(getValue), obsG(getValue), nVal))
+const valueHandlerHexTextB        = handlerBuilder(5)(nVal => oVal => hex.innerText                     = toHexString(obsR(getValue), obsG(getValue), nVal))
+
+const obsB = InitObservable(55)
+(addListener)(valueHandlerInputB)
+(addListener)(valueHandlerRangeB)
+(addListener)(rgbHandlerB)
+(addListener)(valueHandlerRgbTextB)
+(addListener)(valueHandlerHexTextB)
 
 
 
@@ -88,32 +102,9 @@ onInputListeners(obsB, inputB, rangeB)
 
 
 
-const setObservablesValue = (...observables) => value =>
-    observables.forEach(obs => obs(setValue)(value))
+const notifyListenersWithInitialsValues = (...observables) =>
+    observables.forEach(obs => obs(setValue)(obs(getValue)))
 
 
-setObservablesValue(obsR, obsG, obsB)(42)
+notifyListenersWithInitialsValues(obsR, obsG, obsB)
 
-
-let testObsVariabel = ""
-console.log("testObsVariabel :" + testObsVariabel)
-
-
-
-const logHandler = nVal => oVal => console.log(nVal, oVal)
-const handlerPair1 = pair(1)(logHandler)
-const handlerPair2 = pair(22)(logHandler)
-const handlerPair3 = pair(44)(logHandler)
-const handlerPair4 = pair(45)(logHandler)
-
-let testObs = InitObsverableVal(null)
-(addListenerVal)(handlerPair1)
-(addListenerVal)(handlerPair2)
-(addListenerVal)(handlerPair3)
-(addListenerVal)(handlerPair4)
-
-
-const changeValue = () =>{
-
-}
-*/
