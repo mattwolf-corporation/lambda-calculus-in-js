@@ -2,7 +2,7 @@ import { emptyListMap, listMap, startListMap, getElementByKey, removeByKey} from
 import { push, forEach, reduce } from "../stack/stack.js";
 import {pair,showPair,  snd, fst, Else, If, Then} from "../lambda-calculus-library/lambda-calculus.js";
 
-export { InitObservable, addListener, setValue, getValue, removeListener,
+export { InitObservable, addListener, setValue, getValue, removeListenerByKey, removeListenerByHandler,
     logListenersToConsole, handlerFnLogToConsole, handlerBuilder,
     buildHandlerFnInnerText, buildHandlerFnInnerTextLength, buildHandlerFnValue
 
@@ -21,13 +21,13 @@ const setValue = listeners => oldVal => newVal => {
 const addListener = listeners => val => newListener =>
     Observable( push(listeners) (newListener) ) (val)
 
-
-
 const getValue = listeners => val => val
 
-const removeListener = listeners => val => listenerKey =>
+const removeListenerByKey = listeners => val => listenerKey =>
     Observable( removeByKey(listeners)(listenerKey) )(val)
 
+const removeListenerByHandler = listeners => val => handler =>
+    Observable( removeByKey(listeners) (handler(fst)) )(val)
 
 // Observable Tools
 const logListenersToConsole = listeners => _ => {
