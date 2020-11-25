@@ -1,10 +1,35 @@
 //import {id, B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "../lambda-calculus-library/lambda-calculus.js";
 const log = console.log
 
+const maybe = pair
+const get = snd
+const isPresent = fst
 
 const Left = x => f => g => f(x);
 const Right = x => f => g => g(x);
 const either = id;
+
+const getElement = id => document.getElementById(id); // maybe impl for safety
+const getElements = (...id) => id.map(e => getElement(e))
+
+const getMaybeElement = id => {
+    const element = getElement(id)
+    log(element)
+    element
+        ? Right(maybe(true)(element))
+        : Left(maybe(false)("Error: No element"))
+}
+
+
+
+const inputElement = getMaybeElement("inputTextElement")
+if (inputElement(isPresent)){
+    log(inputElement(get))
+} else {
+    log(inputElement(get))
+
+}
+
 
 
 const safeDiv = num => divisor =>

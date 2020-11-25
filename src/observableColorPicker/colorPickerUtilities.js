@@ -1,5 +1,13 @@
 export {getElement, getElements, onInputListener, onInputListeners, toHexString, toRGBString}
 
+
+// const getMaybeElement = id => {
+//     const element = getElement(id)
+//     element
+//         ? Right(maybe(true)(element))
+//         : Left(maybe(false)("Error: No element"))
+// }
+
 const getElement = id => document.getElementById(id); // maybe impl for safety
 const getElements = (...id) => id.map(e => getElement(e))
 

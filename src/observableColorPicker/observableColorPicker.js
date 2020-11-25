@@ -8,7 +8,7 @@ import {
 import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../lambda-calculus-library/lambda-calculus.js";
 import { getElement, getElements, onInputListener, onInputListeners, toHexString, toRGBString } from "./colorPickerUtilities.js";
 
-const [nameInput, label, sizes] = getElements("name", "label", "sizes")
+const [inputText, label, sizes] = getElements("inputText", "label", "sizes")
 
 // "let" wenn später zusätzliche Listener hinzugefügt oder entfernt werden soll,
 // ansonsten, wenn immutable mit "const" vor veränderung schützen
@@ -22,7 +22,7 @@ const inputObservable = InitObservable("")
                             (addListener)(labelSizeHandler)
                             (addListener)(consoleHandler)
 
-onInputListener(inputObservable, nameInput)
+onInputListener(inputObservable, inputText)
 
 
 const [resultColor, rgbValue, hex, hsl] = getElements("resultColor", "rgbValue", "hex", "hsl")
@@ -35,13 +35,13 @@ const getBlue = thirdOfTriple
 
 const valueHandlerInputR            = handlerBuilder(1)(nVal => oVal => inputR.value = nVal(getRed))
 const valueHandlerRangeR            = handlerBuilder(2)(nVal => oVal => rangeR.value = nVal(getRed))
-const valueHandlerInputG            = handlerBuilder(1)(nVal => oVal => inputG.value = nVal(getGreen))
-const valueHandlerRangeG            = handlerBuilder(2)(nVal => oVal => rangeG.value = nVal(getGreen))
-const valueHandlerInputB            = handlerBuilder(1)(nVal => oVal => inputB.value = nVal(getBlue))
-const valueHandlerRangeB            = handlerBuilder(2)(nVal => oVal => rangeB.value = nVal(getBlue))
-const rgbHandlerBgColorRGB          = handlerBuilder(3)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
-const valueHandlerRgbTextRGB        = handlerBuilder(4)(nVal => oVal => rgbValue.value = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
-const valueHandlerHexTextRGB        = handlerBuilder(5)(nVal => oVal => hex.innerText = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerInputG            = handlerBuilder(3)(nVal => oVal => inputG.value = nVal(getGreen))
+const valueHandlerRangeG            = handlerBuilder(4)(nVal => oVal => rangeG.value = nVal(getGreen))
+const valueHandlerInputB            = handlerBuilder(5)(nVal => oVal => inputB.value = nVal(getBlue))
+const valueHandlerRangeB            = handlerBuilder(6)(nVal => oVal => rangeB.value = nVal(getBlue))
+const rgbHandlerBgColorRGB          = handlerBuilder(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerRgbTextRGB        = handlerBuilder(8)(nVal => oVal => rgbValue.value = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerHexTextRGB        = handlerBuilder(9)(nVal => oVal => hex.innerText = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
 
 
 let rgbObservable = InitObservable(triple(11)(22)(44))

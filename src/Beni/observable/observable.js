@@ -1,5 +1,6 @@
-// const addToList = listener => callback => listener.push(callback)
-// const notify = listener => val => listener.forEach(l => l(val))
+
+
+
 
 // const pipe = (...fns) => x => fns.reduce((v, fn) => fn(v), x)
 
