@@ -840,6 +840,35 @@ const saveCalc = predicate => errorMsg => calcSave =>
     x => y => w((predicate)(x)(y))(errorMsg)(f => f(calcSave(x)(y)))
 
 
-const test = saveCalc(x => y => y === 0)("divisor is two")(x => y => x / z)
-console.log("teees")
-  test(10)(0) ( console.log )( id)
+// const test = saveCalc(x => y => y === 0)("divisor is two")(x => y => x / z)
+// console.log("teees")
+//   test(10)(0) ( console.log )( id)
+
+
+// const Left   = x => f => g => f (x);
+// const Right  = x => f => g => g (x);
+// const either = id;
+
+// maybe as a sum type
+
+const Nothing  = () => f => g => f() ;        // f is used as a value
+const Just     = x  => f => g => g (x);
+const maybe    = m  => f => g => m (f) (g);
+
+
+// const Nothing  = Left() ;        // f is used as a value
+// const Just     = Right  ;
+// const maybe    = either ;     // convenience: caller does not need to repeat "konst"
+// const maybe    = m => f => either (m) (fst(f)) ;
+
+
+
+const safeDiv = num => divisor =>
+    divisor === 0
+        ? Nothing()
+        : Just(num / divisor);
+
+
+maybe(safeDiv(1)(2))
+(() => console.log("failed"))
+(result => console.log(result))

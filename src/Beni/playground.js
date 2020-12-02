@@ -40,6 +40,10 @@ const getSafeElement = elementID =>
     (() => log(id + " gibts nit"))
     (id)
 
+const getOrDefault = maybeEl => defaultVal => maybe(maybeEl)(() => defaultVal)(id)
+const getElementOrDefault = getOrDefault(getSafeElement('label'))('')
+const maybeHandler = maybeElem => handleGood => handleBad => maybe(maybeElem)(handleBad)(handleGood)
+
 
 
 

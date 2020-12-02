@@ -19,7 +19,20 @@ const execute = (...fns) => returnValue => {
 //     }
 // }
 
-const ObsObject = listeners =>  obsFn => obsFn(listeners)
+import {
+    Else,
+    firstOfTriple,
+    fst,
+    id, If,
+    pair,
+    secondOfTriple,
+    snd, Then,
+    thirdOfTriple, triple
+} from "../../lambda-calculus-library/lambda-calculus";
+import {eq, jsnum, n1, succ} from "../../lambda-calculus-library/church-numerals";
+import {emptyStack, hasPre, head, push, reverseStack, size, stackIndex, stackPredecessor} from "../../stack/stack";
+
+const ObsObject = listeners => obsFn => obsFn(listeners)
 
 const InitObservable = ObsObject(emptyStack)
 
@@ -141,3 +154,69 @@ const ObservableList = newList => {
         getList: () => [...list]
     }
 };
+
+
+const getElementByKey = s => key => {
+    const times = size(s);
+    const initArgsPair = pair(s)(id);
+
+    const getElement = argsPair => {
+        const stack = argsPair(fst);
+        const predecessorStack = (stack)(stackPredecessor);
+        const currentKeyValPair = head(stack);
+
+        if (currentKeyValPair(fst) === key) {
+
+            return pair(predecessorStack)(currentKeyValPair(snd));
+        }
+
+        return pair(predecessorStack)(argsPair(snd));
+    };
+
+    return (times(getElement)(initArgsPair))(snd);
+};
+
+// const removeByIndex = stack => index => {
+//     const times = size(stack);
+//     const reversedStack = reverseStack(stack);
+//
+//     const iteration = argsTriple => {
+//         const currentStack  = argsTriple(firstOfTriple)
+//         const resultStack   = argsTriple(secondOfTriple)
+//         const currentIndex  = argsTriple(thirdOfTriple)
+//         const condition = eq(toChurchNum(index))(currentIndex);
+//
+//         return If( hasPre(currentStack) )
+//         (Then( removeByCondition(currentStack)(resultStack)(condition)(currentIndex)))
+//         (Else(argsTriple))
+//     }
+//
+//     return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
+// }
+
+const removeByKey = stack => key => {
+    const times = size(stack);
+    const reversedStack = reverseStack(stack);
+
+    const iteration = argsPair => {
+        const currentStack  = argsPair(fst)
+        const resultStack   = argsPair(snd)
+
+        return If( hasPre(currentStack) )
+        (Then( removeByCon(currentStack)(resultStack)(key)))
+        (Else(argsPair))
+    }
+
+    return (times(iteration)(pair(reversedStack)(emptyStack)))(snd)
+}
+
+const removeByCon = currentStack => resultStack => key => {
+    const currentKeyValPair = head(currentStack)
+    const currentElement = currentKeyValPair(snd);
+
+    const result = key === currentKeyValPair(fst)
+        ? resultStack
+        : push(resultStack)(currentElement);
+
+    return pair(getPreStack(currentStack))(result);
+}
