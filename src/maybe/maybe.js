@@ -27,9 +27,9 @@ const safeDivision = num => divisor => maybe(safeDiv(num)(divisor))
 const getElementOrDefault = getOrDefault(getMaybeElement('label'))('')
 
 const calcDiv = () => {
-    const fstNum = getOrDefault(getMaybeElement('firstNumInput'))(console.error('firstNumInput doesnt exist'));
-    const sndNum = getOrDefault(getMaybeElement('secondNumInput'))(console.error('secondNumInput doesnt exist'));
-    const result = getOrDefault(getMaybeElement('result'))(console.error('result doesnt exist'));
+    const fstNum = getOrDefault(getMaybeElement('firstNumInput'))(() => console.error('firstNumInput doesnt exist'));
+    const sndNum = getOrDefault(getMaybeElement('secondNumInput'))(() => console.error('secondNumInput doesnt exist'));
+    const result = getOrDefault(getMaybeElement('result'))(() => console.error('result doesnt exist'));
 
-    result.innerText = safeDivision(fstNum.value)(sndNum.value);
+    result.innerText = getOrDefault(safeDiv(fstNum.value)(sndNum.value))(0);
 }
