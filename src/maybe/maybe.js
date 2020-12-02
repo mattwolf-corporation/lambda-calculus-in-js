@@ -31,5 +31,8 @@ const calcDiv = () => {
     const sndNum = getOrDefault(getMaybeElement('secondNumInput'))(() => console.error('secondNumInput doesnt exist'));
     const result = getOrDefault(getMaybeElement('result'))(() => console.error('result doesnt exist'));
 
-    result.innerText = getOrDefault(safeDiv(fstNum.value)(sndNum.value))(0);
+    const num = Number(fstNum.value);
+    const divisor = Number(sndNum.value);
+
+    result.innerText = getOrDefault(safeDiv(num)(divisor))(0);
 }
