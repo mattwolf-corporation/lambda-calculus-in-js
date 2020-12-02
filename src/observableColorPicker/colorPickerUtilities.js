@@ -1,5 +1,5 @@
 export {getElement, getElements, onInputListener, onInputListeners, toHexString, toRGBString}
-
+import { maybe, getOrDefault, maybeElement, maybeDiv, Just, Nothing } from "../maybe/maybe.js";
 
 // const getMaybeElement = id => {
 //     const element = getElement(id)
@@ -10,6 +10,9 @@ export {getElement, getElements, onInputListener, onInputListeners, toHexString,
 
 const getElement = id => document.getElementById(id); // maybe impl for safety
 const getElements = (...id) => id.map(e => getElement(e))
+
+
+
 
 const onInputListener = (observable, input) => input.oninput = _ => observable = observable(setValue)(input.value) // maybe impl for safety
 const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))

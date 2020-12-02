@@ -5,10 +5,13 @@ import {
     buildHandlerFnValue
 } from "../observableListMap/observableListMap.js";
 
-import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../lambda-calculus-library/lambda-calculus.js";
-import { getElement, getElements, onInputListener, onInputListeners, toHexString, toRGBString } from "./colorPickerUtilities.js";
 
-const [inputText, label, sizes] = getElements("inputText", "label", "sizes")
+import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../lambda-calculus-library/lambda-calculus.js";
+import { onInputListener, onInputListeners, toHexString, toRGBString } from "./colorPickerUtilities.js";
+
+import {maybe, getSafeElements} from "../maybe/maybe.js";
+
+const [inputText, label, sizes] = getSafeElements("inputText", "label", "sizes")
 
 // "let" wenn später zusätzliche Listener hinzugefügt oder entfernt werden soll,
 // ansonsten, wenn immutable mit "const" vor veränderung schützen
@@ -25,9 +28,9 @@ const inputObservable = InitObservable("")
 onInputListener(inputObservable, inputText)
 
 
-const [resultColor, rgbValue, hex, hsl] = getElements("resultColor", "rgbValue", "hex", "hsl")
-const [inputR, inputG, inputB] = getElements("inputR", "inputG", "inputB")
-const [rangeR, rangeG, rangeB] = getElements("rangeR", "rangeG", "rangeB")
+const [resultColor, rgbValue, hex, hsl] = getSafeElements("resultColor", "rgbValue", "hex", "hsl")
+const [inputR, inputG, inputB] = getSafeElements("inputR", "inputG", "inputB")
+const [rangeR, rangeG, rangeB] = getSafeElements("rangeR", "rangeG", "rangeB")
 
 const getRed = firstOfTriple
 const getGreen = secondOfTriple
@@ -107,7 +110,7 @@ notifyListenersWithInitialsValues(rgbObservable)
 
 
 // Toggle (Un/Subscribe)-Handler of RGB-Background
-const unsubRgbBg = getElement("unsubRgbBg")
+const unsubRgbBg = getSafeElements("unsubRgbBg")
 unsubRgbBg.onclick = e => {
     console.log(unsubRgbBg.checked)
 

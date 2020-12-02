@@ -1,6 +1,6 @@
 import { id} from "../lambda-calculus-library/lambda-calculus.js";
 export { Nothing, Just, maybe,
-        maybeDiv, maybeElement, getOrDefault,
+        maybeDiv, maybeElement, getOrDefault, getSafeElements
 }
 
 
@@ -19,6 +19,19 @@ const maybeElement = elemId => {
         ? Just(element)
         : Nothing()
 }
+
+const getSafeElements = (...elemIds) =>
+     elemIds.map(e => maybe(maybeElement(e))
+                             (() => console.error(e + " doesnt exist") )
+                             (id))
+
+
+
+const [firstNumInput, secondNumInput , result] = getSafeElements("firstNumInput", "secondNumInput", "result" )
+console.log("firstNumInput", firstNumInput)
+console.log("secondNumInput", secondNumInput)
+console.log("result", result)
+
 
 const getOrDefault = maybeFn => defaultVal => maybe(maybeFn)
                                                     (() => defaultVal)
