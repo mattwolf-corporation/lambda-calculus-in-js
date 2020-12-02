@@ -1,45 +1,54 @@
 //import {id, B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "../lambda-calculus-library/lambda-calculus.js";
 const log = console.log
 
-const maybe = pair
-const get = snd
-const isPresent = fst
-
-const Left = x => f => g => f(x);
-const Right = x => f => g => g(x);
+const Left   = x => f => g => f (x);
+const Right  = x => f => g => g (x);
 const either = id;
 
-const getElement = id => document.getElementById(id); // maybe impl for safety
-const getElements = (...id) => id.map(e => getElement(e))
+const Nothing  = () => f => g => f ();
+const Just     = x  => f => g => g (x);
+const maybe    = id;
 
-const getMaybeElement = id => {
-    const element = getElement(id)
-    log(element)
-    element
-        ? Right(maybe(true)(element))
-        : Left(maybe(false)("Error: No element"))
-}
-
-
-
-const inputElement = getMaybeElement("inputTextElement")
-if (inputElement(isPresent)){
-    log(inputElement(get))
-} else {
-    log(inputElement(get))
-
-}
-
-
+// const Nothing  = Left() ;        // f is used as a value
+// const Just     = Right  ;
+// const maybe    = either ;     // convenience: caller does not need to repeat "konst"
+// const maybe    = m => f => either (m) (fst(f)) ;
 
 const safeDiv = num => divisor =>
     divisor === 0
-        ? Left("schlecht!")
-        : Right(num / divisor);
+        ? Nothing()
+        : Just(num / divisor);
 
-either(safeDiv(1)(4))
-(console.error)
-(console.log);
+maybe(safeDiv(1)(0))
+        (() => log("failed"))
+        (log)
+
+
+
+
+// const getElements = (...id) => id.map(e => getElement(e))
+
+const getMaybeElement = id => {
+    const element = document.getElementById(id)
+    return element
+        ? Just(element)
+        : Nothing()
+}
+
+const getSafeElement = elementID =>
+    maybe(getMaybeElement(elementID))
+    (() => log(id + " gibts nit"))
+    (id)
+
+
+
+
+//    bindMaybe :: m a -> (a -> m b) -> mb
+const bindMaybe = ma => f => maybe (ma) (ma) (f);
+
+
+
+
 
 const safeGetElementById = element =>
     document.getElementById(element) === null
@@ -73,7 +82,7 @@ const Monad = value => ({
 
 // Monad.of = x => Monad(x);
 
-Monad(21).map(x => x * 2).map(console.log)
+// Monad(21).map(x => x * 2).map(console.log)
 
 //
 
@@ -84,7 +93,7 @@ const createEvent = ({
     description: ""
 })
 
-const logs = [console.log, console.log]
+// const logs = [console.log, console.log]
 const logged = x => logs.reduce((_, fn) => fn(x), x)
 
 const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return returnValue}
