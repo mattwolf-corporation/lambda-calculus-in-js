@@ -14,7 +14,6 @@ const getMaybeElement = elemId => {
         : Nothing()
 }
 
-const maybeHandler = maybeFn => handleGood => handleBad => maybe(maybeFn)(handleBad)(handleGood) // syntactic sugar
 const getOrDefault = maybeFn => defaultVal => maybe(maybeFn)
                                                     (() => defaultVal)
                                                     (id)
@@ -27,12 +26,9 @@ const safeDivision = num => divisor => maybe(safeDiv(num)(divisor))
 const getElementOrDefault = getOrDefault(getMaybeElement('label'))('')
 
 const calcDiv = () => {
-    const fstNum = getOrDefault(getMaybeElement('firstNumInput'))(() => console.error('firstNumInput doesnt exist'));
-    const sndNum = getOrDefault(getMaybeElement('secondNumInput'))(() => console.error('secondNumInput doesnt exist'));
-    const result = getOrDefault(getMaybeElement('result'))(() => console.error('result doesnt exist'));
+    const fstNum = maybe(getMaybeElement('firstNumInput'))   (() => console.error('firstNumInput doesnt exist'))  (elem => Number(elem.value));
+    const sndNum = maybe(getMaybeElement('secondNumInput'))  (() => console.error('secondNumInput doesnt exist')) (elem => Number(elem.value));
+    const result = maybe(getMaybeElement('result'))          (() => console.error('result doesnt exist'))         (id);
 
-    const num = Number(fstNum.value);
-    const divisor = Number(sndNum.value);
-
-    result.innerText = getOrDefault(safeDiv(num)(divisor))(0);
+    result.innerText = getOrDefault(safeDiv(fstNum)(sndNum))(0);
 }
