@@ -1,32 +1,29 @@
-import {
-    InitObservable, addListener, setValue, getValue, logListenersToConsole,
-    removeListenerByKey, removeListenerByHandler,
-    handlerFnLogToConsole, buildHandlerFnInnerText, buildHandlerFnInnerTextOldValue, handlerBuilder, buildHandlerFnInnerTextLength,
-    buildHandlerFnValue
-} from "../../observableListMap.js";
+import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnInnerText, buildHandlerFnInnerTextOldValue, handlerBuilder, buildHandlerFnInnerTextLength } from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
-import {maybe, getSafeElements, getSafeElement} from "../../../maybe/maybe.js";
+import { getSafeElements } from "../../../maybe/maybe.js";
 
-
-// Text-Input example
+// The Elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getSafeElements("inputText", "newValue", "oldValue", "sizes")
 
+// Define Observable-Handler
 const newValueHandler     = handlerBuilder(1)( buildHandlerFnInnerText          (newValue) )
 const oldValueHandler     = handlerBuilder(2)( buildHandlerFnInnerTextOldValue  (oldValue) )
 const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnInnerTextLength    (sizes)    )
 const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                       )
 
+// Create Observable-Object, define InitVal and append the Observable-Handler as Listener
 let inputObservable = InitObservable("")
                             (addListener)(newValueHandler)
                             (addListener)(oldValueHandler)
                             (addListener)(labelSizeHandler)
                             (addListener)(consoleHandler)
 
+// Connect the Observable-Object with the Input-Text-Field
 onInputListener(inputObservable, inputText)
 
 
 
-//Toggle (Un/Subscribe)-Handler
+//For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
 const [unsubNewValue,unsubOldValue,unsubSize] = getSafeElements("unsubNewValue", "unsubOldValue", "unsubSize")
 
 unsubNewValue.onclick = _ => {
