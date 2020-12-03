@@ -6,22 +6,7 @@ import {
 } from "../../observableListMap.js";
 import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../../../lambda-calculus-library/lambda-calculus.js";
 import { onInputListener, onInputListeners, toHexString, toRGBString } from "../observableUtilities.js";
-import {maybe, getSafeElements} from "../../../maybe/maybe.js";
-
-
-// Text-Input example
-const [inputText, label, sizes] = getSafeElements("inputText", "label", "sizes")
-
-const labelHandler      = handlerBuilder(1)(buildHandlerFnInnerText(label))
-const labelSizeHandler  = handlerBuilder(2)(buildHandlerFnInnerTextLength(sizes))
-const consoleHandler    = handlerBuilder(3)(handlerFnLogToConsole)
-
-const inputObservable = InitObservable("")
-                            (addListener)(labelHandler)
-                            (addListener)(labelSizeHandler)
-                            (addListener)(consoleHandler)
-
-onInputListener(inputObservable, inputText)
+import {maybe, getSafeElement, getSafeElements} from "../../../maybe/maybe.js";
 
 
 const [resultColor, rgbValue, hex, hsl] = getSafeElements("resultColor", "rgbValue", "hex", "hsl")
@@ -106,10 +91,12 @@ notifyListenersWithInitialsValues(rgbObservable)
 
 
 // Toggle (Un/Subscribe)-Handler of RGB-Background
-const unsubRgbBg = getSafeElements("unsubRgbBg")
+const unsubRgbBg = getSafeElement("unsubRgbBg")
+console.log(unsubRgbBg)
+console.log(unsubRgbBg.checked)
+
 unsubRgbBg.onclick = e => {
     console.log(unsubRgbBg.checked)
-
     if (unsubRgbBg.checked) {
         rgbObservable = rgbObservable(removeListenerByHandler)(rgbHandlerBgColorRGB)
         unsubRgbBg.labels[0].innerText = "Subscribe RGB-Background"

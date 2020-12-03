@@ -6,15 +6,7 @@
 </head>
 <body>
 
-
-<input id="inputText" type="text">
-<div id="label"></div>
-<div id="sizes"></div>
-
-<hr>
-
 <style>
-
     body {
         font-family: Consolas, 'courier new'
     }
@@ -25,9 +17,11 @@
         overflow: hidden;
     }
 
-
     #resultColor {
         height: 200px;
+    }
+    #unsubRgbBg:hover{
+        cursor: pointer;
     }
 
     .slider {
@@ -48,7 +42,7 @@
         <br>
         <div class="row">
             <div class="col w-50" style="background-color: rgb(0, 0, 0);" id="resultColor">
-                <input type="checkbox" id="unsubRgbBg" name="unsubRgbBg" style="visibility: hidden">
+                <input type="checkbox" id="unsubRgbBg" name="unsubRgbBg" style="visibility: visible">
                 <label for="unsubRgbBg" style="background-color: bisque;">Unsubscribe RGB-Background</label>
             </div>
 
@@ -60,7 +54,7 @@
                     <br>
                     <div id="hex" class="pt-3 pb-3"></div>
                     <br>
-                    <div id="hsl" class="pt-3 pb-3">hsl(75, 100%, 34%)</div>
+                    <div id="hsl" class="pt-3 pb-3"></div>
                 </div>
             </div>
 
