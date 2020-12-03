@@ -1,10 +1,10 @@
 import { emptyListMap, listMap, startListMap, getElementByKey, removeByKey} from "../listMap/listMap.js";
 import { push, forEach, reduce } from "../stack/stack.js";
-import {pair,showPair,  snd, fst, Else, If, Then} from "../lambda-calculus-library/lambda-calculus.js";
+import { pair,showPair,  snd, fst, Else, If, Then} from "../lambda-calculus-library/lambda-calculus.js";
 
 export { InitObservable, addListener, setValue, getValue, removeListenerByKey, removeListenerByHandler,
     logListenersToConsole, handlerFnLogToConsole, handlerBuilder,
-    buildHandlerFnInnerText, buildHandlerFnInnerTextLength, buildHandlerFnValue
+    buildHandlerFnInnerText, buildHandlerFnInnerTextOldValue, buildHandlerFnInnerTextLength, buildHandlerFnValue
 
 }
 
@@ -44,7 +44,8 @@ const logListenersToConsole = listeners => _ => {
 // Observable Handler-Utilities
 const handlerBuilder = key => handlerFn => pair(key)(handlerFn)
 
-const handlerFnLogToConsole         = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const buildHandlerFnInnerText       = element => nVal => oVal => element.innerText = nVal
-const buildHandlerFnInnerTextLength = element => nVal => oVal => element.innerText = nVal.length
-const buildHandlerFnValue           = element => nVal => oVal => element.value     = nVal
+const handlerFnLogToConsole             = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
+const buildHandlerFnInnerText           = element => nVal => oVal => element.innerText = nVal
+const buildHandlerFnInnerTextOldValue   = element => nVal => oVal => element.innerText = oVal
+const buildHandlerFnInnerTextLength     = element => nVal => oVal => element.innerText = nVal.length
+const buildHandlerFnValue               = element => nVal => oVal => element.value     = nVal

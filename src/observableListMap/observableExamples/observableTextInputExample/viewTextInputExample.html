@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Observable Text-Input Example</title>
+</head>
+<style>
+ body{
+     position: fixed;top: 50%; left: 50%; margin-top: -50px;  margin-left: -100px;
+     font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif
+ }
+ label{
+     font-weight: bold;
+ }
+</style>
+<body >
+
+<label for="inputText">Observable Text-Input: </label>
+<input name="inputText" id="inputText" type="text">
+
+<br>
+
+<label for="newValue">New Value: </label>
+<span name="newValue" id="newValue"></span>
+
+<br>
+
+<label for="oldValue">Old Value: </label>
+<span name="oldValue" id="oldValue"></span>
+
+<br>
+
+<label for="sizes">Text-Size: </label>
+<span name="sizes" id="sizes"></span>
+
+
+<script src="observableTextInputExample.js" type="module"></script>
+</body>
+</html>

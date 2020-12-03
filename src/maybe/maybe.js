@@ -1,4 +1,4 @@
-import { id} from "../lambda-calculus-library/lambda-calculus.js";
+import { id } from "../lambda-calculus-library/lambda-calculus.js";
 export { Nothing, Just, maybe,
         maybeDiv, maybeElement, getOrDefault, getSafeElements
 }
@@ -27,10 +27,7 @@ const getSafeElements = (...elemIds) =>
 
 
 
-const [firstNumInput, secondNumInput , result] = getSafeElements("firstNumInput", "secondNumInput", "result" )
-console.log("firstNumInput", firstNumInput)
-console.log("secondNumInput", secondNumInput)
-console.log("result", result)
+
 
 
 const getOrDefault = maybeFn => defaultVal => maybe(maybeFn)
@@ -38,22 +35,3 @@ const getOrDefault = maybeFn => defaultVal => maybe(maybeFn)
                                                     (id)
 
 
-const calcDiv = () => {
-    const fstNum = maybe(maybeElement('firstNumInput'))
-                        (() => console.error('firstNumInput doesnt exist'))
-                        (elem => Number(elem.value));
-
-    const sndNum = maybe(maybeElement('secondNumInput'))
-                        (() => console.error('secondNumInput doesnt exist'))
-                        (elem => Number(elem.value));
-
-    const result = maybe(maybeElement('result'))
-                        (() => console.error('result doesnt exist'))
-                        (id);
-
-    result.innerText = getOrDefault(maybeDiv(fstNum)(sndNum))(0);
-}
-
-maybe(  maybeElement('divisionBtn'))
-        (() => console.error('divisionBtn doesnt exist'))
-        (btn => btn.onclick = calcDiv);

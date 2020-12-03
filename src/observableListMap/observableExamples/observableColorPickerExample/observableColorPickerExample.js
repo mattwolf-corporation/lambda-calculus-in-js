@@ -3,18 +3,14 @@ import {
     removeListenerByKey, removeListenerByHandler,
     handlerFnLogToConsole, buildHandlerFnInnerText, handlerBuilder, buildHandlerFnInnerTextLength,
     buildHandlerFnValue
-} from "../observableListMap/observableListMap.js";
+} from "../../observableListMap.js";
+import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../../../lambda-calculus-library/lambda-calculus.js";
+import { onInputListener, onInputListeners, toHexString, toRGBString } from "../observableUtilities.js";
+import {maybe, getSafeElements} from "../../../maybe/maybe.js";
 
 
-import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../lambda-calculus-library/lambda-calculus.js";
-import { onInputListener, onInputListeners, toHexString, toRGBString } from "./colorPickerUtilities.js";
-
-import {maybe, getSafeElements} from "../maybe/maybe.js";
-
+// Text-Input example
 const [inputText, label, sizes] = getSafeElements("inputText", "label", "sizes")
-
-// "let" wenn später zusätzliche Listener hinzugefügt oder entfernt werden soll,
-// ansonsten, wenn immutable mit "const" vor veränderung schützen
 
 const labelHandler      = handlerBuilder(1)(buildHandlerFnInnerText(label))
 const labelSizeHandler  = handlerBuilder(2)(buildHandlerFnInnerTextLength(sizes))
@@ -29,12 +25,12 @@ onInputListener(inputObservable, inputText)
 
 
 const [resultColor, rgbValue, hex, hsl] = getSafeElements("resultColor", "rgbValue", "hex", "hsl")
-const [inputR, inputG, inputB] = getSafeElements("inputR", "inputG", "inputB")
-const [rangeR, rangeG, rangeB] = getSafeElements("rangeR", "rangeG", "rangeB")
+const [inputR, inputG, inputB]          = getSafeElements("inputR", "inputG", "inputB")
+const [rangeR, rangeG, rangeB]           = getSafeElements("rangeR", "rangeG", "rangeB")
 
-const getRed = firstOfTriple
-const getGreen = secondOfTriple
-const getBlue = thirdOfTriple
+const getRed    = firstOfTriple
+const getGreen  = secondOfTriple
+const getBlue   = thirdOfTriple
 
 const valueHandlerInputR            = handlerBuilder(1)(nVal => oVal => inputR.value = nVal(getRed))
 const valueHandlerRangeR            = handlerBuilder(2)(nVal => oVal => rangeR.value = nVal(getRed))
