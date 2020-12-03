@@ -1,1 +1,1 @@
-HTML-Page: [Observable RPG-Colorpicker Example](https://mattwolf-corporation.github.io/ip6_lambda-calculus-in-js/src/observableListMap/observableExamples/observableTextInputExample/viewColorPickerExample.html)
+HTML-Page: [Observable RPG-Colorpicker Example](https://mattwolf-corporation.github.io/ip6_lambda-calculus-in-js/src/observableListMap/observableExamples/observableColorPickerExample/viewColorPickerExample.html)
