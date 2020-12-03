@@ -1,11 +1,5 @@
-import { maybe, getSafeElements, maybeElement, maybeDiv, getOrDefault} from "../maybe.js";
+import { maybe, maybeElement, maybeDiv, getOrDefault} from "../maybe.js";
 import {id} from "../../lambda-calculus-library/lambda-calculus.js";
-
-const [firstNumInput, secondNumInput , result] = getSafeElements("firstNumInput", "secondNumInput", "result" )
-console.log("firstNumInput", firstNumInput)
-console.log("secondNumInput", secondNumInput)
-console.log("result", result)
-
 
 const calcDiv = () => {
     const fstNum = maybe(maybeElement('firstNumInput'))
