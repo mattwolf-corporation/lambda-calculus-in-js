@@ -5,7 +5,7 @@ import {
     buildHandlerFnValue
 } from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
-import {maybe, getSafeElements} from "../../../maybe/maybe.js";
+import {maybe, getSafeElements, getSafeElement} from "../../../maybe/maybe.js";
 
 
 // Text-Input example
@@ -16,7 +16,7 @@ const oldValueHandler     = handlerBuilder(2)( buildHandlerFnInnerTextOldValue  
 const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnInnerTextLength    (sizes)    )
 const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                       )
 
-const inputObservable = InitObservable("")
+let inputObservable = InitObservable("")
                             (addListener)(newValueHandler)
                             (addListener)(oldValueHandler)
                             (addListener)(labelSizeHandler)
@@ -26,17 +26,31 @@ onInputListener(inputObservable, inputText)
 
 
 
-// Toggle (Un/Subscribe)-Handler of RGB-Background
-// const unsubRgbBg = getSafeElements("unsubRgbBg")
-// unsubRgbBg.onclick = e => {
-//     console.log(unsubRgbBg.checked)
-//
-//     if (unsubRgbBg.checked) {
-//         rgbObservable = rgbObservable(removeListenerByHandler)(rgbHandlerBgColorRGB)
-//         unsubRgbBg.labels[0].innerText = "Subscribe RGB-Background"
-//     } else {
-//         rgbObservable = rgbObservable(addListener)(rgbHandlerBgColorRGB)
-//         unsubRgbBg.labels[0].innerText = "UnSubscribe RGB-Background"
-//     }
-// }
+//Toggle (Un/Subscribe)-Handler
+const [unsubNewValue,unsubOldValue,unsubSize] = getSafeElements("unsubNewValue", "unsubOldValue", "unsubSize")
+
+unsubNewValue.onclick = _ => {
+    inputObservable = unsubNewValue.checked
+        ? inputObservable(addListener)(newValueHandler)
+        : inputObservable(removeListenerByHandler)(newValueHandler)
+
+    onInputListener(inputObservable, inputText)
+}
+
+unsubOldValue.onclick = _ => {
+    inputObservable = unsubOldValue.checked
+        ? inputObservable(addListener)(oldValueHandler)
+        : inputObservable(removeListenerByHandler)(oldValueHandler)
+
+    onInputListener(inputObservable, inputText)
+}
+
+unsubSize.onclick = _ => {
+    inputObservable = unsubSize.checked
+        ? inputObservable(addListener)(labelSizeHandler)
+        : inputObservable(removeListenerByHandler)(labelSizeHandler)
+
+    onInputListener(inputObservable, inputText)
+}
+
 

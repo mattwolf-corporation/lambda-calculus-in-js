@@ -20,7 +20,10 @@
     #resultColor {
         height: 200px;
     }
-    #unsubRgbBg:hover{
+    #unsubRgbBgLabel{
+        background-color: bisque;
+    }
+    #unsubRgbBgLabel:hover{
         cursor: pointer;
     }
 
@@ -42,8 +45,8 @@
         <br>
         <div class="row">
             <div class="col w-50" style="background-color: rgb(0, 0, 0);" id="resultColor">
-                <input type="checkbox" id="unsubRgbBg" name="unsubRgbBg" style="visibility: visible">
-                <label for="unsubRgbBg" style="background-color: bisque;">Unsubscribe RGB-Background</label>
+                <input type="checkbox" id="unsubRgbBg" name="unsubRgbBg" style="visibility: hidden">
+                <label for="unsubRgbBg" id="unsubRgbBgLabel">Unsubscribe RGB-Background</label>
             </div>
 
             <div class="col w-10">&nbsp;</div>
