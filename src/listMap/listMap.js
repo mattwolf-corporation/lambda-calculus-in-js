@@ -48,8 +48,8 @@ const removeByKey = stack => key => {
         const resultStack   = argsPair(snd)
 
         return If( hasPre(currentStack) )
-        (Then( removeByCon(currentStack)(resultStack)(key)))
-        (Else(argsPair))
+              (Then( removeByCon(currentStack)(resultStack)(key) ))
+              (Else( argsPair ))
     }
 
     return (times(iteration)(pair(reversedStack)(emptyListMap)))(snd)
