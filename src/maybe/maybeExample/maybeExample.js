@@ -1,4 +1,4 @@
-import { maybe, maybeElement, maybeDiv, getOrDefault, getSafeElement, getSafeElementAbstraction} from "../maybe.js";
+import { maybe, maybeDomElement, maybeDiv, getOrDefault, getSafeElement, getSafeElementAbstraction} from "../maybe.js";
 import {id} from "../../lambda-calculus-library/lambda-calculus.js";
 
 const calcDiv = () => {
