@@ -1,42 +1,7 @@
 import {TestSuite} from "../test.js";
 
-import {
-    id,
-    beq,
-    True,
-    False,
-    showBoolean as show,
-    convertToJsBool,
-    pair,
-    triple,
-    fst,
-    snd,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple,
-    not
-} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {
-    n0,
-    n1,
-    n2,
-    n3,
-    n4,
-    n5,
-    n6,
-    n7,
-    n8,
-    n9,
-    pred,
-    succ,
-    jsnum,
-    is0,
-    churchAddition
-} from '../../src/lambda-calculus-library/church-numerals.js';
-import {
-    hasPre, push, pop, head, size, startStack, stack,
-    pushToStack, convertArrayToStack, getElementByIndex
-} from "../../src/stack/stack.js";
+import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
+
 
 import {
     Nothing,
@@ -54,6 +19,18 @@ import {
 
 const maybeSuite = TestSuite("Maybe");
 
+const dummyDomElem = document.createElement('div');
+
+const setup = () => {
+    dummyDomElem.setAttribute('id', 'test');
+    document.body.appendChild(dummyDomElem);
+}
+
+const tearDown = () => {
+    const dummyDomElem = document.getElementById('test')
+    dummyDomElem.remove();
+}
+
 
 maybeSuite.add("Nothing", assert => {
     assert.equals(Nothing()(() => 12)(() => 15), 12);
@@ -68,7 +45,7 @@ maybeSuite.add("Just", assert => {
     assert.equals(Just(id)((f => f(false)))(f => f(true)), true);
 });
 
-maybeSuite.add("nullSafe", assert => {
+maybeSuite.add("maybeElement", assert => {
     assert.equals(maybeElement(false)(() => 10)(() => 42), 10);
     assert.equals(maybeElement(null)(() => 34)(() => 42), 34);
     assert.equals(maybeElement(undefined)(() => 10)(() => 42), 10);
@@ -89,18 +66,34 @@ maybeSuite.add("maybeNumber", assert => {
     assert.equals(maybeNumber("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
+maybeSuite.add("maybeDomElement", assert => {
+    setup()
+    assert.equals(maybeDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals(maybeDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    tearDown()
+});
+
 maybeSuite.add("getSafeElementAbstraction", assert => {
-    const dummyDomElem = document.createElement('div');
-    dummyDomElem.setAttribute('id', 'test');
-    document.body.appendChild(dummyDomElem);
-
-
+    setup();
     assert.equals(getSafeElementAbstraction('test')(id), dummyDomElem);
 
     const elementNotExistName = "elementNotExist"
     const toTestConsoleMethod = () => getSafeElementAbstraction(elementNotExistName)(id)
     assert.consoleError( toTestConsoleMethod , elementNotExistName + " doesnt exist" )
+
+    tearDown()
 });
 
+maybeSuite.add("getSafeElement", assert => {
+    setup()
+    assert.equals(getSafeElement("test"), dummyDomElem);
+    tearDown()
+});
+
+maybeSuite.add("getSafeElements", assert => {
+    setup()
+    assert.arrayEquals(getSafeElements("test", "test"), [dummyDomElem, dummyDomElem]);
+    tearDown();
+});
 
 maybeSuite.report();
