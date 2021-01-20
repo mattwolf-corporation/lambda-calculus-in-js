@@ -44,7 +44,6 @@ const Assert = () => {
         }
     };
 
-
     const pairEquals = (actual, expected) => {
         const p1Fst = actual(fst)
         const p1Snd = actual(snd)
@@ -56,13 +55,31 @@ const Assert = () => {
         addTest(actual, expected, result);
     }
 
+    const consoleError = (toTestMethod, expectedMessage) =>{
+        const originalLog = console.error;
+        const calls = [];
+        console.error = val => calls.push(val);
+
+        try {
+            console.assert(calls.length === 0, "ConsoleError-Test: " + toTestMethod + " failed in the Error.Length. Should be 0, but is " + calls.length );
+            toTestMethod()
+            console.assert(calls.length === 1, "ConsoleError-Test: " + toTestMethod + " failed in the Error.Length. Should be 1, but is " + calls.length );
+        } catch (error) {
+            console.error(error.toString());
+        } finally {
+            console.error = originalLog;
+        }
+        addTest(calls[0], expectedMessage, calls[0] === expectedMessage);
+    }
+
     return {
         getOk: () => ok,
         equals: equals,
         churchNumberEquals: churchNumberEquals,
         churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
-        pairEquals: pairEquals
+        pairEquals: pairEquals,
+        consoleError: consoleError
     }
 };
 

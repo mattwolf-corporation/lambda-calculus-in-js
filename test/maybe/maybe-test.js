@@ -94,20 +94,12 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
     dummyDomElem.setAttribute('id', 'test');
     document.body.appendChild(dummyDomElem);
 
-    const stdErrorlog = console.error.bind(console);
-
-    const result = [];
-    console.error = val =>
-        result.push(val);
 
     assert.equals(getSafeElementAbstraction('test')(id), dummyDomElem);
-    getSafeElementAbstraction('does not exist')(id);
-    assert.equals(result.length, 1);
 
-    console.error = stdErrorlog;
-    console.error("test clean up: can be ignored");
-    assert.equals(result.length, 1)
-
+    const elementNotExistName = "elementNotExist"
+    const toTestConsoleMethod = () => getSafeElementAbstraction(elementNotExistName)(id)
+    assert.consoleError( toTestConsoleMethod , elementNotExistName + " doesnt exist" )
 });
 
 
