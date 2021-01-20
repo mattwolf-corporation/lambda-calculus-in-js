@@ -321,7 +321,7 @@ const pred = n => n(phi)(pair(n0)(n0))(fst);
 
 /**
  * Subtraction with two Church-Numbers
- * @param n1 {churchNumber}
+ * @param n {churchNumber}
  * @return {function(n2:{churchNumber}): churchNumber } Church-Number
  */
 const churchSubtraction = n => k => k(pred)(n);
@@ -356,14 +356,14 @@ const jsnum = n => n(x => x + 1)(0);
 
 /**
  * "less-than-or-equal-to" with Church-Numbers
- * @param n1 {churchNumber} -
+ * @param n {churchNumber} -
  * @return {function(n2:{churchNumber}): churchBoolean} True / False
  */
 const leq = n => k => is0(churchSubtraction(n)(k));
 
 /**
  * "equal-to" with Church-Number
- * @param n1 {churchNumber} -
+ * @param n {churchNumber} -
  * @return {function(n2:{churchNumber}): churchBoolean} True / False
  */
 const eq = n => k => and(leq(n)(k))(leq(k)(n));

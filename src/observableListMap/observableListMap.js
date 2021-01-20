@@ -1,4 +1,4 @@
-import { emptyListMap, listMap, startListMap, getElementByKey, removeByKey} from "../listMap/listMap.js";
+import { emptyListMap, getElementByKey, removeByKey} from "../listMap/listMap.js";
 import { push, forEach, reduce } from "../stack/stack.js";
 import { pair,showPair,  snd, fst, Else, If, Then} from "../lambda-calculus-library/lambda-calculus.js";
 

@@ -1,6 +1,6 @@
 import { id } from "../lambda-calculus-library/lambda-calculus.js";
 export { Nothing, Just, maybe,
-        maybeDiv, maybeElement, getOrDefault, getSafeElement, getSafeElements
+        maybeDiv, maybeElement, getOrDefault, getSafeElement, getSafeElements, getSafeElementAbstraction
 }
 
 
@@ -23,11 +23,12 @@ const nullSafe = element =>
 
 const maybeElement = elemId => nullSafe(document.getElementById(elemId))
 
-const getSafeElement = elemId =>
+const getSafeElementAbstraction = elemId => elementFunction =>
     maybe(maybeElement(elemId)
-            (() => console.error(elemId + " doesnt exist") )
-            (id))
+    (() => console.error(elemId + " doesnt exist") )
+    (elementFunction))
+
+const getSafeElement = elemId =>
+    getSafeElementAbstraction(elemId)(id)
 
 const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
-
-
