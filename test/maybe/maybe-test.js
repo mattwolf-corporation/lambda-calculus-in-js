@@ -32,10 +32,10 @@ const tearDown = () => {
 }
 
 maybeSuite.add("Nothing", assert => {
-    assert.equals(Nothing()(() => 12)(() => 15), 12);
-    assert.equals(Nothing()(() => 15)(() => 12), 15);
-    assert.equals(Nothing()(() => id(122))(() => id(32)), 122);
-    assert.equals(Nothing()(() => 12 + 12)(0), 24);
+    assert.equals(Nothing(() => 12)(() => 15), 12);
+    assert.equals(Nothing(() => 15)(() => 12), 15);
+    assert.equals(Nothing(() => id(122))(() => id(32)), 122);
+    assert.equals(Nothing(() => 12 + 12)(0), 24);
 });
 
 maybeSuite.add("Just", assert => {

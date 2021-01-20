@@ -7,7 +7,7 @@ export {
 }
 
 
-const Nothing = () => f => _ => f();
+const Nothing = (() => f => _ => f())();
 const Just = x => _ => g => g(x);
 const maybe = id;
 
@@ -20,7 +20,7 @@ const maybeDiv = num => divisor =>
     isNumber(divisor) &&
     divisor !== 0
         ? Just(num / divisor)
-        : Nothing()
+        : Nothing
 
 const isNumber = val =>
     typeof val === "number"
@@ -28,12 +28,12 @@ const isNumber = val =>
 const maybeNumber = val =>
     isNumber(val)
         ? Just(val)
-        : Nothing()
+        : Nothing
 
 const maybeElement = element =>
     element
         ? Just(element)
-        : Nothing()
+        : Nothing
 
 const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
 
