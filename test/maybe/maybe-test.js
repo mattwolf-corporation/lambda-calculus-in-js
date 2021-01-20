@@ -78,8 +78,8 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
     assert.equals(getSafeElementAbstraction('test')(id), dummyDomElem);
 
     const elementNotExistName = "elementNotExist"
-    const toTestConsoleMethod = () => getSafeElementAbstraction(elementNotExistName)(id)
-    assert.consoleError( toTestConsoleMethod , elementNotExistName + " doesnt exist" )
+    const methodUnderTest = () => getSafeElementAbstraction(elementNotExistName)(id)
+    assert.consoleError( methodUnderTest , `${elementNotExistName} doesnt exist` )
 
     tearDown()
 });
