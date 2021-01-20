@@ -2,41 +2,7 @@ import {TestSuite} from "../test.js";
 
 import {
     id,
-    beq,
-    True,
-    False,
-    showBoolean as show,
-    convertToJsBool,
-    pair,
-    triple,
-    fst,
-    snd,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple,
-    not
 } from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {
-    n0,
-    n1,
-    n2,
-    n3,
-    n4,
-    n5,
-    n6,
-    n7,
-    n8,
-    n9,
-    pred,
-    succ,
-    jsnum,
-    is0,
-    churchAddition
-} from '../../src/lambda-calculus-library/church-numerals.js';
-import {
-    hasPre, push, pop, head, size, startStack, stack,
-    pushToStack, convertArrayToStack, getElementByIndex
-} from "../../src/stack/stack.js";
 
 import {
     Nothing,
@@ -126,13 +92,16 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
     tearDown()
 });
 
-// maybeSuite.add("getSafeElement", assert => {
-//     assert.equals(getSafeElement("test")(_ => "Nothing")(_ => "Just"), "Just");
-// });
-//
-// maybeSuite.add("getSafeElements", assert => {
-//     assert.equals(getSafeElements("test", "test2")(_ => "Nothing")(_ => "Just"), "Nothing");
-// });
+maybeSuite.add("getSafeElement", assert => {
+    setup()
+    assert.equals(getSafeElement("test"), dummyDomElem);
+    tearDown()
+});
 
+maybeSuite.add("getSafeElements", assert => {
+    setup()
+    assert.arrayEquals(getSafeElements("test", "test"), [dummyDomElem, dummyDomElem]);
+    tearDown();
+});
 
 maybeSuite.report();
