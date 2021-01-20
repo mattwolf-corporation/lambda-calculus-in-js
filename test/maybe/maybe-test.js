@@ -54,6 +54,18 @@ import {
 
 const maybeSuite = TestSuite("Maybe");
 
+const dummyDomElem = document.createElement('div');
+
+const setup = () => {
+    dummyDomElem.setAttribute('id', 'test');
+    document.body.appendChild(dummyDomElem);
+}
+
+const tearDown = () => {
+    const dummyDomElem = document.getElementById('test')
+    dummyDomElem.remove();
+}
+
 
 maybeSuite.add("Nothing", assert => {
     assert.equals(Nothing()(() => 12)(() => 15), 12);
@@ -68,7 +80,7 @@ maybeSuite.add("Just", assert => {
     assert.equals(Just(id)((f => f(false)))(f => f(true)), true);
 });
 
-maybeSuite.add("nullSafe", assert => {
+maybeSuite.add("maybeElement", assert => {
     assert.equals(maybeElement(false)(() => 10)(() => 42), 10);
     assert.equals(maybeElement(null)(() => 34)(() => 42), 34);
     assert.equals(maybeElement(undefined)(() => 10)(() => 42), 10);
@@ -89,11 +101,15 @@ maybeSuite.add("maybeNumber", assert => {
     assert.equals(maybeNumber("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
-maybeSuite.add("getSafeElementAbstraction", assert => {
-    const dummyDomElem = document.createElement('div');
-    dummyDomElem.setAttribute('id', 'test');
-    document.body.appendChild(dummyDomElem);
+maybeSuite.add("maybeDomElement", assert => {
+    setup()
+    assert.equals(maybeDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals(maybeDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    tearDown()
+});
 
+maybeSuite.add("getSafeElementAbstraction", assert => {
+    setup();
     const stdErrorlog = console.error.bind(console);
 
     const result = [];
@@ -107,8 +123,16 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
     console.error = stdErrorlog;
     console.error("test clean up: can be ignored");
     assert.equals(result.length, 1)
-
+    tearDown()
 });
+
+// maybeSuite.add("getSafeElement", assert => {
+//     assert.equals(getSafeElement("test")(_ => "Nothing")(_ => "Just"), "Just");
+// });
+//
+// maybeSuite.add("getSafeElements", assert => {
+//     assert.equals(getSafeElements("test", "test2")(_ => "Nothing")(_ => "Just"), "Nothing");
+// });
 
 
 maybeSuite.report();
