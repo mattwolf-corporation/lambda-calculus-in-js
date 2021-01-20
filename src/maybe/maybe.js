@@ -16,12 +16,12 @@ const maybeDiv = num => divisor =>
         ? Nothing()
         : Just(num / divisor);
 
-const maybeElement = elemId => {
-    const element = document.getElementById(elemId)
-    return element
+const nullSafe = element =>
+    element
         ? Just(element)
         : Nothing()
-}
+
+const maybeElement = elemId => nullSafe(document.getElementById(elemId))
 
 const getSafeElement = elemId =>
     maybe(maybeElement(elemId)
