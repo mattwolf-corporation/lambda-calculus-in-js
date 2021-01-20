@@ -31,7 +31,6 @@ const tearDown = () => {
     dummyDomElem.remove();
 }
 
-
 maybeSuite.add("Nothing", assert => {
     assert.equals(Nothing()(() => 12)(() => 15), 12);
     assert.equals(Nothing()(() => 15)(() => 12), 15);
@@ -79,7 +78,7 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => getSafeElementAbstraction(elementNotExistName)(id)
-    assert.consoleError( methodUnderTest , `${elementNotExistName} doesnt exist` )
+    assert.consoleError(methodUnderTest, `${elementNotExistName} doesnt exist`)
 
     tearDown()
 });
