@@ -55,22 +55,25 @@ const Assert = () => {
         addTest(actual, expected, result);
     }
 
-    const consoleError = (toTestMethod, expectedMessage) =>{
-        const originalLog = console.error;
-        const calls = [];
-        console.error = val => calls.push(val);
+    const consoleEquals = consoleType => (methodUnderTest, ...expectedConsoleLogs) => {
+        const originalConsoleLogger = console[consoleType];
+        const logs = [];
+        console[consoleType] = log => logs.push(log);
 
         try {
-            console.assert(calls.length === 0, "ConsoleError-Test: " + toTestMethod + " failed in the Error.Length. Should be 0, but is " + calls.length );
-            toTestMethod()
-            console.assert(calls.length === 1, "ConsoleError-Test: " + toTestMethod + " failed in the Error.Length. Should be 1, but is " + calls.length );
-        } catch (error) {
-            console.error(error.toString());
+            methodUnderTest()
+        } catch (err) {
+            console.error(err);
         } finally {
-            console.error = originalLog;
+            console[consoleType] = originalConsoleLogger;
         }
-        addTest(calls[0], expectedMessage, calls[0] === expectedMessage);
+
+        arrayEquals(logs, expectedConsoleLogs)
     }
+
+    const consoleErrorEquals = consoleEquals('error')
+
+    const consoleLogEquals = consoleEquals('log')
 
     return {
         getOk: () => ok,
@@ -79,7 +82,7 @@ const Assert = () => {
         churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
         pairEquals: pairEquals,
-        consoleError: consoleError
+        consoleError: consoleErrorEquals
     }
 };
 
@@ -112,31 +115,31 @@ const renderReport = (name, tests) => {
     let totalFailed = 0;
 
     const iterationF = (element, index) => {
-            const {origin, asserts} = element;
+        const {origin, asserts} = element;
 
-            const sizeOfAsserts = jsnum(size(asserts));
-            totalTests += sizeOfAsserts;
+        const sizeOfAsserts = jsnum(size(asserts));
+        totalTests += sizeOfAsserts;
 
-            const failed = filter(asserts)(testResult => !testResult.result);
-            const churchSizeOfFailed = size(failed);
-            const sizeOfFailed = jsnum(churchSizeOfFailed);
+        const failed = filter(asserts)(testResult => !testResult.result);
+        const churchSizeOfFailed = size(failed);
+        const sizeOfFailed = jsnum(churchSizeOfFailed);
 
-            const passed = sizeOfAsserts - sizeOfFailed;
+        const passed = sizeOfAsserts - sizeOfFailed;
 
-            totalPassed += passed;
-            totalFailed += sizeOfFailed;
+        totalPassed += passed;
+        totalFailed += sizeOfFailed;
 
-            let failMessage = "";
-            let passedLine = ` <span>${passed} / ${sizeOfAsserts}   </span>`;
+        let failMessage = "";
+        let passedLine = ` <span>${passed} / ${sizeOfAsserts}   </span>`;
 
-            const failedFunc = (element, index) => {
-                const {actual, expected, result, counter} = element;
-                failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
-            };
+        const failedFunc = (element, index) => {
+            const {actual, expected, result, counter} = element;
+            failMessage += `<pre ><span class="dot red"></span> <b>Test Nr. ${counter}  failed!</b> <br>    Actual:   <b>${actual}</b> <br>    Expected: <b>${expected} </b></pre>`;
+        };
 
-            forEach(failed)(failedFunc);
+        forEach(failed)(failedFunc);
 
-            outputHtml += `
+        outputHtml += `
             <tr>
                 <td> 
                     <span class="dot ${passed === sizeOfAsserts ? 'green' : 'red'}"></span>${origin} 
@@ -147,15 +150,15 @@ const renderReport = (name, tests) => {
             </tr>    
         `;
 
-            if (sizeOfFailed > 0) {
-                outputHtml += `
+        if (sizeOfFailed > 0) {
+            outputHtml += `
             <tr>
                 <td> 
                    <div class="failMessage">${failMessage} </div> 
                 </td>
             </tr>    
         `;
-            }
+        }
     };
 
     forEach(tests)(iterationF);
