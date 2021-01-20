@@ -1,13 +1,12 @@
-import { maybe, maybeDomElement, maybeDiv, getOrDefault, getSafeElement, getSafeElementAbstraction} from "../maybe.js";
-import {id} from "../../lambda-calculus-library/lambda-calculus.js";
+import {maybeDiv, getOrDefault, getSafeElement, getSafeElementAbstraction} from "../maybe.js";
 
 const calcDiv = () => {
     const fstNum = getSafeElementAbstraction('firstNumInput')
-                                            (elem => Number(elem.value))
+    (elem => Number(elem.value))
 
 
     const sndNum = getSafeElementAbstraction('secondNumInput')
-                                            (elem => Number(elem.value))
+    (elem => Number(elem.value))
 
     const result = getSafeElement('result')
 
@@ -15,4 +14,4 @@ const calcDiv = () => {
 }
 
 getSafeElementAbstraction('divisionBtn')
-        (btn => btn.onclick = calcDiv)
+(btn => btn.onclick = calcDiv)

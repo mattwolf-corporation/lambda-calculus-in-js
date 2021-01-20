@@ -1,7 +1,7 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
 
 export {
-    Nothing, Just, maybe,
+    Nothing, Just,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber
 }
@@ -9,11 +9,6 @@ export {
 
 const Nothing = (() => f => _ => f())();
 const Just = x => _ => g => g(x);
-const maybe = id;
-
-const getOrDefault = maybeFn => defaultVal => maybe(maybeFn)
-(() => defaultVal)
-(id)
 
 const maybeDiv = num => divisor =>
     isNumber(num) &&
@@ -38,11 +33,15 @@ const maybeElement = element =>
 const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
 
 const getSafeElementAbstraction = elemId => elementFunction =>
-    maybe(maybeDomElement(elemId)
+    maybeDomElement(elemId)
     (() => console.error(elemId + " doesnt exist"))
-    (elementFunction))
+    (elementFunction)
 
 const getSafeElement = elemId =>
     getSafeElementAbstraction(elemId)(id)
 
 const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
+
+const getOrDefault = maybeFn => defaultVal =>
+    maybeFn(() => defaultVal)
+    (id)

@@ -6,7 +6,6 @@ import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {
     Nothing,
     Just,
-    maybe,
     maybeDiv,
     maybeDomElement,
     getOrDefault,
@@ -92,6 +91,15 @@ maybeSuite.add("getSafeElement", assert => {
 maybeSuite.add("getSafeElements", assert => {
     setup()
     assert.arrayEquals(getSafeElements("test", "test"), [dummyDomElem, dummyDomElem]);
+    tearDown();
+});
+
+maybeSuite.add("getOrDefault", assert => {
+    setup()
+    assert.equals(getOrDefault(maybeNumber(5))(0), 5);
+    assert.equals(getOrDefault(maybeNumber("NaN"))(42), 42);
+    assert.equals(getOrDefault(maybeNumber("5"))(42), 42);
+    assert.equals(getOrDefault(maybeNumber((() => 5)()))(42), 5);
     tearDown();
 });
 
