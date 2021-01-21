@@ -77,7 +77,7 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => getSafeElementAbstraction(elementNotExistName)(id)
-    assert.consoleError(methodUnderTest, `${elementNotExistName} doesnt exist`)
+    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesnt exist`)
 
     tearDown()
 });
@@ -85,12 +85,21 @@ maybeSuite.add("getSafeElementAbstraction", assert => {
 maybeSuite.add("getSafeElement", assert => {
     setup()
     assert.equals(getSafeElement("test"), dummyDomElem);
+
+    const elementNotExistName = "elementNotExist"
+    const methodUnderTest = () => getSafeElement(elementNotExistName)
+    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesnt exist`)
+
     tearDown()
 });
 
 maybeSuite.add("getSafeElements", assert => {
     setup()
     assert.arrayEquals(getSafeElements("test", "test"), [dummyDomElem, dummyDomElem]);
+
+    const elementNotExistName = "elementNotExist"
+    const methodUnderTest = () => getSafeElements(elementNotExistName, "test")
+    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesnt exist`)
     tearDown();
 });
 

@@ -82,7 +82,8 @@ const Assert = () => {
         churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
         pairEquals: pairEquals,
-        consoleError: consoleErrorEquals
+        consoleErrorEquals: consoleErrorEquals,
+        consoleLogEquals: consoleLogEquals
     }
 };
 
