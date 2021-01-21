@@ -19,7 +19,6 @@ observableListMapSuite.add("addListener", assert => {
     const testObsListMap = InitObservable(0)
     (addListener)()
 
-    assert.equals(convertToJsBool(hasPre(emptyListMap)), false);
 
 });
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Observable Color Picker</title>
     <link rel="stylesheet" href="styleColorPickerExample.css">
@@ -8,7 +8,7 @@
 
 <style>
     body {
-        font-family: Consolas, 'courier new'
+        font-family: Consolas, 'courier new', serif;
     }
 
     .padding-large {
@@ -20,10 +20,9 @@
     #resultColor {
         height: 200px;
     }
-    #unsubRgbBgLabel{
+
+    .unsubLabel {
         background-color: bisque;
-    }
-    #unsubRgbBgLabel:hover{
         cursor: pointer;
     }
 
@@ -45,8 +44,6 @@
         <br>
         <div class="row">
             <div class="col w-50" style="background-color: rgb(0, 0, 0);" id="resultColor">
-                <input type="checkbox" id="unsubRgbBg" name="unsubRgbBg" style="visibility: hidden">
-                <label for="unsubRgbBg" id="unsubRgbBgLabel">Unsubscribe RGB-Background</label>
             </div>
 
             <div class="col w-10">&nbsp;</div>
@@ -66,28 +63,22 @@
         <div class="row w-full">
             <div class="col ">R:</div>
             <input type="number" id="inputR" value="0" class="col w-10 mx-5">
-            <input type="range"  id="rangeR" min="0" max="255" value="0" class="slider col w-80" >
+            <input type="range" id="rangeR" min="0" max="255" value="0" class="slider col w-80">
         </div>
-
-
-
         <br>
         <div class="row w-full">
             <div class="col ">G:</div>
             <input type="number" id="inputG" value="0" class="col w-10 mx-5">
-            <input type="range"  id="rangeG" min="0" max="255" value="0" class="slider col w-80" >
+            <input type="range" id="rangeG" min="0" max="255" value="0" class="slider col w-80">
         </div>
         <br>
         <div class="row w-full">
             <div class="col ">B:</div>
             <input type="number" id="inputB" value="0" class="col w-10 mx-5">
-            <input type="range"  id="rangeB" min="0" max="255" value="0" class="slider col w-80" >
+            <input type="range" id="rangeB" min="0" max="255" value="0" class="slider col w-80">
         </div>
     </div>
 </div>
-
-
-
 
 
 <script src="observableColorPickerExample.js" type="module"></script>
