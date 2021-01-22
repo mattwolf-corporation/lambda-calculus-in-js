@@ -89,4 +89,27 @@ observableListMapSuite.add("removeListenerByHandler", assert => {
     assert.equals(testObs(getValue), 100)
 });
 
+observableListMapSuite.add("perfomance", assert => {
+    let testObs = InitObservable(0)
+
+    let listOfValuesHandlers = []
+    for (let i = 0; i < 10; i++) {
+        const valueHolder = {};
+        const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
+        listOfValuesHandlers.push(valueHolder)
+        testObs = testObs(addListener)(valueHandler)
+    }
+
+    testObs(logListenersToConsole)
+
+    testObs = testObs(setValue)(66);
+
+
+
+    const result = listOfValuesHandlers.some(v => v.value !== 66)
+    assert.equals(result, false)
+
+});
+
+
 observableListMapSuite.report();
