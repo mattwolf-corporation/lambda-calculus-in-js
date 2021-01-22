@@ -2,7 +2,6 @@ import {TestSuite} from "../test.js";
 
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
 
-
 import {
     Nothing,
     Just,
