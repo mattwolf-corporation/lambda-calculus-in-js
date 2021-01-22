@@ -10,15 +10,28 @@ import {
 import {
     listMap, startListMap, emptyListMap, removeByKey, getElementByKey
 }from "../../src/listMap/listMap.js";
+import {
+    addListener,
+    handlerBuilder,
+    handlerFnLogToConsole,
+    InitObservable, setValue, getValue
+} from "../../src/observableListMap/observableListMap.js";
 
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
 
-observableListMapSuite.add("addListener", assert => {
+observableListMapSuite.add("setValue", assert => {
 
-    const testObsListMap = InitObservable(0)
-    (addListener)()
+    const consoleHandler = handlerBuilder(42)( handlerFnLogToConsole)
 
+    let testObs = InitObservable(0)
+                                (addListener)(consoleHandler)
+
+
+
+    assert.consoleLogEquals(() => testObs = testObs(setValue)(66), "Value: new = 66, old = 0" )
+
+    assert.consoleLogEquals(() => testObs = testObs(setValue)(96), "Value: new = 96, old = 66" )
 
 });
 
