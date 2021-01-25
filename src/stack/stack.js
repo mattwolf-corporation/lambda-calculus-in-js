@@ -384,6 +384,25 @@ const startStack = f => f(emptyStack);
  * A function that expects a stack and a callback function.
  * The current element of the stack iteration and the index of this element is passed to this callback function
  */
+// const forEach = stack => f => {
+//     const times = size(stack);
+//     const reversedStack = reverseStack(stack);
+//
+//     const iteration = s => {
+//         if(convertToJsBool(hasPre(s))) {
+//             const element = head(s);
+//             const index = jsnum(succ(churchSubtraction(times)(size(s))));
+//
+//             f(element, index);
+//
+//             return (pop(s))(fst);
+//         }
+//         return s;
+//     };
+//
+//     times(iteration)(reversedStack);
+// };
+
 const forEach = stack => f => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -392,9 +411,10 @@ const forEach = stack => f => {
         if(convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsnum(succ(churchSubtraction(times)(size(s))));
+
             f(element, index);
 
-            return (pop(s))(fst);
+            return getPreStack(s)
         }
         return s;
     };
