@@ -407,19 +407,21 @@ const forEach = stack => f => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
 
-    const iteration = s => {
+    const iteration = p => {
+        const s = p(fst);
+        const index = p(snd);
+
         if(convertToJsBool(hasPre(s))) {
             const element = head(s);
-            const index = jsnum(succ(churchSubtraction(times)(size(s))));
 
             f(element, index);
 
-            return getPreStack(s)
+            return pair(getPreStack(s))(index + 1);
         }
-        return s;
+        return p;
     };
 
-    times(iteration)(reversedStack);
+    times(iteration)(pair(reversedStack)(1));
 };
 
 /**
