@@ -1,9 +1,14 @@
 import {TestSuite} from "../test.js";
 import {
     addListener,
+    buildHandlerFnValue,
+    getValue,
     handlerBuilder,
     handlerFnLogToConsole,
-    InitObservable, setValue, getValue, buildHandlerFnValue, logListenersToConsole, removeListenerByHandler
+    InitObservable,
+    logListenersToConsole,
+    removeListenerByHandler,
+    setValue
 } from "../../src/observableListMap/observableListMap.js";
 
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
@@ -89,26 +94,40 @@ observableListMapSuite.add("removeListenerByHandler", assert => {
     assert.equals(testObs(getValue), 100)
 });
 
-observableListMapSuite.add("perfomance", assert => {
+const func = () => {
     let testObs = InitObservable(0)
 
     let listOfValuesHandlers = []
-    for (let i = 0; i < 10; i++) {
+
+
+    for (let i = 0; i < 100; i++) {
         const valueHolder = {};
         const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
         listOfValuesHandlers.push(valueHolder)
         testObs = testObs(addListener)(valueHandler)
     }
 
-    testObs(logListenersToConsole)
-
     testObs = testObs(setValue)(66);
 
 
+    return listOfValuesHandlers.some(v => v.value !== 66);
+}
 
-    const result = listOfValuesHandlers.some(v => v.value !== 66)
+observableListMapSuite.add("perfomance", assert => {
+    // console.time('someFunction')
+    const t0 = performance.now();
+
+    const result = func();
+
+    const t1 = performance.now();
+    const milliseconds = t1 - t0;
+    const seconds = milliseconds / 1000
+
+    console.log(`Call to doSomething took ${seconds.toFixed(2)} seconds.`);
+
+    // console.timeEnd('someFunction')
+
     assert.equals(result, false)
-
 });
 
 
