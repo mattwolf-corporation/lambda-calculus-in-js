@@ -97,7 +97,6 @@ const stackPredecessor = secondOfTriple;
 const stackValue = thirdOfTriple;
 
 
-
 /**
  * Representation of the empty stack
  * The empty stack has the size/index zero (has zero elements).
@@ -115,7 +114,7 @@ const emptyStack = stack(n0)(id)(id);
  * @param {stack} s
  * @return {churchBoolean} churchBoolean
  */
-const hasPre = s => not( is0( s( stackIndex)));
+const hasPre = s => not(is0(s(stackIndex)));
 
 
 /**
@@ -131,7 +130,7 @@ const getPreStack = s => s(stackPredecessor)
  * @param {stack} s
  * @return { function(x:{a}): stack } stack with value x
  */
-const push = s => x => stack( succ( s( stackIndex ) ) ) (s) (x);
+const push = s => x => stack(succ(s(stackIndex)))(s)(x);
 
 /**
  * A function that takes a stack
@@ -142,7 +141,7 @@ const push = s => x => stack( succ( s( stackIndex ) ) ) (s) (x);
  * @param {stack} s
  * @return {pair} pair
  */
-const pop = s => pair( s(stackPredecessor) )(head(s));
+const pop = s => pair(s(stackPredecessor))(head(s));
 
 /**
  * A function that takes a stack
@@ -204,7 +203,6 @@ const getElementByJsnumIndex = s => i => {
 };
 
 
-
 /**
  * A function that takes an stack and converts the stack into an array.
  * The function returns an array
@@ -261,7 +259,7 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
  */
 const reduce = s => argsPair => {
     const times = size(s);
-    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)) (thirdOfTriple);
+    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
@@ -403,23 +401,24 @@ const startStack = f => f(emptyStack);
 //     times(iteration)(reversedStack);
 // };
 
-const forEach = stack => f => {
+const forEach = stack => callbackFunc => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
 
-    const iteration = p => {
+    const invokeCallback = p => {
         const s = p(fst);
         const index = p(snd);
+        const element = head(s);
 
-        if(convertToJsBool(hasPre(s))) {
-            const element = head(s);
+        callbackFunc(element, index);
 
-            f(element, index);
+        return pair(getPreStack(s))(index + 1);
+    }
 
-            return pair(getPreStack(s))(index + 1);
-        }
-        return p;
-    };
+    const iteration = p =>
+        If(hasPre(p(fst)))
+        (Then(invokeCallback(p)))
+        (Else(p));
 
     times(iteration)(pair(reversedStack)(1));
 };
@@ -434,13 +433,13 @@ const removeByIndex = stack => index => {
     const reversedStack = reverseStack(stack);
 
     const iteration = argsTriple => {
-        const currentStack  = argsTriple(firstOfTriple)
-        const resultStack   = argsTriple(secondOfTriple)
-        const currentIndex  = argsTriple(thirdOfTriple)
+        const currentStack = argsTriple(firstOfTriple)
+        const resultStack = argsTriple(secondOfTriple)
+        const currentIndex = argsTriple(thirdOfTriple)
 
-        return If( hasPre(currentStack) )
-                (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex)))
-                (Else(argsTriple))
+        return If(hasPre(currentStack))
+        (Then(removeByCondition(currentStack)(resultStack)(index)(currentIndex)))
+        (Else(argsTriple))
     }
 
     return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
@@ -450,11 +449,11 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
     const currentElement = head(currentStack);
 
     const condition = eq(toChurchNum(index))(currentIndex);
-    const result    = If(condition)
+    const result = If(condition)
     (Then(resultStack))
     (Else(push(resultStack)(currentElement)));
 
     return triple(getPreStack(currentStack))
-                 (result)
-                 (succ(currentIndex));
+    (result)
+    (succ(currentIndex));
 }
