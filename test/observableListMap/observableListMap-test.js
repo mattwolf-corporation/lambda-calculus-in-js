@@ -100,7 +100,7 @@ const func = () => {
     let listOfValuesHandlers = []
 
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 2000; i++) {
         const valueHolder = {};
         const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
         listOfValuesHandlers.push(valueHolder)
@@ -123,7 +123,7 @@ observableListMapSuite.add("perfomance", assert => {
     const milliseconds = t1 - t0;
     const seconds = milliseconds / 1000
 
-    console.log(`Call to doSomething took ${seconds.toFixed(2)} seconds.`);
+    // console.log(`Call to doSomething took ${seconds.toFixed(2)} seconds.`);
 
     // console.timeEnd('someFunction')
 
