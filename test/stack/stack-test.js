@@ -7,7 +7,7 @@ import {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole, getElementByJsnumIndex, startStack,
     pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, removeByIndex
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, forEachOld, removeByIndex
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -262,6 +262,56 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
     assert.equals(indices[1], 2);
     assert.equals(indices[2], 3);
 });
+
+stackSuite.add("performance test: for/foreach loop - stack implementation", assert => {
+    let testArray = []
+    for (let i = 0; i < 500; i++) {
+        testArray.push(i);
+    }
+
+    const testStack = convertArrayToStack(testArray);
+
+    const callbackFunc = (elem, i) => {
+        //console.log(`elem: ${elem}, index: ${i}`);
+    }
+
+    const t0 = performance.now();
+
+    const result = forEach(testStack)(callbackFunc);
+
+    const t1 = performance.now();
+
+    const milliseconds = t1 - t0;
+    const seconds = milliseconds / 1000
+
+    console.log(`Call foreach took ${seconds.toFixed(2)} milliseconds.`);
+});
+
+stackSuite.add("performance test: for/foreach loop - old stack implementation", assert => {
+    let testArray = []
+    for (let i = 0; i < 500; i++) {
+        testArray.push(i);
+    }
+
+    const testStack = convertArrayToStack(testArray);
+
+    const callbackFunc = (elem, i) => {
+        //console.log(`elem: ${elem}, index: ${i}`);
+    }
+
+    const t0 = performance.now();
+
+    const result = forEachOld(testStack)(callbackFunc);
+
+    const t1 = performance.now();
+
+    const milliseconds = t1 - t0;
+    const seconds = milliseconds / 1000
+
+    console.log(`Call foreach old took ${seconds.toFixed(2)} milliseconds.`);
+});
+
+
 
 stackSuite.add("removeByIndex", assert => {
     const elements = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
