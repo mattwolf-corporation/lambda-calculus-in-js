@@ -189,7 +189,7 @@ const getElementByJsnumIndex = s => i => {
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
-        const predecessorStack = (stack)(stackPredecessor);
+        const predecessorStack = getPreStack(stack);
 
         if (jsnum((stack)(stackIndex)) === i) {
 
