@@ -1,4 +1,4 @@
-import {TestSuite} from "../test.js";
+import {TestSuite, PerformanceTest} from "../test.js";
 import {
     addListener,
     buildHandlerFnValue,
@@ -100,7 +100,7 @@ const func = () => {
     let listOfValuesHandlers = []
 
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 6000; i++) {
         const valueHolder = {};
         const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
         listOfValuesHandlers.push(valueHolder)
@@ -114,18 +114,16 @@ const func = () => {
 }
 
 observableListMapSuite.add("perfomance", assert => {
-    // console.time('someFunction')
-    const t0 = performance.now();
-
-    const result = func();
-
-    const t1 = performance.now();
-    const milliseconds = t1 - t0;
-    const seconds = milliseconds / 1000
-
-    console.log(`Call to doSomething took ${seconds.toFixed(2)} seconds.`);
-
-    // console.timeEnd('someFunction')
+    const result = PerformanceTest(() => func())
+    // const t0 = performance.now();
+    //
+    // const result = func();
+    //
+    // const t1 = performance.now();
+    // const milliseconds = t1 - t0;
+    // const seconds = milliseconds / 1000
+    //
+    // console.log(`Call to ${func()} took ${seconds.toFixed(2)} seconds.`);
 
     assert.equals(result, false)
 });

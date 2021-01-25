@@ -2,7 +2,7 @@ import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-c
 import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
 import {jsnum} from '../src/lambda-calculus-library/church-numerals.js';
 
-export {TestSuite}
+export {TestSuite, PerformanceTest}
 
 const Assert = () => {
     let counter = 1;
@@ -183,3 +183,16 @@ const renderReport = (name, tests) => {
                 </fieldset>`
     );
 };
+
+const PerformanceTest = methodeUnderTest => {
+    const t0 = performance.now();
+
+    const result = methodeUnderTest();
+
+    const t1 = performance.now();
+    const milliseconds = t1 - t0;
+    const seconds = milliseconds / 1000
+
+    console.log(`Call took ${seconds.toFixed(2)} seconds.`);
+    return result
+}
