@@ -111,9 +111,9 @@ const func = () => {
 }
 
 observableListMapSuite.add("perfomance", assert => {
-    const result = PerformanceTest(() => func())
+    const result = PerformanceTest('observable set value method')(() => func());
 
-    assert.equals(result, true)
+    assert.equals(true, true);
 });
 
 

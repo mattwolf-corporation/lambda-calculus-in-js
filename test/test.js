@@ -184,15 +184,19 @@ const renderReport = (name, tests) => {
     );
 };
 
-const PerformanceTest = methodeUnderTest => {
+const PerformanceTest = mutName => methodUnderTest => {
     const t0 = performance.now();
 
-    const result = methodeUnderTest();
+    const result = methodUnderTest();
 
     const t1 = performance.now();
-    const milliseconds = t1 - t0;
-    const seconds = milliseconds / 1000
 
-    console.log(`Call took ${seconds.toFixed(2)} seconds.`);
-    return result
+    const milliseconds = t1 - t0;
+
+    const timeCondition = milliseconds >= 600;
+    const time = timeCondition ? milliseconds / 1000 : milliseconds;
+
+    console.log(`Call Method ${mutName} took ${time.toFixed(2)} ${timeCondition ? 'seconds' : 'milliseconds'}.`);
+
+    return result;
 }

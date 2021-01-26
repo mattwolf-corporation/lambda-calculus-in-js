@@ -1,7 +1,38 @@
-import {TestSuite} from "../test.js";
+import {TestSuite, PerformanceTest} from "../test.js";
 
-import {id, beq, True, False, showBoolean as show, convertToJsBool, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsnum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
+import {
+    id,
+    beq,
+    True,
+    False,
+    showBoolean as show,
+    convertToJsBool,
+    pair,
+    triple,
+    fst,
+    snd,
+    firstOfTriple,
+    secondOfTriple,
+    thirdOfTriple,
+    not
+} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {
+    n0,
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    pred,
+    succ,
+    jsnum,
+    is0,
+    churchAddition
+} from '../../src/lambda-calculus-library/church-numerals.js';
 import {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
@@ -25,6 +56,15 @@ Object.freeze(personList);
 const personStack = push(push(push(push(push(emptyStack)(personList[0]))(personList[1]))(personList[2]))(personList[3]))(personList[4]);
 const nonEmptyStack = push(push(push(emptyStack)(0))(1))(2);
 const stackWithNumbers = push(push(push(nonEmptyStack)(33))(34))(35);
+
+const createTestStackWithNElements = n => {
+    let testArray = []
+    for (let i = 0; i < n; i++) {
+        testArray.push(i);
+    }
+
+    return convertArrayToStack(testArray);
+}
 
 stackSuite.add("emptyStack", assert => {
     assert.equals(convertToJsBool(hasPre(emptyStack)), false);
@@ -264,82 +304,52 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
 });
 
 stackSuite.add("performance test: for/foreach loop - stack implementation", assert => {
-    let testArray = []
-    for (let i = 0; i < 500; i++) {
-        testArray.push(i);
-    }
-
-    const testStack = convertArrayToStack(testArray);
+    const testStack = createTestStackWithNElements(500)
 
     const callbackFunc = (elem, i) => {
         //console.log(`elem: ${elem}, index: ${i}`);
     }
 
-    const t0 = performance.now();
-
-    const result = forEach(testStack)(callbackFunc);
-
-    const t1 = performance.now();
-
-    const milliseconds = t1 - t0;
-    const seconds = milliseconds / 1000
-
-    console.log(`Call foreach took ${seconds.toFixed(2)} milliseconds.`);
+    const result = PerformanceTest('for/foreach loop - stack implementation')(() => forEach(testStack)(callbackFunc));
 });
 
 stackSuite.add("performance test: for/foreach loop - old stack implementation", assert => {
-    let testArray = []
-    for (let i = 0; i < 500; i++) {
-        testArray.push(i);
-    }
 
-    const testStack = convertArrayToStack(testArray);
-
+    const testStack = createTestStackWithNElements(500);
     const callbackFunc = (elem, i) => {
         //console.log(`elem: ${elem}, index: ${i}`);
     }
 
-    const t0 = performance.now();
-
-    const result = forEachOld(testStack)(callbackFunc);
-
-    const t1 = performance.now();
-
-    const milliseconds = t1 - t0;
-    const seconds = milliseconds / 1000
-
-    console.log(`Call foreach old took ${seconds.toFixed(2)} milliseconds.`);
+    const result = PerformanceTest('for/foreach loop - old stack implementation')(() => forEachOld(testStack)(callbackFunc));
 });
-
-
 
 stackSuite.add("removeByIndex", assert => {
     const elements = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
     const result = removeByIndex(elements)(2) // "Haskell"
 
-    assert.arrayEquals( convertStackToArray(result), ["Hello", "you", "Rock", "the", "World"]);
-    assert.churchNumberEquals( size(result), n5);
+    assert.arrayEquals(convertStackToArray(result), ["Hello", "you", "Rock", "the", "World"]);
+    assert.churchNumberEquals(size(result), n5);
 
     const resultEndIndex = removeByIndex(result)(5) // "World"
-    assert.arrayEquals( convertStackToArray(resultEndIndex), ["Hello", "you", "Rock", "the"]);
-    assert.churchNumberEquals( size(resultEndIndex), n4);
+    assert.arrayEquals(convertStackToArray(resultEndIndex), ["Hello", "you", "Rock", "the"]);
+    assert.churchNumberEquals(size(resultEndIndex), n4);
 
     const resultStartIndex = removeByIndex(resultEndIndex)(1) // "Hello"
-    assert.arrayEquals( convertStackToArray(resultStartIndex), ["you", "Rock", "the"]);
-    assert.churchNumberEquals( size(resultStartIndex), n3);
+    assert.arrayEquals(convertStackToArray(resultStartIndex), ["you", "Rock", "the"]);
+    assert.churchNumberEquals(size(resultStartIndex), n3);
 
 
     const resultToEmptyStack = removeByIndex(removeByIndex(removeByIndex(resultStartIndex)(1))(1))(1)
-    assert.arrayEquals( convertStackToArray(resultToEmptyStack), []);
-    assert.churchNumberEquals( size(resultToEmptyStack), n0);
+    assert.arrayEquals(convertStackToArray(resultToEmptyStack), []);
+    assert.churchNumberEquals(size(resultToEmptyStack), n0);
 
     const resultEmpty = removeByIndex(emptyStack)(4)
-    assert.arrayEquals( convertStackToArray(resultEmpty), []);
-    assert.churchNumberEquals( size(resultEmpty), n0);
+    assert.arrayEquals(convertStackToArray(resultEmpty), []);
+    assert.churchNumberEquals(size(resultEmpty), n0);
 
-    const resultNotAvailableIndex =  removeByIndex(elements)(42) // not existing Index
-    assert.arrayEquals( convertStackToArray(resultNotAvailableIndex), ["Hello", "Haskell", "you", "Rock", "the", "World"]);
-    assert.churchNumberEquals( size(resultNotAvailableIndex), n6);
+    const resultNotAvailableIndex = removeByIndex(elements)(42) // not existing Index
+    assert.arrayEquals(convertStackToArray(resultNotAvailableIndex), ["Hello", "Haskell", "you", "Rock", "the", "World"]);
+    assert.churchNumberEquals(size(resultNotAvailableIndex), n6);
 
 });
 
