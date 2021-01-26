@@ -99,7 +99,6 @@ const func = () => {
 
     let listOfValuesHandlers = []
 
-
     for (let i = 0; i < 6000; i++) {
         const valueHolder = {};
         const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
@@ -108,24 +107,13 @@ const func = () => {
     }
 
     testObs = testObs(setValue)(66);
-
-
-    return listOfValuesHandlers.some(v => v.value !== 66);
+    return listOfValuesHandlers.every(v => v.value === 66);
 }
 
 observableListMapSuite.add("perfomance", assert => {
     const result = PerformanceTest(() => func())
-    // const t0 = performance.now();
-    //
-    // const result = func();
-    //
-    // const t1 = performance.now();
-    // const milliseconds = t1 - t0;
-    // const seconds = milliseconds / 1000
-    //
-    // console.log(`Call to ${func()} took ${seconds.toFixed(2)} seconds.`);
 
-    assert.equals(result, false)
+    assert.equals(result, true)
 });
 
 
