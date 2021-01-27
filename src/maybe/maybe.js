@@ -34,7 +34,7 @@ const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
 
 const getSafeElementAbstraction = elemId => elementFunction =>
     maybeDomElement(elemId)
-    (() => console.error(elemId + " doesnt exist"))
+    (() => console.error(elemId + " doesn't exist"))
     (elementFunction)
 
 const getSafeElement = elemId =>

@@ -304,7 +304,7 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
 });
 
 stackSuite.add("performance test: for/foreach loop - stack implementation", assert => {
-    const testStack = createTestStackWithNElements(500)
+    const testStack = createTestStackWithNElements(200)
 
     const callbackFunc = (elem, i) => {
         //console.log(`elem: ${elem}, index: ${i}`);
@@ -315,7 +315,7 @@ stackSuite.add("performance test: for/foreach loop - stack implementation", asse
 
 stackSuite.add("performance test: for/foreach loop - old stack implementation", assert => {
 
-    const testStack = createTestStackWithNElements(500);
+    const testStack = createTestStackWithNElements(200);
     const callbackFunc = (elem, i) => {
         //console.log(`elem: ${elem}, index: ${i}`);
     }
