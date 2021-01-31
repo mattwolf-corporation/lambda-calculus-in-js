@@ -926,36 +926,16 @@ const r2 = nextCharForNumberString2(' 64 ');
 //console.log(r2);
 //console.log(r1 === r2);
 
-// Code goes here
-// Just
-const Right = x =>
-    ({
-        map: f => Right(f(x)),
-        fold: (f, g) => g(x),
-        inspect: () => `Right(${x})`
-    })
 
-//const Box2 = x => mapf(x)(id);
-//const mapf = x => f => g => g(f(x));
-// const fold2 = x => f => f(x); // T
 
-const mapfR = x => f => g => f(x)
-const mapfR2 = x => f => g => f(x)
+// const mapfR = x => f => g => f(x)
+// const mapfR2 = x => f => g => f(x)
+//
+// const BoxRight = x => mapfR(x)(id);
 
-const BoxRight = x => mapfR(x)(id);
-
-// Nothing
-const Left = x =>
-    ({
-        map: f => Left(x),
-        fold: (f, g) => f(x),
-        inspect: () => `Left(${x})`
-    })
 
 const Nothing = (() => f => _ => f())();
 const Just = x => _ => g => g(x);
-
-
 
 const isNumber = val =>
     typeof val === "number"
@@ -967,32 +947,21 @@ const maybeDiv = num => divisor =>
         ? Just(num / divisor)
         : Nothing
 
-// const Box2 = x => mapf(x)(id);
-// const mapf = x => f => g => g(f(x));
-// const fold2 = x => f => f(x); // T
-
-// const nextCharForNumberString2 = str =>
-//     Box2(str)
-//     (mapf)(s => s.trim())
-//     (mapf)(r => parseInt(r))
-//     (mapf)(i => i + 1)
-//     (mapf)(i => String.fromCharCode(i))
-//     (fold2)(c => c.toLowerCase())
 const MayMap = m => f => m(() => m)(x => Just(f(x)))
 const MayMap2 = f => m => m(() => m)(x => Just(f(x)))
 
 MayMap(maybeDiv(10)(2))(x => x * 10)(() => console.error('ewe'))(x => console.log(x))
 
 const mapf3 = x => f => g => g(MayMap2(f)(x));
-const maybeBox = str =>
-    Box2(maybeDiv(10)(2))
+const fold3 = x => left => right => x(left)(right);
+
+const maybeBox = num => div =>
+    Box2(maybeDiv(num)(div))
      (mapf3)(x => x * 10)
      (mapf3)(x => x * 2)
-     (fold2)(x => x(() => console.error('ewe'))(x => console.log(x)))
+     (fold3)(() => console.error('division by zero'))(console.log)
 
-
-
-const fold3 = x => left => right => x(left)(right);
+maybeBox(10)(2)
 
 const fromNullable = x =>
     x != null ? Just(x) : Nothing
@@ -1004,13 +973,8 @@ const findCol = c =>
     Box2(findColor(c))
     (mapf3)(c => c.slice(1))
     (mapf3)(c => c.toUpperCase())
-    //(fold2)(x => console.log(x))
-    (fold2)(x => x(() => 'no color')(x => x))
+    (fold3)(() => 'no color')(id)
 
-// const res = findColor('blue')
-//     .map(c => c.slice(1))
-//     .map(c => c.toUpperCase())
-//     .fold(e => 'no color', x => x)
 
 console.log(findCol('green'))
 
