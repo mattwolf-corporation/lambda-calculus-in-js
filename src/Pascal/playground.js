@@ -818,8 +818,8 @@ const forEach = stack => f => {
 };
 
 
-const Left = x => f => g => f(x);
-const Right = x => f => g => g(x);
+//const Left = x => f => g => f(x);
+//const Right = x => f => g => g(x);
 const either = e => f => g => e(f)(g);
 
 const either2 = id;
@@ -851,9 +851,9 @@ const saveCalc = predicate => errorMsg => calcSave =>
 
 // maybe as a sum type
 
-const Nothing  = () => f => g => f() ;        // f is used as a value
-const Just     = x  => f => g => g (x);
-const maybe    = m  => f => g => m (f) (g);
+//const Nothing  = () => f => g => f() ;        // f is used as a value
+//const Just     = x  => f => g => g (x);
+//const maybe    = m  => f => g => m (f) (g);
 
 
 // const Nothing  = Left() ;        // f is used as a value
@@ -922,6 +922,83 @@ const nextCharForNumberString2 = str =>
 const r1 = nextCharForNumberString(' 64 ');
 const r2 = nextCharForNumberString2(' 64 ');
 
-console.log(r1);
-console.log(r2);
-console.log(r1 === r2);
+//console.log(r1);
+//console.log(r2);
+//console.log(r1 === r2);
+
+
+
+// const mapfR = x => f => g => f(x)
+// const mapfR2 = x => f => g => f(x)
+//
+// const BoxRight = x => mapfR(x)(id);
+
+
+const Nothing = (() => f => _ => f())();
+const Just = x => _ => g => g(x);
+
+const isNumber = val =>
+    typeof val === "number"
+
+const maybeDiv = num => divisor =>
+    isNumber(num) &&
+    isNumber(divisor) &&
+    divisor !== 0
+        ? Just(num / divisor)
+        : Nothing
+
+const MayMap = m => f => m(() => m)(x => Just(f(x)))
+const MayMap2 = f => m => m(() => m)(x => Just(f(x)))
+
+MayMap(maybeDiv(10)(2))(x => x * 10)(() => console.error('ewe'))(x => console.log(x))
+
+const mapf3 = x => f => g => g(MayMap2(f)(x));
+const fold3 = x => left => right => x(left)(right);
+
+const maybeBox = num => div =>
+    Box2(maybeDiv(num)(div))
+     (mapf3)(x => x * 10)
+     (mapf3)(x => x * 2)
+     (fold3)(() => console.error('division by zero'))(console.log)
+
+maybeBox(10)(2)
+
+const fromNullable = x =>
+    x != null ? Just(x) : Nothing
+
+const findColor = name =>
+    fromNullable({red: '#ff4444', blue: '#3b5998', yellow: '#fff68f'}[name])
+
+
+// const Right = x =>
+//     ({
+//         map: f => Right(f(x)),
+//         fold: (f, g) => g(x),
+//         inspect: () => `Right(${x})`
+//     })
+//
+// const Left = x =>
+//     ({
+//         map: f => Left(x),
+//         fold: (f, g) => f(x),
+//         inspect: () => `Left(${x})`
+//     })
+//
+// const res = findColor('blue')
+//     .map(c => c.slice(1))
+//     .map(c => c.toUpperCase())
+//     .fold(e => 'no color', x => x)
+
+const findCol = c =>
+    Box2(findColor(c))
+    (mapf3)(c => c.slice(1))
+    (mapf3)(c => {
+        console.log("debug: " + c)
+        return c;
+    })
+    (mapf3)(c => c.toUpperCase())
+    (fold3)(() => 'no color')(id)
+
+
+console.log(findCol('green'))
+
