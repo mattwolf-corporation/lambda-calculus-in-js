@@ -15,10 +15,9 @@ boxSuite.add("box-tests", assert => {
         (mapf)(i => String.fromCharCode(i))
         (fold)(c => c.toLowerCase())
 
-    const r1 = nextCharForNumberString(' 64 ');
+    const result = nextCharForNumberString(' 64 ');
 
-    console.log(r1);
-    assert.equals(r1, "a")
+    assert.equals(result, "a")
 });
 
 

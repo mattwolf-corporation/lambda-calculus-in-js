@@ -164,7 +164,7 @@ const renderReport = (name, tests) => {
 
     forEach(tests)(iterationF);
 
-    document.getElementById("totalTests").innerText = totalTests;
+    document.getElementById("totalTests").textContent = totalTests;
 
     const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",

@@ -16,8 +16,8 @@
     const inputLength      = document.getElementById("size");
 
     const inputAttr = ObservableLambdaStack("");
-    inputAttr(getOnChange)(val => label.innerText  = val)
-    inputAttr(getOnChange)(val => inputLength.innerText   = val.length);
+    inputAttr(getOnChange)(val => label.textContent  = val)
+    inputAttr(getOnChange)(val => inputLength.textContent   = val.length);
 
     const testStack = convertArrayToStack(["11", "22", "33", "44", "55", "66"])
     const re0 = removeByIndex(testStack)(0)

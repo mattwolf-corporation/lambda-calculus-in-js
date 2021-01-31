@@ -28,8 +28,8 @@
     // "let" wenn soll zusätzliche Listener hinzugefügt werden,
     // ansonsten, wenn immutable mit "const" vor veränderung schützen
     const inputObservable = InitObservable
-                (addListener)(val => label.innerText = val)
-                (addListener)(val => sizes.innerText = val.length)
+                (addListener)(val => label.textContent = val)
+                (addListener)(val => sizes.textContent = val.length)
 
     onInputListener(inputObservable, nameInput)
 
@@ -138,7 +138,7 @@
                     (addListener)(r => setElementValue( rangeR )(r))
                     (addListener)(r => resultColor.style.backgroundColor = toRGBString(r, obsG.value, obsB.value))
                     (addListener)(r => rgbValue.value                    = toRGBString(r, obsG.value, obsB.value))
-                    (addListener)(r => hex.innerText                     = toHexString(r, obsG.value, obsB.value))
+                    (addListener)(r => hex.textContent                     = toHexString(r, obsG.value, obsB.value))
 
 
 
@@ -148,7 +148,7 @@
                     (addListener)(g => rangeG.value                      = g )
                     (addListener)(g => resultColor.style.backgroundColor = toRGBString(obsR.value, g, obsB.value))
                     (addListener)(g => rgbValue.value                    = toRGBString(obsR.value, g, obsB.value))
-                    (addListener)(g => hex.innerText                     = toHexString(obsR.value, g, obsB.value))
+                    (addListener)(g => hex.textContent                     = toHexString(obsR.value, g, obsB.value))
 
 
     const obsB = InitObservable
@@ -157,7 +157,7 @@
                     (addListener)(b => rangeB.value                      = b )
                     (addListener)(b => resultColor.style.backgroundColor = toRGBString(obsR.value, obsG.value, b))
                     (addListener)(b => rgbValue.value                    = toRGBString(obsR.value, obsG.value, b))
-                    (addListener)(b => hex.innerText                     = toHexString(obsR.value, obsG.value, b))
+                    (addListener)(b => hex.textContent                     = toHexString(obsR.value, obsG.value, b))
 
 
 

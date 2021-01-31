@@ -7,7 +7,7 @@ const calcDiv = () => {
     const sndNum = getSafeElementAbstraction('secondNumInput')
     (elem => Number(elem.value))
 
-    getSafeElement('result').innerText = getOrDefault(maybeDiv(fstNum)(sndNum))("Can't divide by zero")
+    getSafeElement('result').textContent = getOrDefault(maybeDiv(fstNum)(sndNum))("Can't divide by zero")
 }
 
 getSafeElementAbstraction('divisionBtn')

@@ -33,10 +33,10 @@ const creatToggleElement = (parentElementId, appendAsSibling = false) => {
 
 const addUnSubscriberToggle = (observable, handlerName, toggleElement, title) => {
     if (toggleElement.checked) {
-        toggleElement.labels[0].innerText = "Subscribe " + title
+        toggleElement.labels[0].textContent = "Subscribe " + title
         return observable(removeListenerByHandler)(handlerName)
     } else {
-        toggleElement.labels[0].innerText = "UnSubscribe " + title
+        toggleElement.labels[0].textContent = "UnSubscribe " + title
         return observable(addListener)(handlerName)
     }
 }
