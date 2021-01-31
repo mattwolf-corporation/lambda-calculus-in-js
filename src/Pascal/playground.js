@@ -869,6 +869,59 @@ const safeDiv = num => divisor =>
         : Just(num / divisor);
 
 
-maybe(safeDiv(1)(2))
-(() => console.log("failed"))
-(result => console.log(result))
+// maybe(safeDiv(1)(2))
+// (() => console.log("failed"))
+// (result => console.log(result))
+
+
+
+// const pipe = f => x => t => t(f(x));
+
+const pipe = f => g => x => g(f(x));
+
+const f1 = x => x + 1;
+const f2 = x => x * 2;
+const f3 = x => x + 10;
+
+// const res = pipe(f1)(f2)(10)
+
+
+
+
+// old box construct with object
+const Box = x =>
+    ({
+        map: f => Box(f(x)),
+        fold: f => f(x),
+        inspect: () => `Box(${x})`
+    })
+
+
+// new box construct only with pure functions !!
+const Box2 = x => mapf(x)(id);
+const mapf = x => f => g => g(f(x));
+const fold2 = x => f => f(x); // T
+
+
+const nextCharForNumberString = str =>
+    Box(str)
+        .map(s => s.trim())
+        .map(r => parseInt(r))
+        .map(i => i + 1)
+        .map(i => String.fromCharCode(i))
+        .fold(c => c.toLowerCase())
+
+const nextCharForNumberString2 = str =>
+    Box2(str)
+        (mapf)(s => s.trim())
+        (mapf)(r => parseInt(r))
+        (mapf)(i => i + 1)
+        (mapf)(i => String.fromCharCode(i))
+        (fold2)(c => c.toLowerCase())
+
+const r1 = nextCharForNumberString(' 64 ');
+const r2 = nextCharForNumberString2(' 64 ');
+
+console.log(r1);
+console.log(r2);
+console.log(r1 === r2);
