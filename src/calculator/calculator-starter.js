@@ -24,8 +24,8 @@ const operate = value => lambda => {
         lambdaOp += (isNaN(value)) ? `(c${lambda})` : `(${lambda})`;
         display += value;
         displayOutput.value = display;
-        functionalOutput.innerText = functionalOp;
-        lambdaOutput.innerText = lambdaOp;
+        functionalOutput.textContent = functionalOp;
+        lambdaOutput.textContent = lambdaOp;
     }
 };
 
@@ -33,13 +33,13 @@ const solve = () => {
     const evalResult = eval(functionalOp + `(result)`);
 
     displayOutput.value = evalResult;
-    functionalOutput.innerText = functionalOp + " ===> " + evalResult;
+    functionalOutput.textContent = functionalOp + " ===> " + evalResult;
     functionalOp = "calc";
     display = "";
 
 
     const evalLambdaResult = eval(lambdaOp + `(result) )`);
-    lambdaOutput.innerText = lambdaOp + " ) ===> " + evalLambdaResult;
+    lambdaOutput.textContent = lambdaOp + " ) ===> " + evalLambdaResult;
     lambdaOp = "jsnum( calc";
 };
 
@@ -47,10 +47,10 @@ const clr = () => {
     displayOutput.value = "cleared";
     display = "";
 
-    functionalOutput.innerText = "";
+    functionalOutput.textContent = "";
     functionalOp = "calc";
 
-    lambdaOutput.innerText = "";
+    lambdaOutput.textContent = "";
     lambdaOp = "jsnum( calc";
 };
 

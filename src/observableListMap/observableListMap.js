@@ -4,7 +4,7 @@ import { pair,showPair,  snd, fst, Else, If, Then} from "../lambda-calculus-libr
 
 export { InitObservable, addListener, setValue, getValue, removeListenerByKey, removeListenerByHandler,
     logListenersToConsole, handlerFnLogToConsole, handlerBuilder,
-    buildHandlerFnInnerText, buildHandlerFnInnerTextOldValue, buildHandlerFnInnerTextLength, buildHandlerFnValue
+    buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, buildHandlerFnTextContentLength, buildHandlerFnValue
 
 }
 
@@ -45,7 +45,7 @@ const logListenersToConsole = listeners => _ => {
 const handlerBuilder = key => handlerFn => pair(key)(handlerFn)
 
 const handlerFnLogToConsole             = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const buildHandlerFnInnerText           = element => nVal => oVal => element.innerText = nVal
-const buildHandlerFnInnerTextOldValue   = element => nVal => oVal => element.innerText = oVal
-const buildHandlerFnInnerTextLength     = element => nVal => oVal => element.innerText = nVal.length
+const buildHandlerFnTextContent           = element => nVal => oVal => element.textContent = nVal
+const buildHandlerFnTextContentOldValue   = element => nVal => oVal => element.textContent = oVal
+const buildHandlerFnTextContentLength     = element => nVal => oVal => element.textContent = nVal.length
 const buildHandlerFnValue               = element => nVal => oVal => element.value     = nVal

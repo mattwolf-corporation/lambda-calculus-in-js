@@ -40,7 +40,7 @@ const valueHandlerInputB = handlerBuilder(5)(nVal => oVal => inputB.value = nVal
 const valueHandlerRangeB = handlerBuilder(6)(nVal => oVal => rangeB.value = nVal(getBlue))
 const rgbHandlerBgColorRGB = handlerBuilder(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
 const valueHandlerRgbTextRGB = handlerBuilder(8)(nVal => oVal => rgbValue.value = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
-const valueHandlerHexTextRGB = handlerBuilder(9)(nVal => oVal => hex.innerText = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerHexTextRGB = handlerBuilder(9)(nVal => oVal => hex.textContent = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
 
 
 let rgbObservable = InitObservable(triple(154)(211)(44))

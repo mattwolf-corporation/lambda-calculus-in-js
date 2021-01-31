@@ -1,4 +1,4 @@
-import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnInnerText, buildHandlerFnInnerTextOldValue, handlerBuilder, buildHandlerFnInnerTextLength } from "../../observableListMap.js";
+import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength } from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
 import { getSafeElements } from "../../../maybe/maybe.js";
 
@@ -6,9 +6,9 @@ import { getSafeElements } from "../../../maybe/maybe.js";
 const [inputText, newValue, oldValue, sizes] = getSafeElements("inputText", "newValue", "oldValue", "sizes")
 
 // Define Observable-Handler
-const newValueHandler     = handlerBuilder(1)( buildHandlerFnInnerText          (newValue) )
-const oldValueHandler     = handlerBuilder(2)( buildHandlerFnInnerTextOldValue  (oldValue) )
-const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnInnerTextLength    (sizes)    )
+const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) )
+const oldValueHandler     = handlerBuilder(2)( buildHandlerFnTextContentOldValue  (oldValue) )
+const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnTextContentLength    (sizes)    )
 const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                       )
 
 // Create Observable-Object, define InitVal and append the Observable-Handler as Listener
