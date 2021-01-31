@@ -1,5 +1,3 @@
-
-
 /**
  * Generic Types
  * @typedef {*} a
@@ -75,7 +73,6 @@ const B = f => g => x => f(g(x));
  * @returns { function(f:{fn}): function(f x:{a} ) } self-application with holden argument
  */
 const T = x => f => f(x);
-
 
 
 /**
@@ -377,7 +374,6 @@ const eq = n => k => and(leq(n)(k))(leq(k)(n));
 const gt = Blackbird(not)(leq);
 
 
-
 /**
  * Generic Types
  * @typedef {function} operator
@@ -430,11 +426,11 @@ const result = id;
 /**
  * JavaScript Arithmetic-Operators
  */
-const plus              = n => k => n + k;
-const multiplication    = n => k => n * k;
-const subtraction       = n => k => n - k;
-const exponentiation    = n => k => n ** k;
-const division          = n => k => n / k;
+const plus = n => k => n + k;
+const multiplication = n => k => n * k;
+const subtraction = n => k => n - k;
+const exponentiation = n => k => n ** k;
+const division = n => k => n / k;
 
 /**
  * Combining the JavaScript-Arithmetic to the CalculatorOperator
@@ -443,11 +439,11 @@ const division          = n => k => n / k;
  * @example
  * calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) === 42
  */
-const add   = calculatorHandler(plus);
+const add = calculatorHandler(plus);
 const multi = calculatorHandler(multiplication);
-const sub   = calculatorHandler(subtraction);
-const pow   = calculatorHandler(exponentiation);
-const div   = calculatorHandler(division);
+const sub = calculatorHandler(subtraction);
+const pow = calculatorHandler(exponentiation);
+const div = calculatorHandler(division);
 
 
 /** ----------------------------------------------------
@@ -462,11 +458,10 @@ const div   = calculatorHandler(division);
  * @example
  * calc(n2)(churchAdd)(n3)(churchMulti)(n2)(churchPow)(n2)(churchSub)(n1)(result) ==> 99
  */
-const churchAdd     = calculatorHandler(churchAddition);
-const churchMulti   = calculatorHandler(churchMultiplication);
-const churchPow     = calculatorHandler(churchPotency);
-const churchSub     = calculatorHandler(churchSubtraction);
-
+const churchAdd = calculatorHandler(churchAddition);
+const churchMulti = calculatorHandler(churchMultiplication);
+const churchPow = calculatorHandler(churchPotency);
+const churchSub = calculatorHandler(churchSubtraction);
 
 
 /**
@@ -676,7 +671,7 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
  */
 const reduce = s => argsPair => {
     const times = size(s);
-    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack)) (thirdOfTriple);
+    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
@@ -804,7 +799,7 @@ const forEach = stack => f => {
     const reversedStack = reverseStack(stack);
 
     const iteration = s => {
-        if(convertToJsBool(hasPre(s))) {
+        if (convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsnum(succ(churchSubtraction(times)(size(s))));
             f(element, index);
@@ -862,7 +857,6 @@ const saveCalc = predicate => errorMsg => calcSave =>
 // const maybe    = m => f => either (m) (fst(f)) ;
 
 
-
 const safeDiv = num => divisor =>
     divisor === 0
         ? Nothing()
@@ -874,7 +868,6 @@ const safeDiv = num => divisor =>
 // (result => console.log(result))
 
 
-
 // const pipe = f => x => t => t(f(x));
 
 const pipe = f => g => x => g(f(x));
@@ -884,8 +877,6 @@ const f2 = x => x * 2;
 const f3 = x => x + 10;
 
 // const res = pipe(f1)(f2)(10)
-
-
 
 
 // old box construct with object
@@ -913,11 +904,11 @@ const nextCharForNumberString = str =>
 
 const nextCharForNumberString2 = str =>
     Box2(str)
-        (mapf)(s => s.trim())
-        (mapf)(r => parseInt(r))
-        (mapf)(i => i + 1)
-        (mapf)(i => String.fromCharCode(i))
-        (fold2)(c => c.toLowerCase())
+    (mapf)(s => s.trim())
+    (mapf)(r => parseInt(r))
+    (mapf)(i => i + 1)
+    (mapf)(i => String.fromCharCode(i))
+    (fold2)(c => c.toLowerCase())
 
 const r1 = nextCharForNumberString(' 64 ');
 const r2 = nextCharForNumberString2(' 64 ');
@@ -925,7 +916,6 @@ const r2 = nextCharForNumberString2(' 64 ');
 //console.log(r1);
 //console.log(r2);
 //console.log(r1 === r2);
-
 
 
 // const mapfR = x => f => g => f(x)
@@ -948,18 +938,20 @@ const maybeDiv = num => divisor =>
         : Nothing
 
 const MayMap = m => f => m(() => m)(x => Just(f(x)))
-const MayMap2 = f => m => m(() => m)(x => Just(f(x)))
+const MayMap2 = f => m => m(() => m)(x => Just(f(x))) // Maybe Monad
+const MayMab3 = f => m => m(() => m)(x => f(x)) // Maybe Monad
 
 MayMap(maybeDiv(10)(2))(x => x * 10)(() => console.error('ewe'))(x => console.log(x))
 
 const mapf3 = x => f => g => g(MayMap2(f)(x));
-const fold3 = x => left => right => x(left)(right);
+const fold3 = x => left => right => x(left)(right); // ID
+const chain = x => f => g => g(MayMab3(f)(x));
 
 const maybeBox = num => div =>
     Box2(maybeDiv(num)(div))
-     (mapf3)(x => x * 10)
-     (mapf3)(x => x * 2)
-     (fold3)(() => console.error('division by zero'))(console.log)
+    (mapf3)(x => x * 10)
+    (mapf3)(x => x * 2)
+    (fold3)(() => console.error('division by zero'))(console.log)
 
 maybeBox(10)(2)
 
@@ -968,26 +960,6 @@ const fromNullable = x =>
 
 const findColor = name =>
     fromNullable({red: '#ff4444', blue: '#3b5998', yellow: '#fff68f'}[name])
-
-
-// const Right = x =>
-//     ({
-//         map: f => Right(f(x)),
-//         fold: (f, g) => g(x),
-//         inspect: () => `Right(${x})`
-//     })
-//
-// const Left = x =>
-//     ({
-//         map: f => Left(x),
-//         fold: (f, g) => f(x),
-//         inspect: () => `Left(${x})`
-//     })
-//
-// const res = findColor('blue')
-//     .map(c => c.slice(1))
-//     .map(c => c.toUpperCase())
-//     .fold(e => 'no color', x => x)
 
 const findCol = c =>
     Box2(findColor(c))
@@ -1001,4 +973,40 @@ const findCol = c =>
 
 
 console.log(findCol('green'))
+
+
+// should be the only try and catch in code basis !
+const tryCatch = f => {
+    try {
+        return Just(f())
+    } catch (_) {
+        return Nothing
+    }
+}
+
+// method to simulate an api call
+const readPersonFromApi = () => JSON.stringify({name: "John", age: 30, city: "New York"});
+
+// test method to simulate an api error
+const readPersonFromApiWithError = () => {
+    throw "api call failed"
+};
+
+// returns either a parsed object or Nothing
+const parseJson = object =>  object !== null ? tryCatch(() => JSON.parse(object)) : Nothing
+
+
+const getPerson = () =>
+    Box2(tryCatch(readPersonFromApi))
+    (chain)(parseJson) // if this fail skip the rest (give null val to see failure)
+    (mapf3)(p => {
+        console.log("debug: " + p.name)
+        return p.name;
+    })
+    (mapf3)(name => name.toUpperCase())
+    (fold3)(() => 'get person failed')(id)  // set default value in error case
+
+
+const personRes = getPerson();
+console.log('result: ' + personRes)
 
