@@ -3,12 +3,15 @@ import {id} from "../lambda-calculus-library/lambda-calculus.js";
 export {
     Nothing, Just,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
-    getSafeElementAbstraction, maybeElement, maybeNumber
+    getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right
 }
 
+const Left   = x => f => g => f (x);
+const Right  = x => f => g => g (x);
+const either = e => f => g => e (f) (g); // id
 
-const Nothing = (() => f => _ => f())();
-const Just = x => _ => g => g(x);
+const Nothing  = Left();
+const Just     = Right ;
 
 const maybeDiv = num => divisor =>
     isNumber(num) && // TODO: NaN is also of type Number !!

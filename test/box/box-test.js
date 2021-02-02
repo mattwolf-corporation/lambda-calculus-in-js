@@ -1,10 +1,10 @@
 import {TestSuite} from "../test.js";
 import {
-    Box, fold, mapf, debug, mapMaybe,
+    Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, tryCatch
 } from "../../src/box/box.js";
-import {maybeDiv, maybeElement} from "../../src/maybe/maybe.js";
+import {maybeDiv, maybeElement, Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
 
 
@@ -13,8 +13,12 @@ const boxSuite = TestSuite("Box");
 boxSuite.add("box", assert => {
     const nextCharForNumberString = str =>
         Box(str)
-        (mapf)(s => s.trim())
+        (chain)(s =>
+            Box(s)
+                (mapf)(s => s.trim())
+            )
         (mapf)(r => parseInt(r))
+        (mapf)(debug)
         (mapf)(i => i + 1)
         (mapf)(i => String.fromCharCode(i))
         (fold)(c => c.toLowerCase())
@@ -113,6 +117,36 @@ boxSuite.add("readPersonFromApi", assert => {
     assert.equals(result1, "JOHN king");
     assert.equals(result2, "get person failed");
 
+});
+
+boxSuite.add("readPersonFromApi with left & right", assert => {
+    const readPersonFromApiWithError = () => {
+          return Left('api error');
+    };
+
+    const parseJson = object =>  object !== null
+        ? tryCatch(() => JSON.parse(object))
+        : Left('parse json failed');
+
+    const debug = x => {
+        console.log(x);
+        return x;
+    }
+
+    const getPerson = lastName =>
+        Box(readPersonFromApiWithError())
+        (mapfMaybe)(debug)
+        (chainMaybe)(parseJson)
+            (mapfMaybe)(debug)
+            (mapfMaybe)(p => p.name.toUpperCase())
+            (mapfMaybe)(name => name + " " + lastName)
+            (foldMaybe)
+            (id)
+            (id);
+
+    const result1 = getPerson("king");
+
+    assert.equals(result1, "api error");
 });
 
 

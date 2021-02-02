@@ -2,16 +2,19 @@ import {id} from "../lambda-calculus-library/lambda-calculus.js";
 import {Just, Nothing} from "../maybe/maybe.js";
 
 export {
-    Box, mapf, fold, debug, mapMaybe,
+    Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, tryCatch
 }
 
 // Box === Monade
-// TODO: Box zurückgeben
-const Box  = x => mapf(x)(id);
-const mapf = x => f => g => g(f(x));
-const fold = x => f => f(x);            // T
+const Box   = x => mapf(x)(id); // Box.of
+const mapf  = x => f => g => g(f(x)); // Box.map
+const fold  = x => f => f(x); // T   // map and then getValue
+const chain = x => f => g => g((f(x)(id))); // Box.flatMap
+
+const getContent = b => b(fold)(id)
+
 
 const debug = x => {
     console.log(x);
