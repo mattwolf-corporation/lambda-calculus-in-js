@@ -11,14 +11,16 @@ const Nothing = (() => f => _ => f())();
 const Just = x => _ => g => g(x);
 
 const maybeDiv = num => divisor =>
-    isNumber(num) &&
+    isNumber(num) && // TODO: NaN is also of type Number !!
     isNumber(divisor) &&
     divisor !== 0
         ? Just(num / divisor)
         : Nothing
 
 const isNumber = val =>
-    typeof val === "number"
+    typeof val === "number" // TODO: check verbessern
+ // TODO: utility Modul mit "type checks"
+
 
 const maybeNumber = val =>
     isNumber(val)
@@ -26,7 +28,7 @@ const maybeNumber = val =>
         : Nothing
 
 const maybeElement = element =>
-    element
+    element || element === 0
         ? Just(element)
         : Nothing
 

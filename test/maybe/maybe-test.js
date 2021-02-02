@@ -47,7 +47,7 @@ maybeSuite.add("maybeElement", assert => {
     assert.equals(maybeElement(null)(() => 34)(() => 42), 34);
     assert.equals(maybeElement(undefined)(() => 10)(() => 42), 10);
     assert.equals(maybeElement(true)(() => 10)(() => 42), 42);
-    assert.equals(maybeElement(0)(() => 10)(() => 42), 10);
+    assert.equals(maybeElement(0)(() => 10)(() => 42), 42);
     assert.equals(maybeElement(1)(() => 10)(() => 42), 42);
 });
 
