@@ -8,25 +8,24 @@ export {
 }
 
 // Box === Monade
-const Box   = x => mapf(x)(id); // Box.of
-const mapf  = x => f => g => g(f(x)); // Box.map
-const fold  = x => f => f(x); // T   // map and then getValue
+const Box   = x => mapf(x)(id);             // Box.of
+const mapf  = x => f => g => g(f(x));       // Box.map
+const fold  = x => f => f(x);   // T        // map and then get Content out of the box
 const chain = x => f => g => g((f(x)(id))); // Box.flatMap
-
-const getContent = b => b(id)
-
+const getContent = b => b(id)               // get Content out of the box (unwrap)
 
 const debug = x => {
     console.log(x);
     return x;
 }
 
-const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x)));
-const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));
+const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x))); // maybe.map
+const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));   // maybe.flatmap
 
-const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
-const foldMaybe = x => left => right => x(left)(right); // ID
-const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));
+const mapfMaybe = x => f => g => g(mapMaybe(x)(f));                   // map (returns a box)
+// const foldMaybe = x => left => right => x(left)(right); // ID
+const foldMaybe = mapMaybe;                                           // map and then get Content out of the box
+const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));              //
 
 // should be the only try and catch in code basis !
 const tryCatch = f => {

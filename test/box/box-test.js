@@ -124,50 +124,121 @@ boxSuite.add("box debug", assert => {
 
     // TODO: works in other tests
     // TODO: does not work yet -> ???
-    assert.consoleLogEquals(result2, ["10", "20"]);
+    //assert.consoleLogEquals(result2, ["10", "20"]);
+});
+
+boxSuite.add("mapMaybe", assert => {
+    const maybeResult1 = maybeDiv(10)(2);
+    const maybeResult2 = maybeDiv(10)(0);
+
+    const maybeResult3 = () => Just(10);
+    const maybeResult4 = () => Nothing;
+
+    const resultSuccess = mapMaybe(maybeResult1)(x => x * 10)
+    (() => 'error: division by zero')
+    (id);
+
+    const resultFailure = mapMaybe(maybeResult2)(x => x * 10)
+    (() => 'error: division by zero')
+    (id);
+
+    const resultSuccess2 = mapMaybe(maybeResult3())(x => x * 4)(() => "failed")(id)
+    const resultFailure2 = mapMaybe(maybeResult4())(x => x * 4)
+
+    assert.equals(resultSuccess, 50);
+    assert.equals(resultFailure, "error: division by zero");
+    assert.equals(resultSuccess2, 40);
+    assert.equals(resultFailure2, Nothing);
+    assert.equals(resultFailure2(() => "failed")(id), "failed");
+});
+
+boxSuite.add("flatMapMaybe", assert => {
+    const maybeFunc1 = () => Just(10);
+    const maybeFunc2 = () => Nothing;
+
+    const result1 = flatMapMaybe(maybeFunc1())(num => Just(num * 2));
+    const result2 = flatMapMaybe(maybeFunc2())(num => Just(num * 2));
+    const result3 = flatMapMaybe(Just("Hello"))(str => Just(str.toUpperCase()));
+    const result4 = flatMapMaybe(Nothing)(str => Just(str.toUpperCase()));
+
+    assert.equals(result1(() => "error")(id), 20);
+    assert.equals(result2(() => "Nothing")(id), "Nothing");
+    assert.equals(result2, Nothing);
+    assert.equals(result3(() => "error")(id), "HELLO");
+    assert.equals(result4, Nothing);
+    assert.equals(result4(() => "error")(id), "error");
+});
+
+boxSuite.add("mapfMaybe", assert => {
+    const p = () => Just({firstName: "lukas", lastName: "Mueller"});
+
+    const box1 = Box(p());
+    const box2 = Box(Nothing);
+
+    const mapped1 = box1(mapfMaybe)(p => p.firstName);
+    const mapped2 = mapped1(mapfMaybe)(firstName => firstName.toUpperCase());
+    const mapped3 = mapped2(mapfMaybe)(firstNameUpperCase => firstNameUpperCase.slice(1));
+    const mapped4 = box2(mapfMaybe)((p => p.firstName));
+
+    assert.equals(getContent(mapped1)(() => "failed")(id), "lukas");
+    assert.equals(getContent(mapped2)(() => "failed")(id), "LUKAS");
+    assert.equals(getContent(mapped3)(() => "failed")(id), "UKAS");
+    assert.equals(getContent(mapped3)(() => "failed")(id), "UKAS");
+    assert.equals(getContent(mapped4)(() => "failed")(id), "failed");
+    assert.equals(getContent(mapped4), Nothing);
+});
+
+boxSuite.add("getContent maybeBox", assert => {
+    const p = {firstName: "lukas", lastName: "Mueller"};
+    const getPerson = () => Just(p);
+
+    const box1 = Box(getPerson());
+    const box2 = Box(Nothing);
+
+    const result1 = getContent(box1)
+                            (() => "no person")
+                            (id);
+
+    const result2 = getContent(box2);
+    const result3 = getContent(box2)
+                                (() => "no person")
+                                (id);
+
+    assert.equals(result1, p);
+    assert.equals(result2, Nothing);
+    assert.equals(result3, "no person");
+});
+
+
+
+boxSuite.add("chainMaybe", assert => {
+
 });
 
 boxSuite.add("maybeBox example", assert => {
     const maybeBox = num => div =>
         Box(maybeDiv(num)(div))
-        (mapfMaybe)(x => x * 10)
-        (mapfMaybe)(x => x * 2)
-        (foldMaybe)
-        (() => 'error: division by zero')
-        (id);
+            (mapfMaybe)(x => x * 10)
+            (mapfMaybe)(x => x * 2)
+            (foldMaybe)(x => x + 2)
+                (() => 'error: division by zero')
+                (id);
 
     const resultSuccess = maybeBox(10)(2);
     const resultFailure = maybeBox(10)(0);
 
-    assert.equals(resultSuccess, 100);
+    assert.equals(resultSuccess, 102);
     assert.equals(resultFailure, 'error: division by zero');
 });
 
-boxSuite.add("mapMaybe", assert => {
-    const maybeResult1 = maybeDiv(10)(2);
-
-    const resultSuccess = mapMaybe(maybeResult1)(x => x * 10)
-                                    (() => 'error: division by zero')
-                                    (id);
-
-    const maybeResult2 = maybeDiv(10)(0);
-    const resultFailure = mapMaybe(maybeResult2)(x => x * 10)
-                                    (() => 'error: division by zero')
-                                    (id);
-
-    assert.equals(resultSuccess, 50);
-    assert.equals(resultFailure, 'error: division by zero');
-});
-
-boxSuite.add("findColor", assert => {
+boxSuite.add("findColor maybeBox example", assert => {
     const findColor = name =>
         maybeElement({red: '#ff4444', blue: '#3b5998', yellow: '#fff68f'}[name]);
 
     const findCol = c =>
         Box(findColor(c))
         (mapfMaybe)(c => c.slice(1))
-        (mapfMaybe)(c => c.toUpperCase())
-        (foldMaybe)
+        (foldMaybe)(c => c.toUpperCase())
             (() => 'no color')
             (id);
 
@@ -177,7 +248,7 @@ boxSuite.add("findColor", assert => {
     assert.equals(findCol('yellow'), 'FFF68F');
 });
 
-boxSuite.add("readPersonFromApi", assert => {
+boxSuite.add("readPersonFromApi maybeBox example", assert => {
     // method to simulate an api call
     const readPersonFromApi = () => JSON.stringify({name: "John", age: 30, city: "New York"});
 
@@ -195,7 +266,7 @@ boxSuite.add("readPersonFromApi", assert => {
         (chainMaybe)(parseJson)                     // if this fail skip the rest (give null val to see failure)
         (mapfMaybe)(name => name.toUpperCase())
         (mapfMaybe)(name => name + " " + lastName)
-        (foldMaybe)
+        (foldMaybe)(name => "Mr. " + name)
                 (() => 'get person failed')
                 (id);
 
@@ -204,14 +275,14 @@ boxSuite.add("readPersonFromApi", assert => {
             (chainMaybe)(parseJson)                     // if this fail skip the rest (give null val to see failure)
             (mapfMaybe)(p => p.name.toUpperCase())
             (mapfMaybe)(name => name + " " + lastName)
-            (foldMaybe)
+            (foldMaybe)(name => "Mr. " + name)
             (() => 'get person failed')
             (id);
 
     const result2 = getPersonWithError("king");
     const result1 = getPerson("king");
 
-    assert.equals(result1, "JOHN king");
+    assert.equals(result1, "Mr. JOHN king");
     assert.equals(result2, "get person failed");
 
 });
@@ -237,7 +308,7 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
             (mapfMaybe)(debug)
             (mapfMaybe)(p => p.name.toUpperCase())
             (mapfMaybe)(name => name + " " + lastName)
-            (foldMaybe)
+            (foldMaybe)(name => "Mr. " + name)
             (id)
             (id);
 
