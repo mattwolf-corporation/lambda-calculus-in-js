@@ -1,6 +1,12 @@
-import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength } from "../../observableListMap.js";
+import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength }
+from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
-import { getSafeElements } from "../../../maybe/maybe.js";
+import {getSafeElements, maybeDomElement} from "../../../maybe/maybe.js";
+import {
+    Box, fold, mapf, chain, debug, mapMaybe,
+    flatMapMaybe, mapfMaybe, foldMaybe,
+    chainMaybe, tryCatch, getContent
+} from "../../../box/box.js";
 
 // The Elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getSafeElements("inputText", "newValue", "oldValue", "sizes")
@@ -27,11 +33,19 @@ onInputListener(inputObservable, inputText)
 const [unsubNewValue,unsubOldValue,unsubSize] = getSafeElements("unsubNewValue", "unsubOldValue", "unsubSize")
 
 unsubNewValue.onclick = _ => {
-    inputObservable = unsubNewValue.checked
-        ? inputObservable(addListener)(newValueHandler)
-        : inputObservable(removeListenerByHandler)(newValueHandler)
+        Box(maybeDomElement("unsubNewValue"))
+                (foldMaybe)(elem => elem.checked
+                                        ? inputObservable(addListener)(newValueHandler)
+                                        : inputObservable(removeListenerByHandler)(newValueHandler)
+                )
+                        (() => console.error('error in obs'))
+                        (inputObservable => onInputListener(inputObservable, inputText))
 
-    onInputListener(inputObservable, inputText)
+    // inputObservable = unsubNewValue.checked
+    //     ? inputObservable(addListener)(newValueHandler)
+    //     : inputObservable(removeListenerByHandler)(newValueHandler)
+    //
+    // onInputListener(inputObservable, inputText)
 }
 
 unsubOldValue.onclick = _ => {
