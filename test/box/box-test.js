@@ -2,7 +2,7 @@ import {TestSuite} from "../test.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch
+    chainMaybe, tryCatch, getContent
 } from "../../src/box/box.js";
 import {maybeDiv, maybeElement, Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
@@ -10,7 +10,94 @@ import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
 
 const boxSuite = TestSuite("Box");
 
-boxSuite.add("box", assert => {
+boxSuite.add("box.of", assert => {
+    const p = {firstName: "lukas", lastName: "Mueller"};
+
+    const box1 = Box(10);
+    const box2 = Box("Hello World");
+    const box3 = Box(p);
+
+    assert.equals(box1(id), 10);
+    assert.equals(box2(id), "Hello World");
+    assert.equals(box3(id), p);
+});
+
+boxSuite.add("box.map", assert => {
+    const p = {firstName: "lukas", lastName: "Mueller"};
+
+    const box1 = Box(p);
+
+    const mapped1 = box1(mapf)(p => p.firstName);
+    const mapped2 = mapped1(mapf)(firstName => firstName.toUpperCase());
+    const mapped3 = mapped2(mapf)(firstNameUpperCase => firstNameUpperCase.slice(1));
+
+    assert.equals(mapped1(id), "lukas");
+    assert.equals(mapped2(id), "LUKAS");
+    assert.equals(mapped3(id), "UKAS");
+});
+
+boxSuite.add("box.getContent", assert => {
+    const p = {firstName: "lukas", lastName: "Mueller"};
+
+    const box1 = Box(p);
+
+    const mapped1 = box1(mapf)(p => p.firstName);
+    const mapped2 = mapped1(mapf)(firstName => firstName.toUpperCase());
+    const mapped3 = mapped2(mapf)(firstNameUpperCase => firstNameUpperCase.slice(1));
+
+    assert.equals(getContent(mapped1), "lukas");
+    assert.equals(getContent(mapped2), "LUKAS");
+    assert.equals(getContent(mapped3), "UKAS");
+
+    assert.equals(getContent(Box("random")), "random");
+    assert.equals(getContent(Box(1234)), 1234);
+});
+
+boxSuite.add("box.fold", assert => {
+    const p = {firstName: "lukas", lastName: "Mueller"};
+
+    const box1 = Box(p);
+
+    const mappedP = box1
+                        (mapf)(p => p.firstName)
+                        (mapf)(firstName => firstName.toUpperCase())
+
+    const result1 = mappedP
+                        (fold)(firstNameUpperCase => firstNameUpperCase.slice(1))
+
+    const result2 = Box(10)
+                            (fold)(num => num * 2);
+    const result3 = Box(id)
+                        (fold)(f => f("Magic"))
+
+    assert.equals(result1, "UKAS");
+    assert.equals(result2, 20);
+    assert.equals(result3, "Magic");
+});
+
+boxSuite.add("box.chain", assert => {
+    const box1 = Box(10)
+                    (chain)(num => Box(num * 2))
+
+    const box2 = Box(10)
+                        (mapf)(num => num + 5)
+                        (chain)(num => Box(num * 2))
+                        (chain)(num => Box(num * 3))
+
+    // nested box
+    const box3 = Box(10)
+                        (chain)(num => Box(num)
+                                            (mapf)(num => num + 2)
+                                            (mapf)(num => num + 3)
+                        )
+                        (mapf)(num => num - 15)
+
+    assert.equals(getContent(box1), 20);
+    assert.equals(getContent(box2), 90);
+    assert.equals(getContent(box3), 0);
+});
+
+boxSuite.add("box example", assert => {
     const nextCharForNumberString = str =>
         Box(str)
         (chain)(s =>
@@ -18,10 +105,9 @@ boxSuite.add("box", assert => {
                 (mapf)(s => s.trim())
             )
         (mapf)(r => parseInt(r))
-        (mapf)(debug)
         (mapf)(i => i + 1)
         (mapf)(i => String.fromCharCode(i))
-        (fold)(c => c.toLowerCase())
+        (fold)(c => c.toLowerCase());
 
     const result1 = nextCharForNumberString(' 64 ');
     const result2 = nextCharForNumberString(' 65 ');
@@ -30,7 +116,18 @@ boxSuite.add("box", assert => {
     assert.equals(result2, "b")
 });
 
-boxSuite.add("maybeBox", assert => {
+boxSuite.add("box debug", assert => {
+    const result2 =  () => Box(10)
+                            (mapf)(debug)
+                            (mapf)(n => n + 2)
+                            (mapf)(debug);
+
+    // TODO: works in other tests
+    // TODO: does not work yet -> ???
+    assert.consoleLogEquals(result2, ["10", "20"]);
+});
+
+boxSuite.add("maybeBox example", assert => {
     const maybeBox = num => div =>
         Box(maybeDiv(num)(div))
         (mapfMaybe)(x => x * 10)
@@ -148,6 +245,5 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
 
     assert.equals(result1, "api error");
 });
-
 
 boxSuite.report();
