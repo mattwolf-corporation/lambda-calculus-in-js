@@ -1,7 +1,7 @@
 import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength }
 from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
-import {getSafeElements, maybeDomElement} from "../../../maybe/maybe.js";
+import {getSafeElements, maybeDomElement, getSafeElementsAsMaybe} from "../../../maybe/maybe.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
@@ -30,23 +30,25 @@ onInputListener(inputObservable, inputText)
 
 
 //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
-const [unsubNewValue,unsubOldValue,unsubSize] = getSafeElements("unsubNewValue", "unsubOldValue", "unsubSize")
+const [unsubOldValue,unsubSize] = getSafeElements("unsubOldValue", "unsubSize")
+const [unsubNewValue] = getSafeElementsAsMaybe("unsubNewValue", "unsubOldValue", "unsubSize")
 
-unsubNewValue.onclick = _ => {
-        Box(maybeDomElement("unsubNewValue"))
-                (foldMaybe)(elem => elem.checked
-                                        ? inputObservable(addListener)(newValueHandler)
-                                        : inputObservable(removeListenerByHandler)(newValueHandler)
-                )
-                        (() => console.error('error in obs'))
-                        (inputObservable => onInputListener(inputObservable, inputText))
+unsubNewValue(e => console.error(e))(newValueElem =>
+    newValueElem.onclick = _ => {
+        // Box(maybeDomElement("unsubNewValue"))
+        //         (foldMaybe)(elem => elem.checked
+        //                                 ? inputObservable(addListener)(newValueHandler)
+        //                                 : inputObservable(removeListenerByHandler)(newValueHandler)
+        //         )
+        //                 (() => console.error('error in obs'))
+        //                 (inputObservable => onInputListener(inputObservable, inputText))
 
-    // inputObservable = unsubNewValue.checked
-    //     ? inputObservable(addListener)(newValueHandler)
-    //     : inputObservable(removeListenerByHandler)(newValueHandler)
-    //
-    // onInputListener(inputObservable, inputText)
-}
+    inputObservable = newValueElem.checked
+        ? inputObservable(addListener)(newValueHandler)
+        : inputObservable(removeListenerByHandler)(newValueHandler)
+
+    onInputListener(inputObservable, inputText)
+})
 
 unsubOldValue.onclick = _ => {
     inputObservable = unsubOldValue.checked

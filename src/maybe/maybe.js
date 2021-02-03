@@ -3,7 +3,8 @@ import {id} from "../lambda-calculus-library/lambda-calculus.js";
 export {
     Nothing, Just,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
-    getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right
+    getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
+    getSafeElementsAsMaybe
 }
 
 const Left   = x => f => g => f (x);
@@ -35,7 +36,14 @@ const maybeElement = element =>
         ? Just(element)
         : Nothing
 
+const maybeDomElement2 = elemId => element =>
+            element
+                ? Just(element)
+                : Right(new Error(`no such element with id: ${elemId}`))
+
 const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
+
+const withDomElement = elemId => maybeDomElement2(elemId)(document.getElementById(elemId))
 
 const getSafeElementAbstraction = elemId => elementFunction =>
     maybeDomElement(elemId)
@@ -47,6 +55,10 @@ const getSafeElement = elemId =>
 
 const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
+const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
+
 const getOrDefault = maybeFn => defaultVal =>
     maybeFn(() => defaultVal)
     (id)
+
+//TODO: get or create method
