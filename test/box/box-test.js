@@ -10,6 +10,18 @@ import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
 
 const boxSuite = TestSuite("Box");
 
+// method to simulate an api call
+const readPersonFromApi = () => JSON.stringify({name: "John", age: 30, city: "New York"});
+
+// test method to simulate an api error
+const readPersonFromApiWithError = () => {
+    throw "read person from api failed";
+};
+
+// returns either a parsed object or Nothing
+const parseJson = object =>  object !== null ? tryCatch(() => JSON.parse(object)) : Nothing;
+const parseJsonWithError = _ =>  tryCatch(() => JSON.parse('{"first": "Jane", last: "Doe"}'))
+
 boxSuite.add("box.of", assert => {
     const p = {firstName: "lukas", lastName: "Mueller"};
 
@@ -209,10 +221,22 @@ boxSuite.add("getContent maybeBox", assert => {
     assert.equals(result3, "no person");
 });
 
-
-
 boxSuite.add("chainMaybe", assert => {
+    const p = () => Just({firstName: "lukas", lastName: "Mueller"});
 
+    const box1 = Box(p());
+    const box2 = Box(Just(12));
+
+    const mapped1 = box1(chainMaybe)(p => Just(p.firstName));
+    const mapped2 = mapped1(chainMaybe)(firstName => Just(firstName.toUpperCase()));
+
+    const mapped3 = box2(chainMaybe)((_ => Nothing));
+
+    assert.equals(getContent(mapped1)(() => "failed")(id), "lukas");
+    assert.equals(getContent(mapped2)(() => "failed")(id), "LUKAS");
+
+    assert.equals(getContent(mapped3)(() => "failed")(id), "failed");
+    assert.equals(getContent(mapped3), Nothing);
 });
 
 boxSuite.add("maybeBox example", assert => {
@@ -249,41 +273,39 @@ boxSuite.add("findColor maybeBox example", assert => {
 });
 
 boxSuite.add("readPersonFromApi maybeBox example", assert => {
-    // method to simulate an api call
-    const readPersonFromApi = () => JSON.stringify({name: "John", age: 30, city: "New York"});
-
-    // test method to simulate an api error
-    const readPersonFromApiWithError = () => {
-        throw "api call failed";
-    };
-
-    // returns either a parsed object or Nothing
-    const parseJson = object =>  object !== null ? tryCatch(() => JSON.parse(object)) : Nothing;
-
-
-    const getPersonWithError = lastName =>
+    const getPerson1 = lastName =>
         Box(tryCatch(readPersonFromApiWithError))
-        (chainMaybe)(parseJson)                     // if this fail skip the rest (give null val to see failure)
+        (chainMaybe)(parseJson)
         (mapfMaybe)(name => name.toUpperCase())
         (mapfMaybe)(name => name + " " + lastName)
         (foldMaybe)(name => "Mr. " + name)
-                (() => 'get person failed')
+                (id)
                 (id);
 
-    const getPerson = lastName =>
+    const getPerson2 = lastName =>
         Box(tryCatch(readPersonFromApi))
-            (chainMaybe)(parseJson)                     // if this fail skip the rest (give null val to see failure)
+            (chainMaybe)(parseJson)
             (mapfMaybe)(p => p.name.toUpperCase())
             (mapfMaybe)(name => name + " " + lastName)
             (foldMaybe)(name => "Mr. " + name)
-            (() => 'get person failed')
+                    (id)
+                    (id);
+
+    const getPerson3 = lastName =>
+        Box(tryCatch(readPersonFromApi))
+        (chainMaybe)(parseJsonWithError)                 // if this fail skip the rest (give null val to see failure)
+            (mapfMaybe)(name => name + " " + lastName)
+            (foldMaybe)(name => "Mr. " + name)
+            (id)
             (id);
 
-    const result2 = getPersonWithError("king");
-    const result1 = getPerson("king");
+    const result1 = getPerson1("king");
+    const result2 = getPerson2("king");
+    const result3 = getPerson3("king");
 
-    assert.equals(result1, "Mr. JOHN king");
-    assert.equals(result2, "get person failed");
+    assert.equals(result1, "read person from api failed");
+    assert.equals(result2, "Mr. JOHN king");
+    assert.equals(result3.name, "SyntaxError");
 
 });
 
@@ -315,6 +337,23 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
     const result1 = getPerson("king");
 
     assert.equals(result1, "api error");
+});
+
+boxSuite.add("try catch", assert => {
+    const result1 = tryCatch(() => {throw "random error"})
+    const result2 = tryCatch(() => 10)
+    const result3 = tryCatch(() => "Hello")
+    const result4 = tryCatch(() => {throw new TypeError("failed")})
+
+
+    assert.equals(result1(id)(id), "random error");
+    assert.equals(result2(id)(id), 10);
+    assert.equals(result3(id)(id), "Hello");
+    assert.equals(result1(() => "error")(id), "error");
+    assert.equals(result2(() => "error")(() => "success"), "success");
+    assert.equals(result3(id)(() => 42), 42);
+    assert.equals(result4(e => e.message)(id), "failed");
+    assert.equals(result4(e => e.name)(id), "TypeError");
 });
 
 boxSuite.report();

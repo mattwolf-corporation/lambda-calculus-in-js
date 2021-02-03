@@ -1,5 +1,5 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
-import {Just, Nothing} from "../maybe/maybe.js";
+import {Just, Nothing, Left, Right} from "../maybe/maybe.js";
 
 export {
     Box, mapf, fold, chain, debug, mapMaybe,
@@ -22,17 +22,16 @@ const debug = x => {
 const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x))); // maybe.map
 const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));   // maybe.flatmap
 
-const mapfMaybe = x => f => g => g(mapMaybe(x)(f));                   // map (returns a box)
-// const foldMaybe = x => left => right => x(left)(right); // ID
+const mapfMaybe = x => f => g => g(mapMaybe(x)(f));                   // map (returns a box) --> for chaining
 const foldMaybe = mapMaybe;                                           // map and then get Content out of the box
-const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));              //
+const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));              // map ant then flatten (returns a box) --> for chaining
 
 // should be the only try and catch in code basis !
 const tryCatch = f => {
     try {
-        return Just(f());
-    } catch (_) {
-        return Nothing;
+        return Right(f());
+    } catch (error) {
+        return Left(error);
     }
 }
 
