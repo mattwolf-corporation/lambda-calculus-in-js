@@ -5,7 +5,7 @@ export {
     Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, tryCatch, getContent,
-    ap
+    ap, liftA2
 }
 
 // Box === Monade
@@ -15,6 +15,9 @@ const fold  = x => f => f(x);   // T            // map and then get Content out 
 const chain = x => f => g => g((f(x)(id)));     // Box.flatMap
 const ap = x => f => g => g(f(mapf)(x)(id));    // Box Applicative
 const getContent = b => b(id)                   // get Content out of the box (unwrap)
+
+const liftA2 = f => fx => fy =>
+        fx(mapf)(f)(ap)(fy)                     //
 
 const debug = x => {
     console.log(x);
@@ -27,6 +30,8 @@ const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));   // maybe.f
 const mapfMaybe = x => f => g => g(mapMaybe(x)(f));                   // map (returns a box) --> for chaining
 const foldMaybe = mapMaybe;                                           // map and then get Content out of the box
 const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));              // map ant then flatten (returns a box) --> for chaining
+// TODO: applicative for maybe
+// TODO: liftA2 for maybe
 
 // should be the only try and catch in code basis !
 const tryCatch = f => {

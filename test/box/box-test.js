@@ -2,7 +2,8 @@ import {TestSuite} from "../test.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent, ap
+    chainMaybe, tryCatch, getContent, ap,
+    liftA2
 } from "../../src/box/box.js";
 import {maybeDiv, maybeElement, Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
@@ -374,6 +375,16 @@ boxSuite.add("box.ap", assert => {
                         (ap)(boxWithValue3);
 
     assert.equals(getContent(result2), 24);
+});
+
+boxSuite.add("liftA2", assert => {
+    const add = x => y => x + y;
+    const boxWithValue1 = Box(10);
+    const boxWithValue2 = Box(5);
+
+    const result = liftA2(add)(boxWithValue1)(boxWithValue2);
+
+    assert.equals(getContent(result), 15);
 });
 
 boxSuite.report();
