@@ -4,15 +4,17 @@ import {Just, Nothing, Left, Right} from "../maybe/maybe.js";
 export {
     Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent
+    chainMaybe, tryCatch, getContent,
+    ap
 }
 
 // Box === Monade
-const Box   = x => mapf(x)(id);             // Box.of
-const mapf  = x => f => g => g(f(x));       // Box.map
-const fold  = x => f => f(x);   // T        // map and then get Content out of the box
-const chain = x => f => g => g((f(x)(id))); // Box.flatMap
-const getContent = b => b(id)               // get Content out of the box (unwrap)
+const Box   = x => mapf(x)(id);                 // Box.of
+const mapf  = x => f => g => g(f(x));           // Box.map
+const fold  = x => f => f(x);   // T            // map and then get Content out of the box
+const chain = x => f => g => g((f(x)(id)));     // Box.flatMap
+const ap = x => f => g => g(f(mapf)(x)(id));    // Box Applicative
+const getContent = b => b(id)                   // get Content out of the box (unwrap)
 
 const debug = x => {
     console.log(x);

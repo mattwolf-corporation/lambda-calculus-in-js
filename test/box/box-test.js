@@ -2,7 +2,7 @@ import {TestSuite} from "../test.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent
+    chainMaybe, tryCatch, getContent, ap
 } from "../../src/box/box.js";
 import {maybeDiv, maybeElement, Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
@@ -354,6 +354,26 @@ boxSuite.add("try catch", assert => {
     assert.equals(result3(id)(() => 42), 42);
     assert.equals(result4(e => e.message)(id), "failed");
     assert.equals(result4(e => e.name)(id), "TypeError");
+});
+
+boxSuite.add("box.ap", assert => {
+    const boxWithFunction1 = Box(x => x + 5);
+    const boxWithValue1 = Box(10);
+
+    const result1 = boxWithFunction1(ap)(boxWithValue1);
+
+    assert.equals(getContent(result1), 15);
+
+    const add = x => y => x + y;
+    const boxWithFunction2 = Box(add);
+    const boxWithValue2 = Box(10);
+    const boxWithValue3 = Box(14);
+
+    const result2 = boxWithFunction2
+                        (ap)(boxWithValue2)
+                        (ap)(boxWithValue3);
+
+    assert.equals(getContent(result2), 24);
 });
 
 boxSuite.report();
