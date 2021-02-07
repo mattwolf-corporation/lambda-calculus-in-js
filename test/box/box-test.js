@@ -3,7 +3,7 @@ import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, tryCatch, getContent, ap,
-    liftA2
+    liftA2, apMaybe, liftA2Maybe
 } from "../../src/box/box.js";
 import {maybeDiv, maybeElement, Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
@@ -385,6 +385,49 @@ boxSuite.add("liftA2", assert => {
     const result = liftA2(add)(boxWithValue1)(boxWithValue2);
 
     assert.equals(getContent(result), 15);
+});
+
+boxSuite.add("maybe.ap", assert => {
+    const maybeWithFunction1 = Box(Just(x => x + 5));
+    const maybeWithValue1 = Just(10);
+
+    const result1 = maybeWithFunction1(apMaybe)(maybeWithValue1);
+    const content = getContent(result1);
+    const res = content
+                    (_ => console.error('sdv'))
+                    (id)
+
+    assert.equals(res, 15);
+
+    const add = x => y => x + y;
+    const maybeWithFunction2 = Box(Just(add));
+    const maybeWithValue2 = Just(10);
+    const maybeWithValue3 = Just(14);
+
+    const result2 = maybeWithFunction2
+                            (apMaybe)(maybeWithValue2)
+                            (apMaybe)(maybeWithValue3);
+
+    const content2 = getContent(result2);
+    const res2 = content2
+                        (_ => console.error('sdv'))
+                        (id)
+
+    assert.equals(res2, 24);
+});
+
+boxSuite.add("liftA2 maybe", assert => {
+    const add = x => y => x + y;
+    const boxWithValue1 = Just(10);
+    const boxWithValue2 = Just(5);
+
+    const result = liftA2Maybe(add)(boxWithValue1)(boxWithValue2);
+    const content = getContent(result)
+    const res = content
+                    (_ => console.error('error'))
+                    (id)
+
+    assert.equals(res, 15);
 });
 
 boxSuite.report();
