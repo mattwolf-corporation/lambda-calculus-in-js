@@ -67,7 +67,8 @@ const Assert = () => {
         } finally {
             console[consoleType] = originalConsoleLogger;
         }
-
+        console.log(logs);
+        console.log(expectedConsoleLogs);
         arrayEquals(logs, expectedConsoleLogs)
     }
 

@@ -130,14 +130,24 @@ boxSuite.add("box example", assert => {
 });
 
 boxSuite.add("box debug", assert => {
-    const result2 =  () => Box(10)
+    const result1 =  Box(10)
+                                (mapf)(debug)
+                                (mapf)(n => n + 2)
+                                (mapf)(debug);
+
+    const result2 = () => Box(10)
                             (mapf)(debug)
                             (mapf)(n => n + 2)
-                            (mapf)(debug);
+                            (fold)(debug);
 
-    // TODO: works in other tests
-    // TODO: does not work yet -> ???
-    //assert.consoleLogEquals(result2, ["10", "20"]);
+    const lazyResult = () => Box(10)
+                                    (mapf)(debug)
+                                    (mapf)(n => n + 2)
+                                    (mapf)(debug);
+
+    assert.equals(getContent(result1), 12);
+    assert.consoleLogEquals(result2, 10, 12);
+    assert.consoleLogEquals(lazyResult, 10);
 });
 
 boxSuite.add("mapMaybe", assert => {
