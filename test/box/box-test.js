@@ -146,8 +146,8 @@ boxSuite.add("box debug", assert => {
                                     (mapf)(debug);
 
     assert.equals(getContent(result1), 12);
-    assert.consoleLogEquals(result2, 10, 12);
-    assert.consoleLogEquals(lazyResult, 10);
+    assert.consoleLogEquals(result2, "10", "12");
+    assert.consoleLogEquals(lazyResult, "10");
 });
 
 boxSuite.add("mapMaybe", assert => {

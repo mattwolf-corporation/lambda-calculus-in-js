@@ -58,7 +58,7 @@ const Assert = () => {
     const consoleEquals = consoleType => (methodUnderTest, ...expectedConsoleLogs) => {
         const originalConsoleLogger = console[consoleType];
         const logs = [];
-        console[consoleType] = log => logs.push(log);
+        console[consoleType] = log => logs.push(log.toString());
 
         try {
             methodUnderTest()
@@ -67,8 +67,7 @@ const Assert = () => {
         } finally {
             console[consoleType] = originalConsoleLogger;
         }
-        console.log(logs);
-        console.log(expectedConsoleLogs);
+
         arrayEquals(logs, expectedConsoleLogs)
     }
 
