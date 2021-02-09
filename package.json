@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js#readme",
   "devDependencies": {
-    "jsdoc": "^3.6.3"
+    "jsdoc": "^3.6.6"
   }
 }
