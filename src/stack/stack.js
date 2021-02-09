@@ -41,7 +41,8 @@ export {
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
-    forEachOld, removeByIndex, getPreStack, concat
+    forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
+    zipWith
 }
 /**
  * Generic Types
@@ -275,7 +276,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
 
 /**
  * A function that accepts a map function and a stack.
@@ -474,3 +475,47 @@ const concat = s1 => s2 => {
         return reduce(pair(reduceToStack)(s1))(s2);
     }
 }
+
+const reduceConcat = (acc, curr) => concat(acc)(curr);
+
+const flatten = reduce(pair(reduceConcat)(emptyStack));
+
+// (a -> b -> c) -> [a] -> [b] -> [c]
+const zipWith = f => s1 => s2 => {
+    const size1 = size(s1);
+    const size2 = size(s2);
+
+    const reversedStack1 = reverseStack(s1);
+    const reversedStack2 = reverseStack(s2);
+
+    const zipElements = t => {
+        const s1 = t(firstOfTriple);
+        const s2 = t(secondOfTriple);
+        const acc = t(thirdOfTriple);
+
+        const element1 = head(s1);
+        const element2 = head(s2);
+
+        const result = push(acc)(f(element1)(element2));
+
+        return triple(getPreStack(s1))(getPreStack(s2))(result);
+    }
+
+    const iteration = t =>
+        If(hasPre(t(firstOfTriple)))
+        (Then(zipElements(t)))
+        (Else(t));
+
+    if(convertToJsBool(leq(size1)(size2))){
+        const times = size(s1);
+        return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
+    }
+    else{
+        const times = size(s2);
+        return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
+    }
+}
+
+// TODO: zip with empyt stacks ?
+// [a] -> [b] -> [(a, b)]
+const zip = zipWith(pair);
