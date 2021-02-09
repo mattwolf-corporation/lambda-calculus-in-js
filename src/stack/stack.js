@@ -41,7 +41,8 @@ export {
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
-    forEachOld, removeByIndex, getPreStack, concat, flatten, zip
+    forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
+    zipWith
 }
 /**
  * Generic Types
@@ -476,10 +477,8 @@ const reduceConcat = (acc, curr) => concat(acc)(curr);
 
 const flatten = reduce(pair(reduceConcat)(emptyStack));
 
-
-// TODO: zip with empyt stacks ?
-// [a] -> [b] -> [(a, b)]
-const zip = s1 => s2 => {
+// (a -> b -> c) -> [a] -> [b] -> [c]
+const zipWith = f => s1 => s2 => {
     const size1 = size(s1);
     const size2 = size(s2);
 
@@ -494,7 +493,7 @@ const zip = s1 => s2 => {
         const element1 = head(s1);
         const element2 = head(s2);
 
-        const result = push(acc)(pair(element1)(element2));
+        const result = push(acc)(f(element1)(element2));
 
         return triple(getPreStack(s1))(getPreStack(s2))(result);
     }
@@ -512,10 +511,8 @@ const zip = s1 => s2 => {
         const times = size(s2);
         return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
     }
-};
-
-
-// (a -> b -> c) -> [a] -> [b] -> [c]
-const zipWith = f => s1 => s2 => {
-    // zip can be written with (zipWith)
 }
+
+// TODO: zip with empyt stacks ?
+// [a] -> [b] -> [(a, b)]
+const zip = zipWith(pair);
