@@ -42,7 +42,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith
+    zipWith, zipWithOneLiner
 }
 /**
  * Generic Types
@@ -509,6 +509,8 @@ const zipWith = f => s1 => s2 => {
 
     return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
 }
+
+const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
 
 // TODO: zip with empyt stacks ?
 // [a] -> [b] -> [(a, b)]
