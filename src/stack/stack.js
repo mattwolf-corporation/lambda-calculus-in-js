@@ -503,14 +503,11 @@ const zipWith = f => s1 => s2 => {
         (Then(zipElements(t)))
         (Else(t));
 
-    if(convertToJsBool(leq(size1)(size2))){
-        const times = size(s1);
-        return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
-    }
-    else{
-        const times = size(s2);
-        return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
-    }
+    const times = If(leq(size1)(size2))
+                  (Then(size1))
+                  (Else(size2));
+
+    return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
 }
 
 // TODO: zip with empyt stacks ?
