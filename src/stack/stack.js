@@ -210,7 +210,7 @@ const getElementByJsnumIndex = s => i => {
  * @param {stack} s
  * @return {Array} Array
  */
-const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])([]));
+const convertStackToArray = s => reduce(pair((acc, curr) => [...acc, curr])([]))(s);
 
 /**
  * A function that takes an array and converts the array into a stack.
@@ -228,7 +228,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
  * A function that accepts a stack and a map function.
@@ -237,7 +237,7 @@ const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst)
  * @param {stack} s
  * @return {function(map:{function}): stack } stack
  */
-const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+const mapWithReduce = s => map => reduce(pair((acc, curr) => push(acc)(map(curr)))(emptyStack))(s);
 
 /**
  * A function that accepts a stack and a filter function.
@@ -246,7 +246,7 @@ const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(cu
  * @param {stack} s
  * @return {function(filter:{function}): stack } stack
  */
-const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
+const filterWithReduce = s => filter => reduce(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack))(s);
 
 /**
  * A function that takes a stack and argument pair.
@@ -257,7 +257,7 @@ const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(cur
  * @param {stack} s
  * @return {function(argsPair:{pair}): * } value
  */
-const reduce = s => argsPair => {
+const reduce = argsPair => s => {
     const times = size(s);
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));

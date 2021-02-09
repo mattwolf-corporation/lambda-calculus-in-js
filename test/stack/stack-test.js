@@ -172,11 +172,11 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    assert.equals(reduce(stackWithNumbers)(pair(reduceFunctionSum)(0)), 3);
-    assert.equals(reduce(push(stackWithNumbers)(3))(pair(reduceFunctionSum)(0)), 6);
-    assert.equals(reduce(personStack)(pair((acc, curr) => acc + curr.income)(0)), 15000);
-    assert.equals(jsnum(reduce(stackWithChurchNumbers)(pair(reduceFunctionChurchNumbersSum)(n0))), 14);
-    assert.arrayEquals(reduce(stackWithNumbers)(pair(reduceToArray)([])), [0, 1, 2]);
+    assert.equals(reduce(pair(reduceFunctionSum)(0))(stackWithNumbers), 3);
+    assert.equals(reduce(pair(reduceFunctionSum)(0))(push(stackWithNumbers)(3)), 6);
+    assert.equals(reduce(pair((acc, curr) => acc + curr.income)(0))(personStack), 15000);
+    assert.equals(jsnum(reduce(pair(reduceFunctionChurchNumbersSum)(n0))(stackWithChurchNumbers)), 14);
+    assert.arrayEquals(reduce(pair(reduceToArray)([]))(stackWithNumbers), [0, 1, 2]);
 });
 
 stackSuite.add("map", assert => {
