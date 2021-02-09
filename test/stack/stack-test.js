@@ -243,7 +243,7 @@ stackSuite.add("reverse stack", assert => {
 });
 
 stackSuite.add("filter with reduce-function", assert => {
-    const filteredStack = filterWithReduce(stackWithNumbers)(x => x >= 2 && x < 34);
+    const filteredStack = filterWithReduce(x => x >= 2 && x < 34)(stackWithNumbers);
 
     assert.equals(getElementByJsnumIndex(filteredStack)(0), id);
     assert.equals(getElementByJsnumIndex(filteredStack)(1), 2);
@@ -252,7 +252,7 @@ stackSuite.add("filter with reduce-function", assert => {
 });
 
 stackSuite.add("map with reduce-function", assert => {
-    const mappedStack = mapWithReduce(nonEmptyStack)(x => x * 3);
+    const mappedStack = mapWithReduce(x => x * 3)(nonEmptyStack);
 
     assert.equals(getElementByJsnumIndex(mappedStack)(0), id);
     assert.equals(getElementByJsnumIndex(mappedStack)(1), 0);
