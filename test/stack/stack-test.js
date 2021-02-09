@@ -172,11 +172,11 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    assert.equals(reduce(stackWithNumbers)(pair(reduceFunctionSum)(0)), 3);
-    assert.equals(reduce(push(stackWithNumbers)(3))(pair(reduceFunctionSum)(0)), 6);
-    assert.equals(reduce(personStack)(pair((acc, curr) => acc + curr.income)(0)), 15000);
-    assert.equals(jsnum(reduce(stackWithChurchNumbers)(pair(reduceFunctionChurchNumbersSum)(n0))), 14);
-    assert.arrayEquals(reduce(stackWithNumbers)(pair(reduceToArray)([])), [0, 1, 2]);
+    assert.equals(reduce(pair(reduceFunctionSum)(0))(stackWithNumbers), 3);
+    assert.equals(reduce(pair(reduceFunctionSum)(0))(push(stackWithNumbers)(3)), 6);
+    assert.equals(reduce(pair((acc, curr) => acc + curr.income)(0))(personStack), 15000);
+    assert.equals(jsnum(reduce(pair(reduceFunctionChurchNumbersSum)(n0))(stackWithChurchNumbers)), 14);
+    assert.arrayEquals(reduce(pair(reduceToArray)([]))(stackWithNumbers), [0, 1, 2]);
 });
 
 stackSuite.add("map", assert => {
@@ -186,8 +186,8 @@ stackSuite.add("map", assert => {
     const multiplyWith2 = x => x * 2;
     const mapToJsnum = churchNum => jsnum(churchNum);
 
-    const mappedStackWithNumbers = map(stackWithNumbers)(multiplyWith2);
-    const mappedStackWithChurchNumbers = map(stackWithChurchNumbers)(mapToJsnum);
+    const mappedStackWithNumbers = map(multiplyWith2)(stackWithNumbers);
+    const mappedStackWithChurchNumbers = map(mapToJsnum)(stackWithChurchNumbers);
 
     assert.equals(head(mappedStackWithNumbers), 60);
     assert.equals(jsnum(size(mappedStackWithNumbers)), 3);
@@ -203,9 +203,9 @@ stackSuite.add("map", assert => {
 });
 
 stackSuite.add("filter", assert => {
-    const filteredStackWithNumbers = filter(stackWithNumbers)(x => x < 35 && x > 2);
-    const filteredStackWithLastNames = map(filter(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-    const filteredStackWithIncome = filter(personStack)(person => person.income > 5000);
+    const filteredStackWithNumbers = filter(x => x < 35 && x > 2)(stackWithNumbers);
+    const filteredStackWithLastNames = map(person => person.lastName)(filter(person => person.lastName.startsWith('S'))(personStack));
+    const filteredStackWithIncome = filter(person => person.income > 5000)(personStack);
 
 
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
@@ -243,7 +243,7 @@ stackSuite.add("reverse stack", assert => {
 });
 
 stackSuite.add("filter with reduce-function", assert => {
-    const filteredStack = filterWithReduce(stackWithNumbers)(x => x >= 2 && x < 34);
+    const filteredStack = filterWithReduce(x => x >= 2 && x < 34)(stackWithNumbers);
 
     assert.equals(getElementByJsnumIndex(filteredStack)(0), id);
     assert.equals(getElementByJsnumIndex(filteredStack)(1), 2);
@@ -252,7 +252,7 @@ stackSuite.add("filter with reduce-function", assert => {
 });
 
 stackSuite.add("map with reduce-function", assert => {
-    const mappedStack = mapWithReduce(nonEmptyStack)(x => x * 3);
+    const mappedStack = mapWithReduce(x => x * 3)(nonEmptyStack);
 
     assert.equals(getElementByJsnumIndex(mappedStack)(0), id);
     assert.equals(getElementByJsnumIndex(mappedStack)(1), 0);

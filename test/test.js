@@ -121,7 +121,7 @@ const renderReport = (name, tests) => {
         const sizeOfAsserts = jsnum(size(asserts));
         totalTests += sizeOfAsserts;
 
-        const failed = filter(asserts)(testResult => !testResult.result);
+        const failed = filter(testResult => !testResult.result)(asserts);
         const churchSizeOfFailed = size(failed);
         const sizeOfFailed = jsnum(churchSizeOfFailed);
 

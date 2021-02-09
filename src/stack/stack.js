@@ -162,6 +162,49 @@ const head = s => s(stackValue);
 const size = s => s(stackIndex);
 
 /**
+ * A function that takes a stack and argument pair.
+ * The first argument of the pair must be a reducer function.
+ * The second argument of the pair must be a start value.
+ * The function reduces the stack using the passed reduce function and the passed start value
+ *
+ * @param {stack} s TODO: Doku anpassen !!
+ * @return {function(argsPair:{pair}): * } value
+ */
+const reduce = argsPair => s => {
+    const times = size(s);
+    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
+    const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
+
+    return (times(reduceIteration)(argsTriple))(thirdOfTriple);
+};
+
+
+/**
+ * TODO: Description for reduceIteration
+ *
+ * @param {triple} argsTriple
+ * @return {triple } triple or argsTriple
+ */
+const reduceIteration = argsTriple => {
+    const stack = argsTriple(firstOfTriple);
+
+    if (convertToJsBool(hasPre(stack))) {
+        const reduceFunction = argsTriple(secondOfTriple);
+
+        const preAcc = argsTriple(thirdOfTriple);
+
+        const curr = head(stack);
+
+        const acc = reduceFunction(preAcc, curr);
+
+        const preStack = stack(stackPredecessor);
+
+        return triple(preStack)(reduceFunction)(acc);
+    }
+    return argsTriple;
+};
+
+/**
  * A function that takes a stack and an index (as church number)
  * The function returns the element at the passed index
  *
@@ -210,7 +253,7 @@ const getElementByJsnumIndex = s => i => {
  * @param {stack} s
  * @return {Array} Array
  */
-const convertStackToArray = s => reduce(s)(pair((acc, curr) => [...acc, curr])([]));
+const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 
 /**
  * A function that takes an array and converts the array into a stack.
@@ -228,7 +271,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
  * A function that accepts a stack and a map function.
@@ -237,7 +280,7 @@ const reverseStack = s => (reduce(s)(pair((acc, curr) => pair(pop(acc(fst))(fst)
  * @param {stack} s
  * @return {function(map:{function}): stack } stack
  */
-const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
 
 /**
  * A function that accepts a stack and a filter function.
@@ -246,59 +289,16 @@ const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(cu
  * @param {stack} s
  * @return {function(filter:{function}): stack } stack
  */
-const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
-
-/**
- * A function that takes a stack and argument pair.
- * The first argument of the pair must be a reducer function.
- * The second argument of the pair must be a start value.
- * The function reduces the stack using the passed reduce function and the passed start value
- *
- * @param {stack} s
- * @return {function(argsPair:{pair}): * } value
- */
-const reduce = s => argsPair => {
-    const times = size(s);
-    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
-    const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
-
-    return (times(reduceIteration)(argsTriple))(thirdOfTriple);
-};
-
-
-/**
- * TODO: Description for reduceIteration
- *
- * @param {triple} argsTriple
- * @return {triple } triple or argsTriple
- */
-const reduceIteration = argsTriple => {
-    const stack = argsTriple(firstOfTriple);
-
-    if (convertToJsBool(hasPre(stack))) {
-        const reduceFunction = argsTriple(secondOfTriple);
-
-        const preAcc = argsTriple(thirdOfTriple);
-
-        const curr = head(stack);
-
-        const acc = reduceFunction(preAcc, curr);
-
-        const preStack = stack(stackPredecessor);
-
-        return triple(preStack)(reduceFunction)(acc);
-    }
-    return argsTriple;
-};
+const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
 
 /**
  * A function that takes a stack and a map function.
  * The function returns the mapped stack
  *
- * @param {stack} s
+ * @param {stack} s TODO: Doku anpassen !!
  * @return {function(mapFunction:{function}): stack / pair } stack / pair
  */
-const map = s => mapFunction => {
+const map = mapFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
 
@@ -323,10 +323,10 @@ const map = s => mapFunction => {
  * A function that accepts a stack and a filter function.
  * The function returns the filtered stack
  *
- * @param {stack} s
+ * @param {stack} s TODO: Doku anpassen !!
  * @return {function(filterFunction:{function}): stack / pair } stack / pair
  */
-const filter = s => filterFunction => {
+const filter = filterFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
 
