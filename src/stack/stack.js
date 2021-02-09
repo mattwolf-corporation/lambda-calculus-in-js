@@ -180,6 +180,11 @@ const reduce = argsPair => s => {
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
 
+// const reduce2 = argsPair => s => (size(s)
+//                                     ()
+//                                 (triple((size(s))(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple))(argsPair(fst))(argsPair(snd))))
+//                                 (thirdOfTriple);
+
 
 /**
  * TODO: Description for reduceIteration
@@ -190,7 +195,7 @@ const reduce = argsPair => s => {
 const reduceIteration = argsTriple => {
     const stack = argsTriple(firstOfTriple);
 
-    if (convertToJsBool(hasPre(stack))) {
+    const getTriple = argsTriple => {
         const reduceFunction = argsTriple(secondOfTriple);
 
         const preAcc = argsTriple(thirdOfTriple);
@@ -203,7 +208,10 @@ const reduceIteration = argsTriple => {
 
         return triple(preStack)(reduceFunction)(acc);
     }
-    return argsTriple;
+
+    return If(hasPre(stack))
+    (Then(getTriple(argsTriple)))
+    (Else(argsTriple));
 };
 
 /**
