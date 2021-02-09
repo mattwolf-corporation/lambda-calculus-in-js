@@ -119,6 +119,9 @@ const hasPre = s => not(is0(s(stackIndex)));
 
 /**
  * Todo: getPreStack Docu
+ *
+ * @param {stack} s
+ * @return {churchBoolean} churchBoolean
  */
 const getPreStack = s => s(stackPredecessor)
 
@@ -274,11 +277,11 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
 const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
- * A function that accepts a stack and a map function.
+ * A function that accepts a map function and a stack.
  * The function returns the mapped stack.
  *
- * @param {stack} s
- * @return {function(map:{function}): stack } stack
+ * @param function(mapFunc:{function})
+ * @return reduce
  */
 const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
 
@@ -323,8 +326,8 @@ const map = mapFunction => s => {
  * A function that accepts a stack and a filter function.
  * The function returns the filtered stack
  *
- * @param {stack} s TODO: Doku anpassen !!
- * @return {function(filterFunction:{function}): stack / pair } stack / pair
+ * @param  function(filterFunction:{function}): stack / pair
+ * @return {function(*=): *} s : stack / pair
  */
 const filter = filterFunction => s => {
     const times = size(s);

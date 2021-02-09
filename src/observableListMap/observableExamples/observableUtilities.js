@@ -20,13 +20,15 @@ const setInitialsValues = (...observables) =>
 const creatToggleElement = (parentElementId, appendAsSibling = false) => {
     const parentElement = getSafeElement(parentElementId)
     const template = document.createElement('div');
-    template.innerHTML = `<input type = "checkbox" id = "unSub${parentElementId}" name = "unSub${parentElementId}" style = "visibility: hidden" >
-                          <label for = "unSub${parentElementId}" id="unSub${parentElementId}Label" class="unsubLabel">Unsubscribe </label>`
+    template.innerHTML = `<input type = "checkbox" id = "unSub${parentElementId}" name = "unSub${parentElementId}" style = "visibility: hidden">
+                          <label for = "unSub${parentElementId}" id="unSub${parentElementId}Label" class="unsubLabel">Unsubscribe</label>`
+
     if (appendAsSibling){
         parentElement.parentNode.insertBefore( template, parentElement.nextSibling)
     } else{
         parentElement.appendChild(template)
     }
+
     const [toggleElement, labelElement] = template.children;
     return toggleElement
 }

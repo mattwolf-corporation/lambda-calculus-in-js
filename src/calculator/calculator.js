@@ -44,14 +44,14 @@ const calculatorHandler = op => n => k => f => f(op(n)(k));
 const calc = T;
 
 /**
- * result ; end the Calculator
+ * result ; end the Calculator and return the result
  * @example
  * calc(n1)(add)(n2)(result) ==> n3
  *
- * @type {function(a): I.props|*}
  * @return {churchNumber|number} ChurchNumber / JsNumber
  */
 const result = id;
+
 
 /** ----------------------------------------------------
  * -------------  Calculation with JS-Numbers ----------
