@@ -40,7 +40,8 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, getElementByJsnumIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach, forEachOld, removeByIndex, getPreStack
+    mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
+    forEachOld, removeByIndex, getPreStack, concat
 }
 /**
  * Generic Types
@@ -459,4 +460,17 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
     return triple(getPreStack(currentStack))
     (result)
     (succ(currentIndex));
+}
+
+const reduceToStack = (acc, curr) => push(acc)(curr);
+
+const concat = s1 => s2 => {
+    if(s1 === emptyStack){
+        return s2;
+    }else if (s2 === emptyStack){
+        return s1;
+    }
+    else {
+        return reduce(pair(reduceToStack)(s1))(s2);
+    }
 }
