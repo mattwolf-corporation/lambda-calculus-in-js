@@ -186,8 +186,8 @@ stackSuite.add("map", assert => {
     const multiplyWith2 = x => x * 2;
     const mapToJsnum = churchNum => jsnum(churchNum);
 
-    const mappedStackWithNumbers = map(stackWithNumbers)(multiplyWith2);
-    const mappedStackWithChurchNumbers = map(stackWithChurchNumbers)(mapToJsnum);
+    const mappedStackWithNumbers = map(multiplyWith2)(stackWithNumbers);
+    const mappedStackWithChurchNumbers = map(mapToJsnum)(stackWithChurchNumbers);
 
     assert.equals(head(mappedStackWithNumbers), 60);
     assert.equals(jsnum(size(mappedStackWithNumbers)), 3);
@@ -203,9 +203,9 @@ stackSuite.add("map", assert => {
 });
 
 stackSuite.add("filter", assert => {
-    const filteredStackWithNumbers = filter(stackWithNumbers)(x => x < 35 && x > 2);
-    const filteredStackWithLastNames = map(filter(personStack)(person => person.lastName.startsWith('S')))(person => person.lastName);
-    const filteredStackWithIncome = filter(personStack)(person => person.income > 5000);
+    const filteredStackWithNumbers = filter(x => x < 35 && x > 2)(stackWithNumbers);
+    const filteredStackWithLastNames = map(person => person.lastName)(filter(person => person.lastName.startsWith('S'))(personStack));
+    const filteredStackWithIncome = filter(person => person.income > 5000)(personStack);
 
 
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);

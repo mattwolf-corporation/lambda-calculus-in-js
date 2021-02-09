@@ -295,10 +295,10 @@ const reduceIteration = argsTriple => {
  * A function that takes a stack and a map function.
  * The function returns the mapped stack
  *
- * @param {stack} s
+ * @param {stack} s TODO: Doku anpassen !!
  * @return {function(mapFunction:{function}): stack / pair } stack / pair
  */
-const map = s => mapFunction => {
+const map = mapFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
 
@@ -323,10 +323,10 @@ const map = s => mapFunction => {
  * A function that accepts a stack and a filter function.
  * The function returns the filtered stack
  *
- * @param {stack} s
+ * @param {stack} s TODO: Doku anpassen !!
  * @return {function(filterFunction:{function}): stack / pair } stack / pair
  */
-const filter = s => filterFunction => {
+const filter = filterFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
 
