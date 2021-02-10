@@ -1,7 +1,7 @@
 import {TestSuite} from "../test.js";
 
 import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, If, pair, triple, showPair, mapPair,
-    convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../src/lambda-calculus-library/lambda-calculus.js";
+    convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple, convertJsBoolToChurchBool} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsnum, churchAddition, churchSubtraction} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
@@ -215,6 +215,14 @@ lambdaCTest.add("third of triple", assert => {
     assert.equals(thirdOfTriple(5)(4)(id), id);
     assert.equals(thirdOfTriple(2)(1)(id(testObject)), testObject);
     assert.equals(thirdOfTriple(2)({name: "test"})(testArray), testArray);
+});
+
+lambdaCTest.add("convertJsBoolToChurchBool", assert => {
+    const r1 = convertJsBoolToChurchBool(true);
+    const r2 = convertJsBoolToChurchBool(false);
+
+    assert.churchBooleanEquals(r1, True);
+    assert.churchBooleanEquals(r2, False);
 });
 
 lambdaCTest.report();

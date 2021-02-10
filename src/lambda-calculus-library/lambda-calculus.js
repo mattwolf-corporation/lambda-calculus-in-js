@@ -27,7 +27,8 @@ export {
     pair,
     triple,
     mapPair,
-    showPair
+    showPair,
+    convertJsBoolToChurchBool
 }
 
 /**
@@ -216,6 +217,8 @@ const showBoolean = b => b("True")("False");
  * convertToJsBool(False) === false;
  */
 const convertToJsBool = b => b(true)(false);
+
+const convertJsBoolToChurchBool = b => b ? True : False;
 
 /**
  * x -> y -> f -> f(x)(y) ; Pair

@@ -1,22 +1,18 @@
-import {TestSuite, PerformanceTest} from "../test.js";
+import {PerformanceTest, TestSuite} from "../test.js";
 
 import {
-    id,
     beq,
-    True,
-    False,
-    showBoolean as show,
     convertToJsBool,
-    pair,
-    triple,
+    False,
     fst,
+    id,
+    pair,
     snd,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple,
-    not
+    True
 } from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {
+    churchAddition,
+    jsnum,
     n0,
     n1,
     n2,
@@ -24,23 +20,38 @@ import {
     n4,
     n5,
     n6,
-    n7,
     n8,
-    n9,
-    pred,
-    succ,
-    jsnum,
-    is0,
-    churchAddition
+    n9
 } from '../../src/lambda-calculus-library/church-numerals.js';
 import {
-    stack, stackIndex, stackPredecessor, stackValue, emptyStack,
-    hasPre, push, pop, head, size, reduce, filter, map,
-    getElementByIndex, logStackToConsole,
-    startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack,
-    forEach, forEachOld, removeByIndex, concat, flatten, zip,
-    zipWith, zipWithOneLiner
+    concat,
+    convertArrayToStack,
+    convertStackToArray,
+    emptyStack,
+    filter,
+    filterWithReduce,
+    flatten,
+    forEach,
+    forEachOld,
+    getElementByIndex,
+    getElementByJsnumIndex,
+    hasPre,
+    head,
+    map,
+    mapWithReduce,
+    pop,
+    push,
+    pushToStack,
+    reduce,
+    removeByIndex,
+    reverseStack,
+    size,
+    stackEquals,
+    stackPredecessor,
+    startStack,
+    zip,
+    zipWith,
+    zipWithOneLiner
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -161,13 +172,13 @@ stackSuite.add("getElementByIndex", assert => {
 });
 
 stackSuite.add("getElementByIndexJs", assert => {
-    assert.equals(getElementByIndex(stackWithNumbers)(0), id);
-    assert.equals(getElementByIndex(stackWithNumbers)(1), 0);
-    assert.equals(getElementByIndex(stackWithNumbers)(2), 1);
-    assert.equals(getElementByIndex(stackWithNumbers)(3), 2);
-    assert.equals(getElementByIndex(stackWithNumbers)(4), 33);
-    assert.equals(getElementByIndex(stackWithNumbers)(5), 34);
-    assert.equals(getElementByIndex(stackWithNumbers)(6), 35);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(0), id);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(1), 0);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(2), 1);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(3), 2);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(4), 33);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(5), 34);
+    assert.equals(getElementByJsnumIndex(stackWithNumbers)(6), 35);
 });
 
 stackSuite.add("reduce", assert => {
@@ -215,13 +226,13 @@ stackSuite.add("filter", assert => {
 
 
     assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
-    assert.equals(getElementByIndex(filteredStackWithNumbers)(0), id);
-    assert.equals(getElementByIndex(filteredStackWithNumbers)(1), 33);
-    assert.equals(getElementByIndex(filteredStackWithNumbers)(2), 34);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(1), 33);
+    assert.equals(getElementByJsnumIndex(filteredStackWithNumbers)(2), 34);
     assert.equals(jsnum(size(filteredStackWithLastNames)), 2);
-    assert.equals(getElementByIndex(filteredStackWithLastNames)(0), id);
-    assert.equals(getElementByIndex(filteredStackWithLastNames)(1), "Skywalker");
-    assert.equals(getElementByIndex(filteredStackWithLastNames)(2), "Solo");
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(1), "Skywalker");
+    assert.equals(getElementByJsnumIndex(filteredStackWithLastNames)(2), "Solo");
     assert.equals(jsnum(size(filteredStackWithIncome)), 0);
     assert.equals(head(filteredStackWithIncome), id);
     assert.equals(filteredStackWithIncome(stackPredecessor), id);
@@ -231,39 +242,39 @@ stackSuite.add("filter", assert => {
 stackSuite.add("startStack", assert => {
     const result = startStack(pushToStack)(2)(pushToStack)(3)(pushToStack)(4)(id);
 
-    assert.equals(getElementByIndex(result)(0), id);
-    assert.equals(getElementByIndex(result)(1), 2);
-    assert.equals(getElementByIndex(result)(2), 3);
-    assert.equals(getElementByIndex(result)(3), 4);
+    assert.equals(getElementByJsnumIndex(result)(0), id);
+    assert.equals(getElementByJsnumIndex(result)(1), 2);
+    assert.equals(getElementByJsnumIndex(result)(2), 3);
+    assert.equals(getElementByJsnumIndex(result)(3), 4);
     assert.equals(jsnum(size(result)), 3);
 });
 
 stackSuite.add("reverse stack", assert => {
     const reversedStack = reverseStack(nonEmptyStack);
 
-    assert.equals(getElementByIndex(reversedStack)(0), id);
-    assert.equals(getElementByIndex(reversedStack)(1), 2);
-    assert.equals(getElementByIndex(reversedStack)(2), 1);
-    assert.equals(getElementByIndex(reversedStack)(3), 0);
+    assert.equals(getElementByJsnumIndex(reversedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(reversedStack)(1), 2);
+    assert.equals(getElementByJsnumIndex(reversedStack)(2), 1);
+    assert.equals(getElementByJsnumIndex(reversedStack)(3), 0);
     assert.equals(jsnum(size(reversedStack)), 3);
 });
 
 stackSuite.add("filter with reduce-function", assert => {
     const filteredStack = filterWithReduce(x => x >= 2 && x < 34)(stackWithNumbers);
 
-    assert.equals(getElementByIndex(filteredStack)(0), id);
-    assert.equals(getElementByIndex(filteredStack)(1), 2);
-    assert.equals(getElementByIndex(filteredStack)(2), 33);
+    assert.equals(getElementByJsnumIndex(filteredStack)(0), id);
+    assert.equals(getElementByJsnumIndex(filteredStack)(1), 2);
+    assert.equals(getElementByJsnumIndex(filteredStack)(2), 33);
     assert.equals(jsnum(size(filteredStack)), 2);
 });
 
 stackSuite.add("map with reduce-function", assert => {
     const mappedStack = mapWithReduce(x => x * 3)(nonEmptyStack);
 
-    assert.equals(getElementByIndex(mappedStack)(0), id);
-    assert.equals(getElementByIndex(mappedStack)(1), 0);
-    assert.equals(getElementByIndex(mappedStack)(2), 3);
-    assert.equals(getElementByIndex(mappedStack)(3), 6);
+    assert.equals(getElementByJsnumIndex(mappedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(mappedStack)(1), 0);
+    assert.equals(getElementByJsnumIndex(mappedStack)(2), 3);
+    assert.equals(getElementByJsnumIndex(mappedStack)(3), 6);
     assert.equals(jsnum(size(mappedStack)), 3);
 });
 
@@ -278,10 +289,16 @@ stackSuite.add("convert array to stack", assert => {
     const result = convertArrayToStack([1, 2, 3]);
 
     assert.equals(jsnum(size(result)), 3);
-    assert.equals(getElementByIndex(result)(0), id);
-    assert.equals(getElementByIndex(result)(1), 1);
-    assert.equals(getElementByIndex(result)(2), 2);
-    assert.equals(getElementByIndex(result)(3), 3);
+    assert.equals(getElementByJsnumIndex(result)(0), id);
+    assert.equals(getElementByJsnumIndex(result)(1), 1);
+    assert.equals(getElementByJsnumIndex(result)(2), 2);
+    assert.equals(getElementByJsnumIndex(result)(3), 3);
+
+    const result2 = convertArrayToStack([]);
+
+    assert.equals(jsnum(size(result2)), 0);
+    assert.equals(getElementByJsnumIndex(result2)(0), id);
+    assert.equals(result2, emptyStack);
 });
 
 stackSuite.add("for / foreach loop - stack implementation", assert => {
@@ -370,19 +387,19 @@ stackSuite.add("concat", assert => {
     assert.equals(result1, result2);
 
     assert.equals(jsnum(size(result1)), 2);
-    assert.equals(getElementByIndex(result1)(0), id);
-    assert.equals(getElementByIndex(result1)(1), "Hello");
-    assert.equals(getElementByIndex(result1)(2), "Haskell");
+    assert.equals(getElementByJsnumIndex(result1)(0), id);
+    assert.equals(getElementByJsnumIndex(result1)(1), "Hello");
+    assert.equals(getElementByJsnumIndex(result1)(2), "Haskell");
 
     // normal concat test
     const result3 = concat(elements)(elements2);
 
     assert.equals(jsnum(size(result3)), 4);
-    assert.equals(getElementByIndex(result3)(0), id);
-    assert.equals(getElementByIndex(result3)(1), "Hello");
-    assert.equals(getElementByIndex(result3)(2), "Haskell");
-    assert.equals(getElementByIndex(result3)(3), "World");
-    assert.equals(getElementByIndex(result3)(4), "Random");
+    assert.equals(getElementByJsnumIndex(result3)(0), id);
+    assert.equals(getElementByJsnumIndex(result3)(1), "Hello");
+    assert.equals(getElementByJsnumIndex(result3)(2), "Haskell");
+    assert.equals(getElementByJsnumIndex(result3)(3), "World");
+    assert.equals(getElementByJsnumIndex(result3)(4), "Random");
 
     const s1 = convertArrayToStack([1, 2]);
     const s2 = convertArrayToStack([3, 4]);
@@ -393,22 +410,22 @@ stackSuite.add("concat", assert => {
     const r2 = concat(s1)(concat(s2)(s3));  // s1 (+) ( s2 (+) s3 )
 
     assert.equals(jsnum(size(r1)), 6);
-    assert.equals(getElementByIndex(r1)(0), id);
-    assert.equals(getElementByIndex(r1)(1), 1);
-    assert.equals(getElementByIndex(r1)(2), 2);
-    assert.equals(getElementByIndex(r1)(3), 3);
-    assert.equals(getElementByIndex(r1)(4), 4);
-    assert.equals(getElementByIndex(r1)(5), 5);
-    assert.equals(getElementByIndex(r1)(6), 6);
+    assert.equals(getElementByJsnumIndex(r1)(0), id);
+    assert.equals(getElementByJsnumIndex(r1)(1), 1);
+    assert.equals(getElementByJsnumIndex(r1)(2), 2);
+    assert.equals(getElementByJsnumIndex(r1)(3), 3);
+    assert.equals(getElementByJsnumIndex(r1)(4), 4);
+    assert.equals(getElementByJsnumIndex(r1)(5), 5);
+    assert.equals(getElementByJsnumIndex(r1)(6), 6);
 
     assert.equals(jsnum(size(r2)), 6);
-    assert.equals(getElementByIndex(r2)(0), id);
-    assert.equals(getElementByIndex(r2)(1), 1);
-    assert.equals(getElementByIndex(r2)(2), 2);
-    assert.equals(getElementByIndex(r2)(3), 3);
-    assert.equals(getElementByIndex(r2)(4), 4);
-    assert.equals(getElementByIndex(r2)(5), 5);
-    assert.equals(getElementByIndex(r2)(6), 6);
+    assert.equals(getElementByJsnumIndex(r2)(0), id);
+    assert.equals(getElementByJsnumIndex(r2)(1), 1);
+    assert.equals(getElementByJsnumIndex(r2)(2), 2);
+    assert.equals(getElementByJsnumIndex(r2)(3), 3);
+    assert.equals(getElementByJsnumIndex(r2)(4), 4);
+    assert.equals(getElementByJsnumIndex(r2)(5), 5);
+    assert.equals(getElementByJsnumIndex(r2)(6), 6);
 });
 
 stackSuite.add("flatten", assert => {
@@ -419,21 +436,21 @@ stackSuite.add("flatten", assert => {
     const stackWithStacks = convertArrayToStack([s1, s2, s3]);
 
     assert.equals(jsnum(size(stackWithStacks)), 3);
-    assert.equals(getElementByIndex(stackWithStacks)(0), id);
-    assert.equals(getElementByIndex(stackWithStacks)(1), s1);
-    assert.equals(getElementByIndex(stackWithStacks)(2), s2);
-    assert.equals(getElementByIndex(stackWithStacks)(3), s3);
+    assert.equals(getElementByJsnumIndex(stackWithStacks)(0), id);
+    assert.equals(getElementByJsnumIndex(stackWithStacks)(1), s1);
+    assert.equals(getElementByJsnumIndex(stackWithStacks)(2), s2);
+    assert.equals(getElementByJsnumIndex(stackWithStacks)(3), s3);
 
     const r1 = flatten(stackWithStacks);
 
     assert.equals(jsnum(size(r1)), 6);
-    assert.equals(getElementByIndex(r1)(0), id);
-    assert.equals(getElementByIndex(r1)(1), 1);
-    assert.equals(getElementByIndex(r1)(2), 2);
-    assert.equals(getElementByIndex(r1)(3), 3);
-    assert.equals(getElementByIndex(r1)(4), 4);
-    assert.equals(getElementByIndex(r1)(5), 5);
-    assert.equals(getElementByIndex(r1)(6), 6);
+    assert.equals(getElementByJsnumIndex(r1)(0), id);
+    assert.equals(getElementByJsnumIndex(r1)(1), 1);
+    assert.equals(getElementByJsnumIndex(r1)(2), 2);
+    assert.equals(getElementByJsnumIndex(r1)(3), 3);
+    assert.equals(getElementByJsnumIndex(r1)(4), 4);
+    assert.equals(getElementByJsnumIndex(r1)(5), 5);
+    assert.equals(getElementByJsnumIndex(r1)(6), 6);
 });
 
 stackSuite.add("zip", assert => {
@@ -443,9 +460,9 @@ stackSuite.add("zip", assert => {
     const zippedStack = zip(s1)(s2);
 
     assert.equals(jsnum(size(zippedStack)), 2);
-    assert.equals(getElementByIndex(zippedStack)(0), id);
-    assert.pairEquals(getElementByIndex(zippedStack)(1), pair(1)(3));
-    assert.pairEquals(getElementByIndex(zippedStack)(2), pair(2)(4));
+    assert.equals(getElementByJsnumIndex(zippedStack)(0), id);
+    assert.pairEquals(getElementByJsnumIndex(zippedStack)(1), pair(1)(3));
+    assert.pairEquals(getElementByJsnumIndex(zippedStack)(2), pair(2)(4));
 
     const s3 = convertArrayToStack([1, 2]);
     const s4 = convertArrayToStack([3]);
@@ -453,8 +470,8 @@ stackSuite.add("zip", assert => {
     const zippedStack2 = zip(s3)(s4);
 
     assert.equals(jsnum(size(zippedStack2)), 1);
-    assert.equals(getElementByIndex(zippedStack2)(0), id);
-    assert.pairEquals(getElementByIndex(zippedStack2)(1), pair(1)(3));
+    assert.equals(getElementByJsnumIndex(zippedStack2)(0), id);
+    assert.pairEquals(getElementByJsnumIndex(zippedStack2)(1), pair(1)(3));
 
     const s5 = convertArrayToStack([2]);
     const s6 = convertArrayToStack([4, 5]);
@@ -462,8 +479,8 @@ stackSuite.add("zip", assert => {
     const zippedStack3 = zip(s5)(s6);
 
     assert.equals(jsnum(size(zippedStack3)), 1);
-    assert.equals(getElementByIndex(zippedStack3)(0), id);
-    assert.pairEquals(getElementByIndex(zippedStack3)(1), pair(2)(4));
+    assert.equals(getElementByJsnumIndex(zippedStack3)(0), id);
+    assert.pairEquals(getElementByJsnumIndex(zippedStack3)(1), pair(2)(4));
 });
 
 stackSuite.add("zipWith", assert => {
@@ -474,10 +491,10 @@ stackSuite.add("zipWith", assert => {
     const zippedStack = zipWith(add)(s1)(s2);
 
     assert.equals(jsnum(size(zippedStack)), 3);
-    assert.equals(getElementByIndex(zippedStack)(0), id);
-    assert.equals(getElementByIndex(zippedStack)(1), 5);
-    assert.equals(getElementByIndex(zippedStack)(2), 7);
-    assert.equals(getElementByIndex(zippedStack)(3), 9);
+    assert.equals(getElementByJsnumIndex(zippedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack)(1), 5);
+    assert.equals(getElementByJsnumIndex(zippedStack)(2), 7);
+    assert.equals(getElementByJsnumIndex(zippedStack)(3), 9);
 
     const s3 = convertArrayToStack([1, 2]);
     const s4 = convertArrayToStack([3]);
@@ -485,8 +502,8 @@ stackSuite.add("zipWith", assert => {
     const zippedStack2 = zipWith(add)(s3)(s4);
 
     assert.equals(jsnum(size(zippedStack2)), 1);
-    assert.equals(getElementByIndex(zippedStack2)(0), id);
-    assert.equals(getElementByIndex(zippedStack2)(1), 4);
+    assert.equals(getElementByJsnumIndex(zippedStack2)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack2)(1), 4);
 
     const s5 = convertArrayToStack([2]);
     const s6 = convertArrayToStack([4, 5]);
@@ -494,8 +511,8 @@ stackSuite.add("zipWith", assert => {
     const zippedStack3 = zipWith(add)(s5)(s6);
 
     assert.equals(jsnum(size(zippedStack3)), 1);
-    assert.equals(getElementByIndex(zippedStack3)(0), id);
-    assert.equals(getElementByIndex(zippedStack3)(1), 6);
+    assert.equals(getElementByJsnumIndex(zippedStack3)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack3)(1), 6);
 });
 
 stackSuite.add("zipWithOneLiner", assert => {
@@ -506,10 +523,10 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack = zipWithOneLiner(add)(s1)(s2);
 
     assert.equals(jsnum(size(zippedStack)), 3);
-    assert.equals(getElementByIndex(zippedStack)(0), id);
-    assert.equals(getElementByIndex(zippedStack)(1), 5);
-    assert.equals(getElementByIndex(zippedStack)(2), 7);
-    assert.equals(getElementByIndex(zippedStack)(3), 9);
+    assert.equals(getElementByJsnumIndex(zippedStack)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack)(1), 5);
+    assert.equals(getElementByJsnumIndex(zippedStack)(2), 7);
+    assert.equals(getElementByJsnumIndex(zippedStack)(3), 9);
 
     const s3 = convertArrayToStack([1, 2]);
     const s4 = convertArrayToStack([3]);
@@ -517,8 +534,8 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack2 = zipWithOneLiner(add)(s3)(s4);
 
     assert.equals(jsnum(size(zippedStack2)), 1);
-    assert.equals(getElementByIndex(zippedStack2)(0), id);
-    assert.equals(getElementByIndex(zippedStack2)(1), 4);
+    assert.equals(getElementByJsnumIndex(zippedStack2)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack2)(1), 4);
 
     const s5 = convertArrayToStack([2]);
     const s6 = convertArrayToStack([4, 5]);
@@ -526,8 +543,48 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack3 = zipWithOneLiner(add)(s5)(s6);
 
     assert.equals(jsnum(size(zippedStack3)), 1);
-    assert.equals(getElementByIndex(zippedStack3)(0), id);
-    assert.equals(getElementByIndex(zippedStack3)(1), 6);
+    assert.equals(getElementByJsnumIndex(zippedStack3)(0), id);
+    assert.equals(getElementByJsnumIndex(zippedStack3)(1), 6);
+});
+
+stackSuite.add("stackEquals", assert => {
+    const s1 = convertArrayToStack([1, 2, 3]);
+    const s2 = convertArrayToStack([1, 2, 4]);
+    const r1 = stackEquals(s1)(s2)
+    assert.churchBooleanEquals(r1, False);
+
+    const s3 = convertArrayToStack([1, 2, 3]);
+    const s4 = convertArrayToStack([1, 2, 3]);
+    const r2 = stackEquals(s3)(s4)
+    assert.churchBooleanEquals(r2, True);
+
+    const s5 = convertArrayToStack([0, 2, 3]);
+    const s6 = convertArrayToStack([1, 2, 3]);
+    const r3 = stackEquals(s5)(s6)
+    assert.churchBooleanEquals(r3, False);
+
+    const r4 = stackEquals(emptyStack)(emptyStack)
+    assert.churchBooleanEquals(r4, True);
+
+    const s9 = convertArrayToStack([0]);
+    const s10 = convertArrayToStack([1]);
+    const r5 = stackEquals(s9)(s10)
+    assert.churchBooleanEquals(r5, False);
+
+    const s11 = convertArrayToStack([1]);
+    const s12 = convertArrayToStack([1]);
+    const r6 = stackEquals(s11)(s12)
+    assert.churchBooleanEquals(r6, True);
+
+    const s13 = convertArrayToStack([1, 2, 3]);
+    const s14 = convertArrayToStack([1, 2]);
+    const r7 = stackEquals(s13)(s14)
+    assert.churchBooleanEquals(r7, False);
+
+    const s15 = convertArrayToStack([1, 2]);
+    const s16 = convertArrayToStack([1, 2, 3]);
+    const r8 = stackEquals(s15)(s16)
+    assert.churchBooleanEquals(r8, False);
 });
 
 stackSuite.report();

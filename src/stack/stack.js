@@ -14,7 +14,7 @@ import {
     thirdOfTriple,
     not,
     and, or,
-    If, Then, Else, K, B
+    If, Then, Else, K, B, convertJsBoolToChurchBool
 } from '../lambda-calculus-library/lambda-calculus.js'
 
 import {
@@ -42,7 +42,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner
+    zipWith, zipWithOneLiner, stackEquals
 }
 
 //  {function(index:*): function(value:*):  function(head:*): function(f:function): ({f: {x y z}}) }
@@ -577,3 +577,36 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 // TODO: zip with empyt stacks ?
 // [a] -> [b] -> [(a, b)]
 const zip = zipWith(pair);
+
+const stackEquals = s1 => s2 => {
+    const size1 = size(s1);
+    const size2 = size(s2);
+
+    const times = size1;
+
+    if(!convertToJsBool(eq(size1)(size2))){
+        return False;
+    }
+
+    const reversedStack1 = reverseStack(s1);
+    const reversedStack2 = reverseStack(s2);
+
+    const compareElements = t => {
+        const s1 = t(firstOfTriple);
+        const s2 = t(secondOfTriple);
+
+        const element1 = head(s1);
+        const element2 = head(s2);
+
+        const result = convertJsBoolToChurchBool(element1 === element2);
+
+        return triple(getPreStack(s1))(getPreStack(s2))(result);
+    }
+
+    const iteration = t =>
+        If(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
+        (Then(compareElements(t)))
+        (Else(t));
+
+    return times(iteration)(triple(reversedStack1)(reversedStack2)(True))(thirdOfTriple);
+}
