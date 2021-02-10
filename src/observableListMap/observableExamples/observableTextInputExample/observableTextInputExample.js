@@ -22,7 +22,7 @@ let inputObservable = InitObservable("")
                             (addListener)(newValueHandler)
                             (addListener)(oldValueHandler)
                             (addListener)(labelSizeHandler)
-                            (addListener)(consoleHandler)
+                            (addListener)(consoleHandler);
 
 // Connect the Observable-Object with the Input-Text-Field
 onInputListener(inputObservable, inputText)

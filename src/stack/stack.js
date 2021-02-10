@@ -71,15 +71,18 @@ export {
  * The second value represents the predecessor stack
  * The third value represents the head ( top value ) of the stack
  *
- * @param x {a}
- * @return { function(y:{b}): function(z:{c}): function(f:{fn}): function(fn x:{a} y:{b} z:{c} ) }
+ * @function
+ * @param {a} x
+ * @return { function(y:b): function(z:c): function(f:function): function(x y z ) }
  */
 const stack = x => y => z => f => f(x)(y)(z);
 
 /**
  * getter function - first of a triple
  *
- * @type {function(*=): function(*): function(*): *}
+ * @function
+ * @type {KI.props|*}
+ * @return
  */
 const stackIndex = firstOfTriple;
 

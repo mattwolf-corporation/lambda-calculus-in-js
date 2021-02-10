@@ -57,7 +57,7 @@ const I = x => x;
  * a -> b -> a ; Kestrel (Constant)
  * @function Konstant
  * @param  {*} x
- * @returns { function(y:*): function(x:a*) } a function that ignores its argument and returns x
+ * @returns { function(y:*): function(x:*) } a function that ignores its argument and returns x
  */
 const K = x => y => x;
 
@@ -65,7 +65,7 @@ const K = x => y => x;
  * x -> y -> y ; Kite
  * @function Kite
  * @param {*} x
- * @returns { function(y:*): function(y:*} a function that returns its argument y
+ * @returns { function(y:*): function(y:*) } a function that returns its argument y
  */
 const KI = x => y => y;
 
@@ -79,7 +79,7 @@ const M = f => f(f);
 
 /**
  * f -> x -> y -> f( x )( y ) ; Cardinal (flip)
- * @function Cestral
+ * @function Cardinal
  * @param  {function} f
  * @returns { function(x:*): function(y:*): function(f:fn   function({ y x }) ) } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
  */
@@ -134,7 +134,7 @@ const Blackbird = f => g => x => y => f( g(x)(y) );
 const False = KI;
 
 /**
- * a -> b -> a ; {churchBoolean} True Church-Boolean
+ * x -> y -> x ; {churchBoolean} True Church-Boolean
  * @function
  * @return K
  */
@@ -172,7 +172,6 @@ const not = C;
  * @returns { function(q:churchBoolean): churchBoolean }  True or False
  */
 const and = p => q => p(q)(False);
-and()()
 
 /**
  * p -> q -> p( True )(q) ; or
@@ -249,7 +248,7 @@ const snd = KI;
  *  x -> y -> z -> f -> f(x)(y)(z) ; Triple
  * @function
  * @param {*} x - firstOfTriple argument of the Triple
- * @returns { function(y:*):  function(z:*): function(f:function): function(f x y z) } - returns a function, that storage three arguments
+ * @returns { function(y:*):  function(z:*): function(f:Function): function({x y z}) } - returns a function, that storage three arguments
  */
 const triple = x => y => z => f => f(x)(y)(z);
 
@@ -296,5 +295,3 @@ const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
  * showPair(testPair) === 'Erster | Zweiter'
  */
 const showPair = p => `${p(fst)} | ${p(snd)}`;
-
-

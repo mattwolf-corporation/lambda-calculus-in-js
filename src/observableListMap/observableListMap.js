@@ -8,15 +8,46 @@ export { InitObservable, addListener, setValue, getValue, removeListenerByKey, r
 
 }
 
-const InitObservable = initVal => Observable(emptyListMap)(initVal)(setValue)(initVal)
+/**
+ * Generic Types
+ * @typedef {function} observable
+ * @typedef {function} observable
+ * @typedef {listMap} listeners
+ */
 
-const Observable = listeners => val => obsFn =>
-        obsFn(listeners)(val)
 
-const setValue = listeners => oldVal => newVal => {
-    forEach(listeners)((listener, _) => (listener(snd))(newVal)(oldVal) )
-    return Observable(listeners)(newVal)
+/**
+ * InitObservable - create new Observable incl. the initialValue
+ * @function
+ * @param {*} initialValue
+ * @return {observable} - a Observable with an emptyListMap & the InitialValue
+ */
+const InitObservable = initialValue => Observable(emptyListMap)(initialValue)(setValue)(initialValue)
+
+
+/**
+ * Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
+ * @function
+ * @param {function} listeners
+ * @return {function(value:*): function(obsFn:function): *}
+ * @constructor
+ */
+const Observable = listeners => value => obsFn =>
+        obsFn(listeners)(value)
+
+
+/**
+ * setValue - set the new value for all
+ * @function
+ * @param {function} listeners
+ * @return {function(oldValue:*): function(newValue:*): function(Function) : Observable}
+ */
+const setValue = listeners => oldValue => newValue => {
+    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue) )
+    return Observable(listeners)(newValue)
 }
+
+setValue()()()
 
 const addListener = listeners => val => newListener =>
     Observable( push(listeners) (newListener) ) (val)
