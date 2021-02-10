@@ -80,7 +80,7 @@ const M = f => f(f);
 /**
  * f -> x -> y -> f( x )( y ) ; Cardinal (flip)
  * @function Cardinal
- * @param  {function} f
+ * @param  {churchBoolean} f
  * @returns { function(x:*): function(y:*): function(f:fn   function({ y x }) ) } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
  */
 const C = f => x => y => f(y)(x);
@@ -89,7 +89,7 @@ const C = f => x => y => f(y)(x);
  * f -> g -> x -> f( g( x ) ) ; Bluebird (Function composition)
  * @function Bluebird
  * @param {function} f
- * @returns { function(g:function): function(x:*):  function({ f:  function({ g:x }) }) } two-fold self-application composition
+ * @returns { function(g:function): function(x:*):  {f: { g:{x} } } } two-fold self-application composition
  *
  * @example
  * B(id)(id)(n7) === n7
@@ -98,22 +98,24 @@ const C = f => x => y => f(y)(x);
  */
 const B = f => g => x => f(g(x));
 
+
 /**
  * x -> f -> f( x ) ; Thrush (hold an argument)
  * @function Thrush
  * @param {*} x
- * @returns { function(f:function): function(f x ) } self-application with holden argument
+ * @returns { function(f:function): {f: {x} } } self-application with holden argument
  */
 const T = x => f => f(x);
 
 
 /**
- * x -> y -> f -> f(x)(y) ; Vireo (hold pair of args)
+ * x -> y -> f -> f (x)(y) ; Vireo (hold pair of args)
  * @function Viral
  * @param {*} x
- * @returns { function(y:*): function(f:function): function(fn x y ) }
+ * @returns { function(y:*): function(f:function): {f: {x y} } }
  */
 const V = x => y => f => f(x)(y);
+
 
 /**
  * f -> g -> x -> y -> f( g(x)(y) ) ; Blackbird (Function composition with two args)
@@ -124,7 +126,7 @@ const V = x => y => f => f(x)(y);
  * Blackbird(x => x)(x => y => x + y)(2)(3)     === 5
  * Blackbird(x => x * 2)(x => y => x + y)(2)(3) === 10
  */
-const Blackbird = f => g => x => y => f( g(x)(y) );
+const Blackbird = f => g => x => y => f(g(x)(y));
 
 /**
  * x -> y -> y ; {churchBoolean} False Church-Boolean
@@ -218,17 +220,15 @@ const convertToJsBool = b => b(true)(false);
 /**
  * x -> y -> f -> f(x)(y) ; Pair
  * @function pair
- * @type {V.props|*}
  * @param {*} x:  firstOfPair argument of the pair
- * @returns { function(y:*): function(f:function): function(fn x y ) } - returns a function, that store two value
+ * @returns { function(y:*): function(f:function): {f: {x y} } } - returns a function, that store two value
  */
 const pair = V;
 
 /**
  * fst ; Get first value of Pair
  * @function fst
- * @type {K.props|*}
- * @return pair first stored value
+ * @return {function(x:*): function(y:*): x} - pair first stored value
  * @example
  * pair(n2)(n5)(fst) === n2
  */
@@ -237,27 +237,30 @@ const fst = K;
 /**
  * snd ; Get second value of Pair
  * @function snd
- * @type {KI.props|*}
- * @return pair second stored value
+ * @return {function(x:*): function(y:*): y} - pair second stored value
  * @example
  * pair(n2)(n5)(snd) === n5
  */
 const snd = KI;
 
+
 /**
  *  x -> y -> z -> f -> f(x)(y)(z) ; Triple
  * @function
  * @param {*} x - firstOfTriple argument of the Triple
- * @returns { function(y:*):  function(z:*): function(f:Function): function({x y z}) } - returns a function, that storage three arguments
+ * @return { function(y:*):  function(z:*): function(f:function): {f: {x y z}} } - returns a function, that storage three arguments
  */
 const triple = x => y => z => f => f(x)(y)(z);
 
-
 /**
+ * firstOfTriple :: a -> b -> c -> a
+ *
  * x -> y -> z -> x ; firstOfTriple
  * @function
  * @param {*} x
- * @return { function(y:*): function(z:*): x } x
+ * @return { function(y:*): function(z:*): x } - x
+ * @example
+ * triple(1)(2)(3)(firstOfTriple) === 1
  */
 const firstOfTriple = x => y => z => x;
 
@@ -265,23 +268,30 @@ const firstOfTriple = x => y => z => x;
  * x -> y -> z -> y ; secondOfTriple
  * @function
  * @param {a} x
- * @return { function(y:*): function(z:*): y } y
+ * @return { function(y:*): function(z:*): y } - y
+ * @example
+ * triple(1)(2)(3)(firstOfTriple) === 2
  */
 const secondOfTriple = x => y => z => y;
 
 /**
- * x -> y -> z -> i ; thirdOfTriple
+ * x -> y -> z -> z ; thirdOfTriple
  * @function
  * @param {*} x
- * @return { function(y:*): function(z:*): z }  z
+ * @return { function(y:*): function(z:*): z } - z
+ * @example
+ * triple(1)(2)(3)(firstOfTriple) === 3
  */
 const thirdOfTriple = x => y => z => z;
 
 /**
- * mapPair
+ * function -> pair -> pair
  * @function
  * @param {function} f
- * @return {function(p:pair): pair} new mapped pair
+ * @return {function(pair): function(Function): {f: {x, y}}} new mapped pair
+ * @example
+ * mapPair( x => x+3 )( pair(1)(2) ) === pair(4)(5)
+ * mapPair( x => x + "!!!" )( pair("Yes")("No") ) === pair("Yes!!!")("No!!!")
  */
 const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
 

@@ -47,8 +47,6 @@ const setValue = listeners => oldValue => newValue => {
     return Observable(listeners)(newValue)
 }
 
-setValue()()()
-
 const addListener = listeners => val => newListener =>
     Observable( push(listeners) (newListener) ) (val)
 

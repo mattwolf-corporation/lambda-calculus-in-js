@@ -44,26 +44,24 @@ export {
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
     zipWith, zipWithOneLiner
 }
+
+//  {function(index:*): function(value:*):  function(head:*): function(f:function): ({f: {x y z}}) }
+
+
 /**
  * Generic Types
  * @typedef {*} a
  * @typedef {*} b
- * @typedef {*} c
- * @typedef {(a|b|c)} abc
- * @typedef {function} fn
- * @typedef {function} gn
- * @typedef {function} pn
- * @typedef {function} qn
- * @typedef {function} boolean
  * @typedef {function} pair
  * @typedef {function} churchBoolean
  * @typedef {function} churchNumber
  * @typedef {function} stack
  * @typedef {number} JsNumber
- * @typedef {*} number
  */
 
 /**
+ * index -> predecessor -> value -> f -> f(index)(predecessor)(head) ; Triple
+ *
  * The stack is a pure functional data structure and is therefore immutable.
  * The stack is implemented as a triplet.
  * The first value of the triple represents the size (number of elements) of the stack.
@@ -71,36 +69,11 @@ export {
  * The second value represents the predecessor stack
  * The third value represents the head ( top value ) of the stack
  *
- * @function
- * @param {a} x
- * @return { function(y:b): function(z:c): function(f:function): function(x y z ) }
+ * @function stack
+ * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
+ * @return {triple} stack as triple
  */
-const stack = x => y => z => f => f(x)(y)(z);
-
-/**
- * getter function - first of a triple
- *
- * @function
- * @type {KI.props|*}
- * @return
- */
-const stackIndex = firstOfTriple;
-
-/**
- * getter function - second of a triple
- *
- * @type {function(*): function(*): function(*): *}
- */
-const stackPredecessor = secondOfTriple;
-
-
-/**
- * getter function - third of a triple
- *
- * @type {function(*): function(*): function(*): *}
- */
-const stackValue = thirdOfTriple;
-
+const stack = triple;
 
 /**
  * Representation of the empty stack
@@ -108,36 +81,86 @@ const stackValue = thirdOfTriple;
  * The empty stack has no predecessor stack, but the identity function as placeholder.
  * The empty stack has no head ( top value ), but the identity function as placeholder.
  *
- * @type {function({fn}): function(fn, {a}, {b}, {c})}
+ * @type {function(Function): {f: {index, predecessor, head}}}
  */
 const emptyStack = stack(n0)(id)(id);
 
+
 /**
- * A function that takes a stack
- * The function returns a church-boolean, which indicates whether the stack has a predecessor stack
+ * @haskell stackIndex :: a -> b -> c -> a
  *
+ * stack getter function - get the Index (first of a triple)
+ *
+ * @function stackIndex
+ * @return {churchNumber} index/size
+ * @example
+ * stack(n0)(emptyStack)(42)(stackIndex) === n0
+ */
+const stackIndex = firstOfTriple;
+
+/**
+ * @haskell stackPredecessor :: a -> b -> c -> b
+ *
+ * stack getter function - get the Predecessor (second of a triple)
+ *
+ * @function stackPredecessor
+ * @return {stack|id} predecessor stack or id if emptyStack
+ * @example
+ * stack(n0)(emptyStack)(42)(stackPredecessor) === emptyStack
+ */
+const stackPredecessor = secondOfTriple;
+
+
+/**
+ * @haskell stackValue :: a -> b -> c -> c
+ *
+ * stack getter function - get the Value (third of a triple)
+ *
+ * @function stackValue
+ * @return {*} value
+ * @example
+ * stack(n0)(emptyStack)(42)(stackValue) === 42
+ */
+const stackValue = thirdOfTriple;
+
+
+/**
+ * @haskell: hasPre :: a -> churchBoolean
+ *
+ * A function that takes a stack and returns a church-boolean, which indicates whether the stack has a predecessor stack
+ *
+ * @function hasPredecessor
  * @param {stack} s
  * @return {churchBoolean} churchBoolean
  */
 const hasPre = s => not(is0(s(stackIndex)));
 
-
 /**
- * Todo: getPreStack Docu
+ * @haskell getPreStack :: stack -> stack
+ *
+ * A function that takes a stack and returns the predecessor stack
+ *
+ * @function getPredecessorStack
+ * @param {stack} s
+ * @return {stack} predecessor of that stack
  */
 const getPreStack = s => s(stackPredecessor)
 
 
 /**
+ * @haskell push :: stack -> a -> stack
+ *
  * A function that takes a stack and a value
  * The function returns a new stack with the pushed value
  *
  * @param {stack} s
- * @return { function(x:{a}): stack } stack with value x
+ * @return {stack} stack with value x
  */
-const push = s => x => stack(succ(s(stackIndex)))(s)(x);
+const push = s => stack(succ(s(stackIndex)))(s);
 
 /**
+ * @haskell pop :: stack -> pair
+ *
  * A function that takes a stack
  * The function returns a value pair.
  * The first element of the pair is the predecessor stack.
@@ -149,31 +172,40 @@ const push = s => x => stack(succ(s(stackIndex)))(s)(x);
 const pop = s => pair(s(stackPredecessor))(head(s));
 
 /**
+ * @haskell head :: stack -> a
+ *
  * A function that takes a stack
  * The function returns the head (the top value) of the stack
  *
+ * @function
  * @param {stack} s
  * @return {*} stack-value
  */
 const head = s => s(stackValue);
 
 /**
+ * @haskell size :: stack -> churchNumber
+ *
  * A function that takes a stack
  * The function returns the size (number of elements) in the stack
  *
+ * @function
  * @param {stack} s
- * @return {*} stack-index as church numeral
+ * @return {churchNumber} stack-index as church numeral
  */
 const size = s => s(stackIndex);
 
 /**
+ * @haskell reduce :: pair -> stack -> a
+ *
  * A function that takes a stack and argument pair.
  * The first argument of the pair must be a reducer function.
  * The second argument of the pair must be a start value.
  * The function reduces the stack using the passed reduce function and the passed start value
  *
- * @param {stack} s TODO: Doku anpassen !!
- * @return {function(argsPair:{pair}): * } value
+ * @function
+ * @param {pair} argsPair
+ * @return {function(s:stack): function(stack)} reduced value
  */
 const reduce = argsPair => s => {
     const times = size(s);
@@ -190,8 +222,11 @@ const reduce = argsPair => s => {
 
 
 /**
- * TODO: Description for reduceIteration
+ * @haskell reduceIteration :: triple -> a
  *
+ *
+ *
+ * @function
  * @param {triple} argsTriple
  * @return {triple } triple or argsTriple
  */
@@ -218,6 +253,8 @@ const reduceIteration = argsTriple => {
 };
 
 /**
+ * @haskell getElementByIndex :: stack -> churchNumber -> b
+ *
  * A function that takes a stack and an index (as church number)
  * The function returns the element at the passed index
  *
@@ -225,6 +262,13 @@ const reduceIteration = argsTriple => {
  * @return { function(i:{churchNumber}) : * } stack-value
  */
 const getElementByIndex = s => i => {
+    if (typeof i === "number"){
+        return getElementByJsnumIndex(s)(i)
+    }
+    return getElementByChurchNumberIndex(s)(i)
+};
+
+const getElementByChurchNumberIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
     const getStackPredecessor = s => s(stackPredecessor);
 
@@ -523,13 +567,12 @@ const zipWith = f => s1 => s2 => {
 
 // const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
 
-const zipWithOneLiner = f => s1 => s2 => (condition => truthy => falshy => condition(truthy)(falshy))((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
-((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))((x => x)((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => (condition => truthy => falshy => condition(truthy)(falshy))((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((x => x)
-(((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
-(t(x => y => z => y))))))))((x => x)(t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
+const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
+((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
+(t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
 (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
 ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
-(f => a => a)(x => x)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
+(f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 // TODO: zip with empyt stacks ?
 // [a] -> [b] -> [(a, b)]
