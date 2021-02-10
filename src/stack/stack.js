@@ -262,6 +262,7 @@ const reduceIteration = argsTriple => {
  * @return { function(i:{churchNumber}) : * } stack-value
  */
 const getElementByIndex = s => i => {
+    // TODO: NaN is also of Type Number & infinity usw.
     if (typeof i === "number"){
         return getElementByJsnumIndex(s)(i)
     }
