@@ -36,60 +36,60 @@ export {
  * @typedef {*} b
  * @typedef {*} c
  * @typedef {(a|b|c)} abc
- * @typedef {function} fn
- * @typedef {function} gn
- * @typedef {function} pn
- * @typedef {function} qn
- * @typedef {function} boolean
+ * @typedef {*} p
+ * @typedef {*} q
+ * @typedef {*} x
+ * @typedef {*} *
+ * @typedef {*} y
  * @typedef {function} pair
  * @typedef {function} churchBoolean
  */
 
 /**
- * a -> a ; Identity (id)
- * @function I
- * @param   {a} x
- * @returns {a} the Identity {@link a}
+ * x -> x ; Identity (id)
+ * @function Identity
+ * @param   {*} x
+ * @returns {*} the Identity x
  */
 const I = x => x;
 
 /**
  * a -> b -> a ; Kestrel (Constant)
- * @function K
- * @param {a} x
- * @returns { function(y:b): function(x:{a}) } a function that ignores its argument and returns {@link a}
+ * @function Konstant
+ * @param  {*} x
+ * @returns { function(y:*): function(x:a*) } a function that ignores its argument and returns x
  */
 const K = x => y => x;
 
 /**
- * a -> b -> b ; Kite
- * @function KI
- * @param {a} x
- * @returns { function(y:{b}): function(y:{b} } a function that returns its argument {@link a}
+ * x -> y -> y ; Kite
+ * @function Kite
+ * @param {*} x
+ * @returns { function(y:*): function(y:*} a function that returns its argument y
  */
 const KI = x => y => y;
 
 /**
- * fn -> fn( fn ) ; Mockingbird
- * @function M
+ * f -> f( f ) ; Mockingbird
+ * @function Mockingbird
  * @param {fn} f
- * @returns { function(f {fn}) } a self-application combinator
+ * @returns { function({ f:  function({ f }) }) } a self-application combinator
  */
 const M = f => f(f);
 
 /**
- * fn -> a -> b -> fn( b )( a ) ; Cardinal (flip)
- * @function C
- * @param  {fn} f
- * @returns { function(x:{a}): function(y:{b}): function(fn y:{b} x:{a} ) } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
+ * f -> x -> y -> f( x )( y ) ; Cardinal (flip)
+ * @function Cestral
+ * @param  {function} f
+ * @returns { function(x:*): function(y:*): function(f:fn   function({ y x }) ) } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
  */
 const C = f => x => y => f(y)(x);
 
 /**
- * fn -> gn -> a -> fn( gn( a ) ) ; Bluebird (Function composition)
- * @function B
- * @param {fn} f
- * @returns { function(g:{gn}): function(x:{a}):  function({ fn:{ gn:{a} } } ) } two-fold self-application composition
+ * f -> g -> x -> f( g( x ) ) ; Bluebird (Function composition)
+ * @function Bluebird
+ * @param {function} f
+ * @returns { function(g:function): function(x:*):  function({ f:  function({ g:x }) }) } two-fold self-application composition
  *
  * @example
  * B(id)(id)(n7) === n7
@@ -99,44 +99,44 @@ const C = f => x => y => f(y)(x);
 const B = f => g => x => f(g(x));
 
 /**
- * a -> fn -> fn( a ) ; Thrush (hold an argument)
- * @function T
- * @param {a} x
- * @returns { function(f:{fn}): function(f x:{a} ) } self-application with holden argument
+ * x -> f -> f( x ) ; Thrush (hold an argument)
+ * @function Thrush
+ * @param {*} x
+ * @returns { function(f:function): function(f x ) } self-application with holden argument
  */
 const T = x => f => f(x);
 
 
 /**
- * a -> b -> fn -> fn(a)(b) ; Vireo (hold pair of args)
- * @function V
- * @param {a} x
- * @returns { function(y:{b}): function(f:{fn}): function(fn x:{a} y:{b} ) }
+ * x -> y -> f -> f(x)(y) ; Vireo (hold pair of args)
+ * @function Viral
+ * @param {*} x
+ * @returns { function(y:*): function(f:function): function(fn x y ) }
  */
 const V = x => y => f => f(x)(y);
 
 /**
- * fn -> gn -> a -> b -> fn( gn(a)(b) ) ; Blackbird (Function composition with two args)
- * @function Blackbird
- * @param {fn} f
- * @returns { function(g:{gn}): function(x:{a}): function(y:{b}): function({ fn:{gn x:{a} y:{b}} }) }
+ * f -> g -> x -> y -> f( g(x)(y) ) ; Blackbird (Function composition with two args)
+ * @function
+ * @param {function} f
+ * @returns { function(g:function): function(x:*): function(y:*): function({ f:{g: {x y}} }) }
  * @example
  * Blackbird(x => x)(x => y => x + y)(2)(3)     === 5
  * Blackbird(x => x * 2)(x => y => x + y)(2)(3) === 10
  */
-const Blackbird = f => g => x => y => f(g(x)(y));
+const Blackbird = f => g => x => y => f( g(x)(y) );
 
 /**
- * a -> b -> b ; {churchBoolean} False Church-Boolean
- * @function False
- * @type {function(a): function(*): {b}}
+ * x -> y -> y ; {churchBoolean} False Church-Boolean
+ * @function
+ * @return KI
  */
 const False = KI;
 
 /**
  * a -> b -> a ; {churchBoolean} True Church-Boolean
- * @function True
- * @type {K.props|*}
+ * @function
+ * @return K
  */
 const True = K;
 
@@ -153,39 +153,40 @@ const Then = I;
 const Else = I;
 
 /**
- * fn -> a -> b -> fn( b )( a ) ; not
- * @function not
+ * f -> x -> y -> f( x )( y ) ; not
+ * @function
  * @param {churchBoolean} Church-Boolean
  * @returns {churchBoolean} negation of the insert Church-Boolean
  * @example
  * not(True)      === False;
  * not(False)     === True;
  * not(not(True)) === True;
- * @type {function(fn): function(*=): function(*=): *}
+ * @return Cestral
  */
 const not = C;
 
 /**
- * pn -> qn -> pn( qn )(False) ; and
- * @function and
- * @param {pn} p
- * @returns { function(q:{qn}): {churchBoolean} } True or False
+ * p -> q -> p( q )(False) ; and
+ * @function
+ * @param {churchBoolean} p
+ * @returns { function(q:churchBoolean): churchBoolean }  True or False
  */
 const and = p => q => p(q)(False);
+and()()
 
 /**
- * pn -> qn -> pn( True )(q) ; or
- * @function or
- * @param {pn} p
- * @returns { function(q:{qn}): {churchBoolean} } True or False
+ * p -> q -> p( True )(q) ; or
+ * @function
+ * @param {churchBoolean} p
+ * @returns { function(q:churchBoolean): churchBoolean }  True or False
  */
 const or = p => q => p(True)(q);
 
 /**
- * pn -> qn -> pn( qn )(not( qn)) ; beq (ChurchBoolean-Equality)
- * @function beq
- * @param {pn} p
- * @returns { function(q:{qn}): {churchBoolean} } True or False
+ * p -> q -> p( q )( not(qn) ) ; beq (ChurchBoolean-Equality)
+ * @function
+ * @param {churchBoolean} p
+ * @returns { function( q:churchBoolean): churchBoolean }  True or False
  * @example
  * beq(True)(True)   === True;
  * beq(True)(False)  === False;
@@ -195,9 +196,9 @@ const beq = p => q => p(q)(not(q));
 
 /**
  * b -> b("True")("False") ; showBoolean
- * @function showBoolean
+ * @function
  * @param b {churchBoolean}
- * @return string - "True" or "False"
+ * @return {string} - "True" or "False"
  * @example
  * showBoolean(True)  === "True";
  * showBoolean(False) === "False";
@@ -206,7 +207,7 @@ const showBoolean = b => b("True")("False");
 
 /**
  * b -> b(true)(false) ; convertToJsBool
- * @function convertToJsBool
+ * @function
  * @param b {churchBoolean}
  * @return {boolean} - true or false
  * @example
@@ -216,10 +217,11 @@ const showBoolean = b => b("True")("False");
 const convertToJsBool = b => b(true)(false);
 
 /**
- *  a -> b -> fn -> fn(a)(b) ; Pair
+ * x -> y -> f -> f(x)(y) ; Pair
  * @function pair
- * @param {a} x:  firstOfPair argument of the pair
- * @returns {pair} - returns a function, that store two value
+ * @type {V.props|*}
+ * @param {*} x:  firstOfPair argument of the pair
+ * @returns { function(y:*): function(f:function): function(fn x y ) } - returns a function, that store two value
  */
 const pair = V;
 
@@ -236,7 +238,7 @@ const fst = K;
 /**
  * snd ; Get second value of Pair
  * @function snd
- * @type {function(a): function(*): {b}}
+ * @type {KI.props|*}
  * @return pair second stored value
  * @example
  * pair(n2)(n5)(snd) === n5
@@ -244,49 +246,50 @@ const fst = K;
 const snd = KI;
 
 /**
- *  a -> b -> -> c -> fn -> fn(a)(b)(c) ; Triple
- * @function triple
- * @param {*} x:  firstOfTriple argument of the Triple
- * @returns {function} - returns a function, that storage three arguments
+ *  x -> y -> z -> f -> f(x)(y)(z) ; Triple
+ * @function
+ * @param {*} x - firstOfTriple argument of the Triple
+ * @returns { function(y:*):  function(z:*): function(f:function): function(f x y z) } - returns a function, that storage three arguments
  */
 const triple = x => y => z => f => f(x)(y)(z);
 
+
 /**
- * a -> b -> -> c -> a ; firstOfTriple
- * @function firstOfTriple
- * @param {a} x
- * @return { function(y:{b}): function(z:{c}): a } x
+ * x -> y -> z -> x ; firstOfTriple
+ * @function
+ * @param {*} x
+ * @return { function(y:*): function(z:*): x } x
  */
 const firstOfTriple = x => y => z => x;
 
 /**
- * a -> b -> -> c -> b ; secondOfTriple
- * @function secondOfTriple
+ * x -> y -> z -> y ; secondOfTriple
+ * @function
  * @param {a} x
- * @return { function(y:{b}): function(z:{c}): b } y
+ * @return { function(y:*): function(z:*): y } y
  */
 const secondOfTriple = x => y => z => y;
 
 /**
- * a -> b -> -> c -> b ; thirdOfTriple
- * @function thirdOfTriple
- * @param {a} x
- * @return { function(y:{b}): function(z:{c}): c } z
+ * x -> y -> z -> i ; thirdOfTriple
+ * @function
+ * @param {*} x
+ * @return { function(y:*): function(z:*): z }  z
  */
 const thirdOfTriple = x => y => z => z;
 
 /**
  * mapPair
- * @function mapPair
- * @param f {function}
- * @return {function(p:{pair}): pair} pair
+ * @function
+ * @param {function} f
+ * @return {function(p:pair): pair} new mapped pair
  */
 const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
 
 /**
  * p -> p `${p(fst)} | ${p(snd)} ; showPair
- * @function showPair
- * @param p {pair}
+ * @function
+ * @param {pair} p
  * @return string with first and second value
  * @example
  * const testPair = pair('Erster')('Zweiter');
