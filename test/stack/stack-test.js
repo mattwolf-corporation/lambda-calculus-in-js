@@ -1,22 +1,18 @@
-import {TestSuite, PerformanceTest} from "../test.js";
+import {PerformanceTest, TestSuite} from "../test.js";
 
 import {
-    id,
     beq,
-    True,
-    False,
-    showBoolean as show,
     convertToJsBool,
-    pair,
-    triple,
+    False,
     fst,
+    id,
+    pair,
     snd,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple,
-    not
+    True
 } from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {
+    churchAddition,
+    jsnum,
     n0,
     n1,
     n2,
@@ -24,23 +20,38 @@ import {
     n4,
     n5,
     n6,
-    n7,
     n8,
-    n9,
-    pred,
-    succ,
-    jsnum,
-    is0,
-    churchAddition
+    n9
 } from '../../src/lambda-calculus-library/church-numerals.js';
 import {
-    stack, stackIndex, stackPredecessor, stackValue, emptyStack,
-    hasPre, push, pop, head, size, reduce, filter, map,
-    getElementByIndex, logStackToConsole, getElementByJsnumIndex,
-    startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack,
-    forEach, forEachOld, removeByIndex, concat, flatten, zip,
-    zipWith, zipWithOneLiner
+    concat,
+    convertArrayToStack,
+    convertStackToArray,
+    emptyStack,
+    filter,
+    filterWithReduce,
+    flatten,
+    forEach,
+    forEachOld,
+    getElementByIndex,
+    getElementByJsnumIndex,
+    hasPre,
+    head,
+    map,
+    mapWithReduce,
+    pop,
+    push,
+    pushToStack,
+    reduce,
+    removeByIndex,
+    reverseStack,
+    size,
+    stackEquals,
+    stackPredecessor,
+    startStack,
+    zip,
+    zipWith,
+    zipWithOneLiner
 } from "../../src/stack/stack.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
@@ -282,6 +293,12 @@ stackSuite.add("convert array to stack", assert => {
     assert.equals(getElementByJsnumIndex(result)(1), 1);
     assert.equals(getElementByJsnumIndex(result)(2), 2);
     assert.equals(getElementByJsnumIndex(result)(3), 3);
+
+    const result2 = convertArrayToStack([]);
+
+    assert.equals(jsnum(size(result2)), 0);
+    assert.equals(getElementByJsnumIndex(result2)(0), id);
+    assert.equals(result2, emptyStack);
 });
 
 stackSuite.add("for / foreach loop - stack implementation", assert => {
@@ -528,6 +545,46 @@ stackSuite.add("zipWithOneLiner", assert => {
     assert.equals(jsnum(size(zippedStack3)), 1);
     assert.equals(getElementByJsnumIndex(zippedStack3)(0), id);
     assert.equals(getElementByJsnumIndex(zippedStack3)(1), 6);
+});
+
+stackSuite.add("stackEquals", assert => {
+    const s1 = convertArrayToStack([1, 2, 3]);
+    const s2 = convertArrayToStack([1, 2, 4]);
+    const r1 = stackEquals(s1)(s2)
+    assert.churchBooleanEquals(r1, False);
+
+    const s3 = convertArrayToStack([1, 2, 3]);
+    const s4 = convertArrayToStack([1, 2, 3]);
+    const r2 = stackEquals(s3)(s4)
+    assert.churchBooleanEquals(r2, True);
+
+    const s5 = convertArrayToStack([0, 2, 3]);
+    const s6 = convertArrayToStack([1, 2, 3]);
+    const r3 = stackEquals(s5)(s6)
+    assert.churchBooleanEquals(r3, False);
+
+    const r4 = stackEquals(emptyStack)(emptyStack)
+    assert.churchBooleanEquals(r4, True);
+
+    const s9 = convertArrayToStack([0]);
+    const s10 = convertArrayToStack([1]);
+    const r5 = stackEquals(s9)(s10)
+    assert.churchBooleanEquals(r5, False);
+
+    const s11 = convertArrayToStack([1]);
+    const s12 = convertArrayToStack([1]);
+    const r6 = stackEquals(s11)(s12)
+    assert.churchBooleanEquals(r6, True);
+
+    const s13 = convertArrayToStack([1, 2, 3]);
+    const s14 = convertArrayToStack([1, 2]);
+    const r7 = stackEquals(s13)(s14)
+    assert.churchBooleanEquals(r7, False);
+
+    const s15 = convertArrayToStack([1, 2]);
+    const s16 = convertArrayToStack([1, 2, 3]);
+    const r8 = stackEquals(s15)(s16)
+    assert.churchBooleanEquals(r8, False);
 });
 
 stackSuite.report();
