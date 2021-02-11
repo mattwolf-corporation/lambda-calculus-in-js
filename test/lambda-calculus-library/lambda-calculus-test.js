@@ -122,11 +122,11 @@ lambdaCTest.add("LazyIf", assert => {
 
     const LazyIf = condition => truthy => falshy => (condition(truthy)(falshy))();
 
-    const result = LazyIf(True)
+    const result = () => LazyIf(True)
                         (Then(() => sayName("Peter")))
                         (Else(() => sayName("should not be executed")));
 
-    assert.consoleLogEquals(() => result, "hello: Peter");
+    assert.consoleLogEquals(result, "hello: Peter");
 });
 
 lambdaCTest.add("show boolean", assert => {
