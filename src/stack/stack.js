@@ -14,7 +14,8 @@ import {
     thirdOfTriple,
     not,
     and, or,
-    If, Then, Else, K, B, convertJsBoolToChurchBool
+    If, Then, Else, K, B, convertJsBoolToChurchBool,
+    LazyIf
 } from '../lambda-calculus-library/lambda-calculus.js'
 
 import {
@@ -598,11 +599,11 @@ const stackEquals = s1 => s2 => {
     }
 
     const iteration = t =>
-        If(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
-        (Then(compareElements(t)))
-        (Else(t));
+        LazyIf(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
+            (Then(() => compareElements(t)))
+            (Else(() => t));
 
-    return If(eq(size1)(size2))
-                (Then(times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
-                (Else(False))
+    return LazyIf(eq(size1)(size2))
+                (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
+                (Else(() => False))
 }
