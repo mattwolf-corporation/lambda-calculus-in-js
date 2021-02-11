@@ -126,7 +126,7 @@ lambdaCTest.add("LazyIf", assert => {
                         (Then(() => sayName("Peter")))
                         (Else(() => sayName("should not be executed")));
 
-    assert.consoleLogEquals(result, ["hello: Peter"]);
+    assert.consoleLogEquals(result, "hello: Peter");
 });
 
 lambdaCTest.add("show boolean", assert => {
