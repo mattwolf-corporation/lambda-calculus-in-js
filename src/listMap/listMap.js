@@ -16,6 +16,8 @@ import {
 import {n0} from "../lambda-calculus-library/church-numerals.js";
 import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lambda-calculus.js";
 
+
+
 const listMap = stack
 
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );

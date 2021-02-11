@@ -29,7 +29,7 @@ import {
     snd, Then,
     thirdOfTriple, triple
 } from "../../lambda-calculus-library/lambda-calculus";
-import {eq, jsnum, n1, succ} from "../../lambda-calculus-library/church-numerals";
+import {eq, jsNum, n1, succ} from "../../lambda-calculus-library/church-numerals";
 import {emptyStack, hasPre, head, push, reverseStack, size, stackIndex, stackPredecessor} from "../../stack/stack";
 
 const ObsObject = listeners => obsFn => obsFn(listeners)

@@ -12,7 +12,7 @@ import {
 } from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {
     churchAddition,
-    jsnum,
+    jsNum,
     n0,
     n1,
     n2,
@@ -99,7 +99,7 @@ stackSuite.add("hasPre", assert => {
 stackSuite.add("push", assert => {
     assert.equals(convertToJsBool(hasPre(push(emptyStack)(5))), true);
     assert.equals(head(nonEmptyStack), 2);
-    assert.equals(jsnum(size(nonEmptyStack)), 3);
+    assert.equals(jsNum(size(nonEmptyStack)), 3);
     assert.equals(pop(push(emptyStack)(42))(snd), 42);
 });
 
@@ -108,7 +108,7 @@ stackSuite.add("pop", assert => {
     assert.equals(pop(pop(nonEmptyStack)(fst))(snd), 1);
     assert.equals(pop(pop(pop(nonEmptyStack)(fst))(fst))(snd), 0);
     assert.equals((pop(pop(pop(nonEmptyStack)(fst))(fst))(fst))(snd), id);
-    assert.equals(jsnum(size((pop(nonEmptyStack))(fst))), 2);
+    assert.equals(jsNum(size((pop(nonEmptyStack))(fst))), 2);
 });
 
 stackSuite.add("head", assert => {
@@ -122,9 +122,9 @@ stackSuite.add("size", assert => {
     const nonEmptyStack = push(push(emptyStack)(0))(1);
 
     assert.churchNumberEquals(size(nonEmptyStack), n2);
-    assert.equals(jsnum(size(push(nonEmptyStack)(42))), 3);
-    assert.equals(jsnum(size(pop(nonEmptyStack)(fst))), 1);
-    assert.equals(jsnum(size(emptyStack)), 0);
+    assert.equals(jsNum(size(push(nonEmptyStack)(42))), 3);
+    assert.equals(jsNum(size(pop(nonEmptyStack)(fst))), 1);
+    assert.equals(jsNum(size(emptyStack)), 0);
 });
 
 stackSuite.add("random", assert => {
@@ -191,7 +191,7 @@ stackSuite.add("reduce", assert => {
     assert.equals(reduce(pair(reduceFunctionSum)(0))(stackWithNumbers), 3);
     assert.equals(reduce(pair(reduceFunctionSum)(0))(push(stackWithNumbers)(3)), 6);
     assert.equals(reduce(pair((acc, curr) => acc + curr.income)(0))(personStack), 15000);
-    assert.equals(jsnum(reduce(pair(reduceFunctionChurchNumbersSum)(n0))(stackWithChurchNumbers)), 14);
+    assert.equals(jsNum(reduce(pair(reduceFunctionChurchNumbersSum)(n0))(stackWithChurchNumbers)), 14);
     assert.arrayEquals(reduce(pair(reduceToArray)([]))(stackWithNumbers), [0, 1, 2]);
 });
 
@@ -200,19 +200,19 @@ stackSuite.add("map", assert => {
     const stackWithChurchNumbers = push(push(push(emptyStack)(n2))(n4))(n8);
 
     const multiplyWith2 = x => x * 2;
-    const mapToJsnum = churchNum => jsnum(churchNum);
+    const mapToJsnum = churchNum => jsNum(churchNum);
 
     const mappedStackWithNumbers = map(multiplyWith2)(stackWithNumbers);
     const mappedStackWithChurchNumbers = map(mapToJsnum)(stackWithChurchNumbers);
 
     assert.equals(head(mappedStackWithNumbers), 60);
-    assert.equals(jsnum(size(mappedStackWithNumbers)), 3);
+    assert.equals(jsNum(size(mappedStackWithNumbers)), 3);
     assert.equals(head(pop(mappedStackWithNumbers)(fst)), 40);
     assert.equals(head(pop(pop(mappedStackWithNumbers)(fst))(fst)), 20);
     assert.equals(head(pop(pop(pop(mappedStackWithNumbers)(fst))(fst))(fst)), id);
 
     assert.equals(head(mappedStackWithChurchNumbers), 8);
-    assert.equals(jsnum(size(mappedStackWithChurchNumbers)), 3);
+    assert.equals(jsNum(size(mappedStackWithChurchNumbers)), 3);
     assert.equals(head(pop(mappedStackWithChurchNumbers)(fst)), 4);
     assert.equals(head(pop(pop(mappedStackWithChurchNumbers)(fst))(fst)), 2);
     assert.equals(head(pop(pop(pop(mappedStackWithChurchNumbers)(fst))(fst))(fst)), id);
@@ -224,15 +224,15 @@ stackSuite.add("filter", assert => {
     const filteredStackWithIncome = filter(person => person.income > 5000)(personStack);
 
 
-    assert.equals(jsnum(size(filteredStackWithNumbers)), 2);
+    assert.equals(jsNum(size(filteredStackWithNumbers)), 2);
     assert.equals(getElementByIndex(filteredStackWithNumbers)(0), id);
     assert.equals(getElementByIndex(filteredStackWithNumbers)(1), 33);
     assert.equals(getElementByIndex(filteredStackWithNumbers)(2), 34);
-    assert.equals(jsnum(size(filteredStackWithLastNames)), 2);
+    assert.equals(jsNum(size(filteredStackWithLastNames)), 2);
     assert.equals(getElementByIndex(filteredStackWithLastNames)(0), id);
     assert.equals(getElementByIndex(filteredStackWithLastNames)(1), "Skywalker");
     assert.equals(getElementByIndex(filteredStackWithLastNames)(2), "Solo");
-    assert.equals(jsnum(size(filteredStackWithIncome)), 0);
+    assert.equals(jsNum(size(filteredStackWithIncome)), 0);
     assert.equals(head(filteredStackWithIncome), id);
     assert.equals(filteredStackWithIncome(stackPredecessor), id);
     assert.equals(filteredStackWithIncome, emptyStack);
@@ -245,7 +245,7 @@ stackSuite.add("startStack", assert => {
     assert.equals(getElementByIndex(result)(1), 2);
     assert.equals(getElementByIndex(result)(2), 3);
     assert.equals(getElementByIndex(result)(3), 4);
-    assert.equals(jsnum(size(result)), 3);
+    assert.equals(jsNum(size(result)), 3);
 });
 
 stackSuite.add("reverse stack", assert => {
@@ -255,7 +255,7 @@ stackSuite.add("reverse stack", assert => {
     assert.equals(getElementByIndex(reversedStack)(1), 2);
     assert.equals(getElementByIndex(reversedStack)(2), 1);
     assert.equals(getElementByIndex(reversedStack)(3), 0);
-    assert.equals(jsnum(size(reversedStack)), 3);
+    assert.equals(jsNum(size(reversedStack)), 3);
 });
 
 stackSuite.add("filter with reduce-function", assert => {
@@ -264,7 +264,7 @@ stackSuite.add("filter with reduce-function", assert => {
     assert.equals(getElementByIndex(filteredStack)(0), id);
     assert.equals(getElementByIndex(filteredStack)(1), 2);
     assert.equals(getElementByIndex(filteredStack)(2), 33);
-    assert.equals(jsnum(size(filteredStack)), 2);
+    assert.equals(jsNum(size(filteredStack)), 2);
 });
 
 stackSuite.add("map with reduce-function", assert => {
@@ -274,7 +274,7 @@ stackSuite.add("map with reduce-function", assert => {
     assert.equals(getElementByIndex(mappedStack)(1), 0);
     assert.equals(getElementByIndex(mappedStack)(2), 3);
     assert.equals(getElementByIndex(mappedStack)(3), 6);
-    assert.equals(jsnum(size(mappedStack)), 3);
+    assert.equals(jsNum(size(mappedStack)), 3);
 });
 
 stackSuite.add("convert stack to array", assert => {
@@ -287,7 +287,7 @@ stackSuite.add("convert stack to array", assert => {
 stackSuite.add("convert array to stack", assert => {
     const result = convertArrayToStack([1, 2, 3]);
 
-    assert.equals(jsnum(size(result)), 3);
+    assert.equals(jsNum(size(result)), 3);
     assert.equals(getElementByIndex(result)(0), id);
     assert.equals(getElementByIndex(result)(1), 1);
     assert.equals(getElementByIndex(result)(2), 2);
@@ -295,7 +295,7 @@ stackSuite.add("convert array to stack", assert => {
 
     const result2 = convertArrayToStack([]);
 
-    assert.equals(jsnum(size(result2)), 0);
+    assert.equals(jsNum(size(result2)), 0);
     assert.equals(getElementByIndex(result2)(0), id);
     assert.equals(result2, emptyStack);
 });
@@ -385,7 +385,7 @@ stackSuite.add("concat", assert => {
 
     assert.equals(result1, result2);
 
-    assert.equals(jsnum(size(result1)), 2);
+    assert.equals(jsNum(size(result1)), 2);
     assert.equals(getElementByIndex(result1)(0), id);
     assert.equals(getElementByIndex(result1)(1), "Hello");
     assert.equals(getElementByIndex(result1)(2), "Haskell");
@@ -393,7 +393,7 @@ stackSuite.add("concat", assert => {
     // normal concat test
     const result3 = concat(elements)(elements2);
 
-    assert.equals(jsnum(size(result3)), 4);
+    assert.equals(jsNum(size(result3)), 4);
     assert.equals(getElementByIndex(result3)(0), id);
     assert.equals(getElementByIndex(result3)(1), "Hello");
     assert.equals(getElementByIndex(result3)(2), "Haskell");
@@ -408,7 +408,7 @@ stackSuite.add("concat", assert => {
     const r1 = concat(concat(s1)(s2))(s3);      // ( s1 (+) s2 ) (+) s3
     const r2 = concat(s1)(concat(s2)(s3));  // s1 (+) ( s2 (+) s3 )
 
-    assert.equals(jsnum(size(r1)), 6);
+    assert.equals(jsNum(size(r1)), 6);
     assert.equals(getElementByIndex(r1)(0), id);
     assert.equals(getElementByIndex(r1)(1), 1);
     assert.equals(getElementByIndex(r1)(2), 2);
@@ -417,7 +417,7 @@ stackSuite.add("concat", assert => {
     assert.equals(getElementByIndex(r1)(5), 5);
     assert.equals(getElementByIndex(r1)(6), 6);
 
-    assert.equals(jsnum(size(r2)), 6);
+    assert.equals(jsNum(size(r2)), 6);
     assert.equals(getElementByIndex(r2)(0), id);
     assert.equals(getElementByIndex(r2)(1), 1);
     assert.equals(getElementByIndex(r2)(2), 2);
@@ -434,7 +434,7 @@ stackSuite.add("flatten", assert => {
 
     const stackWithStacks = convertArrayToStack([s1, s2, s3]);
 
-    assert.equals(jsnum(size(stackWithStacks)), 3);
+    assert.equals(jsNum(size(stackWithStacks)), 3);
     assert.equals(getElementByIndex(stackWithStacks)(0), id);
     assert.equals(getElementByIndex(stackWithStacks)(1), s1);
     assert.equals(getElementByIndex(stackWithStacks)(2), s2);
@@ -442,7 +442,7 @@ stackSuite.add("flatten", assert => {
 
     const r1 = flatten(stackWithStacks);
 
-    assert.equals(jsnum(size(r1)), 6);
+    assert.equals(jsNum(size(r1)), 6);
     assert.equals(getElementByIndex(r1)(0), id);
     assert.equals(getElementByIndex(r1)(1), 1);
     assert.equals(getElementByIndex(r1)(2), 2);
@@ -458,7 +458,7 @@ stackSuite.add("zip", assert => {
 
     const zippedStack = zip(s1)(s2);
 
-    assert.equals(jsnum(size(zippedStack)), 2);
+    assert.equals(jsNum(size(zippedStack)), 2);
     assert.equals(getElementByIndex(zippedStack)(0), id);
     assert.pairEquals(getElementByIndex(zippedStack)(1), pair(1)(3));
     assert.pairEquals(getElementByIndex(zippedStack)(2), pair(2)(4));
@@ -468,7 +468,7 @@ stackSuite.add("zip", assert => {
 
     const zippedStack2 = zip(s3)(s4);
 
-    assert.equals(jsnum(size(zippedStack2)), 1);
+    assert.equals(jsNum(size(zippedStack2)), 1);
     assert.equals(getElementByIndex(zippedStack2)(0), id);
     assert.pairEquals(getElementByIndex(zippedStack2)(1), pair(1)(3));
 
@@ -477,7 +477,7 @@ stackSuite.add("zip", assert => {
 
     const zippedStack3 = zip(s5)(s6);
 
-    assert.equals(jsnum(size(zippedStack3)), 1);
+    assert.equals(jsNum(size(zippedStack3)), 1);
     assert.equals(getElementByIndex(zippedStack3)(0), id);
     assert.pairEquals(getElementByIndex(zippedStack3)(1), pair(2)(4));
 });
@@ -489,7 +489,7 @@ stackSuite.add("zipWith", assert => {
 
     const zippedStack = zipWith(add)(s1)(s2);
 
-    assert.equals(jsnum(size(zippedStack)), 3);
+    assert.equals(jsNum(size(zippedStack)), 3);
     assert.equals(getElementByIndex(zippedStack)(0), id);
     assert.equals(getElementByIndex(zippedStack)(1), 5);
     assert.equals(getElementByIndex(zippedStack)(2), 7);
@@ -500,7 +500,7 @@ stackSuite.add("zipWith", assert => {
 
     const zippedStack2 = zipWith(add)(s3)(s4);
 
-    assert.equals(jsnum(size(zippedStack2)), 1);
+    assert.equals(jsNum(size(zippedStack2)), 1);
     assert.equals(getElementByIndex(zippedStack2)(0), id);
     assert.equals(getElementByIndex(zippedStack2)(1), 4);
 
@@ -509,7 +509,7 @@ stackSuite.add("zipWith", assert => {
 
     const zippedStack3 = zipWith(add)(s5)(s6);
 
-    assert.equals(jsnum(size(zippedStack3)), 1);
+    assert.equals(jsNum(size(zippedStack3)), 1);
     assert.equals(getElementByIndex(zippedStack3)(0), id);
     assert.equals(getElementByIndex(zippedStack3)(1), 6);
 });
@@ -521,7 +521,7 @@ stackSuite.add("zipWithOneLiner", assert => {
 
     const zippedStack = zipWithOneLiner(add)(s1)(s2);
 
-    assert.equals(jsnum(size(zippedStack)), 3);
+    assert.equals(jsNum(size(zippedStack)), 3);
     assert.equals(getElementByIndex(zippedStack)(0), id);
     assert.equals(getElementByIndex(zippedStack)(1), 5);
     assert.equals(getElementByIndex(zippedStack)(2), 7);
@@ -532,7 +532,7 @@ stackSuite.add("zipWithOneLiner", assert => {
 
     const zippedStack2 = zipWithOneLiner(add)(s3)(s4);
 
-    assert.equals(jsnum(size(zippedStack2)), 1);
+    assert.equals(jsNum(size(zippedStack2)), 1);
     assert.equals(getElementByIndex(zippedStack2)(0), id);
     assert.equals(getElementByIndex(zippedStack2)(1), 4);
 
@@ -541,7 +541,7 @@ stackSuite.add("zipWithOneLiner", assert => {
 
     const zippedStack3 = zipWithOneLiner(add)(s5)(s6);
 
-    assert.equals(jsnum(size(zippedStack3)), 1);
+    assert.equals(jsNum(size(zippedStack3)), 1);
     assert.equals(getElementByIndex(zippedStack3)(0), id);
     assert.equals(getElementByIndex(zippedStack3)(1), 6);
 });

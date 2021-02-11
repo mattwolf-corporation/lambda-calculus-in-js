@@ -4,7 +4,7 @@ export {
 
 import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
     succ, pred, phi, churchAddition, churchSubtraction,
-    churchMultiplication, churchPotency, is0, jsnum, eq, leq, gt
+    churchMultiplication, churchPotency, is0, jsNum, eq, leq, gt
 } from '../lambda-calculus-library/church-numerals.js'
 
 import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'

@@ -1,6 +1,6 @@
 import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
 import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
-import {jsnum} from '../src/lambda-calculus-library/church-numerals.js';
+import {jsNum} from '../src/lambda-calculus-library/church-numerals.js';
 
 export {TestSuite, PerformanceTest}
 
@@ -14,7 +14,7 @@ const Assert = () => {
     };
 
     const churchNumberEquals = (actual, expected) => {
-        const result = (jsnum(actual) === jsnum(expected));
+        const result = (jsNum(actual) === jsNum(expected));
         addTest(actual, expected, result);
     };
 
@@ -118,12 +118,12 @@ const renderReport = (name, tests) => {
     const iterationF = (element, index) => {
         const {origin, asserts} = element;
 
-        const sizeOfAsserts = jsnum(size(asserts));
+        const sizeOfAsserts = jsNum(size(asserts));
         totalTests += sizeOfAsserts;
 
         const failed = filter(testResult => !testResult.result)(asserts);
         const churchSizeOfFailed = size(failed);
-        const sizeOfFailed = jsnum(churchSizeOfFailed);
+        const sizeOfFailed = jsNum(churchSizeOfFailed);
 
         const passed = sizeOfAsserts - sizeOfFailed;
 

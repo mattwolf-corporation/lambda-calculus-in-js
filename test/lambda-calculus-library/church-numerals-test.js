@@ -1,7 +1,7 @@
 import {TestSuite} from "../test.js";
 
 import { id, True, False, fst, snd, pair } from "../../src/lambda-calculus-library/lambda-calculus.js";
-import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, toChurchNum, jsnum,
+import { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, is0, toChurchNum, jsNum,
     churchAddition, churchSubtraction, churchMultiplication, churchPotency,
     leq, eq, gt} from "../../src/lambda-calculus-library/church-numerals.js";
 
@@ -20,7 +20,7 @@ churchTest.add("numbers", assert => {
 churchTest.add("succ", assert => {
     assert.churchNumberEquals(succ(n0), n1);
     assert.churchNumberEquals(succ(n5), n6);
-    assert.equals(jsnum(succ(n9)), 10);
+    assert.equals(jsNum(succ(n9)), 10);
 });
 
 churchTest.add("pre", assert => {
@@ -68,7 +68,7 @@ churchTest.add("phi", assert => {
     const testPhiPair3  = phi(testPair3);
 
     assert.churchNumberEquals( testPhiPair3(fst), n9 );
-    assert.equals( jsnum(testPhiPair3(snd)), 10 );
+    assert.equals( jsNum(testPhiPair3(snd)), 10 );
 });
 
 churchTest.add("pred", assert => {
@@ -98,22 +98,22 @@ churchTest.add("toChurchNumber", assert =>{
 
 
 churchTest.add("jsNum", assert => {
-    assert.equals(jsnum(n0), 0);
-    assert.equals(jsnum(n1), 1);
-    assert.equals(jsnum(n2), 2);
-    assert.equals(jsnum(n3), 3);
-    assert.equals(jsnum(n4), 4);
-    assert.equals(jsnum(n5), 5);
-    assert.equals(jsnum(n6), 6);
-    assert.equals(jsnum(n7), 7);
-    assert.equals(jsnum(n8), 8);
-    assert.equals(jsnum(n9), 9);
+    assert.equals(jsNum(n0), 0);
+    assert.equals(jsNum(n1), 1);
+    assert.equals(jsNum(n2), 2);
+    assert.equals(jsNum(n3), 3);
+    assert.equals(jsNum(n4), 4);
+    assert.equals(jsNum(n5), 5);
+    assert.equals(jsNum(n6), 6);
+    assert.equals(jsNum(n7), 7);
+    assert.equals(jsNum(n8), 8);
+    assert.equals(jsNum(n9), 9);
 
-    assert.equals(jsnum(churchAddition(n9)(n9)), 18);
-    assert.equals(jsnum(churchAddition(n6)(n8)), 14);
-    assert.equals(jsnum(churchMultiplication(n9)(n9)), 81);
-    assert.equals(jsnum(churchPotency(n2)(n5)), 32);
-    assert.equals(jsnum(churchSubtraction(n9)(n4)), 5);
+    assert.equals(jsNum(churchAddition(n9)(n9)), 18);
+    assert.equals(jsNum(churchAddition(n6)(n8)), 14);
+    assert.equals(jsNum(churchMultiplication(n9)(n9)), 81);
+    assert.equals(jsNum(churchPotency(n2)(n5)), 32);
+    assert.equals(jsNum(churchSubtraction(n9)(n4)), 5);
 });
 
 churchTest.add("church less or equal", assert => {

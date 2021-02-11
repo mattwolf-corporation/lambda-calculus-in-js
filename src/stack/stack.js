@@ -30,7 +30,7 @@ import {
     n9,
     pred,
     succ,
-    jsnum,
+    jsNum,
     is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
     toChurchNum
 } from '../lambda-calculus-library/church-numerals.js'
@@ -56,6 +56,7 @@ export {
  * @typedef {function} churchBoolean
  * @typedef {function} churchNumber
  * @typedef {function} stack
+ * @typedef {function} stackOp
  * @typedef {number} JsNumber
  */
 
@@ -150,8 +151,7 @@ const getPreStack = s => s(stackPredecessor)
 /**
  * @haskell push :: stack -> a -> stack
  *
- * A function that takes a stack and a value
- * The function returns a new stack with the pushed value
+ * @description A function that takes a stack and a value. The function returns a new stack with the pushed value
  *
  * @param {stack} s
  * @return {stack} stack with value x
@@ -161,10 +161,7 @@ const push = s => stack(succ(s(stackIndex)))(s);
 /**
  * @haskell pop :: stack -> pair
  *
- * A function that takes a stack
- * The function returns a value pair.
- * The first element of the pair is the predecessor stack.
- * The second element of the pair is the head (the top element) of the stack
+ * @description A function that takes a stack. The function returns a value pair. The first element of the pair is the predecessor stack. The second element of the pair is the head (the top element) of the stack.
  *
  * @param {stack} s
  * @return {pair} pair
@@ -174,8 +171,7 @@ const pop = s => pair(s(stackPredecessor))(head(s));
 /**
  * @haskell head :: stack -> a
  *
- * A function that takes a stack
- * The function returns the head (the top value) of the stack
+ * @descriptionA function that takes a stack. The function returns the head (the top value) of the stack.
  *
  * @function
  * @param {stack} s
@@ -186,8 +182,7 @@ const head = s => s(stackValue);
 /**
  * @haskell size :: stack -> churchNumber
  *
- * A function that takes a stack
- * The function returns the size (number of elements) in the stack
+ * @description A function that takes a stack. The function returns the size (number of elements) in the stack
  *
  * @function
  * @param {stack} s
@@ -198,13 +193,13 @@ const size = s => s(stackIndex);
 /**
  * @haskell reduce :: pair -> stack -> a
  *
- * A function that takes a stack and argument pair.
+ * @description A function that takes a stack and argument pair.
  * The first argument of the pair must be a reducer function.
  * The second argument of the pair must be a start value.
  * The function reduces the stack using the passed reduce function and the passed start value
  *
  * @function
- * @param {pair} argsPair
+ * @param {function(Function): {f: {x, y}}} argsPair
  * @return {function(s:stack): function(stack)} reduced value
  */
 const reduce = argsPair => s => {
@@ -277,9 +272,7 @@ const getElementByChurchNumberIndex = s => i => {
 };
 
 /**
- * A function that takes a stack and an index
- * The function returns the element at the passed index
- *
+ * @description A function that takes a stack and an index. The function returns the element at the passed index
  *
  * @param {stack} s
  * @return { function(i:{JsNumber}) : * } stack-value
@@ -292,7 +285,7 @@ const getElementByJsnumIndex = s => i => {
         const stack = argsPair(fst);
         const predecessorStack = getPreStack(stack);
 
-        if (jsnum((stack)(stackIndex)) === i) {
+        if (jsNum((stack)(stackIndex)) === i) {
 
             return pair(predecessorStack)(head(stack));
         }
@@ -305,8 +298,7 @@ const getElementByJsnumIndex = s => i => {
 
 
 /**
- * A function that takes an stack and converts the stack into an array.
- * The function returns an array
+ * @description A function that takes an stack and converts the stack into an array. The function returns an array
  *
  * @param {stack} s
  * @return {Array} Array
@@ -314,8 +306,7 @@ const getElementByJsnumIndex = s => i => {
 const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 
 /**
- * A function that takes an array and converts the array into a stack.
- * The function returns a stack
+ * @description A function that takes an array and converts the array into a stack. The function returns a stack
  *
  * @param {Array} array
  * @return {stack} stack
@@ -323,8 +314,7 @@ const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
- * A function that accepts a stack.
- * The function returns the reversed stack.
+ * @description A function that accepts a stack. The function returns the reversed stack.
  *
  * @param {stack} s
  * @return {stack} stack (reversed)
@@ -332,29 +322,26 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
 const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
 
 /**
- * A function that accepts a map function and a stack.
- * The function returns the mapped stack.
+ * @description A function that accepts a map function and a stack. The function returns the mapped stack.
  *
- * @param function(mapFunc:{function})
- * @return reduce
+ * @param {function} mapFunc
+ * @return function(triple): function(triple)
  */
 const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
 
 /**
- * A function that accepts a stack and a filter function.
- * The function returns the filtered stack.
+ * @description A function that accepts a stack and a filter function. The function returns the filtered stack.
  *
- * @param {stack} s
- * @return {function(filter:{function}): stack } stack
+ * @param {function} filterFunc
+ * @return {function(reduce:stack): function(stack)} stack
  */
 const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
 
 /**
- * A function that takes a stack and a map function.
- * The function returns the mapped stack
+ * @description A function that takes a stack and a map function. The function returns the mapped stack
  *
- * @param {stack} s TODO: Doku anpassen !!
- * @return {function(mapFunction:{function}): stack / pair } stack / pair
+ * @param {function} mapFunction
+ * @return {function(s:stack): stack} stack
  */
 const map = mapFunction => s => {
     const times = size(s);
@@ -378,11 +365,14 @@ const map = mapFunction => s => {
 };
 
 /**
- * A function that accepts a stack and a filter function.
- * The function returns the filtered stack
+ * @descriptionA function that accepts a stack and a filter function. The function returns the filtered stack
  *
- * @param  function(filterFunction:{function}): stack / pair
- * @return {function(*=): *} s : stack / pair
+ * @param  {function} filterFunction
+ * @return {function(s:stack): stack} pair
+ *
+ * @example
+ * const stackWithNumbers = startStack(pushToStack)(42)(pushToStack)(7)(pushToStack)(3)(id)
+ * filter(x => x < 5 && x > 2)(stackWithNumbers) === startStack(pushToStack)(3)(id)
  */
 const filter = filterFunction => s => {
     const times = size(s);
@@ -409,9 +399,7 @@ const filter = filterFunction => s => {
 };
 
 /**
- * A function that accepts a stack.
- * The function performs a side effect.
- * The side effect logs the stack to the console.
+ * @descriptionA function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
  *
  * @param {stack} s
  */
@@ -427,13 +415,34 @@ const logStackToConsole = s => {
 };
 
 
-const stackOp = op => s => x => f => f(op(s)(x));
-const pushToStack = stackOp(push);
+/**
+ * @description stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
+ *
+ * @function stackOperationBuilder
+ * @param {stackOp} stackOp
+ * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
+ */
+const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 
 /**
  * A help function to create a new stack
  */
 const startStack = f => f(emptyStack);
+
+/**
+ * @description pushToStack is a Stack-Builder-Command to push new values to the current stack
+ *
+ * @param  {stackOpBuilder} stackOp
+ * @returns {function(pushToStack)} pushToStack
+ *
+ * @example
+ * const stackOfWords = startStack(pushToStack)("Hello")(pushToStack)("World")(id)
+ * getElementByIndex(stackOfWords)(1) === "Hello"
+ * getElementByIndex(stackOfWords)(2) === "World"
+ */
+const pushToStack = stackOpBuilder(push);
+
+
 
 /**
  * Foreach implementation for stack
@@ -447,7 +456,7 @@ const forEachOld = stack => f => {
     const iteration = s => {
         if(convertToJsBool(hasPre(s))) {
             const element = head(s);
-            const index = jsnum(succ(churchSubtraction(times)(size(s))));
+            const index = jsNum(succ(churchSubtraction(times)(size(s))));
 
             f(element, index);
 
@@ -459,6 +468,14 @@ const forEachOld = stack => f => {
     times(iteration)(reversedStack);
 };
 
+
+/**
+ * @description
+ *
+ * @param stack
+ * @return {function(*): void}
+ * @example
+ */
 const forEach = stack => callbackFunc => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -482,9 +499,10 @@ const forEach = stack => callbackFunc => {
 };
 
 /**
- * Remove element by given Index
+ * @description Remove element by given Index
  *
  * @param {stack} stack without the element
+ * @example
  */
 const removeByIndex = stack => index => {
     const times = size(stack);
@@ -503,10 +521,16 @@ const removeByIndex = stack => index => {
     return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
 }
 
+
+/**
+ *
+ * @param {stack} currentStack
+ * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): function(Function): triple}
+ */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
     const currentElement = head(currentStack);
-
-    const condition = eq(toChurchNum(index))(currentIndex);
+    const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
+    const condition = eq( indexNumber )(currentIndex);
     const result = If(condition)
     (Then(resultStack))
     (Else(push(resultStack)(currentElement)));
@@ -518,6 +542,14 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
 
 const reduceToStack = (acc, curr) => push(acc)(curr);
 
+/**
+ *
+ * @param s1
+ * @return {function(*=): (*)}
+ *
+ * @example
+ *
+ */
 const concat = s1 => s2 => {
     if(s1 === emptyStack){
         return s2;
@@ -529,11 +561,42 @@ const concat = s1 => s2 => {
     }
 }
 
+/**
+ *
+ * @param acc
+ * @param curr
+ * @return {*|(function(triple))}
+ */
 const reduceConcat = (acc, curr) => concat(acc)(curr);
 
+/**
+ *
+ * @type {function(triple): function(triple)}
+ */
 const flatten = reduce(pair(reduceConcat)(emptyStack));
 
-// (a -> b -> c) -> [a] -> [b] -> [c]
+
+/**
+ * @description Zip (combine) with two Stacks and apply a function
+ *
+ * @haskell zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+ *
+ * @param {function} f
+ * @return { function(s1:stack): function(s2:stack): stack}
+ *
+ * @example
+ * const add = x => y => x + y;
+ * const s1 = convertArrayToStack([1, 2, 3]);
+ * const s2 = convertArrayToStack([4, 5, 6]);
+ *
+ * const zippedStack = zipWith(add)(s1)(s2);
+ *
+ * jsNum(size(zippedStack))          === 3
+ * getElementByIndex(zippedStack)(0) === id
+ * getElementByIndex(zippedStack)(1) === 5
+ * getElementByIndex(zippedStack)(2) === 7
+ * getElementByIndex(zippedStack)(3) === 9
+ */
 const zipWith = f => s1 => s2 => {
     const size1 = size(s1);
     const size2 = size(s2);
@@ -576,9 +639,38 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 // TODO: zip with empyt stacks ?
-// [a] -> [b] -> [(a, b)]
+/**
+ *  @description Zip (combine) two Stack to one stack of pairs
+ * @haskell zip :: [a] -> [b] -> [(a, b)]
+ *
+ * @type {function(triple): function(triple): triple}
+ * @example
+ * const s1 = convertArrayToStack([1, 2]);
+ * const s2 = convertArrayToStack([3, 4]);
+ *
+ * const zippedStack = zip(s1)(s2);
+ *
+ * jsNum(size(zippedStack))          === 2
+ * getElementByIndex(zippedStack)(0) === id
+ * getElementByIndex(zippedStack)(1) === pair(1)(3)
+ * getElementByIndex(zippedStack)(2) === pair(2)(4)
+ */
 const zip = zipWith(pair);
 
+
+/**
+ * @description Check two stacks of equality.
+ *
+ * @param {stack} s1
+ * @return {function(s2:stack): churchBoolean} True / False
+ *
+ * @example
+ * const s1 = convertArrayToStack([1, 2, 7]);
+ * const s2 = convertArrayToStack([1, 2, 3]);
+ *
+ * stackEquals(s1)(s1) === True
+ * stackEquals(s1)(s2) === False
+ */
 const stackEquals = s1 => s2 => {
     const size1 = size(s1);
     const size2 = size(s2);
