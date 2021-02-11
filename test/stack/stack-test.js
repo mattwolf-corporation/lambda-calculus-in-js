@@ -480,6 +480,26 @@ stackSuite.add("zip", assert => {
     assert.equals(jsnum(size(zippedStack3)), 1);
     assert.equals(getElementByIndex(zippedStack3)(0), id);
     assert.pairEquals(getElementByIndex(zippedStack3)(1), pair(2)(4));
+
+    const zipped = zip(convertArrayToStack([]))(convertArrayToStack([1, 2]));
+
+    assert.equals(jsnum(size(zipped)), 0);
+    assert.equals(getElementByIndex(zipped)(0), id);
+
+    const zipped2 = zip(convertArrayToStack([1, 2]))(convertArrayToStack([]));
+
+    assert.equals(jsnum(size(zipped2)), 0);
+    assert.equals(getElementByIndex(zipped2)(0), id);
+
+    const zipped3 = zip(emptyStack)(emptyStack);
+
+    assert.equals(jsnum(size(zipped3)), 0);
+    assert.equals(getElementByIndex(zipped3)(0), id);
+
+    const zipped4 = zip(emptyStack)(convertArrayToStack([1,2,3]));
+
+    assert.equals(jsnum(size(zipped4)), 0);
+    assert.equals(getElementByIndex(zipped4)(0), id);
 });
 
 stackSuite.add("zipWith", assert => {
