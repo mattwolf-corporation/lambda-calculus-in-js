@@ -585,10 +585,6 @@ const stackEquals = s1 => s2 => {
 
     const times = size1;
 
-    // should only be executed when needed
-    const reversedStack1 = reverseStack(s1);
-    const reversedStack2 = reverseStack(s2);
-
     const compareElements = t => {
         const s1 = t(firstOfTriple);
         const s2 = t(secondOfTriple);
@@ -607,6 +603,6 @@ const stackEquals = s1 => s2 => {
         (Else(t));
 
     return If(eq(size1)(size2))
-                (Then(times(iteration)(triple(reversedStack1)(reversedStack2)(True))(thirdOfTriple))) // should only be executed when needed
+                (Then(times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
                 (Else(False))
 }
