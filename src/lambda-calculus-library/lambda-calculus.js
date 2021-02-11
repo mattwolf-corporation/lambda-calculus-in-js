@@ -28,7 +28,8 @@ export {
     triple,
     mapPair,
     showPair,
-    convertJsBoolToChurchBool
+    convertJsBoolToChurchBool,
+    LazyIf
 }
 
 /*
@@ -195,6 +196,8 @@ const True = K;
  * TODO: Doc IF
  */
 const If = condition => truthy => falshy => condition(truthy)(falshy);
+
+const LazyIf = condition => truthy => falshy => (condition(truthy)(falshy))();
 
 /**
  * Syntactic sugar for If-Construct
