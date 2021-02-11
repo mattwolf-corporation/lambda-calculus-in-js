@@ -38,7 +38,7 @@ import {
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
-    getElementByIndex, getElementByJsnumIndex, logStackToConsole,
+    getElementByIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
@@ -259,7 +259,7 @@ const reduceIteration = argsTriple => {
  * The function returns the element at the passed index
  *
  * @param {stack} s
- * @return { function(i:{churchNumber}) : * } stack-value
+ * @return {function(i:{churchNumber}) : * } stack-value
  */
 const getElementByIndex = s => i => {
     // TODO: NaN is also of Type Number & infinity usw.

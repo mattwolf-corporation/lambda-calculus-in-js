@@ -60,11 +60,11 @@ Ctrl-Shift-P  : expression type
 /**
  * x -> x ; Identity (id)
  * @lambda λx.x
- * @haskell Identity :: a -> b -> a
+ * @haskell Identity :: a -> a
  *
  * @function Identity
  * @param   {*} x
- * @returns {*} the Identity x
+ * @returns {*} x
  */
 const I = x => x;
 
@@ -221,6 +221,7 @@ const not = C;
 
 /**
  * p -> q -> p( q )(False) ; and
+ *
  * @function
  * @param {churchBoolean} p
  * @returns { function(q:churchBoolean): churchBoolean }  True or False
@@ -229,6 +230,7 @@ const and = p => q => p(q)(False);
 
 /**
  * p -> q -> p( True )(q) ; or
+ *
  * @function
  * @param {churchBoolean} p
  * @returns { function(q:churchBoolean): churchBoolean }  True or False
@@ -237,6 +239,7 @@ const or = p => q => p(True)(q);
 
 /**
  * p -> q -> p( q )( not(qn) ) ; beq (ChurchBoolean-Equality)
+ *
  * @function
  * @param {churchBoolean} p
  * @returns { function( q:churchBoolean): churchBoolean }  True or False
@@ -282,7 +285,7 @@ const convertJsBoolToChurchBool = b => b ? True : False;
 const pair = V;
 
 /**
- * fst ; Get first value of Pair
+ * @description Get first value of Pair
  *
  * @function fst
  * @return {function(x:*): function(y:*): x} - pair first stored value
@@ -292,7 +295,7 @@ const pair = V;
 const fst = K;
 
 /**
- * snd ; Get second value of Pair
+ * @description Get second value of Pair
  *
  * @function snd
  * @return {function(x:*): function(y:*): y} - pair second stored value
