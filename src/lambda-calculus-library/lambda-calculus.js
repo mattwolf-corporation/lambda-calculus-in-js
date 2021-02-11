@@ -194,7 +194,7 @@ const True = K;
 /**
  * TODO: Doc IF
  */
-const If = condition => truthy => falshy => condition(truthy)(falshy)
+const If = condition => truthy => falshy => condition(truthy)(falshy);
 
 /**
  * Syntactic sugar for If-Construct

@@ -110,10 +110,20 @@ lambdaCTest.add("convert to js-bool", assert => {
 });
 
 lambdaCTest.add("if", assert => {
+    const sayHello = () => {
+        console.log("hello")
+    return 1};
+    const sayName = name => {
+        console.log("hello: " + name)
+    return 2};
+
     assert.equals( If( True)            ("Hello World")  ("Bye bye World"),"Hello World"    );
     assert.equals( If( False)           ("Hello World")  ("Bye bye World"), "Bye bye World" );
     assert.equals( If( or(True)(False) )("is truthy")    ("nope"),          "is truthy"     );
     assert.equals( If( and(True)(True) )("Really truthy")("nope"),          "Really truthy" );
+
+    const LazyIf = condition => truthy => falshy => (condition(truthy)(falshy))();
+    assert.equals( LazyIf( True )(sayHello)(() => sayName("should not be visible")),          1 );
 
 
 });
