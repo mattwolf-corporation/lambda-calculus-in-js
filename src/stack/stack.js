@@ -194,7 +194,7 @@ const size = s => s(stackIndex);
 /**
  * @haskell reduce :: pair -> stack -> a
  *
- * @description A function that takes a stack and argument pair.
+ * @description A function that takes argument pair and  a stack.
  * The first argument of the pair must be a reducer function.
  * The second argument of the pair must be a start value.
  * The function reduces the stack using the passed reduce function and the passed start value
@@ -202,9 +202,41 @@ const size = s => s(stackIndex);
  * @function
  * @param {function(Function): {f: {x, y}}} argsPair
  * @return {function(s:stack): function(stack)} reduced value
+ * @example
+ * const stackWithNumbers  = push(push(push(emptyStack)(1))(1))(2);
+ *
+ * const reduceFunctionSum = (acc, curr) => acc + curr;
+ * reduce( pair( reduceFunctionSum )( 0 ))( stackWithNumbers )          === 3
+ * reduce( pair( reduceFunctionSum )( 0 ))( push(stackWithNumbers)(3) ) === 10
+ *
+ * const reduceToArray = (acc, curr) => [...acc, curr];
+ * reduce( pair( reduceToArray )( [] ) )( stackWithNumbers ) === [0, 1, 2]
  */
 const reduce = argsPair => s => {
     const times = size(s);
+
+    const reduceIteration = argsTriple => {
+        const stack = argsTriple(firstOfTriple);
+
+        const getTriple = argsTriple => {
+            const reduceFunction = argsTriple(secondOfTriple);
+
+            const preAcc = argsTriple(thirdOfTriple);
+
+            const curr = head(stack);
+
+            const acc = reduceFunction(preAcc, curr);
+
+            const preStack = stack(stackPredecessor);
+
+            return triple(preStack)(reduceFunction)(acc);
+        }
+
+        return If(hasPre(stack))
+        (Then(getTriple(argsTriple)))
+        (Else(argsTriple));
+    };
+
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
     const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
@@ -217,52 +249,30 @@ const reduce = argsPair => s => {
 //                                 (thirdOfTriple);
 
 
-/**
- * @haskell reduceIteration :: triple -> a
- *
- *
- *
- * @function
- * @param {triple} argsTriple
- * @return {triple } triple or argsTriple
- */
-const reduceIteration = argsTriple => {
-    const stack = argsTriple(firstOfTriple);
 
-    const getTriple = argsTriple => {
-        const reduceFunction = argsTriple(secondOfTriple);
-
-        const preAcc = argsTriple(thirdOfTriple);
-
-        const curr = head(stack);
-
-        const acc = reduceFunction(preAcc, curr);
-
-        const preStack = stack(stackPredecessor);
-
-        return triple(preStack)(reduceFunction)(acc);
-    }
-
-    return If(hasPre(stack))
-    (Then(getTriple(argsTriple)))
-    (Else(argsTriple));
-};
 
 /**
  * @haskell getElementByIndex :: stack -> churchNumber -> b
  *
- * A function that takes a stack and an index (as church number)
- * The function returns the element at the passed index
+ * @description A function that takes a stack and an index (as church number). The function returns the element at the passed index
  *
- * @param {stack} s
- * @return {function(i:{churchNumber}) : * } stack-value
+ * @function
+ * @param {stack} stack
+ * @return {function(index:{churchNumber}) : * } stack-value
+ * @example
+ * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
+ *
+ * getElementByIndex( stackWithNumbers )( n0 ) === id
+ * getElementByIndex( stackWithNumbers )( n1 ) ===  0
+ * getElementByIndex( stackWithNumbers )( n2 ) ===  1
+ * getElementByIndex( stackWithNumbers )( n3 ) ===  2
  */
-const getElementByIndex = s => i => {
+const getElementByIndex = stack => index => {
     // TODO: NaN is also of Type Number & infinity usw.
-    if (typeof i === "number"){
-        return getElementByJsnumIndex(s)(i)
+    if (typeof index === "number") {
+        return getElementByJsnumIndex(stack)(index)
     }
-    return getElementByChurchNumberIndex(s)(i)
+    return getElementByChurchNumberIndex(stack)(index)
 };
 
 const getElementByChurchNumberIndex = s => i => {
@@ -275,8 +285,9 @@ const getElementByChurchNumberIndex = s => i => {
 /**
  * @description A function that takes a stack and an index. The function returns the element at the passed index
  *
+ * @function
  * @param {stack} s
- * @return { function(i:{JsNumber}) : * } stack-value
+ * @return { function(i:Number) : * } stack-value
  */
 const getElementByJsnumIndex = s => i => {
     const times = size(s);
@@ -307,7 +318,7 @@ const getElementByJsnumIndex = s => i => {
 const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 
 /**
- * @description A function that takes an array and converts the array into a stack. The function returns a stack
+ * @description A function that takes an javascript array and converts the array into a stack. The function returns a stack
  *
  * @param {Array} array
  * @return {stack} stack
@@ -320,7 +331,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
  * @description A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -339,10 +350,18 @@ const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(cu
 const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
 
 /**
- * @description A function that takes a stack and a map function. The function returns the mapped stack
+ * @description A function that takes a map function and a stack. The function returns the mapped stack
  *
  * @param {function} mapFunction
  * @return {function(s:stack): stack} stack
+ * @example
+ * const stackWithNumbers = startStack(pushToStack)(2)(pushToStack)(5)(pushToStack)(6)(id)
+ *
+ * const stackMultiplied  = map( x => x * 2)(stackWithNumbers)
+ *
+ * getElementByIndex( stackMultiplied )( 1 ) ===  4
+ * getElementByIndex( stackMultiplied )( 2 ) === 10
+ * getElementByIndex( stackMultiplied )( 3 ) === 12
  */
 const map = mapFunction => s => {
     const times = size(s);
@@ -400,21 +419,23 @@ const filter = filterFunction => s => {
 };
 
 /**
- * @descriptionA function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
+ * @description A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
  *
- * @param {stack} s
+ * @param {stack} stack
  */
-const logStackToConsole = s => {
+const logStackToConsole = stack =>
+    forEach( stack )( (element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element) ))
 
-    const logIteration = (acc, curr) => {
-        const index = acc + 1;
-        console.log('element at: ' + index + ': ' + JSON.stringify(curr));
-        return index;
-    };
-
-    reduce(s)(pair(logIteration)(0));
-};
-
+// const logStackToConsole = stack => {
+//
+//     const logIteration = (acc, curr) => {
+//         const index = acc + 1;
+//         console.log('element at: ' + index + ': ' + JSON.stringify(curr));
+//         return index;
+//     };
+//
+//     reduce(stack)(pair(logIteration)(0));
+// };
 
 /**
  * @description stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
@@ -438,11 +459,10 @@ const startStack = f => f(emptyStack);
  *
  * @example
  * const stackOfWords = startStack(pushToStack)("Hello")(pushToStack)("World")(id)
- * getElementByIndex(stackOfWords)(1) === "Hello"
- * getElementByIndex(stackOfWords)(2) === "World"
+ * getElementByIndex( stackOfWords )( 1 ) === "Hello"
+ * getElementByIndex( stackOfWords )( 2 ) === "World"
  */
 const pushToStack = stackOpBuilder(push);
-
 
 
 /**
@@ -455,7 +475,7 @@ const forEachOld = stack => f => {
     const reversedStack = reverseStack(stack);
 
     const iteration = s => {
-        if(convertToJsBool(hasPre(s))) {
+        if (convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsNum(succ(churchSubtraction(times)(size(s))));
 
@@ -474,8 +494,16 @@ const forEachOld = stack => f => {
  * @description
  *
  * @param stack
- * @return {function(*): void}
+ * @return {function(callbackFunc:function): void}
  * @example
+ * const stackWithNumbers = startStack(pushToStack)(5)(pushToStack)(10)(pushToStack)(15)(id);
+ *
+ * forEach( stackWithNumbers )( (element, index) => console.log("At Index " + index + " is the Element " + element) );
+ *
+ * // Console-Output is:
+ * // At Index 1 is the Element 5
+ * // At Index 2 is the Element 10
+ * // At Index 3 is the Element 15
  */
 const forEach = stack => callbackFunc => {
     const times = size(stack);
@@ -531,7 +559,7 @@ const removeByIndex = stack => index => {
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
     const currentElement = head(currentStack);
     const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
-    const condition = eq( indexNumber )(currentIndex);
+    const condition = eq(indexNumber)(currentIndex);
     const result = If(condition)
     (Then(resultStack))
     (Else(push(resultStack)(currentElement)));
@@ -541,40 +569,62 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
     (succ(currentIndex));
 }
 
-const reduceToStack = (acc, curr) => push(acc)(curr);
 
 /**
+ * @description Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
  *
- * @param s1
- * @return {function(*=): (*)}
+ * @param {stack} s1
+ * @return {function(s2:stack)} a concated stack
+ *
+ * @haskell concat :: [a] -> [a] -> [a]
  *
  * @example
+ * const elements1      = convertArrayToStack( ["Hello", "Haskell"] );
+ * const elements2      = convertArrayToStack( ["World", "Random"] );
+ * const concatedStacks = concat( elements1 )( elements2 );
  *
+ * jsNum( size( concatedStacks ) )          === 4
+ * getElementByIndex( concatedStacks )( 0 ) === id
+ * getElementByIndex( concatedStacks )( 1 ) === "Hello"
+ * getElementByIndex( concatedStacks )( 2 ) === "Haskell"
+ * getElementByIndex( concatedStacks )( 3 ) === "World"
+ * getElementByIndex( concatedStacks )( 4 ) === "Random"
  */
-const concat = s1 => s2 => {
-    if(s1 === emptyStack){
+const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
+    if (s1 === emptyStack) {
         return s2;
-    }else if (s2 === emptyStack){
+    } else if (s2 === emptyStack) {
         return s1;
-    }
-    else {
-        return reduce(pair(reduceToStack)(s1))(s2);
+    } else {
+        return reduce(pair( (acc, curr) => push(acc)(curr) )(s1))(s2);
     }
 }
 
 /**
+ * @description
  *
- * @param acc
- * @param curr
- * @return {*|(function(triple))}
- */
-const reduceConcat = (acc, curr) => concat(acc)(curr);
-
-/**
+ * @param {stack} stack
+ * @return {stack} a flatten stack
  *
- * @type {function(triple): function(triple)}
+ * @example
+ * const s1 = convertArrayToStack([1, 2]);
+ * const s2 = convertArrayToStack([3, 4]);
+ * const s3 = convertArrayToStack([5, 6]);
+ * const stackWithStacks = convertArrayToStack([s1, s2, s3]);
+ *
+ * const flattenStack = flatten(stackWithStacks);
+ *
+ * jsNum( size( flattenStack ) )          ===  6
+ *
+ * getElementByIndex( flattenStack )( 0 ) === id
+ * getElementByIndex( flattenStack )( 1 ) ===  1
+ * getElementByIndex( flattenStack )( 2 ) ===  2
+ * getElementByIndex( flattenStack )( 3 ) ===  3
+ * getElementByIndex( flattenStack )( 4 ) ===  4
+ * getElementByIndex( flattenStack )( 5 ) ===  5
+ * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce(pair(reduceConcat)(emptyStack));
+const flatten = reduce(pair((acc, curr) => concat(acc)(curr) )(emptyStack));
 
 
 /**
@@ -592,11 +642,12 @@ const flatten = reduce(pair(reduceConcat)(emptyStack));
  *
  * const zippedStack = zipWith(add)(s1)(s2);
  *
- * jsNum(size(zippedStack))          === 3
- * getElementByIndex(zippedStack)(0) === id
- * getElementByIndex(zippedStack)(1) === 5
- * getElementByIndex(zippedStack)(2) === 7
- * getElementByIndex(zippedStack)(3) === 9
+ * jsNum( size( zippedStack ) )          ===  3
+ *
+ * getElementByIndex( zippedStack )( 0 ) === id
+ * getElementByIndex( zippedStack )( 1 ) ===  5
+ * getElementByIndex( zippedStack )( 2 ) ===  7
+ * getElementByIndex( zippedStack )( 3 ) ===  9
  */
 const zipWith = f => s1 => s2 => {
     const size1 = size(s1);
@@ -624,8 +675,8 @@ const zipWith = f => s1 => s2 => {
         (Else(t));
 
     const times = If(leq(size1)(size2))
-                  (Then(size1))
-                  (Else(size2));
+    (Then(size1))
+    (Else(size2));
 
     return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
 }
@@ -635,13 +686,13 @@ const zipWith = f => s1 => s2 => {
 const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
 ((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
 (t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
-(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
-((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
+(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
+((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
 (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 // TODO: zip with empyt stacks ?
 /**
- *  @description Zip (combine) two Stack to one stack of pairs
+ * @description Zip (combine) two Stack to one stack of pairs
  * @haskell zip :: [a] -> [b] -> [(a, b)]
  *
  * @type {function(triple): function(triple): triple}
@@ -692,10 +743,10 @@ const stackEquals = s1 => s2 => {
 
     const iteration = t =>
         LazyIf(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
-            (Then(() => compareElements(t)))
-            (Else(() => t));
+        (Then(() => compareElements(t)))
+        (Else(() => t));
 
     return LazyIf(eq(size1)(size2))
-                (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
-                (Else(() => False))
+    (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
+        (Else(() => False))
 }

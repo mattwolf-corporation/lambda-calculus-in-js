@@ -767,23 +767,10 @@ const filter = s => filterFunction => {
     return (times(filterIteration)(initArgsPair))(fst);
 };
 
-/**
- * A function that accepts a stack.
- * The function performs a side effect.
- * The side effect logs the stack to the console.
- *
- * @param {stack} s
- */
-const logStackToConsole = s => {
 
-    const logIteration = (acc, curr) => {
-        const index = acc + 1;
-        console.log('element at: ' + index + ': ' + JSON.stringify(curr));
-        return index;
-    };
+const logStackToConsole = s =>
+    forEach( s )( (element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element) ))
 
-    reduce(s)(pair(logIteration)(0));
-};
 
 
 const stackOp = op => s => x => f => f(op(s)(x));

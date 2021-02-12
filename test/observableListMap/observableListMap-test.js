@@ -58,7 +58,7 @@ observableListMapSuite.add("logListenersToConsole", assert => {
 
     const expectedLogs = [
         "element at: 1: 42 | nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)",
-        "element at: 2: 43 | nVal => oVal => element.value     = nVal"]
+        "element at: 2: 43 | nVal => oVal => element.value = nVal"]
 
     assert.consoleLogEquals(() => testObs(logListenersToConsole), ...expectedLogs)
 });

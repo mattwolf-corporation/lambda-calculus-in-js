@@ -332,7 +332,7 @@ stackSuite.add("performance test: for/foreach loop - stack implementation", asse
         //console.log(`elem: ${elem}, index: ${i}`);
     }
 
-    const result = PerformanceTest('for/foreach loop - stack implementation')(() => forEach(testStack)(callbackFunc));
+    const result = PerformanceTest('for/foreach loop - stack implementation')(() =>  forEach(testStack)(callbackFunc));
 });
 
 stackSuite.add("performance test: for/foreach loop - old stack implementation", assert => {
@@ -376,7 +376,7 @@ stackSuite.add("removeByIndex", assert => {
 });
 
 stackSuite.add("concat", assert => {
-    const elements = convertArrayToStack(["Hello", "Haskell"]);
+    const elements  = convertArrayToStack(["Hello", "Haskell"]);
     const elements2 = convertArrayToStack(["World", "Random"]);
 
     // tests neutral element
@@ -393,26 +393,26 @@ stackSuite.add("concat", assert => {
     // normal concat test
     const result3 = concat(elements)(elements2);
 
-    assert.equals(jsNum(size(result3)), 4);
-    assert.equals(getElementByIndex(result3)(0), id);
-    assert.equals(getElementByIndex(result3)(1), "Hello");
-    assert.equals(getElementByIndex(result3)(2), "Haskell");
-    assert.equals(getElementByIndex(result3)(3), "World");
-    assert.equals(getElementByIndex(result3)(4), "Random");
+    assert.equals( jsNum(size(result3)), 4);
+    assert.equals( getElementByIndex(result3)(0), id);
+    assert.equals( getElementByIndex(result3)(1), "Hello");
+    assert.equals( getElementByIndex(result3)(2), "Haskell");
+    assert.equals( getElementByIndex(result3)(3), "World");
+    assert.equals( getElementByIndex(result3)(4), "Random");
 
     const s1 = convertArrayToStack([1, 2]);
     const s2 = convertArrayToStack([3, 4]);
     const s3 = convertArrayToStack([5, 6]);
 
     // tests associativity
-    const r1 = concat(concat(s1)(s2))(s3);      // ( s1 (+) s2 ) (+) s3
+    const r1 = concat(concat(s1)(s2))(s3);   // ( s1 (+) s2 )  (+) s3
     const r2 = concat(s1)(concat(s2)(s3));  // s1 (+) ( s2 (+) s3 )
 
     assert.equals(jsNum(size(r1)), 6);
-    assert.equals(getElementByIndex(r1)(0), id);
-    assert.equals(getElementByIndex(r1)(1), 1);
-    assert.equals(getElementByIndex(r1)(2), 2);
-    assert.equals(getElementByIndex(r1)(3), 3);
+    assert.equals( getElementByIndex(r1)(0), id);
+    assert.equals( getElementByIndex(r1)(1), 1);
+    assert.equals( getElementByIndex(r1)(2), 2);
+    assert.equals( getElementByIndex(r1)(3), 3);
     assert.equals(getElementByIndex(r1)(4), 4);
     assert.equals(getElementByIndex(r1)(5), 5);
     assert.equals(getElementByIndex(r1)(6), 6);
