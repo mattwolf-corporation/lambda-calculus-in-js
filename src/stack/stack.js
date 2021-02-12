@@ -89,6 +89,11 @@ const emptyStack = stack(n0)(id)(id);
 
 
 /**
+ * A help function to create a new stack
+ */
+const startStack = f => f(emptyStack);
+
+/**
  * @haskell stackIndex :: a -> b -> c -> a
  *
  * stack getter function - get the Index (first of a triple)
@@ -445,11 +450,6 @@ const logStackToConsole = stack =>
  * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
  */
 const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
-
-/**
- * A help function to create a new stack
- */
-const startStack = f => f(emptyStack);
 
 /**
  * @description pushToStack is a Stack-Builder-Command to push new values to the current stack
