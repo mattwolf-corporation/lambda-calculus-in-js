@@ -266,8 +266,11 @@ const getElementByIndex = stack => index => {
 };
 
 const getElementByChurchNumberIndex = s => i => {
-    const times = churchSubtraction(size(s))(i);
-    return head( times( getPreStack )(s) );
+    const stackSize = size(s);
+
+    return If(leq(i)(stackSize))
+    (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
+    (Else(Nothing));
 };
 
 /**
