@@ -278,16 +278,16 @@ const convertJsBoolToChurchBool = b => b ? True : False;
 /**
  * x -> y -> f -> f(x)(y) ; Pair
  *
- * @function pair
+ * @function
  * @param {*} x:  firstOfPair argument of the pair
  * @returns { function(y:*): function(f:function): {f: {x y} } } - returns a function, that store two value
  */
 const pair = V;
 
 /**
- * @description Get first value of Pair
+ * Get first value of Pair
  *
- * @function fst
+ * @function
  * @return {function(x:*): function(y:*): x} - pair first stored value
  * @example
  * pair(n2)(n5)(fst) === n2
@@ -295,9 +295,9 @@ const pair = V;
 const fst = K;
 
 /**
- * @description Get second value of Pair
+ * Get second value of Pair
  *
- * @function snd
+ * @function
  * @return {function(x:*): function(y:*): y} - pair second stored value
  * @example
  * pair(n2)(n5)(snd) === n5

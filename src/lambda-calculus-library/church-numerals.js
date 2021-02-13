@@ -36,7 +36,7 @@ const n8 = f => a => f(f(f(f(f(f(f(f(a))))))));
 const n9 = f => a => f(f(f(f(f(f(f(f(f(a)))))))));
 
 /**
- * @description successor of a church number (with bluebird)
+ * successor of a church number (with bluebird)
  *
  * @lambda λnfa.f(nfa)
  * @haskell successor :: Number -> a -> b -> Number
@@ -48,7 +48,7 @@ const n9 = f => a => f(f(f(f(f(f(f(f(f(a)))))))));
 const succ = n => f => B(f)(n(f));
 
 /**
- * @description Addition with two Church-Numbers
+ * Addition with two Church-Numbers
  *
  * @lambda λnk.n( λnfa.f(nfa) )k
  * @haskell churchAddition :: Number -> Number -> Number
@@ -61,7 +61,7 @@ const churchAddition = n => k => n(succ)(k);
 
 /**
  * phi combinator
- * @description creates a new pair, replace first value with the second and increase the second value
+ * creates a new pair, replace first value with the second and increase the second value
  *
  * @function
  * @param {pair} p
@@ -71,7 +71,7 @@ const phi = p => pair(p(snd))(succ(p(snd)));
 
 /**
  * predecessor
- * @description return the predecessor of passed churchNumber (minimum is n0 aka Zero). Is needed for churchSubtraction
+ * return the predecessor of passed churchNumber (minimum is n0 aka Zero). Is needed for churchSubtraction
  *
  * @function predecessor
  * @param {churchNumber} n
@@ -80,7 +80,7 @@ const phi = p => pair(p(snd))(succ(p(snd)));
 const pred = n => n(phi)(pair(n0)(n0))(fst);
 
 /**
- * @description Subtraction with two Church-Numbers
+ * Subtraction with two Church-Numbers
  *
  * @function
  * @param n {churchNumber}
@@ -89,7 +89,7 @@ const pred = n => n(phi)(pair(n0)(n0))(fst);
 const churchSubtraction = n => k => k(pred)(n);
 
 /**
- * @description Multiplication with two Church-Numbers
+ * Multiplication with two Church-Numbers
  *
  * @function
  * @param n {churchNumber}
@@ -98,7 +98,7 @@ const churchSubtraction = n => k => k(pred)(n);
 const churchMultiplication = B;
 
 /**
- * @description Potency with two Church-Numbers
+ * Potency with two Church-Numbers
  *
  * @function
  * @param n1 {churchNumber}
@@ -107,7 +107,7 @@ const churchMultiplication = B;
 const churchPotency = T;
 
 /**
- * @description query if the church number is zero (n0)
+ * query if the church number is zero (n0)
  *
  * @function
  * @param n {churchNumber}
@@ -116,7 +116,7 @@ const churchPotency = T;
 const is0 = n => n(K(False))(True);
 
 /**
- * @description converts a js number to a church number
+ * converts a js number to a church number
  *
  * @function
  * @param {number} n
@@ -125,7 +125,7 @@ const is0 = n => n(K(False))(True);
 const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
 
 /**
- * @description converts a church number to a js number
+ * converts a church number to a js number
  *
  * @function
  * @param {churchNumber} n
@@ -135,14 +135,14 @@ const jsNum = n => n(x => x + 1)(0);
 
 
 /**
- * @description "less-than-or-equal-to" with Church-Numbers
+ * "less-than-or-equal-to" with Church-Numbers
  * @param  {churchNumber} n
  * @return {function(k:churchNumber): churchBoolean} True / False
  */
 const leq = n => k => is0(churchSubtraction(n)(k));
 
 /**
- * @description "equal-to" with Church-Number
+ * "equal-to" with Church-Number
  *
  * @param  {churchNumber} n
  * @return {function(k:churchNumber): churchBoolean} True / False
@@ -151,7 +151,7 @@ const eq = n => k => and(leq(n)(k))(leq(k)(n));
 
 
 /**
- * @description "greater-than" with Church-Numbers
+ * "greater-than" with Church-Numbers
  *
  * @function gt
  * @param  {churchNumber} n

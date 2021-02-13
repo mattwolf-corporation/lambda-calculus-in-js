@@ -94,10 +94,8 @@ const emptyStack = stack(n0)(id)(id);
 const startStack = f => f(emptyStack);
 
 /**
- * @haskell stackIndex :: a -> b -> c -> a
- *
  * stack getter function - get the Index (first of a triple)
- *
+ * @haskell stackIndex :: a -> b -> c -> a
  * @function stackIndex
  * @return {churchNumber} index/size
  * @example
@@ -119,10 +117,9 @@ const stackPredecessor = secondOfTriple;
 
 
 /**
- * @haskell stackValue :: a -> b -> c -> c
- *
  * stack getter function - get the Value (third of a triple)
  *
+ * @haskell stackValue :: a -> b -> c -> c
  * @function stackValue
  * @return {*} value
  * @example
@@ -132,10 +129,8 @@ const stackValue = thirdOfTriple;
 
 
 /**
- * @haskell: hasPre :: a -> churchBoolean
- *
  * A function that takes a stack and returns a church-boolean, which indicates whether the stack has a predecessor stack
- *
+ * @haskell: hasPre :: a -> churchBoolean
  * @function hasPredecessor
  * @param {stack} s
  * @return {churchBoolean} churchBoolean
@@ -143,10 +138,8 @@ const stackValue = thirdOfTriple;
 const hasPre = s => not(is0(s(stackIndex)));
 
 /**
- * @haskell getPreStack :: stack -> stack
- *
  * A function that takes a stack and returns the predecessor stack
- *
+ * @haskell getPreStack :: stack -> stack
  * @function getPredecessorStack
  * @param {stack} s
  * @return {stack} predecessor of that stack
@@ -155,30 +148,24 @@ const getPreStack = s => s(stackPredecessor)
 
 
 /**
+ *  A function that takes a stack and a value. The function returns a new stack with the pushed value
  * @haskell push :: stack -> a -> stack
- *
- * @description A function that takes a stack and a value. The function returns a new stack with the pushed value
- *
  * @param {stack} s
  * @return {stack} stack with value x
  */
 const push = s => stack(succ(s(stackIndex)))(s);
 
 /**
+ * A function that takes a stack. The function returns a value pair. The first element of the pair is the predecessor stack. The second element of the pair is the head (the top element) of the stack.
  * @haskell pop :: stack -> pair
- *
- * @description A function that takes a stack. The function returns a value pair. The first element of the pair is the predecessor stack. The second element of the pair is the head (the top element) of the stack.
- *
  * @param {stack} s
  * @return {pair} pair
  */
 const pop = s => pair(s(stackPredecessor))(head(s));
 
 /**
+ * A function that takes a stack. The function returns the head (the top value) of the stack.
  * @haskell head :: stack -> a
- *
- * @descriptionA function that takes a stack. The function returns the head (the top value) of the stack.
- *
  * @function
  * @param {stack} s
  * @return {*} stack-value
@@ -186,10 +173,9 @@ const pop = s => pair(s(stackPredecessor))(head(s));
 const head = s => s(stackValue);
 
 /**
+ * A function that takes a stack. The function returns the size (number of elements) in the stack
+ *
  * @haskell size :: stack -> churchNumber
- *
- * @description A function that takes a stack. The function returns the size (number of elements) in the stack
- *
  * @function
  * @param {stack} s
  * @return {churchNumber} stack-index as church numeral
@@ -197,13 +183,12 @@ const head = s => s(stackValue);
 const size = s => s(stackIndex);
 
 /**
- * @haskell reduce :: pair -> stack -> a
- *
- * @description A function that takes argument pair and  a stack.
+ * A function that takes argument pair and  a stack.
  * The first argument of the pair must be a reducer function.
  * The second argument of the pair must be a start value.
  * The function reduces the stack using the passed reduce function and the passed start value
  *
+ * @haskell reduce :: pair -> stack -> a
  * @function
  * @param {function(Function): {f: {x, y}}} argsPair
  * @return {function(s:stack): function(stack)} reduced value
@@ -254,13 +239,9 @@ const reduce = argsPair => s => {
 //                                 (thirdOfTriple);
 
 
-
-
 /**
+ * A function that takes a stack and an index (as church number). The function returns the element at the passed index
  * @haskell getElementByIndex :: stack -> churchNumber -> b
- *
- * @description A function that takes a stack and an index (as church number). The function returns the element at the passed index
- *
  * @function
  * @param {stack} stack
  * @return {function(index:{churchNumber}) : * } stack-value
@@ -288,7 +269,7 @@ const getElementByChurchNumberIndex = s => i => {
 };
 
 /**
- * @description A function that takes a stack and an index. The function returns the element at the passed index
+ *  A function that takes a stack and an index. The function returns the element at the passed index
  *
  * @function
  * @param {stack} s
@@ -315,7 +296,7 @@ const getElementByJsnumIndex = s => i => {
 
 
 /**
- * @description A function that takes an stack and converts the stack into an array. The function returns an array
+ *  A function that takes an stack and converts the stack into an array. The function returns an array
  *
  * @param {stack} s
  * @return {Array} Array
@@ -323,7 +304,7 @@ const getElementByJsnumIndex = s => i => {
 const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 
 /**
- * @description A function that takes an javascript array and converts the array into a stack. The function returns a stack
+ *  A function that takes an javascript array and converts the array into a stack. The function returns a stack
  *
  * @param {Array} array
  * @return {stack} stack
@@ -331,7 +312,7 @@ const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
- * @description A function that accepts a stack. The function returns the reversed stack.
+ *  A function that accepts a stack. The function returns the reversed stack.
  *
  * @param {stack} s
  * @return {stack} stack (reversed)
@@ -339,7 +320,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
 const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
- * @description A function that accepts a map function and a stack. The function returns the mapped stack.
+ *  A function that accepts a map function and a stack. The function returns the mapped stack.
  *
  * @param {function} mapFunc
  * @return function(triple): function(triple)
@@ -347,7 +328,7 @@ const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(p
 const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
 
 /**
- * @description A function that accepts a stack and a filter function. The function returns the filtered stack.
+ *  A function that accepts a stack and a filter function. The function returns the filtered stack.
  *
  * @param {function} filterFunc
  * @return {function(reduce:stack): function(stack)} stack
@@ -355,7 +336,7 @@ const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(cu
 const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
 
 /**
- * @description A function that takes a map function and a stack. The function returns the mapped stack
+ *  A function that takes a map function and a stack. The function returns the mapped stack
  *
  * @param {function} mapFunction
  * @return {function(s:stack): stack} stack
@@ -390,7 +371,7 @@ const map = mapFunction => s => {
 };
 
 /**
- * @descriptionA function that accepts a stack and a filter function. The function returns the filtered stack
+ * A function that accepts a stack and a filter function. The function returns the filtered stack
  *
  * @param  {function} filterFunction
  * @return {function(s:stack): stack} pair
@@ -424,12 +405,12 @@ const filter = filterFunction => s => {
 };
 
 /**
- * @description A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
+ *  A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
  *
  * @param {stack} stack
  */
 const logStackToConsole = stack =>
-    forEach( stack )( (element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element) ))
+    forEach(stack)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element)))
 
 // const logStackToConsole = stack => {
 //
@@ -443,7 +424,7 @@ const logStackToConsole = stack =>
 // };
 
 /**
- * @description stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
+ * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
  *
  * @function stackOperationBuilder
  * @param {stackOp} stackOp
@@ -452,7 +433,7 @@ const logStackToConsole = stack =>
 const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 
 /**
- * @description pushToStack is a Stack-Builder-Command to push new values to the current stack
+ * pushToStack is a Stack-Builder-Command to push new values to the current stack
  *
  * @param  {stackOpBuilder} stackOp
  * @returns {function(pushToStack)} pushToStack
@@ -491,7 +472,7 @@ const forEachOld = stack => f => {
 
 
 /**
- * @description
+ *
  *
  * @param stack
  * @return {function(callbackFunc:function): void}
@@ -528,7 +509,7 @@ const forEach = stack => callbackFunc => {
 };
 
 /**
- * @description Remove element by given Index
+ * Remove element by given Index
  *
  * @param {stack} stack without the element
  * @example
@@ -571,7 +552,7 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
 
 
 /**
- * @description Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
+ * Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
  *
  * @param {stack} s1
  * @return {function(s2:stack)} a concated stack
@@ -596,12 +577,12 @@ const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
     } else if (s2 === emptyStack) {
         return s1;
     } else {
-        return reduce(pair( (acc, curr) => push(acc)(curr) )(s1))(s2);
+        return reduce(pair((acc, curr) => push(acc)(curr))(s1))(s2);
     }
 }
 
 /**
- * @description
+ *
  *
  * @param {stack} stack
  * @return {stack} a flatten stack
@@ -624,11 +605,11 @@ const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
  * getElementByIndex( flattenStack )( 5 ) ===  5
  * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce(pair((acc, curr) => concat(acc)(curr) )(emptyStack));
+const flatten = reduce(pair((acc, curr) => concat(acc)(curr))(emptyStack));
 
 
 /**
- * @description Zip (combine) with two Stacks and apply a function
+ *  Zip (combine) with two Stacks and apply a function
  *
  * @haskell zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
  *
@@ -692,7 +673,7 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 
 // TODO: zip with empyt stacks ?
 /**
- * @description Zip (combine) two Stack to one stack of pairs
+ *  Zip (combine) two Stack to one stack of pairs
  * @haskell zip :: [a] -> [b] -> [(a, b)]
  *
  * @type {function(triple): function(triple): triple}
@@ -711,7 +692,7 @@ const zip = zipWith(pair);
 
 
 /**
- * @description Check two stacks of equality.
+ * Check two stacks of equality.
  *
  * @param {stack} s1
  * @return {function(s2:stack): churchBoolean} True / False

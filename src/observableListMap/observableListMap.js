@@ -18,8 +18,7 @@ export {
 
 /**
  * initialValue -> Observable
- *
- * @description InitObservable - create new Observable incl. the initialValue
+ *  InitObservable - create new Observable incl. the initialValue
  *
  * @haskell InitObservable :: a -> Observable
  *
@@ -36,7 +35,7 @@ const InitObservable = initialValue => Observable(emptyListMap)(initialValue)(se
 
 /**
  * listeners -> value -> observableFunction -> observableFunction
- * @description Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
+ *  Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
  *
  * @haskell InitObservable :: [a] -> b -> c -> c
  *
@@ -50,7 +49,8 @@ const Observable = listeners => value => obsFn =>
 
 /**
  * listeners -> oldValue -> newValue -> Observable ; setValue
- * @description set the new value and notify all listeners
+ * set the new value and notify all listeners
+ *
  * @extends Observable
  *
  * @haskell setValue :: [a] -> b -> b -> Observable
@@ -72,7 +72,7 @@ const setValue = listeners => oldValue => newValue => {
 
 /**
  * listeners -> value -> newListener -> Observable ; addListener
- * @description add new Observable to the ListenerList
+ * add new Observable to the ListenerList
  *
  * @haskell addListener :: [a] -> b -> [a] -> Observable
  *
@@ -87,7 +87,8 @@ const addListener = listeners => value => newListener =>
 
 /**
  * listeners -> value -> value ; getValue
- * @description get the value of Observable
+ *  get the value of Observable
+ *
  * @extends Observable
  *
  * @haskell getValue :: [a] -> b -> b
@@ -106,7 +107,7 @@ const getValue = listeners => value => value
 
 /**
  * listeners -> value -> listenerKey ; removeListenerByKey
- * @description Remove a Listener by his key
+ * Remove a Listener by his key
  * @extends Observable
  *
  * @haskell removeListenerByKey :: [a] -> b -> c
@@ -140,7 +141,7 @@ const removeListenerByKey = listeners => value => listenerKey =>
 
 /**
  * listeners -> value -> listenerKey ; removeListenerByKey
- * @description Remove a Listener by his key
+ * Remove a Listener by his key
  * @extends Observable
  *
  * @haskell removeListenerByKey :: [a] -> b -> c

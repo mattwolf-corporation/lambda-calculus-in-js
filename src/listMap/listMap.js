@@ -31,7 +31,7 @@ import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lam
 /**
  * index -> predecessor -> pair -> f -> f(index)(predecessor)(head) ; Triple
  *
- * @description The listMap is a pure functional data structure and is therefore immutable.
+ * The listMap is a pure functional data structure and is therefore immutable.
  * The listMap is implemented as a stack aka triplet.
  * So the listMap have all the features and functionality that have the stack too.
  *
@@ -63,7 +63,7 @@ const startListMap = f => f(emptyListMap);
 
 
 /**
- * @description Get the element in the ListMap by the key (Js-Number)
+ * Get the element in the ListMap by the key (Js-Number)
  *
  * @function
  * @param listMap
@@ -97,7 +97,7 @@ const getElementByKey = listMap => key => {
 
 
 /**
- * @description Remove the element in the ListMap by the key (Js-Number)
+ * Remove the element in the ListMap by the key (Js-Number)
  *
  * @function
  * @param listMap
