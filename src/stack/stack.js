@@ -162,10 +162,11 @@ const push = s => stack(succ(s(stackIndex)))(s);
  * @param {stack} s
  * @return {pair} pair
  */
-const pop = s => pair(s(stackPredecessor))(head(s));
+const pop = s => pair(getPreStack(s))(head(s));
 
 /**
  * A function that takes a stack. The function returns the head (the top value) of the stack.
+ *
  * @haskell head :: stack -> a
  * @function
  * @param {stack} s
@@ -256,18 +257,17 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( n3 ) ===  2
  */
 const getElementByIndex = stack => index => {
-    // TODO: NaN is also of Type Number & infinity usw.
     if (typeof index === "number") {
         return getElementByJsnumIndex(stack)(index)
+    } else if (typeof index === "function" ){
+        return getElementByChurchNumberIndex(stack)(index)
     }
-    return getElementByChurchNumberIndex(stack)(index)
+    console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
 };
 
 const getElementByChurchNumberIndex = s => i => {
     const times = churchSubtraction(size(s))(i);
-    const getStackPredecessor = s => s(stackPredecessor);
-
-    return head(times(getStackPredecessor)(s));
+    return head( times( getPreStack )(s) );
 };
 
 /**

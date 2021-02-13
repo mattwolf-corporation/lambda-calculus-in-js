@@ -4,7 +4,7 @@ export {
     Nothing, Just,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe
+    getSafeElementsAsMaybe, maybeFunction
 }
 
 const Left   = x => f => g => f (x);
@@ -25,8 +25,15 @@ const isNumber = val =>
     typeof val === "number" // TODO: check verbessern
  // TODO: utility Modul mit "type checks"
 
-
 const maybeNumber = val =>
+    isNumber(val)
+        ? Just(val)
+        : Nothing
+
+const isFunction = val =>
+    typeof val === "function"
+
+const maybeFunction = val =>
     isNumber(val)
         ? Just(val)
         : Nothing

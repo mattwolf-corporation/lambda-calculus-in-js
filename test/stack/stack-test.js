@@ -12,6 +12,7 @@ import {
 } from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {
     churchAddition,
+    churchMultiplication,
     jsNum,
     n0,
     n1,
@@ -20,6 +21,7 @@ import {
     n4,
     n5,
     n6,
+    n7,
     n8,
     n9
 } from '../../src/lambda-calculus-library/church-numerals.js';
@@ -160,7 +162,7 @@ stackSuite.add("random", assert => {
     ), true);
 });
 
-stackSuite.add("getElementByIndex", assert => {
+stackSuite.add("getElementByIndex with ChurchNumbers", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(n0), id);
     assert.equals(getElementByIndex(stackWithNumbers)(n1), 0);
     assert.equals(getElementByIndex(stackWithNumbers)(n2), 1);
@@ -170,7 +172,7 @@ stackSuite.add("getElementByIndex", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(n6), 35);
 });
 
-stackSuite.add("getElementByIndexJs", assert => {
+stackSuite.add("getElementByIndex with JsNumber", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(0), id);
     assert.equals(getElementByIndex(stackWithNumbers)(1), 0);
     assert.equals(getElementByIndex(stackWithNumbers)(2), 1);
@@ -178,9 +180,24 @@ stackSuite.add("getElementByIndexJs", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(4), 33);
     assert.equals(getElementByIndex(stackWithNumbers)(5), 34);
     assert.equals(getElementByIndex(stackWithNumbers)(6), 35);
+});
+
+
+stackSuite.add("getElementByIndex with not existing Index", assert => {
+    assert.equals(getElementByIndex(stackWithNumbers)(NaN), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(Infinity), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(9999), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(-1), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(7), id);
+
+    //
+    // assert.equals(getElementByIndex(stackWithNumbers)(n7), id);
+    // assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), id);
+    assert.equals(getElementByIndex(stackWithNumbers)("1"), 35);
     //assert.equals(getElementByIndex(stackWithNumbers)(10), 35);
     //assert.equals(getElementByIndex(stackWithNumbers)(""), 35);
 });
+
 
 stackSuite.add("reduce", assert => {
     const stackWithNumbers = nonEmptyStack;
