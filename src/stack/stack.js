@@ -264,10 +264,11 @@ const getElementByIndex = stack => index => {
 };
 
 const getElementByChurchNumberIndex = s => i => {
-    const times = churchSubtraction(size(s))(i);
-    const getStackPredecessor = s => s(stackPredecessor);
+    const stackSize = size(s);
 
-    return head(times(getStackPredecessor)(s));
+    return If(leq(i)(stackSize))
+    (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
+    (Else(Nothing));
 };
 
 /**
