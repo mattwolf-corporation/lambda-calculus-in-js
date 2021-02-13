@@ -50,8 +50,10 @@ import {
     startStack,
     zip,
     zipWith,
-    zipWithOneLiner
+    zipWithOneLiner,
+    maybeElementByJsnumIndex
 } from "../../src/stack/stack.js";
+import {getOrDefault, Just, Nothing} from "../../src/maybe/maybe.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
@@ -544,7 +546,7 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack = zipWithOneLiner(add)(s1)(s2);
 
     assert.equals(jsNum(size(zippedStack)), 3);
-    assert.equals(getElementByIndex(zippedStack)(0), id);
+    assert.equals(getElementByIndex(zippedStack)(0)("id"), "id");
     assert.equals(getElementByIndex(zippedStack)(1), 5);
     assert.equals(getElementByIndex(zippedStack)(2), 7);
     assert.equals(getElementByIndex(zippedStack)(3), 9);
@@ -555,7 +557,7 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack2 = zipWithOneLiner(add)(s3)(s4);
 
     assert.equals(jsNum(size(zippedStack2)), 1);
-    assert.equals(getElementByIndex(zippedStack2)(0), id);
+    assert.equals(getElementByIndex(zippedStack2)(0)("id"), "id");
     assert.equals(getElementByIndex(zippedStack2)(1), 4);
 
     const s5 = convertArrayToStack([2]);
@@ -564,7 +566,7 @@ stackSuite.add("zipWithOneLiner", assert => {
     const zippedStack3 = zipWithOneLiner(add)(s5)(s6);
 
     assert.equals(jsNum(size(zippedStack3)), 1);
-    assert.equals(getElementByIndex(zippedStack3)(0), id);
+    assert.equals(getElementByIndex(zippedStack3)(0)("id"), "id"); // bei one liner kommt keine Referenz auf id zurück // bei getElementByJsnumIndex war default id darum hat dies funktioniert
     assert.equals(getElementByIndex(zippedStack3)(1), 6);
 });
 
@@ -606,6 +608,23 @@ stackSuite.add("stackEquals", assert => {
     const s16 = convertArrayToStack([1, 2, 3]);
     const r8 = stackEquals(s15)(s16)
     assert.churchBooleanEquals(r8, False);
+});
+
+stackSuite.add("maybeElementByJsnumIndex", assert => {
+    const s1 = convertArrayToStack([1, 2, 3, 4]);
+
+    assert.equals(jsNum(size(s1)), 4);
+    assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(0))(false), id);
+    assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(1))(false), 1);
+    assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(2))(false), 2);
+    assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(3))(false), 3);
+    assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(4))(false), 4);
+    assert.equals(maybeElementByJsnumIndex(s1)(5), Nothing);
+    assert.equals(maybeElementByJsnumIndex(s1)(-1), Nothing);
+    assert.equals(maybeElementByJsnumIndex(s1)(99999999), Nothing);
+    assert.equals(maybeElementByJsnumIndex(s1)("dfbehterhrt"), Nothing);
+    assert.equals(maybeElementByJsnumIndex(s1)(Number.NaN), Nothing);
+    assert.equals(maybeElementByJsnumIndex(s1)({}), Nothing);
 });
 
 stackSuite.report();
