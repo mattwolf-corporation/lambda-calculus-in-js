@@ -1,7 +1,7 @@
 import {TestSuite} from "../test.js";
 
-import {id} from "../../src/lambda-calculus-library/lambda-calculus.js";
-
+import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {n1,n2,n3,n4,n5,n6,n7,n8,n9, churchMultiplication} from "../../src/lambda-calculus-library/church-numerals.js";
 import {
     Nothing,
     Just,
@@ -12,7 +12,7 @@ import {
     getSafeElements,
     getSafeElementAbstraction,
     maybeElement,
-    maybeNumber
+    maybeNumber, maybeJsNumberOrFunction, maybeFunction
 } from "../../src/maybe/maybe.js";
 
 const maybeSuite = TestSuite("Maybe");
@@ -109,6 +109,25 @@ maybeSuite.add("getOrDefault", assert => {
     assert.equals(getOrDefault(maybeNumber("5"))(42), 42);
     assert.equals(getOrDefault(maybeNumber((() => 5)()))(42), 5);
     tearDown();
+});
+
+maybeSuite.add("maybeJsNumberOrFunction", assert => {
+    assert.equals( maybeJsNumberOrFunction(3), 3);
+    assert.equals( maybeJsNumberOrFunction(42), 42);
+
+    assert.churchNumberEquals( maybeJsNumberOrFunction(n3) , n3);
+    assert.churchNumberEquals( maybeJsNumberOrFunction( churchMultiplication(n3)(n2) ), n6);
+
+    assert.equals( maybeJsNumberOrFunction(id) , id);
+    assert.equals( maybeJsNumberOrFunction(pair) , pair);
+    assert.equals( maybeJsNumberOrFunction(True) , True);
+    assert.equals( maybeJsNumberOrFunction(False) , False);
+
+
+    assert.equals( maybeJsNumberOrFunction("3") , Nothing);
+    assert.equals( maybeJsNumberOrFunction(null) , Nothing);
+    assert.equals( maybeJsNumberOrFunction({}) , Nothing);
+    assert.equals( maybeJsNumberOrFunction([]) , Nothing);
 });
 
 maybeSuite.report();

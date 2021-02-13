@@ -4,7 +4,7 @@ export {
     Nothing, Just,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe, maybeFunction
+    getSafeElementsAsMaybe, maybeFunction, maybeJsNumberOrFunction
 }
 
 const Left   = x => f => g => f (x);
@@ -14,29 +14,31 @@ const either = e => f => g => e (f) (g); // id
 const Nothing  = Left();
 const Just     = Right ;
 
+const getOrDefault = maybeFn => defaultVal =>
+    maybeFn(() => defaultVal)
+    (id)
+
+
 const maybeDiv = num => divisor =>
-    isNumber(num) && // TODO: NaN is also of type Number !!
-    isNumber(divisor) &&
+    Number.isInteger(num) &&
+    Number.isInteger(divisor) &&
     divisor !== 0
         ? Just(num / divisor)
         : Nothing
 
-const isNumber = val =>
-    typeof val === "number" // TODO: check verbessern
- // TODO: utility Modul mit "type checks"
-
 const maybeNumber = val =>
-    isNumber(val)
+    Number.isInteger(val)
         ? Just(val)
         : Nothing
-
-const isFunction = val =>
-    typeof val === "function"
 
 const maybeFunction = val =>
-    isNumber(val)
+    typeof val === "function"
         ? Just(val)
         : Nothing
+
+const maybeJsNumberOrFunction = val =>
+    getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
+
 
 const maybeElement = element =>
     element || element === 0
@@ -64,8 +66,5 @@ const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
 const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
 
-const getOrDefault = maybeFn => defaultVal =>
-    maybeFn(() => defaultVal)
-    (id)
 
 //TODO: get or create method

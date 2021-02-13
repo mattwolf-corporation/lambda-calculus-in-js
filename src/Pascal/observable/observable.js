@@ -384,8 +384,6 @@ const gt = Blackbird(not)(leq);
  * @typedef {function} fn
  * @typedef {function} churchBoolean
  * @typedef {(function)} churchNumber
- * @typedef {(churchNumber|jsNumber)} jsChurchNumber
-
  */
 
 /** -----------------------------------------------------

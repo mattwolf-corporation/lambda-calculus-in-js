@@ -55,6 +55,8 @@ import {
     zipWithOneLiner
 } from "../../src/stack/stack.js";
 
+import { Nothing } from "../../src/maybe/maybe.js";
+
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
 // Test data
@@ -190,10 +192,10 @@ stackSuite.add("getElementByIndex with not existing Index", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(-1), id);
     assert.equals(getElementByIndex(stackWithNumbers)(7), id);
 
-    //
-    // assert.equals(getElementByIndex(stackWithNumbers)(n7), id);
-    // assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), id);
-    assert.equals(getElementByIndex(stackWithNumbers)("1"), 35);
+
+    assert.equals(getElementByIndex(stackWithNumbers)(n7), Nothing);
+    assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), Nothing);
+    assert.equals(getElementByIndex(stackWithNumbers)("1"), Nothing);
     //assert.equals(getElementByIndex(stackWithNumbers)(10), 35);
     //assert.equals(getElementByIndex(stackWithNumbers)(""), 35);
 });

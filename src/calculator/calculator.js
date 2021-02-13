@@ -16,9 +16,7 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
  * @typedef {number} jsNumber
  * @typedef {function} fn
  * @typedef {function} churchBoolean
- * @typedef {(function)} churchNumber
- * @typedef {(churchNumber|jsNumber)} jsChurchNumber
-
+ * @typedef {function} churchNumber
  */
 
 /** -----------------------------------------------------
@@ -29,7 +27,7 @@ import {id, T, B, C} from '../lambda-calculus-library/lambda-calculus.js'
 /**
  * operator -> jsChurchNumber -> jsChurchNumber -> fn -> fn( operator(jsChurchNumber)(jsChurchNumber) ) ; CalculatorOperator - handle the arithmetic-operator
  * @param {operator} op
- * @return { function(n:{jsChurchNumber}): function(k:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
+ * @return { function(n:churchNumber|Number): function(k:churchNumber|Number): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
 const calculatorHandler = op => n => k => f => f(op(n)(k));
 
@@ -38,7 +36,7 @@ const calculatorHandler = op => n => k => f => f(op(n)(k));
  * @example
  * calc(n1)(add)(n2)(result) ==> n3
  *
- * @param {jsChurchNumber} number
+ * @param {churchNumber|Number} number
  * @returns {operator} Operator
  */
 const calc = T;
