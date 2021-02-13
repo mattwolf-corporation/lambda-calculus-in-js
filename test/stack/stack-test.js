@@ -178,6 +178,8 @@ stackSuite.add("getElementByIndexJs", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(4), 33);
     assert.equals(getElementByIndex(stackWithNumbers)(5), 34);
     assert.equals(getElementByIndex(stackWithNumbers)(6), 35);
+    //assert.equals(getElementByIndex(stackWithNumbers)(10), 35);
+    //assert.equals(getElementByIndex(stackWithNumbers)(""), 35);
 });
 
 stackSuite.add("reduce", assert => {

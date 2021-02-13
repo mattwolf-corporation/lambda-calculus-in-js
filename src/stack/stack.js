@@ -36,6 +36,7 @@ import {
     toChurchNum
 } from '../lambda-calculus-library/church-numerals.js'
 
+import { Nothing } from '../maybe/maybe.js'
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
@@ -202,6 +203,7 @@ const size = s => s(stackIndex);
  * const reduceToArray = (acc, curr) => [...acc, curr];
  * reduce( pair( reduceToArray )( [] ) )( stackWithNumbers ) === [0, 1, 2]
  */
+// TODO: remove args pair -> curry function
 const reduce = argsPair => s => {
     const times = size(s);
 
@@ -277,13 +279,17 @@ const getElementByChurchNumberIndex = s => i => {
  */
 const getElementByJsnumIndex = s => i => {
     const times = size(s);
-    const initArgsPair = pair(s)(id);
+
+    const initArgsPair = pair(s)(id); // set default to Nothing
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
         const predecessorStack = getPreStack(stack);
 
+        // zero does not come in index
         if (jsNum((stack)(stackIndex)) === i) {
+
+               // console.log(i);
 
             return pair(predecessorStack)(head(stack));
         }
@@ -317,7 +323,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -456,7 +462,7 @@ const forEachOld = stack => f => {
     const reversedStack = reverseStack(stack);
 
     const iteration = s => {
-        if (convertToJsBool(hasPre(s))) {
+        if(convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsNum(succ(churchSubtraction(times)(size(s))));
 
