@@ -279,7 +279,7 @@ const reduce = argsPair => s => {
  */
 const getElementByIndex = stack => index =>
     maybeElementByIndex(stack)(index)
-    ( () => console.warn( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
+    ( () => console.error( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
     ( id )
 
 /**

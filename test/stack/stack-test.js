@@ -186,21 +186,32 @@ stackSuite.add("getElementByIndex with JsNumber", assert => {
 
 
 stackSuite.add("getElementByIndex with not existing Index", assert => {
-    assert.equals(getElementByIndex(stackWithNumbers)(NaN), undefined);
-    assert.equals(getElementByIndex(stackWithNumbers)(Infinity), undefined);
+
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)(NaN),
+        "Error: getElementByIndex - the index value 'NaN' (number) is not allowed. Use Js- or Church-Numbers");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)(Infinity),
+        "Error: getElementByIndex - the index value 'Infinity' (number) is not allowed. Use Js- or Church-Numbers");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)("1"),
+        "Error: getElementByIndex - the index value '1' (string) is not allowed. Use Js- or Church-Numbers");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)("blabla"),
+        "Error: getElementByIndex - the index value 'blabla' (string) is not allowed. Use Js- or Church-Numbers");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)({}),
+        "Error: getElementByIndex - the index value '[object Object]' (object) is not allowed. Use Js- or Church-Numbers");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(stackWithNumbers)([]),
+        "Error: getElementByIndex - the index value '' (object) is not allowed. Use Js- or Church-Numbers");
+
     assert.equals(getElementByIndex(stackWithNumbers)(9999), undefined);
     assert.equals(getElementByIndex(stackWithNumbers)(-1), undefined);
     assert.equals(getElementByIndex(stackWithNumbers)(7), undefined);
 
-    assert.equals(getElementByIndex(stackWithNumbers)("1"), undefined);
-    assert.equals(getElementByIndex(stackWithNumbers)("blabla"), undefined);
-
-    assert.equals(getElementByIndex(stackWithNumbers)({}), undefined);
-    assert.equals(getElementByIndex(stackWithNumbers)([]), undefined);
-
     assert.equals(getElementByIndex(stackWithNumbers)(n7), Nothing);
     assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), Nothing);
-
 });
 
 
