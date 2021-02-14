@@ -38,7 +38,7 @@ import {
     toChurchNum
 } from '../lambda-calculus-library/church-numerals.js'
 
-import { Nothing } from '../maybe/maybe.js'
+import { Nothing, Just } from '../maybe/maybe.js'
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
@@ -46,7 +46,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals
+    zipWith, zipWithOneLiner, stackEquals, maybeElementByJsnumIndex
 }
 
 //  {function(index:*): function(value:*):  function(head:*): function(f:function): ({f: {x y z}}) }
@@ -176,6 +176,9 @@ const pop = s => pair(getPreStack(s))(head(s));
  */
 const head = s => s(stackValue);
 
+
+const getStackIndex = s => s(stackIndex);
+
 /**
  * A function that takes a stack. The function returns the size (number of elements) in the stack
  *
@@ -184,7 +187,7 @@ const head = s => s(stackValue);
  * @param {stack} s
  * @return {churchNumber} stack-index as church numeral
  */
-const size = s => s(stackIndex);
+const size = getStackIndex;
 
 /**
  * A function that takes argument pair and  a stack.
@@ -305,25 +308,30 @@ const getElementByChurchNumberIndex = s => i =>
  * @param {stack} s
  * @return { function(i:Number) : * } stack-value
  */
+// This function is save vor any value of i
 const getElementByJsnumIndex = s => i => {
-    const times = size(s);
-
-    const initArgsPair = pair(s)(id); // set default to Nothing
+    const times = succ(size(s));
+    const initArgsPair = pair(s)(undefined); // Nothing or undefined
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
-        const predecessorStack = getPreStack(stack);
+        const result = pair(getPreStack(stack));
 
-        // zero does not come in index
-        if (jsNum((stack)(stackIndex)) === i) {
-            return pair(predecessorStack)(head(stack));
+        // was ist aufwändiger toJsnum oder toChurchNum ?? evtl. hier austauschen
+        if (jsNum(getStackIndex(stack)) === i) {
+            return result(head(stack));
         }
-
-        return pair(predecessorStack)(argsPair(snd));
+        return result(argsPair(snd));
     };
-
     return (times(getElement)(initArgsPair))(snd);
 };
+
+const maybeElementByJsnumIndex = s => i => {
+    const val = getElementByJsnumIndex(s)(i);
+    return If(convertJsBoolToChurchBool(val === undefined))
+    (Then(Nothing))
+    (Else(Just(val)))
+}
 
 
 /**
@@ -701,6 +709,14 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
 ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
 (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
+
+// const zipWithOneLiner = f => s1 => s2 => (condition => truthy => falshy => condition(truthy)(falshy))((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
+// ((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))((x => x)((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => (condition => truthy => falshy => condition(truthy)(falshy))((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((x => x)
+// (((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
+// (t(x => y => z => y))))))))((x => x)(t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
+// (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
+// ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y)))) ((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
+// (f => a => a)(x => x)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 // TODO: zip with empyt stacks ?
 /**
