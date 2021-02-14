@@ -284,7 +284,7 @@ const getElementByChurchNumberIndex = s => i => {
 // This function is save vor any value of i
 const getElementByJsnumIndex = s => i => {
     const times = succ(size(s));
-    const initArgsPair = pair(s)(Nothing); // Nothing or undefined
+    const initArgsPair = pair(s)(undefined); // Nothing or undefined
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
@@ -301,7 +301,7 @@ const getElementByJsnumIndex = s => i => {
 
 const maybeElementByJsnumIndex = s => i => {
     const val = getElementByJsnumIndex(s)(i);
-    return If(convertJsBoolToChurchBool(val === Nothing))
+    return If(convertJsBoolToChurchBool(val === undefined))
     (Then(Nothing))
     (Else(Just(val)))
 }
