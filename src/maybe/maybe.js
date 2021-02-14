@@ -4,7 +4,7 @@ export {
     Nothing, Just, either,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe, maybeFunction, getJsNumberOrFunction
+    getSafeElementsAsMaybe, maybeFunction, getJsNumberOrFunction, maybeElementWithCustomErrorMessage
 }
 
 const Left   = x => f => g => f (x);
@@ -29,12 +29,12 @@ const maybeDiv = num => divisor =>
 const maybeNumber = val =>
     Number.isInteger(val)
         ? Just(val)
-        : Nothing
+        : Left("value is not a integer");
 
 const maybeFunction = val =>
     typeof val === "function"
         ? Just(val)
-        : Nothing
+        : Left("value is not a function");
 
 const getJsNumberOrFunction = val =>
     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
@@ -44,6 +44,11 @@ const maybeElement = element =>
     element || element === 0
         ? Just(element)
         : Nothing
+
+const maybeElementWithCustomErrorMessage = errorMessage => element =>
+    element || element === 0
+        ? Just(element)
+        : Left(errorMessage)
 
 const maybeDomElement2 = elemId => element =>
             element

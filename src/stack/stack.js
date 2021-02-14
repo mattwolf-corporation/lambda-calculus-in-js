@@ -18,7 +18,7 @@ import {
     LazyIf
 } from '../lambda-calculus-library/lambda-calculus.js'
 
-import {getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber, Left, Right, Just, Nothing, either} from "../maybe/maybe.js";
+import {maybeElement, getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber, Left, Right, Just, Nothing, either, maybeElementWithCustomErrorMessage} from "../maybe/maybe.js";
 import {mapMaybe, flatMapMaybe, Box } from "../box/box.js";
 
 import {
@@ -278,9 +278,14 @@ const reduce = argsPair => s => {
  *
  * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
  */
+const getElementByIndex2 = stack => index =>
+    maybeElementByIndex(stack)(index)
+    ( () => console.error( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
+    ( id )
+
 const getElementByIndex = stack => index =>
     maybeElementByIndex2(stack)(index)
-    ( () => console.error( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
+    ( console.error )
     ( id )
 
 /**
@@ -322,7 +327,9 @@ const maybeElementByIndex2 = stack => index =>
 const getElementByChurchNumberIndex = s => i =>
     If(leq(i)(size(s)))
         (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
-        (Else(Nothing));
+        (Else(undefined));
+
+const maybeElementByChurchNumberIndex = s => i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(s)(i))
 
 /**
  *  A function that takes a stack and an index. The function returns the element at the passed index
@@ -348,12 +355,8 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const maybeElementByJsnumIndex = s => i => {
-    const val = getElementByJsnumIndex(s)(i);
-    return If(convertJsBoolToChurchBool(val === undefined))
-    (Then(Nothing))
-    (Else(Just(val)))
-}
+const maybeElementByJsnumIndex = s => i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(s)(i));
+
 
 
 /**

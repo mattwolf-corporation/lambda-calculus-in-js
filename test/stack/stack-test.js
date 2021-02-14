@@ -210,8 +210,8 @@ stackSuite.add("getElementByIndex with not existing Index", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(-1), undefined);
     assert.equals(getElementByIndex(stackWithNumbers)(7), undefined);
 
-    assert.equals(getElementByIndex(stackWithNumbers)(n7), Nothing);
-    assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), Nothing);
+    assert.equals(getElementByIndex(stackWithNumbers)(n7), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), undefined);
 });
 
 
