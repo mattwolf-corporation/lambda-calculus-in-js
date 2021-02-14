@@ -279,7 +279,7 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
  */
 const getElementByIndex = stack => index =>
-    maybeElementByIndex(stack)(index)
+    maybeElementByIndex2(stack)(index)
     ( () => console.error( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
     ( id )
 
@@ -315,8 +315,7 @@ const maybeElementByIndex = stack => index =>
 const maybeElementByIndex2 = stack => index =>
     maybeNumber(index)
     (
-        mapMaybe(maybeFunction(index))                           // index is NOT a number, then check if a function aka ChurchNumber
-        (getElementByChurchNumberIndex(stack)(index))
+        () => mapMaybe(maybeFunction(index))(i => getElementByChurchNumberIndex(stack)(i))
     )
     ( () => maybeElementByJsnumIndex(stack)(index)  )
 
