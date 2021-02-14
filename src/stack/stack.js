@@ -19,6 +19,7 @@ import {
 } from '../lambda-calculus-library/lambda-calculus.js'
 
 import {getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber, Left, Right, Just, Nothing, either} from "../maybe/maybe.js";
+import {mapMaybe, flatMapMaybe, Box } from "../box/box.js";
 
 import {
     n0,
@@ -311,6 +312,13 @@ const maybeElementByIndex = stack => index =>
     )
     ( () => Just( getElementByJsnumIndex(stack)(index) ) )          // index is a Js-Number
 
+const maybeElementByIndex2 = stack => index =>
+    maybeNumber(index)
+    (
+        mapMaybe(maybeFunction(index))                           // index is NOT a number, then check if a function aka ChurchNumber
+        (getElementByChurchNumberIndex(stack)(index))
+    )
+    ( () => maybeElementByJsnumIndex(stack)(index)  )
 
 const getElementByChurchNumberIndex = s => i =>
     If(leq(i)(size(s)))
