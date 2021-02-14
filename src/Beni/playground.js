@@ -1,13 +1,6 @@
 //import {id, B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "../lambda-calculus-library/lambda-calculus.js";
 const log = console.log
 
-const Left   = x => f => g => f (x);
-const Right  = x => f => g => g (x);
-const either = id;
-
-const Nothing  = () => f => g => f ();
-const Just     = x  => f => g => g (x);
-const maybe    = id;
 
 // const mapAll = arr => (...fns) => arr.map( x => pipeAll(fns)(x) )
 // const mapAll = arr => (...fns) => x =>  arr.map( fns.reduce((v, fn) => fn(v), x) )

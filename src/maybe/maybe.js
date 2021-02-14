@@ -1,10 +1,10 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
 
 export {
-    Nothing, Just,
+    Nothing, Just, either,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe, maybeFunction, maybeJsNumberOrFunction
+    getSafeElementsAsMaybe, maybeFunction, getJsNumberOrFunction
 }
 
 const Left   = x => f => g => f (x);
@@ -36,7 +36,7 @@ const maybeFunction = val =>
         ? Just(val)
         : Nothing
 
-const maybeJsNumberOrFunction = val =>
+const getJsNumberOrFunction = val =>
     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
 
 

@@ -18,7 +18,7 @@ import {
     LazyIf
 } from '../lambda-calculus-library/lambda-calculus.js'
 
-import { maybeFunction, maybeNumber } from "../maybe/maybe.js";
+import {getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber} from "../maybe/maybe.js";
 
 import {
     n0,
@@ -258,18 +258,30 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( n2 ) ===  1
  * getElementByIndex( stackWithNumbers )( n3 ) ===  2
  */
+const maybeElementByIndex = stack => index =>
+    maybeNumber(index)
+    ( maybeFunction(index) // index is NOT a number, then check if ChurchNumber
+        ( Nothing )
+        ( getElementByChurchNumberIndex(stack)(index) )
+    )
+    ( getElementByJsnumIndex(stack)(index) ) // index ia A number
+
+    //
+    // if (typeof index === "number") {
+    //     return getElementByJsnumIndex(stack)(index)
+    // } else if (typeof index === "function" ){
+    //     return getElementByChurchNumberIndex(stack)(index)
+    // }
+    // console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
+
+
+const getElementByIndexNew = stack => index =>
+    maybeElementByIndex(stack)(index)
+    ( console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`)) )
+    ( id )
+
+
 const getElementByIndex = stack => index => {
-    // maybeNumber(index) // Nothing or Just(jsNumer)
-
-    if (typeof index === "number") {
-        return getElementByJsnumIndex(stack)(index)
-    } else if (typeof index === "function" ){
-        return getElementByChurchNumberIndex(stack)(index)
-    }
-    console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
-};
-
-const getElementByIndexOld = stack => index => {
     if (typeof index === "number") {
         return getElementByJsnumIndex(stack)(index)
     } else if (typeof index === "function" ){
