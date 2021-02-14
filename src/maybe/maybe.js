@@ -29,12 +29,12 @@ const maybeDiv = num => divisor =>
 const maybeNumber = val =>
     Number.isInteger(val)
         ? Just(val)
-        : Left("value is not a integer");
+        : Left(`${val}, is not a integer`);
 
 const maybeFunction = val =>
     typeof val === "function"
         ? Just(val)
-        : Left("value is not a function");
+        : Left(`${val}, is not a function`);
 
 const getJsNumberOrFunction = val =>
     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )

@@ -320,7 +320,10 @@ const maybeElementByIndex = stack => index =>
 const maybeElementByIndex2 = stack => index =>
     maybeNumber(index)
     (
-        () => mapMaybe(maybeFunction(index))(i => getElementByChurchNumberIndex(stack)(i))
+        // () => mapMaybe(maybeFunction(index))(i => getElementByChurchNumberIndex(stack)(i))
+        _ => maybeFunction(index)
+        ( _ => Left(`the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+        ( i => Right(getElementByChurchNumberIndex(stack)(i)) )
     )
     ( () => maybeElementByJsnumIndex(stack)(index)  )
 
