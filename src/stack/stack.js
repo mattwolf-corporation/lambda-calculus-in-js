@@ -18,7 +18,7 @@ import {
     LazyIf
 } from '../lambda-calculus-library/lambda-calculus.js'
 
-import {getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber} from "../maybe/maybe.js";
+import {getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber, Left, Right, Just, Nothing, either} from "../maybe/maybe.js";
 
 import {
     n0,
@@ -38,7 +38,6 @@ import {
     toChurchNum
 } from '../lambda-calculus-library/church-numerals.js'
 
-import { Nothing, Just } from '../maybe/maybe.js'
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
     hasPre, push, pop, head, size, reduce, filter, map,
@@ -62,6 +61,7 @@ export {
  * @typedef {function} stack
  * @typedef {function} stackOp
  * @typedef {number} JsNumber
+ * @typedef {function} maybe
  */
 
 /**
@@ -176,7 +176,14 @@ const pop = s => pair(getPreStack(s))(head(s));
  */
 const head = s => s(stackValue);
 
-
+/**
+ * A function that takes a stack. The function returns the index (aka stack-size) of the stack
+ *
+ * @haskell size :: stack -> churchNumber
+ * @function
+ * @param {stack} s
+ * @return {churchNumber} stack-index as church numeral
+ */
 const getStackIndex = s => s(stackIndex);
 
 /**
@@ -185,7 +192,7 @@ const getStackIndex = s => s(stackIndex);
  * @haskell size :: stack -> churchNumber
  * @function
  * @param {stack} s
- * @return {churchNumber} stack-index as church numeral
+ * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
 
@@ -247,12 +254,14 @@ const reduce = argsPair => s => {
 //                                 (thirdOfTriple);
 
 
+
 /**
- * A function that takes a stack and an index (as church number). The function returns the element at the passed index
- * @haskell getElementByIndex :: stack -> churchNumber -> b
+ * A function that takes a stack and an index (as Church- or JS-Number). The function returns the element at the passed index
+ * @haskell getElementByIndex :: stack -> number -> b
+ * @throws Logs a error if index is no Church- or JS-Number and returns a undefined
  * @function
  * @param {stack} stack
- * @return {function(index:{churchNumber}) : * } stack-value
+ * @return {function(index:churchNumber|number) : * } stack-value or undefined not exist
  * @example
  * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
  *
@@ -260,46 +269,53 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( n1 ) ===  0
  * getElementByIndex( stackWithNumbers )( n2 ) ===  1
  * getElementByIndex( stackWithNumbers )( n3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( 0 ) === id
+ * getElementByIndex( stackWithNumbers )( 1 ) ===  0
+ * getElementByIndex( stackWithNumbers )( 2 ) ===  1
+ * getElementByIndex( stackWithNumbers )( 3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
+ */
+const getElementByIndex = stack => index =>
+    maybeElementByIndex(stack)(index)
+    ( () => console.warn( new Error(`No Index type of ${typeof index} allowed. Use Js- or Church-Numbers`)) )
+    ( id )
+
+/**
+ * A function that takes a stack and an index (as Church- or JS-Number). The function returns a maybe with the value or Nothing if not exist or illegale index argument
+ * @haskell maybeElementByIndex :: stack -> number -> maybe
+ * @function
+ * @param {stack} stack
+ * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
+ * @example
+ * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
+ *
+ * maybeElementByIndex( stackWithNumbers )( n0 ) === Just(id)
+ * maybeElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
+ * maybeElementByIndex( stackWithNumbers )( n2 ) ===  Just(1)
+ * maybeElementByIndex( stackWithNumbers )( n3 ) ===  Just(2)
+ *
+ * maybeElementByIndex( stackWithNumbers )( 0 ) === Just(id)
+ * maybeElementByIndex( stackWithNumbers )( 1 ) ===  Just(0)
+ * maybeElementByIndex( stackWithNumbers )( 2 ) ===  Just(1)
+ * maybeElementByIndex( stackWithNumbers )( 3 ) ===  Just(2)
+ *
+ * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
 const maybeElementByIndex = stack => index =>
     maybeNumber(index)
-    ( maybeFunction(index) // index is NOT a number, then check if ChurchNumber
-        ( Nothing )
-        ( getElementByChurchNumberIndex(stack)(index) )
+    ( () => maybeFunction(index)                                    // index is NOT a number, then check if a function aka ChurchNumber
+        ( () => Nothing )
+        ( () => Just(getElementByChurchNumberIndex(stack)(index)) ) // index is a Church-Number
     )
-    ( getElementByJsnumIndex(stack)(index) ) // index ia A number
-
-    //
-    // if (typeof index === "number") {
-    //     return getElementByJsnumIndex(stack)(index)
-    // } else if (typeof index === "function" ){
-    //     return getElementByChurchNumberIndex(stack)(index)
-    // }
-    // console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
-
-
-const getElementByIndexNew = stack => index =>
-    maybeElementByIndex(stack)(index)
-    ( console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`)) )
-    ( id )
-
-
-const getElementByIndex = stack => index => {
-    if (typeof index === "number") {
-        return getElementByJsnumIndex(stack)(index)
-    } else if (typeof index === "function" ){
-        return getElementByChurchNumberIndex(stack)(index)
-    }
-    console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
-};
-
+    ( () => Just( getElementByJsnumIndex(stack)(index) ) )          // index is a Js-Number
 
 
 const getElementByChurchNumberIndex = s => i =>
     If(leq(i)(size(s)))
         (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
         (Else(Nothing));
-
 
 /**
  *  A function that takes a stack and an index. The function returns the element at the passed index
@@ -308,7 +324,6 @@ const getElementByChurchNumberIndex = s => i =>
  * @param {stack} s
  * @return { function(i:Number) : * } stack-value
  */
-// This function is save vor any value of i
 const getElementByJsnumIndex = s => i => {
     const times = succ(size(s));
     const initArgsPair = pair(s)(undefined); // Nothing or undefined
@@ -429,7 +444,7 @@ const filter = filterFunction => s => {
         const increasedIndex = succ(index);
 
         if (convertToJsBool(not(eq(times)(index)))) {
-            const value = getElementByIndex(s)(increasedIndex);
+            const value = getElementByChurchNumberIndex(s)(increasedIndex) //( console.error( new Error(`elementByIndex in Function Filter error ${typeof increasedIndex} -> ${increasedIndex}`)) )( id );
 
             if (filterFunction(value)) {
                 const resultStack = push(stack)(value);

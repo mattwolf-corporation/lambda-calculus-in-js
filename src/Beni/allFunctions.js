@@ -785,32 +785,22 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( n2 ) ===  1
  * getElementByIndex( stackWithNumbers )( n3 ) ===  2
  */
-const maybeElementByIndex = stack => index =>
-    maybeNumber(index)
-    ( () => maybeFunction(index) // index is NOT a number, then check if ChurchNumber
-        ( Nothing )
-        ( () => Just(getElementByChurchNumberIndex(stack)(index)) )
-    )
-    ( () => Just( getElementByJsnumIndex(stack)(index) ) ) // index ia A number
-
-//
-// if (typeof index === "number") {
-//     return getElementByJsnumIndex(stack)(index)
-// } else if (typeof index === "function" ){
-//     return getElementByChurchNumberIndex(stack)(index)
-// }
-// console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
-
-// vale = n1
-// maybeNumber(vale)( () => maybeFunction(vale)( Nothing ) ( f => "function " + f ) ) ( n => "number " + n )
-
-const getElementByIndexNew = stack => index =>
+const getElementByIndex = stack => index =>
     maybeElementByIndex(stack)(index)
-    ( console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`)) )
+    ( () => {console.warn( new Error(`No Index type of ${typeof index} allowed. Use Js- or Church-Numbers`))} )
     ( id )
 
 
-const getElementByIndex = stack => index => {
+const maybeElementByIndex = stack => index =>
+    maybeNumber(index)
+    ( () => maybeFunction(index)                                    // index is NOT a number, then check if a function aka ChurchNumber
+        ( Nothing )
+        ( () => Just(getElementByChurchNumberIndex(stack)(index)) ) // index is a Church-Number
+    )
+    ( () => Just( getElementByJsnumIndex(stack)(index) ) )          // index is a Js-Number
+
+
+const getElementByIndexOld = stack => index => {
     if (typeof index === "number") {
         return getElementByJsnumIndex(stack)(index)
     } else if (typeof index === "function" ){
@@ -827,6 +817,9 @@ const getElementByChurchNumberIndex = s => i =>
     (Else(Nothing));
 
 
+
+const getStackIndex = s => s(stackIndex);
+
 /**
  *  A function that takes a stack and an index. The function returns the element at the passed index
  *
@@ -834,25 +827,66 @@ const getElementByChurchNumberIndex = s => i =>
  * @param {stack} s
  * @return { function(i:Number) : * } stack-value
  */
+// This function is save vor any value of i
 const getElementByJsnumIndex = s => i => {
-    const times = size(s);
-
-    const initArgsPair = pair(s)(id); // set default to Nothing
+    const times = succ(size(s));
+    const initArgsPair = pair(s)(undefined); // Nothing or undefined
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
-        const predecessorStack = getPreStack(stack);
+        const result = pair(getPreStack(stack));
 
-        // zero does not come in index
-        if (jsNum((stack)(stackIndex)) === i) {
-            return pair(predecessorStack)(head(stack));
+        // was ist aufwändiger toJsnum oder toChurchNum ?? evtl. hier austauschen
+        if (jsNum(getStackIndex(stack)) === i) {
+            return result(head(stack));
         }
-
-        return pair(predecessorStack)(argsPair(snd));
+        return result(argsPair(snd));
     };
-
     return (times(getElement)(initArgsPair))(snd);
 };
+
+const maybeElementByJsnumIndex = s => i => {
+    const val = getElementByJsnumIndex(s)(i);
+    return If(convertJsBoolToChurchBool(val === undefined))
+    (Then(Nothing))
+    (Else(Just(val)))
+}
+
+
+
+//
+// const getElementByChurchNumberIndex = s => i =>
+//     If(leq(i)(size(s)))
+//     (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
+//     (Else(Nothing));
+//
+//
+// /**
+//  *  A function that takes a stack and an index. The function returns the element at the passed index
+//  *
+//  * @function
+//  * @param {stack} s
+//  * @return { function(i:Number) : * } stack-value
+//  */
+// const getElementByJsnumIndex = s => i => {
+//     const times = size(s);
+//
+//     const initArgsPair = pair(s)(id); // set default to Nothing
+//
+//     const getElement = argsPair => {
+//         const stack = argsPair(fst);
+//         const predecessorStack = getPreStack(stack);
+//
+//         // zero does not come in index
+//         if (jsNum((stack)(stackIndex)) === i) {
+//             return pair(predecessorStack)(head(stack));
+//         }
+//
+//         return pair(predecessorStack)(argsPair(snd));
+//     };
+//
+//     return (times(getElement)(initArgsPair))(snd);
+// };
 
 
 /**

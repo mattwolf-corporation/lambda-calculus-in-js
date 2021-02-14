@@ -57,8 +57,6 @@ import {
 } from "../../src/stack/stack.js";
 import {getOrDefault, Just, Nothing} from "../../src/maybe/maybe.js";
 
-import { Nothing } from "../../src/maybe/maybe.js";
-
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
 // Test data
@@ -188,18 +186,21 @@ stackSuite.add("getElementByIndex with JsNumber", assert => {
 
 
 stackSuite.add("getElementByIndex with not existing Index", assert => {
-    assert.equals(getElementByIndex(stackWithNumbers)(NaN), id);
-    assert.equals(getElementByIndex(stackWithNumbers)(Infinity), id);
-    assert.equals(getElementByIndex(stackWithNumbers)(9999), id);
-    assert.equals(getElementByIndex(stackWithNumbers)(-1), id);
-    assert.equals(getElementByIndex(stackWithNumbers)(7), id);
+    assert.equals(getElementByIndex(stackWithNumbers)(NaN), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)(Infinity), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)(9999), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)(-1), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)(7), undefined);
 
+    assert.equals(getElementByIndex(stackWithNumbers)("1"), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)("blabla"), undefined);
+
+    assert.equals(getElementByIndex(stackWithNumbers)({}), undefined);
+    assert.equals(getElementByIndex(stackWithNumbers)([]), undefined);
 
     assert.equals(getElementByIndex(stackWithNumbers)(n7), Nothing);
     assert.equals(getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), Nothing);
-    assert.equals(getElementByIndex(stackWithNumbers)("1"), Nothing);
-    //assert.equals(getElementByIndex(stackWithNumbers)(10), 35);
-    //assert.equals(getElementByIndex(stackWithNumbers)(""), 35);
+
 });
 
 
