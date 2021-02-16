@@ -110,7 +110,7 @@ const churchPotency = T;
  * query if the church number is zero (n0)
  *
  * @function
- * @param n {churchNumber}
+ * @param {churchNumber} n
  * @return {churchBoolean} True / False
  */
 const is0 = n => n(K(False))(True);

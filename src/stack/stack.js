@@ -18,8 +18,20 @@ import {
     LazyIf
 } from '../lambda-calculus-library/lambda-calculus.js'
 
-import {maybeElement, getOrDefault, maybeFunction, getJsNumberOrFunction, maybeNumber, Left, Right, Just, Nothing, either, maybeElementWithCustomErrorMessage} from "../maybe/maybe.js";
-import {mapMaybe, flatMapMaybe, Box } from "../box/box.js";
+import {
+    maybeElement,
+    getOrDefault,
+    maybeFunction,
+    getJsNumberOrFunction,
+    maybeNumber,
+    Left,
+    Right,
+    Just,
+    Nothing,
+    either,
+    maybeElementWithCustomErrorMessage
+} from "../maybe/maybe.js";
+import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";
 
 import {
     n0,
@@ -46,7 +58,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, maybeElementByJsnumIndex
+    zipWith, zipWithOneLiner, stackEquals
 }
 
 //  {function(index:*): function(value:*):  function(head:*): function(f:function): ({f: {x y z}}) }
@@ -255,7 +267,6 @@ const reduce = argsPair => s => {
 //                                 (thirdOfTriple);
 
 
-
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns the element at the passed index
  * @haskell getElementByIndex :: stack -> number -> b
@@ -278,15 +289,10 @@ const reduce = argsPair => s => {
  *
  * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
  */
-const getElementByIndex2 = stack => index =>
-    maybeElementByIndex(stack)(index)
-    ( () => console.error( new Error(`getElementByIndex - the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`)) )
-    ( id )
-
 const getElementByIndex = stack => index =>
-    maybeElementByIndex2(stack)(index)
-    ( console.error )
-    ( id )
+    maybeElementByIndex(stack)(index)
+    (console.error)
+    (id)
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns a maybe with the value or Nothing if not exist or illegal index argument
@@ -311,31 +317,29 @@ const getElementByIndex = stack => index =>
  */
 const maybeElementByIndex = stack => index =>
     maybeNumber(index)
-    ( () => maybeFunction(index)                                    // index is NOT a number, then check if a function aka ChurchNumber
-        ( () => Nothing )
-        ( () => Just(getElementByChurchNumberIndex(stack)(index)) ) // index is a Church-Number
-    )
-    ( () => Just( getElementByJsnumIndex(stack)(index) ) )          // index is a Js-Number
-
-const maybeElementByIndex2 = stack => index =>
-    maybeNumber(index)
     (
-        // () => mapMaybe(maybeFunction(index))(i => getElementByChurchNumberIndex(stack)(i))
-        _ => maybeFunction(index)
-        ( _ => Left(`the index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-        ( i => Right(getElementByChurchNumberIndex(stack)(i)) )
+        _ => maybeFunction(index)     // index is NOT a number, then check if a function aka ChurchNumber
+            (_ => Left(`getElementByIndex - index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+            (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(i)))  // index is a Church-Number
     )
-    ( () => maybeElementByJsnumIndex(stack)(index)  )
+    (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(i)))             // index is a Js-Number
 
-const getElementByChurchNumberIndex = s => i =>
-    If(leq(i)(size(s)))
-        (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
-        (Else(undefined));
-
-const maybeElementByChurchNumberIndex = s => i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(s)(i))
 
 /**
- *  A function that takes a stack and an index. The function returns the element at the passed index
+ *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
+ *
+ * @function
+ * @param {stack} stack
+ * @return { function(i:churchNumber) : * } stack-value
+ */
+const getElementByChurchNumberIndex = s => i =>
+    If(leq(i)(size(s)))
+    (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
+    (Else(undefined));
+
+
+/**
+ *  A function that takes a stack and an index as JsNumber. The function returns the element at the passed index
  *
  * @function
  * @param {stack} s
@@ -357,9 +361,6 @@ const getElementByJsnumIndex = s => i => {
     };
     return (times(getElement)(initArgsPair))(snd);
 };
-
-const maybeElementByJsnumIndex = s => i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(s)(i));
-
 
 
 /**
@@ -384,7 +385,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -523,7 +524,7 @@ const forEachOld = stack => f => {
     const reversedStack = reverseStack(stack);
 
     const iteration = s => {
-        if(convertToJsBool(hasPre(s))) {
+        if (convertToJsBool(hasPre(s))) {
             const element = head(s);
             const index = jsNum(succ(churchSubtraction(times)(size(s))));
 
