@@ -709,28 +709,39 @@ const zipWith = f => s1 => s2 => {
     const reversedStack2 = reverseStack(s2);
 
     const zipElements = t => {
-        const s1 = t(firstOfTriple);
-        const s2 = t(secondOfTriple);
-        const acc = t(thirdOfTriple);
+        const s1    = t(firstOfTriple);
+        const s2    = t(secondOfTriple);
+        const acc   = t(thirdOfTriple);
 
         const element1 = head(s1);
         const element2 = head(s2);
 
         const result = push(acc)(f(element1)(element2));
 
-        return triple(getPreStack(s1))(getPreStack(s2))(result);
+        return triple
+            (getPreStack(s1))
+            (getPreStack(s2))
+            (result);
     }
 
     const iteration = t =>
         If(hasPre(t(firstOfTriple)))
-        (Then(zipElements(t)))
-        (Else(t));
+            (Then(zipElements(t)))
+            (Else(t));
 
-    const times = If(leq(size1)(size2))
-    (Then(size1))
-    (Else(size2));
+    const times =  // Todo: impl Min & Max of churchNumbers
+        If(leq(size1)(size2))
+            (Then(size1))
+            (Else(size2));
 
-    return times(iteration)(triple(reversedStack1)(reversedStack2)(emptyStack))(thirdOfTriple);
+    return times
+        (iteration)
+        (triple
+            (reversedStack1)
+            (reversedStack2)
+            (emptyStack)
+        )
+        (thirdOfTriple);
 }
 
 // const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
@@ -743,7 +754,7 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 
-// TODO: zip with empyt stacks ?
+// TODO: zip with empty stacks ?
 /**
  *  Zip (combine) two Stack to one stack of pairs
  * @haskell zip :: [a] -> [b] -> [(a, b)]

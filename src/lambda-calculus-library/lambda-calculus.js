@@ -195,9 +195,10 @@ const True = K;
 /**
  * TODO: Doc IF
  */
-const If     = condition => truthy => falsy => condition(truthy)(falsy);
+const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
 
-const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy))();
+//TODO: params -> function without param: () => f
+const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy)) ();
 
 /**
  * Syntactic sugar for If-Construct
@@ -209,13 +210,12 @@ const Else = I;
  * f -> x -> y -> f( x )( y ) ; not
  *
  * @function
- * @param {churchBoolean} Church-Boolean
+ * @param   {churchBoolean} Church-Boolean
  * @returns {churchBoolean} negation of the insert Church-Boolean
  * @example
  * not(True)      === False;
  * not(False)     === True;
  * not(not(True)) === True;
- * @return Cestral
  */
 const not = C;
 
