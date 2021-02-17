@@ -645,15 +645,12 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
  * getElementByIndex( concatedStacks )( 3 ) === "World"
  * getElementByIndex( concatedStacks )( 4 ) === "Random"
  */
-const concat = s1 => s2 => {
-    if (s1 === emptyStack) {
-        return s2;
-    } else if (s2 === emptyStack) {
-        return s1;
-    } else {
-        return reduce(pair((acc, curr) => push(acc)(curr))(s1))(s2);
-    }
-}
+const concat = s1 => s2 =>
+    s1 === emptyStack
+        ? s2
+        : s2 === emptyStack
+          ? s1
+          : reduce( pair ((acc, curr) => push(acc) (curr)) (s1)) (s2);
 
 /**
  *
