@@ -44,16 +44,8 @@ Ctrl-Shift-P  : expression type
 
 /**
  * Generic Types
- * @typedef {*} a
- * @typedef {*} b
- * @typedef {*} c
- * @typedef {(a|b|c)} abc
- * @typedef {*} p
- * @typedef {*} q
- * @typedef {*} x
- * @typedef {*} *
- * @typedef {*} y
  * @typedef {function} pair
+ * @typedef {function} triple
  * @typedef {function} churchBoolean
  */
 
@@ -70,46 +62,46 @@ const I = x => x;
 
 /**
  * a -> b -> a ; Kestrel (Constant)
- * @lambda λx.y.x
+ * @lambda  λx.y.x
  * @haskell Kestrel :: a -> b -> a
  *
  * @function Konstant
- * @param  {*} x
- * @returns { function(y:*): function(x:*) } a function that ignores its argument and returns x
+ * @param    {*} x
+ * @returns  { function(y:*): function(x:*) } a function that ignores its argument and returns x
  */
 const K = x => y => x;
 
 /**
  * x -> y -> y ; Kite
- * @lambda λx.y.y
+ * @lambda  λx.y.y
  * @haskell Kite :: a -> b -> b
  *
  * @function Kite
- * @param {*} x
- * @returns { function(y:*): function(y:*) } a function that returns its argument y
+ * @param    {*} x
+ * @returns  { function(y:*): function(y:*) } a function that returns its argument y
  */
 const KI = x => y => y;
 
 /**
  * f -> f( f ) ; Mockingbird
- * @lambda λf.ff
+ * @lambda  λf.ff
  * @haskell Mockingbird :: f -> f
  *
  * @function Mockingbird
- * @param {function} f
+ * @param   {function} f
  * @returns { function({ f: { f } }) } a self-application combinator
  */
 const M = f => f(f);
 
 /**
  * f -> x -> y -> f( x )( y ) ; Cardinal (flip)
- * @lambda λfxy.fxy
+ * @lambda  λfxy.fxy
  * @haskell Cardinal :: f -> a -> b -> pair
  *
  * @function Cardinal
  * @function flip
- * @param  {function} f
- * @returns { function(x:*): function(y:*): {f: { y x }} } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
+ * @param    {function} f
+ * @returns  { function(x:*): function(y:*): {f: { y x }} } The Cardinal, aka flip, takes two-argument function, and produces a function with reversed argument order.
  *
  * @example
  * C(K) (1)(2)  === 2
@@ -125,7 +117,7 @@ const C = f => x => y => f(y)(x);
  * @haskell Bluebird :: f -> a -> b -> c
  *
  * @function Bluebird
- * @param {function} f
+ * @param   {function} f
  * @returns { function(g:function): function(x:*):  {f: { g:{x} } } } two-fold self-application composition
  *
  * @example
@@ -139,12 +131,12 @@ const B = f => g => x => f(g(x));
 /**
  * x -> f -> f( x ) ; Thrush (hold an argument)
  *
- * @lambda λxf.fx
+ * @lambda  λxf.fx
  * @haskell Thrush :: a -> f -> b
  *
  * @function Thrush
- * @param {*} x
- * @returns { function(f:function): {f: {x} } } self-application with holden argument
+ * @param    {*} x
+ * @returns  { function(f:function): {f: {x} } } self-application with holden argument
  */
 const T = x => f => f(x);
 
@@ -152,12 +144,12 @@ const T = x => f => f(x);
 /**
  * x -> y -> f -> f (x)(y) ; Vireo (hold pair of args)
  *
- * @lambda λxyf.fxy
+ * @lambda  λxyf.fxy
  * @haskell Vireo :: a -> b -> f
  *
  * @function Vireo
- * @param {*} x
- * @returns { function(y:*): function(f:function): {f: {x y} } }
+ * @param    {*} x
+ * @returns  { function(y:*): function(f:function): {f: {x y} } }
  */
 const V = x => y => f => f(x)(y);
 
@@ -165,11 +157,11 @@ const V = x => y => f => f(x)(y);
 /**
  * f -> g -> x -> y -> f( g(x)(y) ) ; Blackbird (Function composition with two args)
  *
- * @lambda λfgxy.f(gxy)
+ * @lambda  λfgxy.f(gxy)
  * @haskell Blackbird :: f -> g -> a -> b -> c
  *
  * @function
- * @param {function} f
+ * @param   {function} f
  * @returns { function(g:function): function(x:*): function(y:*): function({ f:{g: {x y}} }) }
  * @example
  * Blackbird(x => x)(x => y => x + y)(2)(3)     === 5
@@ -180,24 +172,47 @@ const Blackbird = f => g => x => y => f(g(x)(y));
 /**
  * x -> y -> y ; {churchBoolean} False Church-Boolean
  * @function
- * @return KI
+ * @type    churchBoolean
+ * @return  KI
  */
 const False = KI;
 
 /**
  * x -> y -> x ; {churchBoolean} True Church-Boolean
  * @function
- * @return K
+ * @type    churchBoolean
+ * @return  K
  */
 const True = K;
 
 
 /**
- * TODO: Doc IF
+ * Syntactic sugar for creating a If-Then-Else-Construct
+ * Hint: Better use LazyIf to avoid that JavaScript eagerly evaluate both cases (then and else).
+ *
+ * @param condition
+ * @return {function(truthy:churchBoolean): function(falsy:churchBoolean): *}
+ * @constructor
+ * @example
+ * If( eq(n1)(n1) )
+ *    (Then( "same"     ))
+ *    (Else( "not same" ))
  */
 const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
 
-//TODO: params -> function without param: () => f
+/**
+ * Syntactic sugar for creating a If-Then-Else-Construct for lazy Evaluation - it avoid that JavaScript eagerly evaluate both cases (then and else)
+ * Important: Use in 'Then' and 'Else' as function without param: () => "your function"
+ *
+ *
+ * @param condition
+ * @return {function(truthy:churchBoolean): function(falsy:churchBoolean): *}
+ * @constructor
+ * @example
+ * LazyIf( eq(n1)(n1) )
+ *      (Then( () => "same"     ))
+ *      (Else( () => "not same" ))
+ */
 const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy)) ();
 
 /**
@@ -223,7 +238,7 @@ const not = C;
  * p -> q -> p( q )(False) ; and
  *
  * @function
- * @param {churchBoolean} p
+ * @param   {churchBoolean} p
  * @returns { function(q:churchBoolean): churchBoolean }  True or False
  */
 const and = p => q => p(q)(False);
@@ -232,7 +247,7 @@ const and = p => q => p(q)(False);
  * p -> q -> p( True )(q) ; or
  *
  * @function
- * @param {churchBoolean} p
+ * @param   {churchBoolean} p
  * @returns { function(q:churchBoolean): churchBoolean }  True or False
  */
 const or = p => q => p(True)(q);
@@ -241,7 +256,7 @@ const or = p => q => p(True)(q);
  * p -> q -> p( q )( not(qn) ) ; beq (ChurchBoolean-Equality)
  *
  * @function
- * @param {churchBoolean} p
+ * @param   {churchBoolean} p
  * @returns { function( q:churchBoolean): churchBoolean }  True or False
  * @example
  * beq(True)(True)   === True;
@@ -265,14 +280,24 @@ const showBoolean = b => b("True")("False");
  * b -> b(true)(false) ; convertToJsBool
  *
  * @function
- * @param b {churchBoolean}
- * @return {boolean} - true or false
+ * @param   {churchBoolean} b
+ * @return  {boolean} - true or false
  * @example
  * convertToJsBool(True)  === true;
  * convertToJsBool(False) === false;
  */
 const convertToJsBool = b => b(true)(false);
 
+/**
+ * b => b ? True : False ; convertJsBoolToChurchBool
+ *
+ * @function
+ * @param   {boolean} b
+ * @return  {churchBoolean} - True or False
+ * @example
+ * convertJsBoolToChurchBool(true)  === True;
+ * convertJsBoolToChurchBool(false) === False;
+ */
 const convertJsBoolToChurchBool = b => b ? True : False;
 
 /**

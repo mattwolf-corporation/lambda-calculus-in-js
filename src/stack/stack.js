@@ -153,19 +153,19 @@ const stackValue = thirdOfTriple;
  * A function that takes a stack and returns a church-boolean, which indicates whether the stack has a predecessor stack
  * @haskell: hasPre :: a -> churchBoolean
  * @function hasPredecessor
- * @param {stack} stack
+ * @param {stack} s
  * @return {churchBoolean} churchBoolean
  */
-const hasPre = stack => not(is0(stack(stackIndex)));
+const hasPre = s => not(is0(s(stackIndex)));
 
 /**
  * A function that takes a stack and returns the predecessor stack
  * @haskell getPreStack :: stack -> stack
  * @function getPredecessorStack
- * @param {stack} stack
+ * @param {stack} s
  * @return {stack} predecessor of that stack
  */
-const getPreStack = stack => stack(stackPredecessor)
+const getPreStack = s => s(stackPredecessor)
 
 
 /**
@@ -179,37 +179,37 @@ const push = s => stack(succ(s(stackIndex)))(s);
 /**
  * A function that takes a stack. The function returns a value pair. The first element of the pair is the predecessor stack. The second element of the pair is the head (the top element) of the stack.
  * @haskell pop :: stack -> pair
- * @param {stack} stack
+ * @param {stack} s
  * @return {pair} pair
  */
-const pop = stack => pair(getPreStack(stack))(head(stack));
+const pop = s => pair(getPreStack(s))(head(s));
 
 /**
  * A function that takes a stack. The function returns the head (the top value) of the stack.
  *
  * @haskell head :: stack -> a
  * @function
- * @param {stack} stack
+ * @param {stack} s
  * @return {*} stack-value
  */
-const head = stack => stack(stackValue);
+const head = s => s(stackValue);
 
 /**
  * A function that takes a stack. The function returns the index (aka stack-size) of the stack
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} stack
+ * @param {stack} s
  * @return {churchNumber} stack-index as church numeral
  */
-const getStackIndex = stack => stack(stackIndex);
+const getStackIndex = s => s(stackIndex);
 
 /**
  * A function that takes a stack. The function returns the size (number of elements) in the stack
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} stack
+ * @param {stack} s
  * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
@@ -482,16 +482,6 @@ const filter = filterFunction => s => {
 const logStackToConsole = stack =>
     forEach(stack)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element)))
 
-// const logStackToConsole = stack => {
-//
-//     const logIteration = (acc, curr) => {
-//         const index = acc + 1;
-//         console.log('element at: ' + index + ': ' + JSON.stringify(curr));
-//         return index;
-//     };
-//
-//     reduce(stack)(pair(logIteration)(0));
-// };
 
 /**
  * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
@@ -662,12 +652,12 @@ const concat = s1 => s2 =>
  * @return {stack} a flatten stack
  *
  * @example
- * const s1 = convertArrayToStack([1, 2]);
- * const s2 = convertArrayToStack([3, 4]);
- * const s3 = convertArrayToStack([5, 6]);
- * const stackWithStacks = convertArrayToStack([s1, s2, s3]);
+ * const s1            = convertArrayToStack([1, 2]);
+ * const s2            = convertArrayToStack([3, 4]);
+ * const s3            = convertArrayToStack([5, 6]);
+ * const stackOfStacks = convertArrayToStack([s1, s2, s3]);
  *
- * const flattenStack = flatten(stackWithStacks);
+ * const flattenStack  = flatten(stackOfStacks);
  *
  * jsNum( size( flattenStack ) )          ===  6
  *
@@ -692,8 +682,8 @@ const flatten = reduce( pair( (acc, curr) => concat( acc )( curr ) )(emptyStack)
  *
  * @example
  * const add = x => y => x + y;
- * const s1 = convertArrayToStack([1, 2, 3]);
- * const s2 = convertArrayToStack([4, 5, 6]);
+ * const s1  = convertArrayToStack([1, 2, 3]);
+ * const s2  = convertArrayToStack([4, 5, 6]);
  *
  * const zippedStack = zipWith(add)(s1)(s2);
  *
@@ -803,11 +793,11 @@ const stackEquals = s1 => s2 => {
     }
 
     const iteration = t =>
-        LazyIf(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
+        LazyIf( and( hasPre( t(firstOfTriple)) )( t(thirdOfTriple)) )
         (Then(() => compareElements(t)))
         (Else(() => t));
 
-    return LazyIf(eq(size1)(size2))
-    (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
+    return LazyIf( eq(size1)(size2) )
+        (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
         (Else(() => False))
 }

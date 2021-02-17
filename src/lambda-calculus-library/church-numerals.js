@@ -8,14 +8,6 @@ export {
 
 /**
  * Generic Types
- * @typedef {*} a
- * @typedef {*} b
- * @typedef {*} c
- * @typedef {(a|b|c)} abc
- * @typedef {function} fn
- * @typedef {function} gn
- * @typedef {function} pn
- * @typedef {function} qn
  * @typedef {function} churchBoolean
  * @typedef {function} churchNumber
  */
@@ -42,7 +34,7 @@ const n9 = f => a => f(f(f(f(f(f(f(f(f(a)))))))));
  * @haskell successor :: Number -> a -> b -> Number
  *
  * @function successor
- * @param {churchNumber} n
+ * @param   {churchNumber} n
  * @returns {function(f:function): churchNumber} successor of n
  */
 const succ = n => f => B(f)(n(f));
@@ -54,8 +46,8 @@ const succ = n => f => B(f)(n(f));
  * @haskell churchAddition :: Number -> Number -> Number
  *
  * @function
- * @param n {churchNumber}
- * @returns {function(k:{churchNumber}): churchNumber } Church-Number
+ * @param   {churchNumber} n
+ * @returns {function(k:churchNumber): churchNumber } Church-Number
  */
 const churchAddition = n => k => n(succ)(k);
 
@@ -64,7 +56,7 @@ const churchAddition = n => k => n(succ)(k);
  * creates a new pair, replace first value with the second and increase the second value
  *
  * @function
- * @param {pair} p
+ * @param   {pair} p
  * @returns {pair} pair
  */
 const phi = p => pair(p(snd))(succ(p(snd)));
@@ -74,8 +66,8 @@ const phi = p => pair(p(snd))(succ(p(snd)));
  * return the predecessor of passed churchNumber (minimum is n0 aka Zero). Is needed for churchSubtraction
  *
  * @function predecessor
- * @param {churchNumber} n
- * @returns {churchNumber} predecessor of n
+ * @param    {churchNumber} n
+ * @returns  {churchNumber} predecessor of n
  */
 const pred = n => n(phi)(pair(n0)(n0))(fst);
 
@@ -83,8 +75,8 @@ const pred = n => n(phi)(pair(n0)(n0))(fst);
  * Subtraction with two Church-Numbers
  *
  * @function
- * @param n {churchNumber}
- * @return {function(k:{churchNumber}): churchNumber } Church-Number
+ * @param  {churchNumber} n
+ * @return {function(k:churchNumber): churchNumber } Church-Number
  */
 const churchSubtraction = n => k => k(pred)(n);
 
@@ -92,7 +84,7 @@ const churchSubtraction = n => k => k(pred)(n);
  * Multiplication with two Church-Numbers
  *
  * @function
- * @param n {churchNumber}
+ * @param   {churchNumber} n
  * @returns {function(k:churchNumber): churchNumber } Church-Number
  */
 const churchMultiplication = B;
@@ -101,8 +93,8 @@ const churchMultiplication = B;
  * Potency with two Church-Numbers
  *
  * @function
- * @param n1 {churchNumber}
- * @returns {function(n1:{x}): function(n2:{f}): churchNumber } Church-Number
+ * @param   {churchNumber} n
+ * @returns {function(k:x): churchNumber } Church-Number
  */
 const churchPotency = T;
 
@@ -110,7 +102,7 @@ const churchPotency = T;
  * query if the church number is zero (n0)
  *
  * @function
- * @param {churchNumber} n
+ * @param  {churchNumber} n
  * @return {churchBoolean} True / False
  */
 const is0 = n => n(K(False))(True);
@@ -119,7 +111,7 @@ const is0 = n => n(K(False))(True);
  * converts a js number to a church number
  *
  * @function
- * @param {number} n
+ * @param   {number} n
  * @returns {churchNumber} church number of n
  */
 const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
@@ -128,7 +120,7 @@ const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
  * converts a church number to a js number
  *
  * @function
- * @param {churchNumber} n
+ * @param   {churchNumber} n
  * @returns {number} js number of n
  */
 const jsNum = n => n(x => x + 1)(0);
@@ -136,6 +128,8 @@ const jsNum = n => n(x => x + 1)(0);
 
 /**
  * "less-than-or-equal-to" with Church-Numbers
+ *
+ * @function
  * @param  {churchNumber} n
  * @return {function(k:churchNumber): churchBoolean} True / False
  */
@@ -144,6 +138,7 @@ const leq = n => k => is0(churchSubtraction(n)(k));
 /**
  * "equal-to" with Church-Number
  *
+ * @function
  * @param  {churchNumber} n
  * @return {function(k:churchNumber): churchBoolean} True / False
  */
@@ -152,11 +147,26 @@ const eq = n => k => and(leq(n)(k))(leq(k)(n));
 /**
  * "greater-than" with Church-Numbers
  *
- * @function gt
+ * @function
  * @param  {churchNumber} n
  * @return {function(k:churchNumber): churchBoolean} True / False
  */
 const gt = Blackbird(not)(leq);
 
+/**
+ * max of two Church-Numbers
+ *
+ * @function
+ * @param  {churchNumber} n
+ * @return {function(k:churchNumber): churchBoolean} n / k
+ */
 const max = n => k => gt(n)(k)(n)(k)
+
+/**
+ * min of two Church-Numbers
+ *
+ * @function
+ * @param  {churchNumber} n
+ * @return {function(k:churchNumber): churchBoolean} n / k
+ */
 const min = n => k => leq(n)(k)(n)(k)

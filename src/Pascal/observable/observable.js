@@ -255,14 +255,6 @@ const showPair = p => `${p(fst)} | ${p(snd)}`;
 
 /**
  * Generic Types
- * @typedef {*} a
- * @typedef {*} b
- * @typedef {*} c
- * @typedef {(a|b|c)} abc
- * @typedef {function} fn
- * @typedef {function} gn
- * @typedef {function} pn
- * @typedef {function} qn
  * @typedef {function} churchBoolean
  * @typedef {function} churchNumber
  */
@@ -285,14 +277,14 @@ const n9 = f => a => f(f(f(f(f(f(f(f(f(a)))))))));
 /**
  * successor of a church number
  * @param {churchNumber} n
- * @returns {churchNumber} successor of n
+ * @returns {function(f:function): function(a:churchNumber): churchNumber} successor of n
  */
 const successor = n => f => a => f(n(f)(a));
 
 /**
  * successor with bluebird
  * @param {churchNumber} n
- * @returns {churchNumber} successor of n
+ * @returns {function(f:function): churchNumber} successor of n
  */
 const succ = n => f => B(f)(n(f));
 

@@ -18,8 +18,6 @@ import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lam
 
 /**
  * Generic Types
- * @typedef {*} a
- * @typedef {*} b
  * @typedef {function} pair
  * @typedef {function} churchBoolean
  * @typedef {function} churchNumber
@@ -39,7 +37,6 @@ import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lam
  * At the same time the first value represents the index of the head (top value) of the listMap.
  * The second value represents the predecessor listMap
  * The third value represents the head ( top value ) of the listMap
- *
  *
  * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
  * @return {triple} listMap as stack
@@ -79,12 +76,12 @@ const startListMap = f => f(emptyListMap);
  * getElementByKey( testListMap )( 3 ) === 42
  */
 const getElementByKey = listMap => key => {
-    const times = size(listMap);
-    const initArgsPair = pair(listMap)(id);
+    const times         = size(listMap);
+    const initArgsPair  = pair(listMap)(id);
 
     const getElement = argsPair => {
-        const stack = argsPair(fst);
-        const predecessorStack = (stack)(stackPredecessor);
+        const stack             = argsPair(fst);
+        const predecessorStack  = (stack)(stackPredecessor);
         const currentKeyValPair = head(stack);
         if (currentKeyValPair(fst) === key) {
             return pair(predecessorStack)(currentKeyValPair(snd));
@@ -100,7 +97,7 @@ const getElementByKey = listMap => key => {
  * Remove the element in the ListMap by the key (Js-Number)
  *
  * @function
- * @param listMap
+ * @param  {listMap} listMap
  * @return {function(key:Number): *} element (value)
  * @example
  * const testListMap = startListMap
@@ -112,35 +109,36 @@ const getElementByKey = listMap => key => {
  *
  * const listMapOneRemoved = removeByKey(testListMap)(1)
  * jsnum( size( listMapOneRemoved ) ) === 2
- *
  */
-const removeByKey = stack => key => {
-    const times = size(stack);
-    const reversedStack = reverseStack(stack);
+const removeByKey = listMap => key => {
+    const times         = size(listMap);
+    const reversedStack = reverseStack(listMap);
 
     const iteration = argsPair => {
         const currentStack  = argsPair(fst)
         const resultStack   = argsPair(snd)
 
         return If( hasPre(currentStack) )
-              (Then( removeByCon(currentStack)(resultStack)(key) ))
-              (Else( argsPair ))
+                (Then( removeByCon(currentStack)(resultStack)(key) ))
+                (Else( argsPair ));
     }
 
-    return (times(iteration)(pair(reversedStack)(emptyListMap)))(snd)
+    return (times
+                (iteration)
+                (pair (reversedStack)(emptyListMap) )
+            ) (snd);
 }
 
 /**
  * @constructor A constructor for removeByKey
  */
 const removeByCon = currentStack => resultStack => key => {
-    const currentKeyValPair = head(currentStack)
-    const currentElement = currentKeyValPair(snd);
+    const currentKeyValPair = head(currentStack);
+    const currentElement    = currentKeyValPair(snd);
+    const currentKey        = currentKeyValPair(fst);
+    const result            =  key === currentKey
+                                   ? resultStack
+                                   : push( resultStack )(pair( currentKey )( currentElement ));
 
-    const currentKey = currentKeyValPair(fst)
-    const result = key === currentKey
-        ? resultStack
-        : push(resultStack)(pair(currentKey)(currentElement));
-
-    return pair(getPreStack(currentStack))(result);
+    return pair( getPreStack(currentStack) )(result);
 }

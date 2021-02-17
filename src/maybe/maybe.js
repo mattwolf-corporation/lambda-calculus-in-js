@@ -26,16 +26,6 @@ const maybeDiv = num => divisor =>
         ? Just(num / divisor)
         : Nothing
 
-const eitherJsNumOrOther = val =>
-    Number.isInteger(val)
-        ? Right(val)
-        : Left(`${val}, is not a integer`);
-
-const eitherFunctionOrOther = val =>
-    typeof val === "function"
-        ? Right(val)
-        : Left(`${val}, is not a function`);
-
 // const getJsNumberOrFunction = val =>
 //     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
 
@@ -50,14 +40,14 @@ const maybeElementWithCustomErrorMessage = errorMessage => element =>
         ? Right(element)
         : Left(errorMessage)
 
-const maybeDomElement2 = elemId => element =>
+const maybeDomElement = elemId => element =>
             element
                 ? Just(element)
                 : Right(new Error(`no such element with id: ${elemId}`))
 
-const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
+// const maybeDomElement = elemId => maybeElement(document.getElementById(elemId))
 
-const withDomElement = elemId => maybeDomElement2(elemId)(document.getElementById(elemId))
+const withDomElement = elemId => maybeDomElement(elemId)(document.getElementById(elemId))
 
 const getSafeElementAbstraction = elemId => elementFunction =>
     maybeDomElement(elemId)
@@ -70,6 +60,16 @@ const getSafeElement = elemId =>
 const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
 const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
+
+const eitherJsNumOrOther = val =>
+    Number.isInteger(val)
+        ? Right(val)
+        : Left(`${val}, is not a integer`);
+
+const eitherFunctionOrOther = val =>
+    typeof val === "function"
+        ? Right(val)
+        : Left(`${val}, is not a function`);
 
 const eitherErrorOrAny = f => {
     try {
