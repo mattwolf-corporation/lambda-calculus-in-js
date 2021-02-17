@@ -47,7 +47,7 @@ import {
     succ,
     jsNum,
     is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
-    toChurchNum
+    toChurchNum, min, max
 } from '../lambda-calculus-library/church-numerals.js'
 
 export {
@@ -86,8 +86,8 @@ export {
  * The second value represents the predecessor stack
  * The third value represents the head ( top value ) of the stack
  *
- * @function stack
- * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
+ * @function
+ * @type stack
  * @return {triple} stack as triple
  */
 const stack = triple;
@@ -107,6 +107,10 @@ const emptyStack = stack(n0)(id)(id);
 
 /**
  * A help function to create a new stack
+ * @function
+ * @type function(Function): Stack
+ * @param {function} f
+ * @return {stack} emptyStack
  */
 const startStack = f => f(emptyStack);
 
@@ -149,19 +153,19 @@ const stackValue = thirdOfTriple;
  * A function that takes a stack and returns a church-boolean, which indicates whether the stack has a predecessor stack
  * @haskell: hasPre :: a -> churchBoolean
  * @function hasPredecessor
- * @param {stack} s
+ * @param {stack} stack
  * @return {churchBoolean} churchBoolean
  */
-const hasPre = s => not(is0(s(stackIndex)));
+const hasPre = stack => not(is0(stack(stackIndex)));
 
 /**
  * A function that takes a stack and returns the predecessor stack
  * @haskell getPreStack :: stack -> stack
  * @function getPredecessorStack
- * @param {stack} s
+ * @param {stack} stack
  * @return {stack} predecessor of that stack
  */
-const getPreStack = s => s(stackPredecessor)
+const getPreStack = stack => stack(stackPredecessor)
 
 
 /**
@@ -175,37 +179,37 @@ const push = s => stack(succ(s(stackIndex)))(s);
 /**
  * A function that takes a stack. The function returns a value pair. The first element of the pair is the predecessor stack. The second element of the pair is the head (the top element) of the stack.
  * @haskell pop :: stack -> pair
- * @param {stack} s
+ * @param {stack} stack
  * @return {pair} pair
  */
-const pop = s => pair(getPreStack(s))(head(s));
+const pop = stack => pair(getPreStack(stack))(head(stack));
 
 /**
  * A function that takes a stack. The function returns the head (the top value) of the stack.
  *
  * @haskell head :: stack -> a
  * @function
- * @param {stack} s
+ * @param {stack} stack
  * @return {*} stack-value
  */
-const head = s => s(stackValue);
+const head = stack => stack(stackValue);
 
 /**
  * A function that takes a stack. The function returns the index (aka stack-size) of the stack
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} s
+ * @param {stack} stack
  * @return {churchNumber} stack-index as church numeral
  */
-const getStackIndex = s => s(stackIndex);
+const getStackIndex = stack => stack(stackIndex);
 
 /**
  * A function that takes a stack. The function returns the size (number of elements) in the stack
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} s
+ * @param {stack} stack
  * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
@@ -238,35 +242,24 @@ const reduce = argsPair => s => {
         const stack = argsTriple(firstOfTriple);
 
         const getTriple = argsTriple => {
-            const reduceFunction = argsTriple(secondOfTriple);
-
-            const preAcc = argsTriple(thirdOfTriple);
-
-            const curr = head(stack);
-
-            const acc = reduceFunction(preAcc, curr);
-
-            const preStack = stack(stackPredecessor);
-
+            const reduceFunction    = argsTriple(secondOfTriple);
+            const preAcc            = argsTriple(thirdOfTriple);
+            const curr              = head(stack);
+            const acc               = reduceFunction(preAcc, curr);
+            const preStack          = stack(stackPredecessor);
             return triple(preStack)(reduceFunction)(acc);
         }
 
-        return If(hasPre(stack))
-        (Then(getTriple(argsTriple)))
-        (Else(argsTriple));
+        return If( hasPre(stack))
+                (Then( getTriple(argsTriple)))
+                (Else( argsTriple) );
     };
 
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
-    const argsTriple = triple(reversedStack)(argsPair(fst))(argsPair(snd));
+    const argsTriple    = triple(reversedStack)(argsPair(fst))(argsPair(snd));
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
-
-// const reduce2 = argsPair => s => (size(s)
-//                                     ()
-//                                 (triple((size(s))(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple))(argsPair(fst))(argsPair(snd))))
-//                                 (thirdOfTriple);
-
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns the element at the passed index
@@ -294,7 +287,7 @@ const reduce = argsPair => s => {
 const getElementByIndex = stack => index =>
     maybeElementByIndex(stack)(index)
     (console.error)
-    (id)
+    (id);
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns a maybe with the value or Nothing if not exist or illegal index argument
@@ -592,39 +585,46 @@ const forEach = stack => callbackFunc => {
  * @example
  */
 const removeByIndex = stack => index => {
-    const times = size(stack);
+    const times         = size(stack);
     const reversedStack = reverseStack(stack);
 
     const iteration = argsTriple => {
-        const currentStack = argsTriple(firstOfTriple)
-        const resultStack = argsTriple(secondOfTriple)
-        const currentIndex = argsTriple(thirdOfTriple)
+        const currentStack  = argsTriple(firstOfTriple)
+        const resultStack   = argsTriple(secondOfTriple)
+        const currentIndex  = argsTriple(thirdOfTriple)
 
-        return If(hasPre(currentStack))
-        (Then(removeByCondition(currentStack)(resultStack)(index)(currentIndex)))
-        (Else(argsTriple))
+        return If( hasPre(currentStack))
+                    (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex)) )
+                    (Else( argsTriple))
     }
 
-    return (times(iteration)(triple(reversedStack)(emptyStack)(n1)))(secondOfTriple)
+    return (times
+            (iteration)
+            (triple
+                (reversedStack)
+                (emptyStack)
+                (n1))
+            )
+            (secondOfTriple)
 }
 
 
 /**
  *
  * @param {stack} currentStack
- * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): function(Function): triple}
+ * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
  */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
-    const currentElement = head(currentStack);
-    const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
-    const condition = eq(indexNumber)(currentIndex);
-    const result = If(condition)
-    (Then(resultStack))
-    (Else(push(resultStack)(currentElement)));
+    const currentElement    = head(currentStack);
+    const indexNumber       = typeof index === "number" ? toChurchNum(index) : index;
+    const result            = If( eq(indexNumber)(currentIndex) )
+                                (Then( resultStack ))
+                                (Else( push( resultStack )( currentElement )));
 
-    return triple(getPreStack(currentStack))
-    (result)
-    (succ(currentIndex));
+    return triple
+            (getPreStack(currentStack))
+            (result)
+            (succ(currentIndex));
 }
 
 
@@ -679,7 +679,7 @@ const concat = s1 => s2 =>
  * getElementByIndex( flattenStack )( 5 ) ===  5
  * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce(pair((acc, curr) => concat(acc)(curr))(emptyStack));
+const flatten = reduce( pair( (acc, curr) => concat( acc )( curr ) )(emptyStack));
 
 
 /**
@@ -708,9 +708,6 @@ const zipWith = f => s1 => s2 => {
     const size1 = size(s1);
     const size2 = size(s2);
 
-    const reversedStack1 = reverseStack(s1);
-    const reversedStack2 = reverseStack(s2);
-
     const zipElements = t => {
         const s1    = t(firstOfTriple);
         const s2    = t(secondOfTriple);
@@ -732,16 +729,13 @@ const zipWith = f => s1 => s2 => {
             (Then(zipElements(t)))
             (Else(t));
 
-    const times =  // Todo: impl Min & Max of churchNumbers
-        If(leq(size1)(size2))
-            (Then(size1))
-            (Else(size2));
+    const times =  min(size1)(size2);
 
     return times
         (iteration)
         (triple
-            (reversedStack1)
-            (reversedStack2)
+            (reverseStack(s1))
+            (reverseStack(s2))
             (emptyStack)
         )
         (thirdOfTriple);

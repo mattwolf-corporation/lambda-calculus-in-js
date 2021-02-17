@@ -3,7 +3,7 @@ import {B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "./l
 export {
     n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
     succ, pred, phi, churchAddition, churchSubtraction,
-    churchMultiplication, churchPotency, is0, toChurchNum, jsNum, eq, leq, gt
+    churchMultiplication, churchPotency, is0, toChurchNum, jsNum, eq, leq, gt, max, min
 }
 
 /**
@@ -149,7 +149,6 @@ const leq = n => k => is0(churchSubtraction(n)(k));
  */
 const eq = n => k => and(leq(n)(k))(leq(k)(n));
 
-
 /**
  * "greater-than" with Church-Numbers
  *
@@ -158,3 +157,6 @@ const eq = n => k => and(leq(n)(k))(leq(k)(n));
  * @return {function(k:churchNumber): churchBoolean} True / False
  */
 const gt = Blackbird(not)(leq);
+
+const max = n => k => gt(n)(k)(n)(k)
+const min = n => k => leq(n)(k)(n)(k)
