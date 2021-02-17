@@ -12,7 +12,7 @@ import {
     getSafeElements,
     getSafeElementAbstraction,
     maybeElement,
-    maybeNumber, getJsNumberOrFunction, maybeFunction
+    maybeNumber
 } from "../../src/maybe/maybe.js";
 
 const maybeSuite = TestSuite("Maybe");

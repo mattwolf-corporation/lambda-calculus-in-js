@@ -4,7 +4,7 @@ export {
     Nothing, Just, either,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
     getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe, maybeFunction, getJsNumberOrFunction, maybeElementWithCustomErrorMessage
+    getSafeElementsAsMaybe, maybeFunction,  maybeElementWithCustomErrorMessage, maybeError
 }
 
 const Left   = x => f => g => f (x);
@@ -28,16 +28,16 @@ const maybeDiv = num => divisor =>
 
 const maybeNumber = val =>
     Number.isInteger(val)
-        ? Just(val)
+        ? Right(val)
         : Left(`${val}, is not a integer`);
 
 const maybeFunction = val =>
     typeof val === "function"
-        ? Just(val)
+        ? Right(val)
         : Left(`${val}, is not a function`);
 
-const getJsNumberOrFunction = val =>
-    getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
+// const getJsNumberOrFunction = val =>
+//     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
 
 
 const maybeElement = element =>
@@ -47,7 +47,7 @@ const maybeElement = element =>
 
 const maybeElementWithCustomErrorMessage = errorMessage => element =>
     element || element === 0
-        ? Just(element)
+        ? Right(element)
         : Left(errorMessage)
 
 const maybeDomElement2 = elemId => element =>
@@ -71,5 +71,12 @@ const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
 const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
 
+const maybeError = f => {
+    try {
+        return Right(f());
+    } catch (error) {
+        return Left(error);
+    }
+}
 
 //TODO: get or create method

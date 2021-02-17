@@ -1,4 +1,3 @@
-
 /*
 idea shortcuts:
 Shift-Alt I   : inspection window (errors, warning)
@@ -343,8 +342,6 @@ const mapPair = f => p => pair(f(p(fst)))(f(p(snd)));
 const showPair = p => `${p(fst)} | ${p(snd)}`;
 
 
-
-
 /**
  * Generic Types
  * @typedef {*} a
@@ -468,7 +465,6 @@ const eq = n => k => and(leq(n)(k))(leq(k)(n));
 const gt = Blackbird(not)(leq);
 
 
-
 /**
  * Generic Types
  * @typedef {function} operator
@@ -489,7 +485,7 @@ const gt = Blackbird(not)(leq);
  * @param {operator} op
  * @return { function(n:{jsChurchNumber}): function(k:{jsChurchNumber}): function(f:{fn}) : function} JS- or Chruch-Arithmetic-Operation
  */
-const calculatorHandler = op => n => k => f => f( op(n)(k) );
+const calculatorHandler = op => n => k => f => f(op(n)(k));
 
 /**
  * calc ; start the Calculator
@@ -519,11 +515,11 @@ const result = I;
 /**
  * JavaScript Arithmetic-Operators
  */
-const plus              = n => k => n + k;
-const multiplication    = n => k => n * k;
-const subtraction       = n => k => n - k;
-const exponentiation    = n => k => n ** k;
-const division          = n => k => n / k;
+const plus = n => k => n + k;
+const multiplication = n => k => n * k;
+const subtraction = n => k => n - k;
+const exponentiation = n => k => n ** k;
+const division = n => k => n / k;
 
 /**
  * Combining the JavaScript-Arithmetic to the CalculatorOperator
@@ -532,11 +528,11 @@ const division          = n => k => n / k;
  * @example
  * calc(5)(multi)(4)(sub)(4)(pow)(2)(div)(8)(add)(10)(result) === 42
  */
-const add   = calculatorHandler(plus);
+const add = calculatorHandler(plus);
 const multi = calculatorHandler(multiplication);
-const sub   = calculatorHandler(subtraction);
-const pow   = calculatorHandler(exponentiation);
-const div   = calculatorHandler(division);
+const sub = calculatorHandler(subtraction);
+const pow = calculatorHandler(exponentiation);
+const div = calculatorHandler(division);
 
 
 /** ----------------------------------------------------
@@ -551,11 +547,10 @@ const div   = calculatorHandler(division);
  * @example
  * calc(n2)(churchAdd)(n3)(churchMulti)(n2)(churchPow)(n2)(churchSub)(n1)(result) ==> 99
  */
-const churchAdd     = calculatorHandler(churchAddition);
-const churchMulti   = calculatorHandler(churchMultiplication);
-const churchPow     = calculatorHandler(churchPotency);
-const churchSub     = calculatorHandler(churchSubtraction);
-
+const churchAdd = calculatorHandler(churchAddition);
+const churchMulti = calculatorHandler(churchMultiplication);
+const churchPow = calculatorHandler(churchPotency);
+const churchSub = calculatorHandler(churchSubtraction);
 
 
 /**
@@ -576,7 +571,6 @@ const churchSub     = calculatorHandler(churchSubtraction);
  * @typedef {number} JsNumber
  * @typedef {*} number
  */
-
 
 
 /**
@@ -676,6 +670,15 @@ const hasPre = s => not(is0(s(stackIndex)));
  */
 const getPreStack = s => s(stackPredecessor)
 
+/**
+ * A function that takes a stack. The function returns the index (aka stack-size) of the stack
+ *
+ * @haskell size :: stack -> churchNumber
+ * @function
+ * @param {stack} s
+ * @return {churchNumber} stack-index as church numeral
+ */
+const getStackIndex = s => s(stackIndex);
 
 /**
  *  A function that takes a stack and a value. The function returns a new stack with the pushed value
@@ -765,18 +768,14 @@ const reduce = argsPair => s => {
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
 
-// const reduce2 = argsPair => s => (size(s)
-//                                     ()
-//                                 (triple((size(s))(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple))(argsPair(fst))(argsPair(snd))))
-//                                 (thirdOfTriple);
-
 
 /**
- * A function that takes a stack and an index (as church number). The function returns the element at the passed index
- * @haskell getElementByIndex :: stack -> churchNumber -> b
+ * A function that takes a stack and an index (as Church- or JS-Number). The function returns the element at the passed index
+ * @haskell getElementByIndex :: stack -> number -> b
+ * @throws Logs a error if index is no Church- or JS-Number and returns a undefined
  * @function
  * @param {stack} stack
- * @return {function(index:{churchNumber}) : * } stack-value
+ * @return {function(index:churchNumber|number) : * } stack-value or undefined not exist
  * @example
  * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
  *
@@ -784,50 +783,84 @@ const reduce = argsPair => s => {
  * getElementByIndex( stackWithNumbers )( n1 ) ===  0
  * getElementByIndex( stackWithNumbers )( n2 ) ===  1
  * getElementByIndex( stackWithNumbers )( n3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( 0 ) === id
+ * getElementByIndex( stackWithNumbers )( 1 ) ===  0
+ * getElementByIndex( stackWithNumbers )( 2 ) ===  1
+ * getElementByIndex( stackWithNumbers )( 3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
  */
 const getElementByIndex = stack => index =>
     maybeElementByIndex(stack)(index)
-    ( () => {console.warn( new Error(`No Index type of ${typeof index} allowed. Use Js- or Church-Numbers`))} )
-    ( id )
+    (console.error)
+    (id)
 
-
-const maybeElementByIndex = stack => index =>
-    maybeNumber(index)
-    ( () => maybeFunction(index)                                    // index is NOT a number, then check if a function aka ChurchNumber
-        ( Nothing )
-        ( () => Just(getElementByChurchNumberIndex(stack)(index)) ) // index is a Church-Number
-    )
-    ( () => Just( getElementByJsnumIndex(stack)(index) ) )          // index is a Js-Number
-
-
-const getElementByIndexOld = stack => index => {
-    if (typeof index === "number") {
-        return getElementByJsnumIndex(stack)(index)
-    } else if (typeof index === "function" ){
-        return getElementByChurchNumberIndex(stack)(index)
+const maybeError = f => {
+    try {
+        return Right(f());
+    } catch (error) {
+        return Left(error);
     }
-    console.error( new Error(`No Index type of ${typeof index} allowed. Use a Js- or Church-Number`))
-};
+}
+
+/**
+ * A function that takes a stack and an index (as Church- or JS-Number). The function returns a maybe with the value or Nothing if not exist or illegal index argument
+ * @haskell maybeElementByIndex :: stack -> number -> maybe
+ * @function
+ * @param {stack} stack
+ * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
+ * @example
+ * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
+ *
+ * maybeElementByIndex( stackWithNumbers )( n0 ) === Just(id)
+ * maybeElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
+ * maybeElementByIndex( stackWithNumbers )( n2 ) ===  Just(1)
+ * maybeElementByIndex( stackWithNumbers )( n3 ) ===  Just(2)
+ *
+ * maybeElementByIndex( stackWithNumbers )( 0 ) === Just(id)
+ * maybeElementByIndex( stackWithNumbers )( 1 ) ===  Just(0)
+ * maybeElementByIndex( stackWithNumbers )( 2 ) ===  Just(1)
+ * maybeElementByIndex( stackWithNumbers )( 3 ) ===  Just(2)
+ *
+ * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
+ */
+const maybeElementByIndex = stack => index =>
+    maybeError(
+        () => maybeFunction(stack) // stack value is NOT a stack aka function
+            (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
+            (s => maybeNumber(index)
+                (
+                    _ => maybeFunction(index)     // index is NOT a number, then check if a function aka ChurchNumber
+                        (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+                        (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(s)(i)))  // index is a Church-Number
+                )
+                (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(s)(i)))             // index is a Js-Number
+            ))
+    (err => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack. Errormessage: ${err}`)) // catch
+    (id) // return f
 
 
-
+/**
+ *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
+ *
+ * @function
+ * @param {stack} s
+ * @return { function(i:churchNumber) : * } stack-value
+ */
 const getElementByChurchNumberIndex = s => i =>
     If(leq(i)(size(s)))
     (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
-    (Else(Nothing));
+    (Else(undefined));
 
-
-
-const getStackIndex = s => s(stackIndex);
 
 /**
- *  A function that takes a stack and an index. The function returns the element at the passed index
+ *  A function that takes a stack and an index as JsNumber. The function returns the element at the passed index
  *
  * @function
  * @param {stack} s
  * @return { function(i:Number) : * } stack-value
  */
-// This function is save vor any value of i
 const getElementByJsnumIndex = s => i => {
     const times = succ(size(s));
     const initArgsPair = pair(s)(undefined); // Nothing or undefined
@@ -845,49 +878,6 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const maybeElementByJsnumIndex = s => i => {
-    const val = getElementByJsnumIndex(s)(i);
-    return If(convertJsBoolToChurchBool(val === undefined))
-    (Then(Nothing))
-    (Else(Just(val)))
-}
-
-
-
-//
-// const getElementByChurchNumberIndex = s => i =>
-//     If(leq(i)(size(s)))
-//     (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
-//     (Else(Nothing));
-//
-//
-// /**
-//  *  A function that takes a stack and an index. The function returns the element at the passed index
-//  *
-//  * @function
-//  * @param {stack} s
-//  * @return { function(i:Number) : * } stack-value
-//  */
-// const getElementByJsnumIndex = s => i => {
-//     const times = size(s);
-//
-//     const initArgsPair = pair(s)(id); // set default to Nothing
-//
-//     const getElement = argsPair => {
-//         const stack = argsPair(fst);
-//         const predecessorStack = getPreStack(stack);
-//
-//         // zero does not come in index
-//         if (jsNum((stack)(stackIndex)) === i) {
-//             return pair(predecessorStack)(head(stack));
-//         }
-//
-//         return pair(predecessorStack)(argsPair(snd));
-//     };
-//
-//     return (times(getElement)(initArgsPair))(snd);
-// };
-
 
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
@@ -897,52 +887,18 @@ const maybeElementByJsnumIndex = s => i => {
  */
 const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
 
-/**
- *  A function that takes an javascript array and converts the array into a stack. The function returns a stack
- *
- * @param {Array} array
- * @return {stack} stack
- */
+
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
-/**
- *  A function that accepts a stack. The function returns the reversed stack.
- *
- * @param {stack} s
- * @return {stack} stack (reversed)
- */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd)))) (pair(s)(emptyStack)))(s))(snd);
 
-/**
- *  A function that accepts a map function and a stack. The function returns the mapped stack.
- *
- * @param {function} mapFunc
- * @return function(triple): function(triple)
- */
+const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
+
+
 const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
 
-/**
- *  A function that accepts a stack and a filter function. The function returns the filtered stack.
- *
- * @param {function} filterFunc
- * @return {function(reduce:stack): function(stack)} stack
- */
 const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
 
-/**
- *  A function that takes a map function and a stack. The function returns the mapped stack
- *
- * @param {function} mapFunction
- * @return {function(s:stack): stack} stack
- * @example
- * const stackWithNumbers = startStack(pushToStack)(2)(pushToStack)(5)(pushToStack)(6)(id)
- *
- * const stackMultiplied  = map( x => x * 2)(stackWithNumbers)
- *
- * getElementByIndex( stackMultiplied )( 1 ) ===  4
- * getElementByIndex( stackMultiplied )( 2 ) === 10
- * getElementByIndex( stackMultiplied )( 3 ) === 12
- */
+
 const map = mapFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -964,16 +920,7 @@ const map = mapFunction => s => {
     return (times(mapIteration)(initArgsPair))(fst);
 };
 
-/**
- * A function that accepts a stack and a filter function. The function returns the filtered stack
- *
- * @param  {function} filterFunction
- * @return {function(s:stack): stack} pair
- *
- * @example
- * const stackWithNumbers = startStack(pushToStack)(42)(pushToStack)(7)(pushToStack)(3)(id)
- * filter(x => x < 5 && x > 2)(stackWithNumbers) === startStack(pushToStack)(3)(id)
- */
+
 const filter = filterFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -998,88 +945,14 @@ const filter = filterFunction => s => {
     return (times(filterIteration)(initArgsPair))(fst);
 };
 
-/**
- *  A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
- *
- * @param {stack} stack
- */
+
 const logStackToConsole = stack =>
     forEach(stack)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element)))
 
-// const logStackToConsole = stack => {
-//
-//     const logIteration = (acc, curr) => {
-//         const index = acc + 1;
-//         console.log('element at: ' + index + ': ' + JSON.stringify(curr));
-//         return index;
-//     };
-//
-//     reduce(stack)(pair(logIteration)(0));
-// };
-
-/**
- * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
- *
- * @function stackOperationBuilder
- * @param {stackOp} stackOp
- * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
- */
 const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 
-/**
- * pushToStack is a Stack-Builder-Command to push new values to the current stack
- *
- * @param  {stackOpBuilder} stackOp
- * @returns {function(pushToStack)} pushToStack
- *
- * @example
- * const stackOfWords = startStack(pushToStack)("Hello")(pushToStack)("World")(id)
- * getElementByIndex( stackOfWords )( 1 ) === "Hello"
- * getElementByIndex( stackOfWords )( 2 ) === "World"
- */
 const pushToStack = stackOpBuilder(push);
 
-
-/**
- * Foreach implementation for stack
- * A function that expects a stack and a callback function.
- * The current element of the stack iteration and the index of this element is passed to this callback function
- */
-const forEachOld = stack => f => {
-    const times = size(stack);
-    const reversedStack = reverseStack(stack);
-
-    const iteration = s => {
-        if(convertToJsBool(hasPre(s))) {
-            const element = head(s);
-            const index = jsNum(succ(churchSubtraction(times)(size(s))));
-
-            f(element, index);
-
-            return (pop(s))(fst);
-        }
-        return s;
-    };
-
-    times(iteration)(reversedStack);
-};
-
-
-/**
- *
- *
- * @param stack
- * @return {function(callbackFunc:function): void}
- * @example
- * const stackWithNumbers = startStack(pushToStack)(5)(pushToStack)(10)(pushToStack)(15)(id);
- *
- * forEach( stackWithNumbers )( (element, index) => console.log("At Index " + index + " is the Element " + element) );
- *
- * // Console-Output is:
- * // At Index 1 is the Element 5
- * // At Index 2 is the Element 10
- * // At Index 3 is the Element 15
- */
 const forEach = stack => callbackFunc => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1102,12 +975,7 @@ const forEach = stack => callbackFunc => {
     times(iteration)(pair(reversedStack)(1));
 };
 
-/**
- * Remove element by given Index
- *
- * @param {stack} stack without the element
- * @example
- */
+
 const removeByIndex = stack => index => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1126,11 +994,6 @@ const removeByIndex = stack => index => {
 }
 
 
-/**
- *
- * @param {stack} currentStack
- * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): function(Function): triple}
- */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
     const currentElement = head(currentStack);
     const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
@@ -1145,26 +1008,6 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
 }
 
 
-/**
- * Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
- *
- * @param {stack} s1
- * @return {function(s2:stack)} a concated stack
- *
- * @haskell concat :: [a] -> [a] -> [a]
- *
- * @example
- * const elements1      = convertArrayToStack( ["Hello", "Haskell"] );
- * const elements2      = convertArrayToStack( ["World", "Random"] );
- * const concatedStacks = concat( elements1 )( elements2 );
- *
- * jsNum( size( concatedStacks ) )          === 4
- * getElementByIndex( concatedStacks )( 0 ) === id
- * getElementByIndex( concatedStacks )( 1 ) === "Hello"
- * getElementByIndex( concatedStacks )( 2 ) === "Haskell"
- * getElementByIndex( concatedStacks )( 3 ) === "World"
- * getElementByIndex( concatedStacks )( 4 ) === "Random"
- */
 const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
     if (s1 === emptyStack) {
         return s2;
@@ -1327,13 +1170,12 @@ const stackEquals = s1 => s2 => {
 }
 
 
+const Left = x => f => g => f(x);
+const Right = x => f => g => g(x);
+const either = e => f => g => e(f)(g); // id
 
-const Left   = x => f => g => f (x);
-const Right  = x => f => g => g (x);
-const either = e => f => g => e (f) (g); // id
-
-const Nothing  = Left();
-const Just     = Right ;
+const Nothing = Left();
+const Just = Right;
 
 const getOrDefault = maybeFn => defaultVal =>
     maybeFn(() => defaultVal)
@@ -1349,22 +1191,27 @@ const maybeDiv = num => divisor =>
 
 const maybeNumber = val =>
     Number.isInteger(val)
-        ? Just(val)
-        : Nothing
+        ? Right(val)
+        : Left(`${val}, is not a integer`);
 
 const maybeFunction = val =>
     typeof val === "function"
-        ? Just(val)
-        : Nothing
+        ? Right(val)
+        : Left(`${val}, is not a function`);
 
 const getJsNumberOrFunction = val =>
-    getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
+    getOrDefault(maybeNumber(val))(getOrDefault(maybeFunction(val))(Nothing))
 
 
 const maybeElement = element =>
     element || element === 0
         ? Just(element)
         : Nothing
+
+const maybeElementWithCustomErrorMessage = errorMessage => element =>
+    element || element === 0
+        ? Right(element)
+        : Left(errorMessage)
 
 const maybeDomElement2 = elemId => element =>
     element
@@ -1386,6 +1233,9 @@ const getSafeElement = elemId =>
 const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
 const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
+
+
+//TODO: get or create method
 
 
 const testStack1 = push(push(push(emptyStack)(0))(1))(2);

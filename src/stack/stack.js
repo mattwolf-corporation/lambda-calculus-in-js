@@ -22,14 +22,13 @@ import {
     maybeElement,
     getOrDefault,
     maybeFunction,
-    getJsNumberOrFunction,
     maybeNumber,
     Left,
     Right,
     Just,
     Nothing,
     either,
-    maybeElementWithCustomErrorMessage
+    maybeElementWithCustomErrorMessage, maybeError
 } from "../maybe/maybe.js";
 import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";
 
@@ -99,7 +98,9 @@ const stack = triple;
  * The empty stack has no predecessor stack, but the identity function as placeholder.
  * The empty stack has no head ( top value ), but the identity function as placeholder.
  *
+ * @function
  * @type {function(Function): {f: {index, predecessor, head}}}
+ * @return {stack} emptyStack
  */
 const emptyStack = stack(n0)(id)(id);
 
@@ -316,20 +317,25 @@ const getElementByIndex = stack => index =>
  * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
 const maybeElementByIndex = stack => index =>
-    maybeNumber(index)
-    (
-        _ => maybeFunction(index)     // index is NOT a number, then check if a function aka ChurchNumber
-            (_ => Left(`getElementByIndex - index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-            (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(i)))  // index is a Church-Number
-    )
-    (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(i)))             // index is a Js-Number
-
+    maybeError(
+        () => maybeFunction(stack) // stack value is NOT a stack aka function
+            (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
+            (s => maybeNumber(index)
+                (
+                    _ => maybeFunction(index)     // index is NOT a number, then check if a function aka ChurchNumber
+                        (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+                        (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(s)(i)))  // index is a Church-Number
+                )
+                (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(s)(i)))             // index is a Js-Number
+            ))
+    (err => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
+        (id) // return f
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
  *
  * @function
- * @param {stack} stack
+ * @param {stack} s
  * @return { function(i:churchNumber) : * } stack-value
  */
 const getElementByChurchNumberIndex = s => i =>

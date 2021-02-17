@@ -165,6 +165,8 @@ stackSuite.add("random", assert => {
 });
 
 stackSuite.add("getElementByIndex with ChurchNumbers", assert => {
+    assert.equals(getElementByIndex(emptyStack)(n0), id);
+
     assert.equals(getElementByIndex(stackWithNumbers)(n0), id);
     assert.equals(getElementByIndex(stackWithNumbers)(n1), 0);
     assert.equals(getElementByIndex(stackWithNumbers)(n2), 1);
@@ -175,6 +177,8 @@ stackSuite.add("getElementByIndex with ChurchNumbers", assert => {
 });
 
 stackSuite.add("getElementByIndex with JsNumber", assert => {
+    assert.equals(getElementByIndex(emptyStack)(0), id);
+
     assert.equals(getElementByIndex(stackWithNumbers)(0), id);
     assert.equals(getElementByIndex(stackWithNumbers)(1), 0);
     assert.equals(getElementByIndex(stackWithNumbers)(2), 1);
@@ -184,35 +188,60 @@ stackSuite.add("getElementByIndex with JsNumber", assert => {
     assert.equals(getElementByIndex(stackWithNumbers)(6), 35);
 });
 
-
 stackSuite.add("getElementByIndex with not existing Index", assert => {
 
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)(NaN),
-        "getElementByIndex - index value 'NaN' (number) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value 'NaN' (number) is not allowed. Use Js- or Church-Numbers");
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)(Infinity),
-        "getElementByIndex - index value 'Infinity' (number) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value 'Infinity' (number) is not allowed. Use Js- or Church-Numbers");
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)("1"),
-        "getElementByIndex - index value '1' (string) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value '1' (string) is not allowed. Use Js- or Church-Numbers");
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)("blabla"),
-        "getElementByIndex - index value 'blabla' (string) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value 'blabla' (string) is not allowed. Use Js- or Church-Numbers");
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)({}),
-        "getElementByIndex - index value '[object Object]' (object) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value '[object Object]' (object) is not allowed. Use Js- or Church-Numbers");
     assert.consoleErrorEquals(
         () => getElementByIndex(stackWithNumbers)([]),
-        "getElementByIndex - index value '' (object) is not allowed. Use Js- or Church-Numbers");
+        "getElementByIndex - TypError: index value '' (object) is not allowed. Use Js- or Church-Numbers");
 
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(9999), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(-1), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(7), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(n7), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), "invalid index");
+
+    assert.consoleErrorEquals(() => getElementByIndex(emptyStack)(1), "invalid index");
+    assert.consoleErrorEquals(() => getElementByIndex(emptyStack)(n1), "invalid index");
 });
 
+stackSuite.add("getElementByIndex with wrong stack value", assert => {
+
+    assert.consoleErrorEquals(
+        () => getElementByIndex("blabla")(1),
+        "getElementByIndex - TypError: stack value 'blabla' (string) is not allowed. Use a Stack (type of function)");
+    assert.consoleErrorEquals(
+        () => getElementByIndex(42)(2),
+        "getElementByIndex - TypError: stack value '42' (number) is not allowed. Use a Stack (type of function)");
+
+    assert.consoleErrorEquals(
+        () => getElementByIndex(42)(2),
+        "getElementByIndex - TypError: stack value '42' (number) is not allowed. Use a Stack (type of function)");
+
+    assert.consoleErrorEquals(
+        () => getElementByIndex(True)(0),
+        "getElementByIndex - TypError: stack value 'x => y => x' (function) is not a stack.");
+
+    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(9999), "invalid index");
+    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(-1), "invalid index");
+    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(7), "invalid index");
+    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(n7), "invalid index");
+    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), "invalid index");
+});
 
 stackSuite.add("reduce", assert => {
     const stackWithNumbers = nonEmptyStack;
