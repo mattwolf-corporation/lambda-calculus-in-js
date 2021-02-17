@@ -12,7 +12,7 @@ import {
     getSafeElements,
     getSafeElementAbstraction,
     maybeElement,
-    maybeNumber
+    eitherJsNumOrOther
 } from "../../src/maybe/maybe.js";
 
 const maybeSuite = TestSuite("Maybe");
@@ -59,8 +59,8 @@ maybeSuite.add("maybeDiv", assert => {
 });
 
 maybeSuite.add("maybeNumber", assert => {
-    assert.equals(maybeNumber(10)(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals(maybeNumber("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals(eitherJsNumOrOther(10)(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals(eitherJsNumOrOther("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
 maybeSuite.add("maybeDomElement", assert => {
@@ -104,10 +104,10 @@ maybeSuite.add("getSafeElements", assert => {
 
 maybeSuite.add("getOrDefault", assert => {
     setup()
-    assert.equals(getOrDefault(maybeNumber(5))(0), 5);
-    assert.equals(getOrDefault(maybeNumber("NaN"))(42), 42);
-    assert.equals(getOrDefault(maybeNumber("5"))(42), 42);
-    assert.equals(getOrDefault(maybeNumber((() => 5)()))(42), 5);
+    assert.equals(getOrDefault(eitherJsNumOrOther(5))(0), 5);
+    assert.equals(getOrDefault(eitherJsNumOrOther("NaN"))(42), 42);
+    assert.equals(getOrDefault(eitherJsNumOrOther("5"))(42), 42);
+    assert.equals(getOrDefault(eitherJsNumOrOther((() => 5)()))(42), 5);
     tearDown();
 });
 

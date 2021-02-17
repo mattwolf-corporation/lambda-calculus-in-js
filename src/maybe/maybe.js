@@ -3,8 +3,8 @@ import {id} from "../lambda-calculus-library/lambda-calculus.js";
 export {
     Nothing, Just, either,
     maybeDiv, maybeDomElement, getOrDefault, getSafeElement, getSafeElements,
-    getSafeElementAbstraction, maybeElement, maybeNumber, Left, Right, withDomElement,
-    getSafeElementsAsMaybe, maybeFunction,  maybeElementWithCustomErrorMessage, maybeError
+    getSafeElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right, withDomElement,
+    getSafeElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherErrorOrAny
 }
 
 const Left   = x => f => g => f (x);
@@ -26,12 +26,12 @@ const maybeDiv = num => divisor =>
         ? Just(num / divisor)
         : Nothing
 
-const maybeNumber = val =>
+const eitherJsNumOrOther = val =>
     Number.isInteger(val)
         ? Right(val)
         : Left(`${val}, is not a integer`);
 
-const maybeFunction = val =>
+const eitherFunctionOrOther = val =>
     typeof val === "function"
         ? Right(val)
         : Left(`${val}, is not a function`);
@@ -71,7 +71,7 @@ const getSafeElements = (...elemIds) => elemIds.map(getSafeElement)
 
 const getSafeElementsAsMaybe = (...elemIds) => elemIds.map(withDomElement)
 
-const maybeError = f => {
+const eitherErrorOrAny = f => {
     try {
         return Right(f());
     } catch (error) {

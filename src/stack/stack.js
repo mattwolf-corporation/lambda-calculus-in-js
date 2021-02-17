@@ -21,14 +21,14 @@ import {
 import {
     maybeElement,
     getOrDefault,
-    maybeFunction,
-    maybeNumber,
+    eitherFunctionOrOther,
+    eitherJsNumOrOther,
     Left,
     Right,
     Just,
     Nothing,
     either,
-    maybeElementWithCustomErrorMessage, maybeError
+    maybeElementWithCustomErrorMessage, eitherErrorOrAny
 } from "../maybe/maybe.js";
 import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";
 
@@ -99,7 +99,7 @@ const stack = triple;
  * The empty stack has no head ( top value ), but the identity function as placeholder.
  *
  * @function
- * @type {function(Function): {f: {index, predecessor, head}}}
+ * @type stack
  * @return {stack} emptyStack
  */
 const emptyStack = stack(n0)(id)(id);
@@ -270,6 +270,7 @@ const reduce = argsPair => s => {
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns the element at the passed index
+ *
  * @haskell getElementByIndex :: stack -> number -> b
  * @throws Logs a error if index is no Church- or JS-Number and returns a undefined
  * @function
@@ -317,19 +318,21 @@ const getElementByIndex = stack => index =>
  * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
 const maybeElementByIndex = stack => index =>
-    maybeError(
-        () => maybeFunction(stack) // stack value is NOT a stack aka function
+    eitherErrorOrAny(
+        () => eitherFunctionOrOther(stack) // stack value is NOT a stack aka function
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
-            (s => maybeNumber(index)
-                (
-                    _ => maybeFunction(index)     // index is NOT a number, then check if a function aka ChurchNumber
-                        (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-                        (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(s)(i)))  // index is a Church-Number
-                )
-                (i => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(s)(i)))             // index is a Js-Number
+            (_ => eitherJsNumOrOther(index)
+                (_ => maybeElementByChurchIndex(stack)(index))
+                (_ => maybeElementByJsNumIndex (stack)(index))
             ))
-    (err => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
-        (id) // return f
+    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
+    (id) // return value
+
+const maybeElementByChurchIndex = stack => index => eitherFunctionOrOther(index)
+    (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+    (_ => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(index)));  // index is a Churmber
+
+const maybeElementByJsNumIndex = stack => index => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
@@ -339,8 +342,8 @@ const maybeElementByIndex = stack => index =>
  * @return { function(i:churchNumber) : * } stack-value
  */
 const getElementByChurchNumberIndex = s => i =>
-    If(leq(i)(size(s)))
-    (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
+    If( leq(i)(size(s)))
+    (Then( head( ( churchSubtraction(size(s))(i) )(getPreStack)(s))))
     (Else(undefined));
 
 
@@ -636,14 +639,14 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
  * @example
  * const elements1      = convertArrayToStack( ["Hello", "Haskell"] );
  * const elements2      = convertArrayToStack( ["World", "Random"] );
- * const concatedStacks = concat( elements1 )( elements2 );
+ * const concatenatedStacks = concat( elements1 )( elements2 );
  *
- * jsNum( size( concatedStacks ) )          === 4
- * getElementByIndex( concatedStacks )( 0 ) === id
- * getElementByIndex( concatedStacks )( 1 ) === "Hello"
- * getElementByIndex( concatedStacks )( 2 ) === "Haskell"
- * getElementByIndex( concatedStacks )( 3 ) === "World"
- * getElementByIndex( concatedStacks )( 4 ) === "Random"
+ * jsNum( size( concatenatedStacks ) )          === 4
+ * getElementByIndex( concatenatedStacks )( 0 ) === id
+ * getElementByIndex( concatenatedStacks )( 1 ) === "Hello"
+ * getElementByIndex( concatenatedStacks )( 2 ) === "Haskell"
+ * getElementByIndex( concatenatedStacks )( 3 ) === "World"
+ * getElementByIndex( concatenatedStacks )( 4 ) === "Random"
  */
 const concat = s1 => s2 =>
     s1 === emptyStack
@@ -756,7 +759,7 @@ const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => 
 
 // TODO: zip with empty stacks ?
 /**
- *  Zip (combine) two Stack to one stack of pairs
+ * Zip (combine) two Stack to one stack of pairs
  * @haskell zip :: [a] -> [b] -> [(a, b)]
  *
  * @type {function(triple): function(triple): triple}
