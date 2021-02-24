@@ -1,7 +1,7 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
 
 export {
-    Nothing, Just,
+    Nothing, Just, maybeNumber, maybeFunction,
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
     getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherErrorOrAny
@@ -25,6 +25,8 @@ const maybeDiv = num => divisor =>
     divisor !== 0
         ? Just(num / divisor)
         : Nothing
+
+
 
 // const getJsNumberOrFunction = val =>
 //     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
@@ -61,6 +63,17 @@ const getDomElements = (...elemIds) =>
 
 const getDomElementsAsMaybe = (...elemIds) =>
     elemIds.map(eitherDomElement)
+
+
+const maybeNumber = val =>
+    eitherJsNumOrOther(val)
+    (() => Nothing)
+    (() => Just(val))
+
+const maybeFunction = val =>
+    eitherFunctionOrOther(val)
+    (() => Nothing)
+    (() => Just(val))
 
 const eitherJsNumOrOther = val =>
     Number.isInteger(val)
