@@ -1,4 +1,4 @@
-import {getSafeElement} from "../../maybe/maybe.js";
+import {getDomElement} from "../../maybe/maybe.js";
 
 export {onInputListener, onInputListeners, toHexString, toRGBString, setInitialsValues, creatToggleElement, addUnSubscriberToggle}
 import {addListener, getValue, removeListenerByHandler, setValue} from "../observableListMap.js";
@@ -18,7 +18,7 @@ const setInitialsValues = (...observables) =>
     observables.forEach(obs => obs(setValue)(obs(getValue)))
 
 const creatToggleElement = (parentElementId, appendAsSibling = false) => {
-    const parentElement = getSafeElement(parentElementId)
+    const parentElement = getDomElement(parentElementId)
     const template = document.createElement('div');
     template.innerHTML = `<input type = "checkbox" id = "unSub${parentElementId}" name = "unSub${parentElementId}" style = "visibility: hidden">
                           <label for = "unSub${parentElementId}" id="unSub${parentElementId}Label" class="unsubLabel">Unsubscribe</label>`

@@ -27,7 +27,6 @@ import {
     Right,
     Just,
     Nothing,
-    either,
     maybeElementWithCustomErrorMessage, eitherErrorOrAny
 } from "../maybe/maybe.js";
 import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";

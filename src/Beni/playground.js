@@ -1,4 +1,3 @@
-//import {id, B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "../lambda-calculus-library/lambda-calculus.js";
 const log = console.log
 
 
@@ -30,9 +29,9 @@ const logged = x => logs.reduce((_, fn) => fn(x), x)
 
 const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return returnValue}
 
-const Box = x =>
-    ({
-        map: f => Box(f(x)),
-        fold: f => f(x),
-        inspect: () => `Box(${x})`
-    })
+// const Box = x =>
+//     ({
+//         map: f => Box(f(x)),
+//         fold: f => f(x),
+//         inspect: () => `Box(${x})`
+//     })

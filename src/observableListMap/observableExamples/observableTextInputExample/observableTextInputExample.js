@@ -1,7 +1,7 @@
 import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength }
 from "../../observableListMap.js";
 import { onInputListener } from "../observableUtilities.js";
-import {getSafeElements, maybeDomElement, getSafeElementsAsMaybe} from "../../../maybe/maybe.js";
+import {getDomElements, eitherDomElement, getDomElementsAsMaybe} from "../../../maybe/maybe.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
@@ -9,7 +9,7 @@ import {
 } from "../../../box/box.js";
 
 // The Elements from the Dom
-const [inputText, newValue, oldValue, sizes] = getSafeElements("inputText", "newValue", "oldValue", "sizes")
+const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes")
 
 // Define Observable-Handler
 const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) )
@@ -29,7 +29,7 @@ onInputListener(inputObservable, inputText)
 
 
 //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
-const [unsubNewValue, unsubOldValue, unsubSize] = getSafeElementsAsMaybe("unsubNewValue", "unsubOldValue", "unsubSize")
+const [unsubNewValue, unsubOldValue, unsubSize] = getDomElementsAsMaybe("unsubNewValue", "unsubOldValue", "unsubSize")
 
 
 unsubNewValue(err => console.error(err))(newValueElem =>

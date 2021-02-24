@@ -3,14 +3,14 @@ import {TestSuite} from "../test.js";
 import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1,n2,n3,n4,n5,n6,n7,n8,n9, churchMultiplication} from "../../src/lambda-calculus-library/church-numerals.js";
 import {
-    Nothing, Left, Right, either,
+    Nothing, Left, Right,
     Just,
     maybeDiv,
-    maybeDomElement,
+    eitherDomElement,
     getOrDefault,
-    getSafeElement,
-    getSafeElements,
-    getSafeElementAbstraction,
+    getDomElement,
+    getDomElements,
+    getDomElementAbstraction,
     maybeElement,
     eitherJsNumOrOther
 } from "../../src/maybe/maybe.js";
@@ -65,40 +65,40 @@ maybeSuite.add("maybeNumber", assert => {
 
 maybeSuite.add("maybeDomElement", assert => {
     setup()
-    assert.equals(maybeDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals(maybeDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals(eitherDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals(eitherDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
     tearDown()
 });
 
-maybeSuite.add("getSafeElementAbstraction", assert => {
+maybeSuite.add("getDomElementAbstraction", assert => {
     setup();
-    assert.equals(getSafeElementAbstraction('test')(id), dummyDomElem);
+    assert.equals(getDomElementAbstraction('test')(id), dummyDomElem);
 
     const elementNotExistName = "elementNotExist"
-    const methodUnderTest = () => getSafeElementAbstraction(elementNotExistName)(id)
-    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesn't exist`)
+    const methodUnderTest = () => getDomElementAbstraction(elementNotExistName)(id)
+    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
 
     tearDown()
 });
 
-maybeSuite.add("getSafeElement", assert => {
+maybeSuite.add("getDomElement", assert => {
     setup()
-    assert.equals(getSafeElement("test"), dummyDomElem);
+    assert.equals(getDomElement("test"), dummyDomElem);
 
     const elementNotExistName = "elementNotExist"
-    const methodUnderTest = () => getSafeElement(elementNotExistName)
-    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesn't exist`)
+    const methodUnderTest = () => getDomElement(elementNotExistName)
+    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
 
     tearDown()
 });
 
-maybeSuite.add("getSafeElements", assert => {
+maybeSuite.add("getDomElements", assert => {
     setup()
-    assert.arrayEquals(getSafeElements("test", "test"), [dummyDomElem, dummyDomElem]);
+    assert.arrayEquals(getDomElements("test", "test"), [dummyDomElem, dummyDomElem]);
 
     const elementNotExistName = "elementNotExist"
-    const methodUnderTest = () => getSafeElements(elementNotExistName, "test")
-    assert.consoleErrorEquals(methodUnderTest, `${elementNotExistName} doesn't exist`)
+    const methodUnderTest = () => getDomElements(elementNotExistName, "test")
+    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
     tearDown();
 });
 

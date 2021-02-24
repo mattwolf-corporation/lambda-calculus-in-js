@@ -69,36 +69,52 @@ boxSuite.add("box.getContent", assert => {
 boxSuite.add("box.fold", assert => {
     const p = {firstName: "lukas", lastName: "Mueller"};
 
-    const box1 = Box(p);
-
-    const mappedP = box1
+    const result1 = Box(p)
                         (mapf)(p => p.firstName)
                         (mapf)(firstName => firstName.toUpperCase())
-
-    const result1 = mappedP
                         (fold)(firstNameUpperCase => firstNameUpperCase.slice(1))
 
     const result2 = Box(10)
-                            (fold)(num => num * 2);
+                        (fold)(num => num * 2);
+
     const result3 = Box(id)
                         (fold)(f => f("Magic"))
+
+
+    const result4 = Box("Hello")
+                        (fold)(s => s + " World")
 
     assert.equals(result1, "UKAS");
     assert.equals(result2, 20);
     assert.equals(result3, "Magic");
+    assert.equals(result4, "Hello World");
 });
 
 boxSuite.add("box.chain", assert => {
     const box1 = Box(10)
-                    (chain)(num => Box(num * 2))
+                    (chain)(num =>
+                            Box(num * 2)
+                    )
 
-    const box2 = Box(10)
+    const box2 = Box(1)
                         (mapf)(num => num + 5)
-                        (chain)(num => Box(num * 2))
-                        (chain)(num => Box(num * 3))
+                        (chain)(num => Box(num * 2)
+                                            (mapf)(num => num + 1)
+                        )
+                        (chain)(num => Box(num * 3)
+                                            (mapf)(num => num + 1)
+                        )
 
-    // nested box
-    const box3 = Box(10)
+    const box3 = Box("a")
+                        (mapf)(a => a + "b")
+                        (chain)(ab => Box(ab + "c")
+                                        (mapf)(abc => abc + "d")
+                        )
+                        (chain)(abcd => Box(abcd + "e")
+                                        (mapf)(abcde => abcde + "f")
+                        )
+
+    const box4 = Box(10)
                         (chain)(num => Box(num)
                                             (mapf)(num => num + 2)
                                             (mapf)(num => num + 3)
@@ -106,17 +122,17 @@ boxSuite.add("box.chain", assert => {
                         (mapf)(num => num - 15)
 
     assert.equals(getContent(box1), 20);
-    assert.equals(getContent(box2), 90);
-    assert.equals(getContent(box3), 0);
+    assert.equals(getContent(box2), 40);
+    assert.equals(getContent(box3), "abcdef");
+    assert.equals(getContent(box4), 0);
 });
 
 boxSuite.add("box example", assert => {
     const nextCharForNumberString = str =>
         Box(str)
-        (chain)(s =>
-            Box(s)
-                (mapf)(s => s.trim())
-            )
+        (chain)(s => Box(s)
+                        (mapf)(s => s.trim())
+        )
         (mapf)(r => parseInt(r))
         (mapf)(i => i + 1)
         (mapf)(i => String.fromCharCode(i))

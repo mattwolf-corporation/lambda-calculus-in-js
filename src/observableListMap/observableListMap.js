@@ -12,7 +12,7 @@ export {
 /**
  * Generic Types
  * @typedef {function} observable
- * @typedef {listMap} listeners
+ * @typedef {function} listMap
  */
 
 
@@ -23,19 +23,19 @@ export {
  * @haskell InitObservable :: a -> Observable
  *
  * @function
- * @param {*} initialValue
+ * @param {number|churchNumber|string} initialValue
  * @return {observable} - a Observable with an emptyListMap & the InitialValue
  * @example
  * const obsExample = InitObservable(0)
- *                 (addListener)(consoleHandler)
- *                 (addListener)(valueHandler)
+ *                          (addListener)(consoleHandler)
+ *                          (addListener)(valueHandler)
  */
 const InitObservable = initialValue => Observable(emptyListMap)(initialValue)(setValue)(initialValue)
 
 
 /**
  * listeners -> value -> observableFunction -> observableFunction
- *  Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
+ * Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
  *
  * @haskell InitObservable :: [a] -> b -> c -> c
  *

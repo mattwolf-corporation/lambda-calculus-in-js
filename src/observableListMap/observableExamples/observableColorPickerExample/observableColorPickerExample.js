@@ -21,12 +21,12 @@ import {
     addUnSubscriberToggle,
     creatToggleElement
 } from "../observableUtilities.js";
-import {getSafeElement, getSafeElements} from "../../../maybe/maybe.js";
+import {getDomElement, getDomElements} from "../../../maybe/maybe.js";
 
 
-const [resultColor, rgbValue, hex, hsl] = getSafeElements("resultColor", "rgbValue", "hex", "hsl")
-const [inputR, inputG, inputB] = getSafeElements("inputR", "inputG", "inputB")
-const [rangeR, rangeG, rangeB] = getSafeElements("rangeR", "rangeG", "rangeB")
+const [resultColor, rgbValue, hex, hsl] = getDomElements("resultColor", "rgbValue", "hex", "hsl")
+const [inputR, inputG, inputB] = getDomElements("inputR", "inputG", "inputB")
+const [rangeR, rangeG, rangeB] = getDomElements("rangeR", "rangeG", "rangeB")
 
 const getRed = firstOfTriple
 const getGreen = secondOfTriple

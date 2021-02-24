@@ -1,14 +1,14 @@
-import {maybeDiv, getOrDefault, getSafeElement, getSafeElementAbstraction} from "../maybe.js";
+import {maybeDiv, getOrDefault, getDomElement, getDomElementAbstraction} from "../maybe.js";
 
 const calcDiv = () => {
-    const fstNum = getSafeElementAbstraction('firstNumInput')
+    const fstNum = getDomElementAbstraction('firstNumInput')
     (elem => Number(elem.value))
 
-    const sndNum = getSafeElementAbstraction('secondNumInput')
+    const sndNum = getDomElementAbstraction('secondNumInput')
     (elem => Number(elem.value))
 
-    getSafeElement('result').textContent = getOrDefault(maybeDiv(fstNum)(sndNum))("Can't divide by zero")
+    getDomElement('result').textContent = getOrDefault(maybeDiv(fstNum)(sndNum))("Can't divide by zero")
 }
 
-getSafeElementAbstraction('divisionBtn')
+getDomElementAbstraction('divisionBtn')
 (btn => btn.onclick = calcDiv)
