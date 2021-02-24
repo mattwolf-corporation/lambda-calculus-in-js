@@ -15,7 +15,7 @@ const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newV
 const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) )
 const oldValueHandler     = handlerBuilder(2)( buildHandlerFnTextContentOldValue  (oldValue) )
 const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnTextContentLength    (sizes)    )
-const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                       )
+const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                         )
 
 // Create Observable-Object, define InitVal and append the Observable-Handler as Listener
 let inputObservable = InitObservable("")
@@ -32,7 +32,7 @@ onInputListener(inputObservable, inputText)
 const [unsubNewValue, unsubOldValue, unsubSize] = getDomElementsAsMaybe("unsubNewValue", "unsubOldValue", "unsubSize")
 
 
-unsubNewValue(err => console.error(err))(newValueElem =>
+unsubNewValue(console.error)(newValueElem =>
     newValueElem.onclick = _ => {
 
         inputObservable = newValueElem.checked
@@ -42,7 +42,7 @@ unsubNewValue(err => console.error(err))(newValueElem =>
         onInputListener(inputObservable, inputText)
     })
 
-unsubOldValue(err => console.error(err))(oldValueElem =>
+unsubOldValue(console.error)(oldValueElem =>
     oldValueElem.onclick = _ => {
 
         inputObservable = unsubOldValue.checked
@@ -53,7 +53,7 @@ unsubOldValue(err => console.error(err))(oldValueElem =>
     })
 
 
-unsubSize(err => console.error(err))(sizeElem =>
+unsubSize(console.error)(sizeElem =>
     sizeElem.onclick = _ => {
         inputObservable = unsubSize.checked
             ? inputObservable(addListener)(labelSizeHandler)
