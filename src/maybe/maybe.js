@@ -4,7 +4,7 @@ export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
-    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherErrorOrAny
+    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherAnyOrError
 }
 
 const Left   = value => nothing => _    => nothing (value);
@@ -85,7 +85,7 @@ const eitherFunctionOrOther = val =>
         ? Right(val)
         : Left(`${val}, is not a function`);
 
-const eitherErrorOrAny = f => {
+const eitherAnyOrError = f => {
     try {
         return Right(f());
     } catch (error) {
@@ -94,3 +94,18 @@ const eitherErrorOrAny = f => {
 }
 
 //TODO: get or create method
+
+const testUrl = "https://api.chucknorris.io/jokes/random";
+
+const maybeHttpGet = theUrl =>
+    eitherAnyOrError(() => {
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = () => {
+            return (xmlHttp.readyState === 4 && xmlHttp.status === 200) ? Just(xmlHttp.responseText) : Nothing
+        }
+        xmlHttp.open("GET", theUrl, true); // true for asynchronous
+        xmlHttp.send();
+    })
+    (_ => Nothing)
+    (id)
+

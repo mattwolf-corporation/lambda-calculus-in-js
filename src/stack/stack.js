@@ -27,7 +27,7 @@ import {
     Right,
     Just,
     Nothing,
-    maybeElementWithCustomErrorMessage, eitherErrorOrAny
+    maybeElementWithCustomErrorMessage, eitherAnyOrError
 } from "../maybe/maybe.js";
 import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";
 
@@ -310,7 +310,7 @@ const getElementByIndex = stack => index =>
  * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
 const maybeElementByIndex = stack => index =>
-    eitherErrorOrAny(
+    eitherAnyOrError(
         () => eitherFunctionOrOther(stack) // stack value is NOT a stack aka function
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
             (_ => eitherJsNumOrOther(index)

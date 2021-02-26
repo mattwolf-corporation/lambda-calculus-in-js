@@ -1250,19 +1250,13 @@ const eitherFunctionOrOther = val =>
         ? Right(val)
         : Left(`${val}, is not a function`);
 
-const eitherErrorOrAny = f => {
+const eitherAnyOrError = f => {
     try {
         return Right(f());
     } catch (error) {
         return Left(error);
     }
 }
-
-//TODO: get or create method
-
-
-
-//TODO: get or create method
 
 
 const testStack1 = push(push(push(emptyStack)(0))(1))(2);
