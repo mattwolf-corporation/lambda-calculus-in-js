@@ -2,7 +2,7 @@ import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-c
 import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
 import {jsNum} from '../src/lambda-calculus-library/church-numerals.js';
 
-export {TestSuite, PerformanceTest}
+export {TestSuite, BenchmarkTest}
 
 const Assert = () => {
     let counter = 1;
@@ -184,7 +184,7 @@ const renderReport = (name, tests) => {
     );
 };
 
-const PerformanceTest = mutName => methodUnderTest => {
+const BenchmarkTest = mutName => methodUnderTest => {
     const t0 = performance.now();
 
     const result = methodUnderTest();

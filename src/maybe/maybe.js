@@ -14,11 +14,25 @@ const either = id;
 const Nothing  = Left();
 const Just     = Right ;
 
-const getOrDefault = maybeFn => defaultVal =>
-    maybeFn(() => defaultVal)
+
+/**
+ * unpacks the Maybe element if it is there, otherwise it returns the default value
+ *
+ * @param maybeObject
+ * @return {function(defaultVal:function): *} maybe value or given default value
+ * @example
+ * getOrDefault( maybeDiv(6)(2) )( "Can't divide by zero" ) === 3
+ * getOrDefault( maybeDiv(6)(0) )( "Can't divide by zero" ) === "Can't divide by zero"
+ */
+const getOrDefault = maybeObject => defaultVal =>
+    maybeObject(() => defaultVal)
     (id)
 
-
+/**
+ *
+ * @param  {number} num
+ * @return {function(divisor:number): Just|Nothing} a Maybe (Just with the divided value or Nothing)
+ */
 const maybeDiv = num => divisor =>
     Number.isInteger(num) &&
     Number.isInteger(divisor) &&
@@ -31,7 +45,11 @@ const maybeDiv = num => divisor =>
 // const getJsNumberOrFunction = val =>
 //     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
 
-
+/**
+ * Take the element as maybe value if the element is a truthy value inclusive number Zero
+ * @param  {*} element
+ * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
+ */
 const maybeElement = element =>
     element || element === 0
         ? Just(element)
@@ -42,6 +60,11 @@ const maybeElementWithCustomErrorMessage = errorMessage => element =>
         ? Right(element)
         : Left(errorMessage)
 
+/**
+ *
+ * @param  {string} elemId
+ * @return {Left|Right} either Right with HTMLElement or Left with Error
+ */
 const eitherDomElement = elemId =>
     document.getElementById(elemId)
                 ? Right(document.getElementById(elemId))
@@ -55,6 +78,12 @@ const getDomElementAbstraction = elemId => elementFunction =>
     (console.error)
     (elementFunction)
 
+
+/**
+ *
+ * @param  {string} elemId
+ * @return {HTMLElement|undefined} HTMLElement when exist, else undefined
+ */
 const getDomElement = elemId =>
     getDomElementAbstraction(elemId)(id)
 

@@ -1,4 +1,4 @@
-import {PerformanceTest, TestSuite} from "../test.js";
+import {BenchmarkTest, TestSuite} from "../test.js";
 
 import {
     beq,
@@ -395,7 +395,7 @@ stackSuite.add("performance test: for/foreach loop - stack implementation", asse
         //console.log(`elem: ${elem}, index: ${i}`);
     }
 
-    const result = PerformanceTest('for/foreach loop - stack implementation')(() =>  forEach(testStack)(callbackFunc));
+    const result = BenchmarkTest('for/foreach loop - stack implementation')(() =>  forEach(testStack)(callbackFunc));
 });
 
 stackSuite.add("performance test: for/foreach loop - old stack implementation", assert => {
@@ -405,7 +405,7 @@ stackSuite.add("performance test: for/foreach loop - old stack implementation", 
         //console.log(`elem: ${elem}, index: ${i}`);
     }
 
-    const result = PerformanceTest('for/foreach loop - old stack implementation')(() => forEachOld(testStack)(callbackFunc));
+    const result = BenchmarkTest('for/foreach loop - old stack implementation')(() => forEachOld(testStack)(callbackFunc));
 });
 
 stackSuite.add("removeByIndex", assert => {

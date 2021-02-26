@@ -75,6 +75,6 @@ const HttpGetSync = url => {
 }
 
 // Beispiel HttpGetSync
-// Box(HttpGetSync(testUrl))
+// Box(HttpGetSync(jokeUrl))
 //      (mapf)(JSON.parse)
 //      (fold)(x => x.value)

@@ -1,4 +1,4 @@
-import {TestSuite, PerformanceTest} from "../test.js";
+import {TestSuite, BenchmarkTest} from "../test.js";
 import {
     addListener,
     buildHandlerFnValue,
@@ -21,8 +21,8 @@ observableListMapSuite.add("setValue", assert => {
     const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
 
     let testObs = InitObservable(0)
-    (addListener)(consoleHandler)
-    (addListener)(valueHandler)
+                         (addListener)(consoleHandler)
+                         (addListener)(valueHandler)
 
     const methodUnderTest1 = () => testObs = testObs(setValue)(66);
     const methodUnderTest2 = () => testObs = testObs(setValue)(96);
@@ -53,8 +53,8 @@ observableListMapSuite.add("logListenersToConsole", assert => {
     const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
 
     let testObs = InitObservable(0)
-    (addListener)(consoleHandler)
-    (addListener)(valueHandler)
+                            (addListener)(consoleHandler)
+                            (addListener)(valueHandler)
 
     const expectedLogs = [
         "element at: 1: 42 | nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)",
@@ -72,8 +72,8 @@ observableListMapSuite.add("removeListenerByHandler", assert => {
 
     // when 1
     let testObs = InitObservable(0)
-    (addListener)(consoleHandler)
-    (addListener)(valueHandler)
+                        (addListener)(consoleHandler)
+                        (addListener)(valueHandler)
 
     const methodUnderTest1 = () => testObs = testObs(setValue)(66);
 
@@ -94,7 +94,7 @@ observableListMapSuite.add("removeListenerByHandler", assert => {
     assert.equals(testObs(getValue), 100)
 });
 
-observableListMapSuite.add("perfomance", assert => {
+observableListMapSuite.add("benchmark test", assert => {
 
     let testObs = InitObservable(0)
 
@@ -109,7 +109,7 @@ observableListMapSuite.add("perfomance", assert => {
     }
 
     // set Value
-    const result = PerformanceTest('observable set value method')(() => testObs = testObs(setValue)(66));
+    const result = BenchmarkTest('observable set value method')(() => testObs = testObs(setValue)(66));
 
     assert.equals(listOfValuesHandlers.every(v => v.value === 66), true);
 });
