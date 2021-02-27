@@ -4,11 +4,11 @@ import {id, beq, True, False, showBoolean as show, convertToJsBool, pair, triple
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsNum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
 import {
     hasPre, push, pop, head, size, startStack, stack,
-    pushToStack, convertArrayToStack, getElementByIndex
+    pushToStack, convertArrayToStack, getElementByIndex, map
 } from "../../src/stack/stack.js";
 
 import {
-    listMap, startListMap, emptyListMap, removeByKey, getElementByKey
+    listMap, startListMap, emptyListMap, removeByKey, getElementByKey, mapListMap
 }from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
@@ -17,7 +17,7 @@ const listMapSuite = TestSuite("List Map (pure functional data structure)");
 const personList = [
     {firstName: 'Peter', lastName: 'Pan', age: 30, income: 1000},
     {firstName: 'Marc', lastName: 'Hunt', age: 28, income: 2000},
-    {firstName: 'Luc', lastName: 'Skywalker', age: 36, income: 3000},
+    {firstName: 'Luke', lastName: 'Skywalker', age: 36, income: 3000},
     {firstName: 'Han', lastName: 'Solo', age: 55, income: 4000},
     {firstName: 'Tyrion', lastName: 'Lennister', age: 40, income: 5000}
 ];
@@ -62,8 +62,6 @@ listMapSuite.add("getElementByKey", assert => {
 });
 
 listMapSuite.add("removeByKey", assert => {
-    const elements = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
-
     assert.equals( getElementByKey(testListMap)(17), personList[2]);
 
     assert.churchNumberEquals( size(testListMap), n5);
@@ -84,6 +82,47 @@ listMapSuite.add("removeByKey", assert => {
     assert.pairEquals(getElementByIndex(listMapUnderTest)(n4), p4);
 
     assert.equals( getElementByKey(listMapUnderTest)(17), id);
+});
+
+listMapSuite.add("map", assert => {
+    const result = map(p => {
+        const person = p(snd);
+        const key = p(fst);
+        console.log(key);
+        return person.firstName.toUpperCase();
+    })(testListMap);
+
+    assert.churchNumberEquals( size(result), n5);
+    assert.equals(getElementByIndex(result)(n1), "PETER");
+    assert.equals(getElementByIndex(result)(n2), "MARC");
+});
+
+listMapSuite.add("mapListMap", assert => {
+    const result = mapListMap(p => p.firstName.toUpperCase())(testListMap);
+
+    assert.churchNumberEquals( size(result), n5);
+    assert.equals(getElementByIndex(result)(n1), "PETER");
+    assert.equals(getElementByIndex(result)(n2), "MARC");
+    assert.equals(getElementByIndex(result)(n3), "LUKE");
+    assert.equals(getElementByIndex(result)(n4), "HAN");
+    assert.equals(getElementByIndex(result)(n5), "TYRION");
+
+    const z1 = pair(15)(5)
+    const z2 = pair(16)(10)
+    const z3 = pair(17)(15)
+
+    const listMapWithNumbers = startListMap
+    (pushToStack) ( z1 )
+    (pushToStack) ( z2 )
+    (pushToStack) ( z3 )
+    (id)
+
+    const result2 = mapListMap(num => num * 2)(listMapWithNumbers);
+
+    assert.churchNumberEquals( size(result2), n3);
+    assert.equals(getElementByIndex(result2)(n1), 10);
+    assert.equals(getElementByIndex(result2)(n2), 20);
+    assert.equals(getElementByIndex(result2)(n3), 30);
 });
 
 listMapSuite.report();
