@@ -133,8 +133,6 @@ listMapSuite.add("listMap - special keys", assert => {
 listMapSuite.add("map", assert => {
     const result = map(p => {
         const person = p(snd);
-        const key = p(fst);
-        console.log(key);
         return person.firstName.toUpperCase();
     })(testListMap);
 
