@@ -179,7 +179,7 @@ const logListenersToConsole = listeners => _ => {
         console.log('element at: ' + index + ': ' + showPair(val));
         return index;
     };
-    reduce(pair(logIteration)(0))(listeners);
+    reduce(logIteration)(0)(listeners);
 };
 
 
