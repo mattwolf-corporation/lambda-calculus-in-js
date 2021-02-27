@@ -11,8 +11,10 @@ import {
     hasPre,
     getPreStack,
     push,
+    pushToStack,
     startStack,
     emptyStack,
+    convertArrayToStack,
     map,
     filter,
     reduce
@@ -98,16 +100,17 @@ const getElementByKey = listMap => key => {
 
 
 /**
- * Remove the element in the ListMap by the key (Js-Number)
+ * Remove the element in the ListMap by the key (key could be anything that can be comparable. Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
  *
  * @function
  * @param  {listMap} listMap
- * @return {function(key:Number): *} element (value)
+ * @return {function(key:*): *} element (value)
  * @example
  * const testListMap = startListMap
  *                      ( pushToStack )( pair(1)( "Hans") )
  *                      ( pushToStack )( pair(2)("Peter") )
  *                      ( pushToStack )( pair(3)(  42   ) )
+ *
  *
  * jsnum( size(testListMap) ) === 3
  *

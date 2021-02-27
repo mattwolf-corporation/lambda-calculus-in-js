@@ -20,40 +20,40 @@
 <p id="joke2" style="background-color: aquamarine"></p>
 <script>
     const testUrl = "https://api.chucknorris.io/jokes/random";
-
-
-    const xhrAsync = new XMLHttpRequest()
-    xhrAsync.open("GET", "https://api.chucknorris.io/jokes/random");
-    xhrAsync.send();
-    xhrAsync.onload = e => {
-        console.log(e)
-        if (xhrAsync.readyState === XMLHttpRequest.DONE && xhrAsync.status === 200) {
-            document.getElementById("joke2").textContent = JSON.parse(xhrAsync.responseText).value;
-        }
-    }
-
-    const xhrSynchron = new XMLHttpRequest()
-    xhrSynchron.open("GET", "https://api.chucknorris.io/jokes/random", false);
-    xhrSynchron.send()
-    console.log(xhrSynchron.response)
-    console.log(xhrSynchron.responseText)
-    console.log(xhrSynchron.responseType)
-    console.log(xhrSynchron.responseURL)
-    console.log(xhrSynchron.responseXML)
-    document.getElementById("joke1").textContent = JSON.parse(xhrSynchron.response).value;
-
-    const jokeUrl = "https://api.chucknorris.io/jokes/random";
-
-    const HttpGet = url => callback => {
-        const xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = () =>
-            (xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200)
-                ? callback(xmlHttp.responseText)
-                : new Error("Statuscode is: " + xmlHttp.status.toString())
-
-        xmlHttp.open("GET", url, true); // true for asynchronous
-        xmlHttp.send();
-    }
+    //
+    //
+    // const xhrAsync = new XMLHttpRequest()
+    // xhrAsync.open("GET", "https://api.chucknorris.io/jokes/random");
+    // xhrAsync.send();
+    // xhrAsync.onload = e => {
+    //     console.log(e)
+    //     if (xhrAsync.readyState === XMLHttpRequest.DONE && xhrAsync.status === 200) {
+    //         document.getElementById("joke2").textContent = JSON.parse(xhrAsync.responseText).value;
+    //     }
+    // }
+    //
+    // const xhrSynchron = new XMLHttpRequest()
+    // xhrSynchron.open("GET", "https://api.chucknorris.io/jokes/random", false);
+    // xhrSynchron.send()
+    // console.log(xhrSynchron.response)
+    // console.log(xhrSynchron.responseText)
+    // console.log(xhrSynchron.responseType)
+    // console.log(xhrSynchron.responseURL)
+    // console.log(xhrSynchron.responseXML)
+    // document.getElementById("joke1").textContent = JSON.parse(xhrSynchron.response).value;
+    //
+    // const jokeUrl = "https://api.chucknorris.io/jokes/random";
+    //
+    // const HttpGet = url => callback => {
+    //     const xmlHttp = new XMLHttpRequest();
+    //     xmlHttp.onreadystatechange = () =>
+    //         (xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200)
+    //             ? callback(xmlHttp.responseText)
+    //             : new Error("Statuscode is: " + xmlHttp.status.toString())
+    //
+    //     xmlHttp.open("GET", url, true); // true for asynchronous
+    //     xmlHttp.send();
+    // }
     // Beispiel mit HttpGet
     // HttpGet(jokeUrl)(true)(x => document.getElementById("joke").innerText = JSON.parse(x).value)
 
@@ -62,12 +62,12 @@
 
 
 
-    const HttpGetSync = theUrl => {
-        const xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-        xmlHttp.send( );
-        return xmlHttp.responseText;
-    }
+    // const HttpGetSync = theUrl => {
+    //     const xmlHttp = new XMLHttpRequest();
+    //     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    //     xmlHttp.send( );
+    //     return xmlHttp.responseText;
+    // }
 
 
 </script>

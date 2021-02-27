@@ -975,7 +975,6 @@ const forEach = stack => callbackFunc => {
     times(iteration)(pair(reversedStack)(1));
 };
 
-
 const removeByIndex = stack => index => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1017,6 +1016,8 @@ const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
         return reduce(pair((acc, curr) => push(acc)(curr))(s1))(s2);
     }
 }
+
+
 
 /**
  *
@@ -1189,22 +1190,7 @@ const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 const startListMap = f => f(emptyListMap);
 
 
-/**
- * Get the element in the ListMap by the key (Js-Number)
- *
- * @function
- * @param listMap
- * @return {function(key:Number): *} element (value) or id if key not exist
- * @example
- * const testListMap = startListMap
- *                      ( pushToStack )( pair(1)( "Hans") )
- *                      ( pushToStack )( pair(2)("Peter") )
- *                      ( pushToStack )( pair(3)(  42   ) )
- *
- * getElementByKey( testListMap )( 1 ) === "Hans"
- * getElementByKey( testListMap )( 2 ) === "Peter"
- * getElementByKey( testListMap )( 3 ) === 42
- */
+
 const getElementByKey = listMap => key => {
     const times         = size(listMap);
     const initArgsPair  = pair(listMap)(id);
@@ -1223,23 +1209,6 @@ const getElementByKey = listMap => key => {
 };
 
 
-/**
- * Remove the element in the ListMap by the key (Js-Number)
- *
- * @function
- * @param  {listMap} listMap
- * @return {function(key:Number): *} element (value)
- * @example
- * const testListMap = startListMap
- *                      ( pushToStack )( pair(1)( "Hans") )
- *                      ( pushToStack )( pair(2)("Peter") )
- *                      ( pushToStack )( pair(3)(  42   ) )
- *
- * jsnum( size(testListMap) ) === 3
- *
- * const listMapOneRemoved = removeByKey(testListMap)(1)
- * jsnum( size(listMapOneRemoved) ) === 2
- */
 const removeByKey = listMap => key => {
     const times         = size(listMap);
     const reversedStack = reverseStack(listMap);

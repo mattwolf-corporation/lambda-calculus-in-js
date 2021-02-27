@@ -267,7 +267,7 @@ const reduce = reduceFn => initialValue => s => {
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : * } stack-value or undefined not exist
  * @example
- * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
+ * const stackWithNumbers = push(push(push(emptyStack)(0))(1))(2);
  *
  * getElementByIndex( stackWithNumbers )( n0 ) === id
  * getElementByIndex( stackWithNumbers )( n1 ) ===  0
@@ -293,7 +293,7 @@ const getElementByIndex = stack => index =>
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
  * @example
- * const stackWithNumbers = push(push(push(emptyStack)(1))(1))(2);
+ * const stackWithNumbers = push(push(push(emptyStack)(0))(1))(2);
  *
  * maybeElementByIndex( stackWithNumbers )( n0 ) === Just(id)
  * maybeElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
@@ -408,7 +408,7 @@ const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? 
  * @param  {function} mapFunction
  * @return {function(s:stack): stack} stack
  * @example
- * const stackWithNumbers = startStack(pushToStack)(2)(pushToStack)(5)(pushToStack)(6)(id)
+ * const stackWithNumbers = convertArrayToStack([2,5,6])
  *
  * const stackMultiplied  = map( x => x * 2)(stackWithNumbers)
  *
@@ -444,8 +444,9 @@ const map = mapFunction => s => {
  * @return {function(s:stack): stack} pair
  *
  * @example
- * const stackWithNumbers = startStack(pushToStack)(42)(pushToStack)(7)(pushToStack)(3)(id)
- * filter(x => x < 5 && x > 2)(stackWithNumbers) === startStack(pushToStack)(3)(id)
+ * const stackWithNumbers = convertArrayToStack([42,7,3])
+ *
+ * filter(x => x < 20 && x > 5)(stackWithNumbers) === convertArrayToStack([7])
  */
 const filter = filterFunction => s => {
     const times = size(s);
@@ -484,7 +485,7 @@ const logStackToConsole = stack =>
  * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
  *
  * @function stackOperationBuilder
- * @param {stackOp} stackOp
+ * @param   {stackOp} stackOp
  * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
  */
 const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
@@ -492,11 +493,12 @@ const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 /**
  * pushToStack is a Stack-Builder-Command to push new values to the current stack
  *
- * @param  {stackOpBuilder} stackOp
+ * @param   {stackOpBuilder} stackOp
  * @returns {function(pushToStack)} pushToStack
  *
  * @example
- * const stackOfWords = startStack(pushToStack)("Hello")(pushToStack)("World")(id)
+ * const stackOfWords = convertArrayToStack(["Hello", "World"])
+ *
  * getElementByIndex( stackOfWords )( 1 ) === "Hello"
  * getElementByIndex( stackOfWords )( 2 ) === "World"
  */
@@ -529,12 +531,14 @@ const forEachOld = stack => f => {
 
 
 /**
- *
+ * Foreach implementation for stack
+ * A function that expects a stack and a callback function.
+ * The current element of the stack iteration and the index of this element is passed to this callback function
  *
  * @param stack
  * @return {function(callbackFunc:function): void}
  * @example
- * const stackWithNumbers = startStack(pushToStack)(5)(pushToStack)(10)(pushToStack)(15)(id);
+ * const stackWithNumbers = convertArrayToStack([5,10,15])
  *
  * forEach( stackWithNumbers )( (element, index) => console.log("At Index " + index + " is the Element " + element) );
  *
@@ -598,7 +602,7 @@ const removeByIndex = stack => index => {
 
 /**
  *
- * @param {stack} currentStack
+ * @param  {stack} currentStack
  * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
  */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
@@ -618,14 +622,14 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
 /**
  * Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
  *
- * @param {stack} s1
+ * @param  {stack} s1
  * @return {function(s2:stack)} a concated stack
  *
  * @haskell concat :: [a] -> [a] -> [a]
  *
  * @example
- * const elements1      = convertArrayToStack( ["Hello", "Haskell"] );
- * const elements2      = convertArrayToStack( ["World", "Random"] );
+ * const elements1          = convertArrayToStack( ["Hello", "Haskell"] );
+ * const elements2          = convertArrayToStack( ["World", "Random"] );
  * const concatenatedStacks = concat( elements1 )( elements2 );
  *
  * jsNum( size( concatenatedStacks ) )          === 4
