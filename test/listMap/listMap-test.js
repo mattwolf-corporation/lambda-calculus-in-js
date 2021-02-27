@@ -137,4 +137,12 @@ listMapSuite.add("filterListMap", assert => {
     assert.pairEquals(getElementByIndex(result2)(n2), pair(17)(15));
 });
 
+listMapSuite.add("reduceListMap", assert => {
+    const result = reduceListMap((acc, curr) => acc + curr.income)(0)(testListMap);
+    assert.equals( result, 15000);
+
+    const result2 = reduceListMap((acc, curr) => acc + curr)(0)(listMapWithNumbers);
+    assert.equals(result2, 30)
+});
+
 listMapSuite.report();
