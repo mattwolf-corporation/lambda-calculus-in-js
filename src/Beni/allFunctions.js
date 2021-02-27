@@ -1045,6 +1045,7 @@ const concat = s1 => s2 => { // TODO: what happen when stacks not have same size
  */
 const flatten = reduce(pair((acc, curr) => concat(acc)(curr))(emptyStack));
 
+const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
 
 /**
  *  Zip (combine) with two Stacks and apply a function

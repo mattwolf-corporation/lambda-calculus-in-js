@@ -209,6 +209,7 @@ const getStackIndex = s => s(stackIndex);
  * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
+
 /**
  * A function that takes argument pair and  a stack.
  * The first argument of the pair must be a reducer function.
@@ -755,10 +756,10 @@ const zipWithOneLiner = null;
  *
  * const zippedStack = zip(s1)(s2);
  *
- * jsNum(size(zippedStack))          === 2
- * getElementByIndex(zippedStack)(0) === id
- * getElementByIndex(zippedStack)(1) === pair(1)(3)
- * getElementByIndex(zippedStack)(2) === pair(2)(4)
+ * jsNum( size(zippedStack) )          === 2
+ * getElementByIndex( zippedStack )(0) === id
+ * getElementByIndex( zippedStack )(1) === pair(1)(3)
+ * getElementByIndex( zippedStack )(2) === pair(2)(4)
  */
 const zip = zipWith(pair);
 

@@ -66,16 +66,20 @@ const startListMap = f => f(emptyListMap);
 
 
 /**
+ *
+ * @param obj
+ * @return {*}
+ */
+const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
+
+/**
  * Get the element in the ListMap by the key (Js-Number)
  *
  * @function
  * @param listMap
  * @return {function(key:Number): *} element (value) or id if key not exist
  * @example
- * const testListMap = startListMap
- *                      ( pushToStack )( pair(1)( "Hans") )
- *                      ( pushToStack )( pair(2)("Peter") )
- *                      ( pushToStack )( pair(3)(  42   ) )
+ * const testListMap = convertObjToListMap( {1: "Hans", 2: "Peter", 3: 42} )
  *
  * getElementByKey( testListMap )( 1 ) === "Hans"
  * getElementByKey( testListMap )( 2 ) === "Peter"
@@ -106,11 +110,7 @@ const getElementByKey = listMap => key => {
  * @param  {listMap} listMap
  * @return {function(key:*): *} element (value)
  * @example
- * const testListMap = startListMap
- *                      ( pushToStack )( pair(1)( "Hans") )
- *                      ( pushToStack )( pair(2)("Peter") )
- *                      ( pushToStack )( pair(3)(  42   ) )
- *
+ * const testListMap = convertObjToListMap( {1: "Hans", 2: "Peter", 3: 42} )
  *
  * jsnum( size(testListMap) ) === 3
  *
@@ -156,4 +156,3 @@ const filterListMap = f => filter(p => f(p(snd)) );
 
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
 
-const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
