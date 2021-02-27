@@ -164,7 +164,7 @@ const V = x => y => f => f(x)(y);
  * @param   {function} f
  * @returns { function(g:function): function(x:*): function(y:*): function({ f:{g: {x y}} }) }
  * @example
- * Blackbird(x => x)(x => y => x + y)(2)(3)     === 5
+ * Blackbird(x => x)    (x => y => x + y)(2)(3) === 5
  * Blackbird(x => x * 2)(x => y => x + y)(2)(3) === 10
  */
 const Blackbird = f => g => x => y => f(g(x)(y));

@@ -7,8 +7,8 @@ export {
     getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherAnyOrError
 }
 
-const Left   = value => nothing => _    => nothing (value);
-const Right  = value => _       => just => just    (value);
+const Left   = x => f => _ => f (x);
+const Right  = x => _ => g => g (x);
 const either = id;
 
 const Nothing  = Left();

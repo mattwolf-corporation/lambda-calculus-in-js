@@ -133,7 +133,6 @@ const getValue = listeners => value => value
  *
  * valueHolder.value    === 11
  * obsExample(getValue) === 66
- *
  */
 const removeListenerByKey = listeners => value => listenerKey =>
     Observable(removeByKey(listeners)(listenerKey))(value)
@@ -187,8 +186,8 @@ const logListenersToConsole = listeners => _ => {
 // Observable Handler-Utilities
 const handlerBuilder = key => handlerFn => pair(key)(handlerFn)
 
-const handlerFnLogToConsole = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const buildHandlerFnTextContent = element => nVal => oVal => element.textContent = nVal
+const handlerFnLogToConsole                        = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
+const buildHandlerFnTextContent         = element => nVal => oVal => element.textContent = nVal
 const buildHandlerFnTextContentOldValue = element => nVal => oVal => element.textContent = oVal
-const buildHandlerFnTextContentLength = element => nVal => oVal => element.textContent = nVal.length
-const buildHandlerFnValue = element => nVal => oVal => element.value = nVal
+const buildHandlerFnTextContentLength   = element => nVal => oVal => element.textContent = nVal.length
+const buildHandlerFnValue               = element => nVal => oVal => element.value = nVal

@@ -82,8 +82,7 @@ boxSuite.add("box.fold", assert => {
 
 boxSuite.add("box.chain", assert => {
     const box1 = Box(10)
-                    (chain)(num =>
-                            Box(num * 2))
+                    (chain)(num => Box(num * 2))
 
     const box2 = Box(1)
                         (mapf)(num => num + 5)
@@ -200,37 +199,33 @@ boxSuite.add("mapfMaybe", assert => {
 });
 
 boxSuite.add("getContent maybeBox", assert => {
-    const p = {firstName: "lukas", lastName: "Mueller"};
+    const person = {firstName: "lukas", lastName: "Mueller"};
+    const maybeJustPerson = () => Just(person);
 
-    const result1 = getContent(Box(Just(p)))
-                            (() => "no person")
-                            (id);
+    const boxJustPerson   = Box(maybeJustPerson())
+    const justMaybePerson = getContent(boxJustPerson)
 
-    assert.equals(result1, p);
-
-
-
-    const result2 = getContent(Box(Nothing));
-    assert.equals(result2, Nothing);
+    assert.equals(justMaybePerson( () => "no person" )(id), person);
 
 
-    const result3 = getContent(Box(Nothing))
-                                (() => "no person")
-                                (id);
+    const boxNothingMaybe = Box(Nothing);
+    const nothingMaybe    = getContent(boxNothingMaybe)
 
-    assert.equals(result3, "no person");
+    assert.equals(nothingMaybe, Nothing);
+    assert.equals(nothingMaybe( () => "no person" )(id), "no person");
 });
 
 boxSuite.add("chainMaybe", assert => {
-    const p = () => Just({firstName: "lukas", lastName: "Mueller"});
+    const person = {firstName: "lukas", lastName: "Mueller"};
+    const maybeJustPerson = () => Just(person);
 
-    const mappedPerson1 = Box(p())
+    const chainedPerson1 = Box(maybeJustPerson())
                             (chainMaybe)(p => Just(p.firstName));
-    assert.equals( getContent(mappedPerson1)(() => "failed")(id), "lukas");
+    assert.equals( getContent(chainedPerson1)(() => "failed")(id), "lukas");
 
-    const mappedPerson2 = mappedPerson1
+    const chainedPerson2 = chainedPerson1
                             (chainMaybe)(firstName => Just(firstName.toUpperCase()));
-    assert.equals( getContent(mappedPerson2)(() => "failed")(id), "LUKAS");
+    assert.equals( getContent(chainedPerson2)(() => "failed")(id), "LUKAS");
 
 
     const chainedResultNothing = Box(Just(12))
@@ -274,8 +269,8 @@ boxSuite.add("findColor maybeBox example", assert => {
 
     const findCol = c =>
         Box(findColor(c))
-        (mapfMaybe)(c => c.slice(1))
-        (foldMaybe)(c => c.toUpperCase())
+            (mapfMaybe)(c => c.slice(1))
+            (foldMaybe)(c => c.toUpperCase())
             (() => 'no color')
             (id);
 
@@ -292,14 +287,14 @@ boxSuite.add("try catch", assert => {
     const result4 = tryCatch(() => {throw new TypeError("failed")})
 
 
-    assert.equals(result1(id)(id), "random error");
-    assert.equals(result2(id)(id), 10);
-    assert.equals(result3(id)(id), "Hello");
-    assert.equals(result1(() => "error")(id), "error");
-    assert.equals(result2(() => "error")(() => "success"), "success");
-    assert.equals(result3(id)(() => 42), 42);
-    assert.equals(result4(e => e.message)(id), "failed");
-    assert.equals(result4(e => e.name)(id), "TypeError");
+    assert.equals( result1(id)(id), "random error");
+    assert.equals( result2(id)(id), 10);
+    assert.equals( result3(id)(id), "Hello");
+    assert.equals( result1(() => "error")(id), "error");
+    assert.equals( result2(() => "error")(() => "success"), "success");
+    assert.equals( result3(id)(() => 42), 42);
+    assert.equals( result4(e => e.message)(id), "failed");
+    assert.equals( result4(e => e.name)(id), "TypeError");
 });
 
 boxSuite.add("readPersonFromApi maybeBox example", assert => {
@@ -352,13 +347,13 @@ boxSuite.add("readPersonFromApi maybeBox example", assert => {
 });
 
 boxSuite.add("readPersonFromApi with left & right", assert => {
-    const readPersonFromApiWithError = () => {
-          return Left('api error');
-    };
+    const readPersonFromApiWithError = () => Left('api error');
 
-    const parseJson = object =>  object !== null
-        ? tryCatch(() => JSON.parse(object))
-        : Left('parse json failed');
+
+    const parseJson = object =>
+        object !== null
+            ? tryCatch(() => JSON.parse(object))
+            : Left('parse json failed');
 
     const debug = x => {
         console.log(x);
@@ -367,14 +362,14 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
 
     const getPerson = lastName =>
         Box(readPersonFromApiWithError())
-        (mapfMaybe)(debug)
-        (chainMaybe)(parseJson)
             (mapfMaybe)(debug)
-            (mapfMaybe)(p => p.name.toUpperCase())
-            (mapfMaybe)(name => name + " " + lastName)
-            (foldMaybe)(name => "Mr. " + name)
-            (id)
-            (id);
+            (chainMaybe)(parseJson)
+                (mapfMaybe)(debug)
+                (mapfMaybe)(p => p.name.toUpperCase())
+                (mapfMaybe)(name => name + " " + lastName)
+                (foldMaybe)(name => "Mr. " + name)
+                (id)
+                (id);
 
     const result1 = getPerson("king");
 
@@ -451,5 +446,26 @@ boxSuite.add("liftA2 maybe", assert => {
 
     assert.equals(res, 15);
 });
+
+boxSuite.add("lazy Box evaluation", assert => {
+
+    const notLazyResult = Box("a")
+                            (mapf)(a   => a   + "b")
+                            (mapf)(ab  => ab  + "c")
+                            (mapf)(abc => abc + "d")
+
+    assert.equals(getContent(notLazyResult), "abcd");
+
+
+    const lazyResult = () => Box("a")
+                                (mapf)(a   => a   + "b")
+                                (mapf)(ab  => ab  + "c")
+                                (mapf)(abc => abc + "d")
+
+    assert.equals(getContent(lazyResult()), "abcd");
+    assert.equals(getContent(lazyResult()), "abcd");
+});
+
+
 
 boxSuite.report();

@@ -7,62 +7,62 @@ import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsNum, churchAddition, churchSubtrac
 const lambdaCTest = TestSuite("Lambda Calculus");
 
 lambdaCTest.add("identity", assert => {
-    assert.equals(id(1), 1);
-    assert.equals(id(n1), n1);
-    assert.equals(id(true), true);
-    assert.equals(id(id), id);
+    assert.equals( id(1), 1);
+    assert.equals( id(n1), n1);
+    assert.equals( id(true), true);
+    assert.equals( id(id), id);
     assert.equals(id === id, true);
 });
 
 lambdaCTest.add("kestrel", assert => {
-    assert.equals(K(1)(2), 1);
-    assert.equals(K(n1)(n2), n1);
-    assert.equals(K(id)(KI), id);
-    assert.equals(K(K)(id), K);
-    assert.equals(K(K)(id)(1)(2), 1);
+    assert.equals( K(1)(2), 1);
+    assert.equals( K(n1)(n2), n1);
+    assert.equals( K(id)(KI), id);
+    assert.equals( K(K)(id), K);
+    assert.equals( K(K)(id)(1)(2), 1);
 });
 
 lambdaCTest.add("kite", assert => {
-    assert.equals(KI(1)(2), 2);
-    assert.equals(KI(n1)(n2), n2);
-    assert.equals(KI(id)(KI), KI);
-    assert.equals(KI(KI)(id), id);
-    assert.equals(KI(id)(KI)(1)(2), 2);
+    assert.equals( KI(1)(2), 2);
+    assert.equals( KI(n1)(n2), n2);
+    assert.equals( KI(id)(KI), KI);
+    assert.equals( KI(KI)(id), id);
+    assert.equals( KI(id)(KI)(1)(2), 2);
 });
 
 lambdaCTest.add("mockingbird", assert => {
-    assert.equals(M(id), id);
-    assert.equals(M(id)(5), 5);
-    assert.equals(M(K)(5), K);
-    assert.equals(M(KI)(5), 5);
-    assert.equals(M(id)(KI)(2)(7), 7);
+    assert.equals( M(id), id);
+    assert.equals( M(id)(5), 5);
+    assert.equals( M(K)(5), K);
+    assert.equals( M(KI)(5), 5);
+    assert.equals( M(id)(KI)(2)(7), 7);
 });
 
 lambdaCTest.add("cardinal", assert => {
-    assert.equals(C(fst)(1)(2), 2);
-    assert.equals(C(snd)(1)(2), 1);
-    assert.equals((C(snd)(id)(7))(6), 6);
-    assert.equals((C(snd)(id)(7))(id), id);
-    assert.equals(C(fst)(id)(7), 7);
+    assert.equals( C(fst)(1)(2), 2);
+    assert.equals( C(snd)(1)(2), 1);
+    assert.equals( (C(snd)(id)(7))(6), 6);
+    assert.equals( (C(snd)(id)(7))(id), id);
+    assert.equals( C(fst)(id)(7), 7);
 });
 
 lambdaCTest.add("bluebird", assert => {
     const f = x => x + 1;
     const g = x => x * 2;
 
-    assert.equals(B(f)(g)(4), 9);
-    assert.equals(B(g)(f)(4), 10);
-    assert.equals(B(id)(id)(5), 5);
-    assert.equals(B(f)(id)(5), 6);
-    assert.equals(B(id)(g)(5), 10);
+    assert.equals( B(f)(g)(4), 9);
+    assert.equals( B(g)(f)(4), 10);
+    assert.equals( B(id)(id)(5), 5);
+    assert.equals( B(f)(id)(5), 6);
+    assert.equals( B(id)(g)(5), 10);
 });
 
 lambdaCTest.add("thrush", assert => {
     const f = x => x + 1;
 
-    assert.equals(T(2)(f), 3);
-    assert.equals(T(2)(id), 2);
-    assert.equals(T(id)(id), id);
+    assert.equals( T(2)(f), 3);
+    assert.equals( T(2)(id), 2);
+    assert.equals( T(id)(id), id);
     assert.churchNumberEquals( T(n2)(n3), n8);
     assert.churchNumberEquals( T(n3)(n2), n9);
 });
@@ -80,11 +80,11 @@ lambdaCTest.add("vireo / pair", assert => {
     assert.equals(pairString(fst) ,                         "Hello"       );
     assert.equals(pairString(fst) + pairString(snd), "HelloWorld"   );
 
-    assert.equals(pairChurchNr(fst) , n1);
-    assert.churchNumberEquals(pairChurchNr(fst) , n1);
+    assert.equals( pairChurchNr(fst) , n1);
+    assert.churchNumberEquals( pairChurchNr(fst) , n1);
 
-    assert.equals(pairChurchNr(snd) ,                   n5  );
-    assert.churchNumberEquals(pairChurchNr(snd) ,       n5  );
+    assert.equals( pairChurchNr(snd) ,                   n5  );
+    assert.churchNumberEquals( pairChurchNr(snd) ,       n5  );
     assert.equals( jsNum( pairChurchNr(snd) ) , 5   );
 });
 
@@ -105,8 +105,8 @@ lambdaCTest.add("blackbird", assert => {
 });
 
 lambdaCTest.add("convert to js-bool", assert => {
-    assert.equals(convertToJsBool(True),    true    );
-    assert.equals(convertToJsBool(False),   false   );
+    assert.equals( convertToJsBool(True),    true    );
+    assert.equals( convertToJsBool(False),   false   );
 });
 
 lambdaCTest.add("if", assert => {

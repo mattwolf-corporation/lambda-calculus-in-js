@@ -59,9 +59,6 @@ export {
     zipWith, zipWithOneLiner, stackEquals
 }
 
-//  {function(index:*): function(value:*):  function(head:*): function(f:function): ({f: {x y z}}) }
-
-
 /**
  * Generic Types
  * @typedef {*} a

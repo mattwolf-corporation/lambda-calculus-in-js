@@ -30,43 +30,43 @@ const tearDown = () => {
 }
 
 maybeSuite.add("Nothing", assert => {
-    assert.equals(Nothing(() => 12)(() => 15), 12);
-    assert.equals(Nothing(() => 15)(() => 12), 15);
-    assert.equals(Nothing(() => id(122))(() => id(32)), 122);
-    assert.equals(Nothing(() => 12 + 12)(0), 24);
+    assert.equals( Nothing(() => 12)(() => 15), 12);
+    assert.equals( Nothing(() => 15)(() => 12), 15);
+    assert.equals( Nothing(() => id(122))(() => id(32)), 122);
+    assert.equals( Nothing(() => 12 + 12)(0), 24);
 });
 
 maybeSuite.add("Just", assert => {
-    assert.equals(Just(10)((val => val + 10))(val => val + 20), 30);
-    assert.equals(Just(10)((_ => true))(_ => false), false);
-    assert.equals(Just(id)((f => f(false)))(f => f(true)), true);
+    assert.equals( Just(10)((val => val + 10))(val => val + 20), 30);
+    assert.equals( Just(10)((_ => true))(_ => false), false);
+    assert.equals( Just(id)((f => f(false)))(f => f(true)), true);
 });
 
 maybeSuite.add("maybeElement", assert => {
-    assert.equals(maybeElement(false)(() => 10)(() => 42), 10);
-    assert.equals(maybeElement(null)(() => 34)(() => 42), 34);
-    assert.equals(maybeElement(undefined)(() => 10)(() => 42), 10);
-    assert.equals(maybeElement(true)(() => 10)(() => 42), 42);
-    assert.equals(maybeElement(0)(() => 10)(() => 42), 42);
-    assert.equals(maybeElement(1)(() => 10)(() => 42), 42);
+    assert.equals( maybeElement(false)(() => 10)(() => 42), 10);
+    assert.equals( maybeElement(null)(() => 34)(() => 42), 34);
+    assert.equals( maybeElement(undefined)(() => 10)(() => 42), 10);
+    assert.equals( maybeElement(true)(() => 10)(() => 42), 42);
+    assert.equals( maybeElement(0)(() => 10)(() => 42), 42);
+    assert.equals( maybeElement(1)(() => 10)(() => 42), 42);
 });
 
 maybeSuite.add("maybeDiv", assert => {
-    assert.equals(maybeDiv(10)(2)(val => val + 10)(val => val + 3), 8);
-    assert.equals(maybeDiv(10)(0)(_ => "Nothing")(_ => "Just"), "Nothing");
-    assert.equals(maybeDiv(10)(3)(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals(maybeDiv("Hello")("World")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( maybeDiv(10)(2)(val => val + 10)(val => val + 3), 8);
+    assert.equals( maybeDiv(10)(0)(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( maybeDiv(10)(3)(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals( maybeDiv("Hello")("World")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
 maybeSuite.add("maybeNumber", assert => {
-    assert.equals(eitherJsNumOrOther(10)(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals(eitherJsNumOrOther("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( eitherJsNumOrOther(10)(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals( eitherJsNumOrOther("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
 maybeSuite.add("maybeDomElement", assert => {
     setup()
-    assert.equals(eitherDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals(eitherDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( eitherDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals( eitherDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
     tearDown()
 });
 
@@ -94,7 +94,7 @@ maybeSuite.add("getDomElement", assert => {
 
 maybeSuite.add("getDomElements", assert => {
     setup()
-    assert.arrayEquals(getDomElements("test", "test"), [dummyDomElem, dummyDomElem]);
+    assert.arrayEquals( getDomElements("test", "test"), [dummyDomElem, dummyDomElem]);
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => getDomElements(elementNotExistName, "test")
@@ -104,10 +104,10 @@ maybeSuite.add("getDomElements", assert => {
 
 maybeSuite.add("getOrDefault", assert => {
     setup()
-    assert.equals(getOrDefault(eitherJsNumOrOther(5))(0), 5);
-    assert.equals(getOrDefault(eitherJsNumOrOther("NaN"))(42), 42);
-    assert.equals(getOrDefault(eitherJsNumOrOther("5"))(42), 42);
-    assert.equals(getOrDefault(eitherJsNumOrOther((() => 5)()))(42), 5);
+    assert.equals( getOrDefault(eitherJsNumOrOther(5))(0), 5);
+    assert.equals( getOrDefault(eitherJsNumOrOther("NaN"))(42), 42);
+    assert.equals( getOrDefault(eitherJsNumOrOther("5"))(42), 42);
+    assert.equals( getOrDefault(eitherJsNumOrOther((() => 5)()))(42), 5);
     tearDown();
 });
 
