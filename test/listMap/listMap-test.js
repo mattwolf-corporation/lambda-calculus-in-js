@@ -9,7 +9,7 @@ import {
 
 import {
     listMap, startListMap, emptyListMap, removeByKey, getElementByKey, mapListMap,
-    filterListMap, reduceListMap
+    filterListMap, reduceListMap, convertObjToListMap
 }from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
@@ -143,6 +143,16 @@ listMapSuite.add("reduceListMap", assert => {
 
     const result2 = reduceListMap((acc, curr) => acc + curr)(0)(listMapWithNumbers);
     assert.equals(result2, 30)
+});
+
+listMapSuite.add("convert Object to ListMap", assert => {
+    const obj = {a: 'HelloWorld', b: "Lambda"}
+
+    const result = convertObjToListMap(obj);
+
+    assert.churchNumberEquals( size(result), n2);
+    assert.pairEquals(getElementByIndex(result)(n1), pair('a')("HelloWorld"));
+    assert.pairEquals(getElementByIndex(result)(n2), pair('b')("Lambda"));
 });
 
 listMapSuite.report();

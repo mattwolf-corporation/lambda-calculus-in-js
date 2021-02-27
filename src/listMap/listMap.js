@@ -1,6 +1,6 @@
 export {
     listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
-    filterListMap, reduceListMap
+    filterListMap, reduceListMap, convertObjToListMap
 }
 import {
     stack,
@@ -152,3 +152,19 @@ const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 const filterListMap = f => filter(p => f(p(snd)) );
 
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+
+// for (var key in myArray) {
+//     console.log("key " + key + " has value " + myArray[key]);
+// }
+
+// const object1 = {
+//     a: 'somestring',
+//     b: 42
+// };
+//
+// for (const [key, value] of Object.entries(object1)) {
+//     console.log(`${key}: ${value}`);
+// }
+
+// = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
+const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
