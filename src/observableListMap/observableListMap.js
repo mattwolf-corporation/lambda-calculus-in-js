@@ -190,4 +190,4 @@ const handlerFnLogToConsole                        = nVal => oVal => console.log
 const buildHandlerFnTextContent         = element => nVal => oVal => element.textContent = nVal
 const buildHandlerFnTextContentOldValue = element => nVal => oVal => element.textContent = oVal
 const buildHandlerFnTextContentLength   = element => nVal => oVal => element.textContent = nVal.length
-const buildHandlerFnValue               = element => nVal => oVal => element.value = nVal
+const buildHandlerFnValue               = element => nVal => oVal => element.value       = nVal

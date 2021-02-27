@@ -105,10 +105,10 @@ const getElementByKey = listMap => key => {
  *                      ( pushToStack )( pair(2)("Peter") )
  *                      ( pushToStack )( pair(3)(  42   ) )
  *
- * jsnum( size( listMapUnderTest ) ) === 3
+ * jsnum( size(testListMap) ) === 3
  *
  * const listMapOneRemoved = removeByKey(testListMap)(1)
- * jsnum( size( listMapOneRemoved ) ) === 2
+ * jsnum( size(listMapOneRemoved) ) === 2
  */
 const removeByKey = listMap => key => {
     const times         = size(listMap);

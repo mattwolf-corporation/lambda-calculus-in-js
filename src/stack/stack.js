@@ -217,21 +217,22 @@ const size = getStackIndex;
  *
  * @haskell reduce :: pair -> stack -> a
  * @function
- // * @param {function(Function): {f: {x, y}}} argsPair
- // * @return {function(s:stack): function(stack)} reduced value
+ * @param  {function} reduceFn
+ * @return {function(initialValue:*): function(s:stack): function(stack)} reduced value
  * @example
- * const stackWithNumbers  = push(push(push(emptyStack)(1))(1))(2);
+ * const stackWithNumbers  = push(push(push(emptyStack)(0))(1))(2);
  *
  * const reduceFunctionSum = (acc, curr) => acc + curr;
- * reduce( pair( reduceFunctionSum )( 0 ))( stackWithNumbers )          === 3
- * reduce( pair( reduceFunctionSum )( 0 ))( push(stackWithNumbers)(3) ) === 10
+ * reduce( reduceFunctionSum )( 0 )( stackWithNumbers )          ===  3
+ * reduce( reduceFunctionSum )( 0 )( push(stackWithNumbers)(3) ) ===  5
+ *
+ * reduce( reduceFunctionSum )( 5 )( stackWithNumbers )          ===  8
+ * reduce( reduceFunctionSum )( 5 )( push(stackWithNumbers)(3) ) === 10
  *
  * const reduceToArray = (acc, curr) => [...acc, curr];
- * reduce( pair( reduceToArray )( [] ) )( stackWithNumbers ) === [0, 1, 2]
+ * reduce( reduceToArray )( [] )( stackWithNumbers ) === [0, 1, 2]
  */
-// TODO: remove args pair -> curry function
 const reduce = reduceFn => initialValue => s => {
-    const times = size(s);
 
     const reduceIteration = argsTriple => {
         const stack = argsTriple(firstOfTriple);
@@ -250,6 +251,7 @@ const reduce = reduceFn => initialValue => s => {
                 (Else( argsTriple) );
     };
 
+    const times = size(s);
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
     const argsTriple    = triple(reversedStack)(reduceFn)(initialValue);
 
@@ -363,7 +365,7 @@ const getElementByJsnumIndex = s => i => {
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
  *
- * @param {stack} s
+ * @param  {stack} s
  * @return {Array} Array
  */
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
@@ -371,7 +373,7 @@ const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 /**
  *  A function that takes an javascript array and converts the array into a stack. The function returns a stack
  *
- * @param {Array} array
+ * @param  {Array} array
  * @return {stack} stack
  */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
@@ -379,7 +381,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
 /**
  *  A function that accepts a stack. The function returns the reversed stack.
  *
- * @param {stack} s
+ * @param  {stack} s
  * @return {stack} stack (reversed)
  */
 const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s))(snd);
@@ -387,15 +389,15 @@ const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(a
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
  *
- * @param {function} mapFunc
- * @return function(triple): function(triple)
+ * @param  {function} mapFunc
+ * @return {function(reduce:stack): function(stack)} stack
  */
 const mapWithReduce = mapFunc => reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
 
 /**
  *  A function that accepts a stack and a filter function. The function returns the filtered stack.
  *
- * @param {function} filterFunc
+ * @param  {function} filterFunc
  * @return {function(reduce:stack): function(stack)} stack
  */
 const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
@@ -403,7 +405,7 @@ const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? 
 /**
  *  A function that takes a map function and a stack. The function returns the mapped stack
  *
- * @param {function} mapFunction
+ * @param  {function} mapFunction
  * @return {function(s:stack): stack} stack
  * @example
  * const stackWithNumbers = startStack(pushToStack)(2)(pushToStack)(5)(pushToStack)(6)(id)

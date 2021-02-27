@@ -66,8 +66,8 @@ const phi = p => pair(p(snd))(succ(p(snd)));
  * return the predecessor of passed churchNumber (minimum is n0 aka Zero). Is needed for churchSubtraction
  *
  * @function predecessor
- * @param    {churchNumber} n
- * @returns  {churchNumber} predecessor of n
+ * @param   {churchNumber} n
+ * @returns {churchNumber} predecessor of n
  */
 const pred = n => n(phi)(pair(n0)(n0))(fst);
 
@@ -94,7 +94,7 @@ const churchMultiplication = B;
  *
  * @function
  * @param   {churchNumber} n
- * @returns {function(k:x): churchNumber } Church-Number
+ * @returns {function(k:churchNumber): churchNumber } Church-Number
  */
 const churchPotency = T;
 

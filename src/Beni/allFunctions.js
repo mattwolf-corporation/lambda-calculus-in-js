@@ -1171,6 +1171,114 @@ const stackEquals = s1 => s2 => {
 
 
 
+const listMap = stack
+
+/**
+ * Representation of the empty stack
+ * The empty listMap has the size/index zero (has zero elements).
+ * The empty listMap has no predecessor stack, but the identity function as placeholder.
+ * The empty listMap has no head ( top value ), but a pair of two identity functions as placeholder.
+ *
+ * @type {function(Function): {f: {index, predecessor, head}}}
+ */
+const emptyListMap = listMap(n0)(id)( pair(id)(id) );
+
+/**
+ * A help function to create a new listMap
+ */
+const startListMap = f => f(emptyListMap);
+
+
+/**
+ * Get the element in the ListMap by the key (Js-Number)
+ *
+ * @function
+ * @param listMap
+ * @return {function(key:Number): *} element (value) or id if key not exist
+ * @example
+ * const testListMap = startListMap
+ *                      ( pushToStack )( pair(1)( "Hans") )
+ *                      ( pushToStack )( pair(2)("Peter") )
+ *                      ( pushToStack )( pair(3)(  42   ) )
+ *
+ * getElementByKey( testListMap )( 1 ) === "Hans"
+ * getElementByKey( testListMap )( 2 ) === "Peter"
+ * getElementByKey( testListMap )( 3 ) === 42
+ */
+const getElementByKey = listMap => key => {
+    const times         = size(listMap);
+    const initArgsPair  = pair(listMap)(id);
+
+    const getElement = argsPair => {
+        const stack             = argsPair(fst);
+        const predecessorStack  = (stack)(stackPredecessor);
+        const currentKeyValPair = head(stack);
+        if (currentKeyValPair(fst) === key) {
+            return pair(predecessorStack)(currentKeyValPair(snd));
+        }
+        return pair(predecessorStack)(argsPair(snd));
+    };
+
+    return (times(getElement)(initArgsPair))(snd);
+};
+
+
+/**
+ * Remove the element in the ListMap by the key (Js-Number)
+ *
+ * @function
+ * @param  {listMap} listMap
+ * @return {function(key:Number): *} element (value)
+ * @example
+ * const testListMap = startListMap
+ *                      ( pushToStack )( pair(1)( "Hans") )
+ *                      ( pushToStack )( pair(2)("Peter") )
+ *                      ( pushToStack )( pair(3)(  42   ) )
+ *
+ * jsnum( size(testListMap) ) === 3
+ *
+ * const listMapOneRemoved = removeByKey(testListMap)(1)
+ * jsnum( size(listMapOneRemoved) ) === 2
+ */
+const removeByKey = listMap => key => {
+    const times         = size(listMap);
+    const reversedStack = reverseStack(listMap);
+
+    const iteration = argsPair => {
+        const currentStack  = argsPair(fst)
+        const resultStack   = argsPair(snd)
+
+        return If( hasPre(currentStack) )
+        (Then( removeByCon(currentStack)(resultStack)(key) ))
+        (Else( argsPair ));
+    }
+
+    return (times
+        (iteration)
+        (pair (reversedStack)(emptyListMap) )
+    ) (snd);
+}
+
+/**
+ * @constructor A constructor for removeByKey
+ */
+const removeByCon = currentStack => resultStack => key => {
+    const currentKeyValPair = head(currentStack);
+    const currentElement    = currentKeyValPair(snd);
+    const currentKey        = currentKeyValPair(fst);
+    const result            =  key === currentKey
+        ? resultStack
+        : push( resultStack )(pair( currentKey )( currentElement ));
+
+    return pair( getPreStack(currentStack) )(result);
+}
+
+const logListMapToConsole = lm =>
+    forEach(lm)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element(snd))))
+
+
+
+
 const Left   = x => f => _ => f (x);
 const Right  = x => _ => g => g (x);
 const either = id;
