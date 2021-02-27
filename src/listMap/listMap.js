@@ -1,5 +1,6 @@
 export {
-    listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap
+    listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
+    filterListMap, reduceListMap
 }
 import {
     stack,
@@ -12,7 +13,9 @@ import {
     push,
     startStack,
     emptyStack,
-    map
+    map,
+    filter,
+    reduce
 } from "../stack/stack.js";
 import {n0} from "../lambda-calculus-library/church-numerals.js";
 import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lambda-calculus.js";
@@ -144,4 +147,8 @@ const removeByCon = currentStack => resultStack => key => {
     return pair( getPreStack(currentStack) )(result);
 }
 
-const mapListMap = f => map(p => f(p(snd)));
+const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
+
+const filterListMap = f => filter(p => f(p(snd)) );
+
+const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));

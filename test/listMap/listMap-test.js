@@ -1,6 +1,6 @@
 import {TestSuite} from "../test.js";
 
-import {id, beq, True, False, showBoolean as show, convertToJsBool, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {id, beq, True, False, showBoolean as show, convertToJsBool, showPair, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsNum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
 import {
     hasPre, push, pop, head, size, startStack, stack,
@@ -8,7 +8,8 @@ import {
 } from "../../src/stack/stack.js";
 
 import {
-    listMap, startListMap, emptyListMap, removeByKey, getElementByKey, mapListMap
+    listMap, startListMap, emptyListMap, removeByKey, getElementByKey, mapListMap,
+    filterListMap, reduceListMap
 }from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
@@ -37,7 +38,15 @@ const testListMap = startListMap
 (pushToStack) ( p4 )
 (id)
 
+const z1 = pair(15)(5)
+const z2 = pair(16)(10)
+const z3 = pair(17)(15)
 
+const listMapWithNumbers = startListMap
+(pushToStack) ( z1 )
+(pushToStack) ( z2 )
+(pushToStack) ( z3 )
+(id)
 
 listMapSuite.add("emptyListMap", assert => {
     assert.equals(convertToJsBool(hasPre(emptyListMap)), false);
@@ -101,28 +110,31 @@ listMapSuite.add("mapListMap", assert => {
     const result = mapListMap(p => p.firstName.toUpperCase())(testListMap);
 
     assert.churchNumberEquals( size(result), n5);
-    assert.equals(getElementByIndex(result)(n1), "PETER");
-    assert.equals(getElementByIndex(result)(n2), "MARC");
-    assert.equals(getElementByIndex(result)(n3), "LUKE");
-    assert.equals(getElementByIndex(result)(n4), "HAN");
-    assert.equals(getElementByIndex(result)(n5), "TYRION");
-
-    const z1 = pair(15)(5)
-    const z2 = pair(16)(10)
-    const z3 = pair(17)(15)
-
-    const listMapWithNumbers = startListMap
-    (pushToStack) ( z1 )
-    (pushToStack) ( z2 )
-    (pushToStack) ( z3 )
-    (id)
+    assert.pairEquals(getElementByIndex(result)(n1), pair(15)("PETER"));
+    assert.pairEquals(getElementByIndex(result)(n2), pair(16)("MARC"));
+    assert.pairEquals(getElementByIndex(result)(n3), pair(17)("LUKE"));
+    assert.pairEquals(getElementByIndex(result)(n4), pair(18)("HAN"));
+    assert.pairEquals(getElementByIndex(result)(n5), pair(19)("TYRION"));
 
     const result2 = mapListMap(num => num * 2)(listMapWithNumbers);
 
     assert.churchNumberEquals( size(result2), n3);
-    assert.equals(getElementByIndex(result2)(n1), 10);
-    assert.equals(getElementByIndex(result2)(n2), 20);
-    assert.equals(getElementByIndex(result2)(n3), 30);
+    assert.pairEquals(getElementByIndex(result2)(n1), pair(15)(10));
+    assert.pairEquals(getElementByIndex(result2)(n2), pair(16)(20));
+    assert.pairEquals(getElementByIndex(result2)(n3), pair(17)(30));
+});
+
+listMapSuite.add("filterListMap", assert => {
+    const result = filterListMap(p => p.firstName.startsWith('L'))(testListMap);
+
+    assert.churchNumberEquals( size(result), n1);
+    assert.pairEquals(getElementByIndex(result)(n1), p2);
+
+    const result2 = filterListMap(num => num >= 7)(listMapWithNumbers);
+
+    assert.churchNumberEquals( size(result2), n2);
+    assert.pairEquals(getElementByIndex(result2)(n1), pair(16)(10));
+    assert.pairEquals(getElementByIndex(result2)(n2), pair(17)(15));
 });
 
 listMapSuite.report();
