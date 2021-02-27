@@ -212,7 +212,6 @@ const getStackIndex = s => s(stackIndex);
  * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
-
 /**
  * A function that takes argument pair and  a stack.
  * The first argument of the pair must be a reducer function.
@@ -221,8 +220,8 @@ const size = getStackIndex;
  *
  * @haskell reduce :: pair -> stack -> a
  * @function
- * @param {function(Function): {f: {x, y}}} argsPair
- * @return {function(s:stack): function(stack)} reduced value
+ // * @param {function(Function): {f: {x, y}}} argsPair
+ // * @return {function(s:stack): function(stack)} reduced value
  * @example
  * const stackWithNumbers  = push(push(push(emptyStack)(1))(1))(2);
  *
@@ -234,7 +233,7 @@ const size = getStackIndex;
  * reduce( pair( reduceToArray )( [] ) )( stackWithNumbers ) === [0, 1, 2]
  */
 // TODO: remove args pair -> curry function
-const reduce = argsPair => s => {
+const reduce = reduceFn => initialValue => s => {
     const times = size(s);
 
     const reduceIteration = argsTriple => {
@@ -255,7 +254,7 @@ const reduce = argsPair => s => {
     };
 
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
-    const argsTriple    = triple(reversedStack)(argsPair(fst))(argsPair(snd));
+    const argsTriple    = triple(reversedStack)(reduceFn)(initialValue);
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
@@ -370,7 +369,7 @@ const getElementByJsnumIndex = s => i => {
  * @param {stack} s
  * @return {Array} Array
  */
-const convertStackToArray = reduce(pair((acc, curr) => [...acc, curr])([]));
+const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
 /**
  *  A function that takes an javascript array and converts the array into a stack. The function returns a stack
@@ -386,7 +385,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  * @param {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack)))(s))(snd);
+const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s))(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -394,7 +393,7 @@ const reverseStack = s => (reduce(pair((acc, curr) => pair(pop(acc(fst))(fst))(p
  * @param {function} mapFunc
  * @return function(triple): function(triple)
  */
-const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack));
+const mapWithReduce = mapFunc => reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
 
 /**
  *  A function that accepts a stack and a filter function. The function returns the filtered stack.
@@ -402,7 +401,7 @@ const mapWithReduce = mapFunc => reduce(pair((acc, curr) => push(acc)(mapFunc(cu
  * @param {function} filterFunc
  * @return {function(reduce:stack): function(stack)} stack
  */
-const filterWithReduce = filterFunc => reduce(pair((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack));
+const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
 
 /**
  *  A function that takes a map function and a stack. The function returns the mapped stack
@@ -642,7 +641,7 @@ const concat = s1 => s2 =>
         ? s2
         : s2 === emptyStack
           ? s1
-          : reduce( pair ((acc, curr) => push(acc) (curr)) (s1)) (s2);
+          : reduce((acc, curr) => push(acc) (curr)) (s1) (s2);
 
 /**
  *
@@ -668,7 +667,7 @@ const concat = s1 => s2 =>
  * getElementByIndex( flattenStack )( 5 ) ===  5
  * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce( pair( (acc, curr) => concat( acc )( curr ) )(emptyStack));
+const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
 
 
 /**
@@ -730,14 +729,15 @@ const zipWith = f => s1 => s2 => {
         (thirdOfTriple);
 }
 
+const zipWithOneLiner = null;
 // const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
 
-const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
-((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
-(t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
-(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
-((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
-(f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
+// const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
+// ((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
+// (t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
+// (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
+// ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
+// (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
 
 
 // TODO: zip with empty stacks ?
