@@ -93,11 +93,46 @@ listMapSuite.add("removeByKey", assert => {
     assert.equals( getElementByKey(listMapUnderTest)(17), id);
 });
 
+listMapSuite.add("listMap - special keys", assert => {
+    const specialKey = () => {};
+
+    const p0 = pair(n4)(personList[0])
+    const p1 = pair(id)(personList[1])
+    const p2 = pair(n0)(personList[2])
+    const p3 = pair(specialKey)(personList[3])
+    const p4 = pair(pair)(personList[4])
+
+    const listMapWithSpecialKeys = startListMap
+    (pushToStack) ( p0 )
+    (pushToStack) ( p1 )
+    (pushToStack) ( p2 )
+    (pushToStack) ( p3 )
+    (pushToStack) ( p4 )
+    (id)
+
+    assert.churchNumberEquals( size(listMapWithSpecialKeys), n5);
+    assert.pairEquals(getElementByIndex(listMapWithSpecialKeys)(n1), p0);
+    assert.pairEquals(getElementByIndex(listMapWithSpecialKeys)(n2), p1);
+    assert.pairEquals(getElementByIndex(listMapWithSpecialKeys)(n3), p2);
+    assert.pairEquals(getElementByIndex(listMapWithSpecialKeys)(n4), p3);
+    assert.pairEquals(getElementByIndex(listMapWithSpecialKeys)(n5), p4);
+
+    assert.equals(getElementByKey(listMapWithSpecialKeys)(n4), personList[0]);
+    assert.equals(getElementByKey(listMapWithSpecialKeys)(id), personList[1]);
+    assert.equals(getElementByKey(listMapWithSpecialKeys)(n0), personList[2]);
+    assert.equals(getElementByKey(listMapWithSpecialKeys)(specialKey), personList[3]);
+    assert.equals(getElementByKey(listMapWithSpecialKeys)(pair), personList[4]);
+
+    const r1 = removeByKey(listMapWithSpecialKeys)(n4)
+    assert.churchNumberEquals( size(r1), n4);
+    assert.equals(getElementByKey(r1)(n4), id);
+
+    // TODO: more tests with removeByKey
+});
+
 listMapSuite.add("map", assert => {
     const result = map(p => {
         const person = p(snd);
-        const key = p(fst);
-        console.log(key);
         return person.firstName.toUpperCase();
     })(testListMap);
 
