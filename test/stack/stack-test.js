@@ -45,7 +45,7 @@ import {
     pushToStack,
     reduce,
     removeByIndex,
-    reverseStack,
+    reverseStack, getIndexOfElement,
     size,
     stackEquals,
     stackPredecessor,
@@ -699,6 +699,25 @@ stackSuite.add("maybeElementByJsnumIndex", assert => {
     // assert.equals(maybeElementByJsnumIndex(s1)("dfbehterhrt"), undefined);
     // assert.equals(maybeElementByJsnumIndex(s1)(Number.NaN), undefined);
     // assert.equals(maybeElementByJsnumIndex(s1)({}), undefined);
+});
+
+stackSuite.add("getIndexOfElement ", assert => {
+    const stackWithNumbers = convertArrayToStack([1, 2, 3, 4]);
+
+    assert.churchBooleanEquals( getIndexOfElement(stackWithNumbers)(0), False)
+    assert.equals(              getIndexOfElement(stackWithNumbers)(1), 1)
+    assert.equals(              getIndexOfElement(stackWithNumbers)(2), 2)
+    assert.equals(              getIndexOfElement(stackWithNumbers)(3), 3)
+    assert.equals(              getIndexOfElement(stackWithNumbers)(4), 4)
+    assert.churchBooleanEquals( getIndexOfElement(stackWithNumbers)(5), False)
+
+
+    const stackWithStrings = convertArrayToStack(["a", "b", "c"]);
+
+    assert.equals(              getIndexOfElement(stackWithStrings)("a"), 1)
+    assert.equals(              getIndexOfElement(stackWithStrings)("b"), 2)
+    assert.equals(              getIndexOfElement(stackWithStrings)("c"), 3)
+    assert.churchBooleanEquals( getIndexOfElement(stackWithStrings)("xx"), False)
 });
 
 stackSuite.report();

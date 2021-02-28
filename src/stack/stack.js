@@ -56,7 +56,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals
+    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement
 }
 
 /**
@@ -362,6 +362,11 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
+const getIndexOfElement = s => element => {
+    let foundIndex = n0;
+    forEach(s)( (ele, index) => foundIndex = ele === element ? index : foundIndex )
+    return foundIndex
+}
 
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
