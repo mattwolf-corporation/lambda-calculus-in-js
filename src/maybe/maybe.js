@@ -124,17 +124,3 @@ const eitherAnyOrError = f => {
 
 //TODO: get or create method
 
-const testUrl = "https://api.chucknorris.io/jokes/random";
-
-const maybeHttpGet = theUrl =>
-    eitherAnyOrError(() => {
-        const xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = () => {
-            return (xmlHttp.readyState === 4 && xmlHttp.status === 200) ? Just(xmlHttp.responseText) : Nothing
-        }
-        xmlHttp.open("GET", theUrl, true); // true for asynchronous
-        xmlHttp.send();
-    })
-    (_ => Nothing)
-    (id)
-

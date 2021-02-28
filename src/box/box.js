@@ -5,27 +5,29 @@ export {
     Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, tryCatch, getContent,
-    ap, liftA2, apMaybe, liftA2Maybe
+    apply, liftA2, apMaybe, liftA2Maybe
 }
 
 // Box === Monade
 const Box   = x => mapf(x)(id);                     // Box.of
-const mapf  = x => f => g => g(f(x));               // Box.map // the last function is lazy !
-const fold  = x => f => f(x);   // T                // map and then get Content out of the box
+const mapf  = x => f => g => g(f(x));               // Box.map
+const fold  = x => f =>        f(x);   // T         // map and then get content out of the box
 const chain = x => f => g => g((f(x)(id)));         // Box.flatMap
-const ap    = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
+const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
 const getContent = b => b(id)                       // get Content out of the box (unwrap)
 
 const liftA2 = f => fx => fy =>
-        fx(mapf)(f)(ap)(fy)                     //
+        fx(mapf)(f)(apply)(fy)
 
 const debug = x => {
     console.log(x);
     return x;
 }
 
+
+// maybe box methods
 const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
-const flatMapMaybe  = maybe => f => maybe (() => maybe) (x => f(x));        // maybe.flatmap
+const flatMapMaybe  = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap
 
 const mapfMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
 const foldMaybe     = mapMaybe;                                             // map and then get Content out of the box
@@ -47,34 +49,3 @@ const tryCatch = f => {
     }
 }
 
-const jokeUrl = "https://api.chucknorris.io/jokes/random";
-
-const HttpGet = url => callback => {
-    const xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = () =>
-        (xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200)
-            ? callback(xmlHttp.responseText)
-            : new Error()
-
-    xmlHttp.open("GET", url, true); // true for asynchronous
-    xmlHttp.send();
-}
-// Beispiel mit HttpGet asynchronous
-// HttpGet(jokeUrl)(true)(x => document.getElementById("joke").innerText = JSON.parse(x).value)
-
-// Beispiel anwendung mit HttpGet asynchronous und Box
-// HttpGet(jokeUrl)(true)(resp => Box(resp)(mapf)(JSON.parse)(fold)(x => document.getElementById("joke").innerText = x.value))
-
-
-
-const HttpGetSync = url => {
-    const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", url, false ); // false for synchronous request
-    xmlHttp.send( );
-    return xmlHttp.responseText;
-}
-
-// Beispiel HttpGetSync
-// Box(HttpGetSync(jokeUrl))
-//      (mapf)(JSON.parse)
-//      (fold)(x => x.value)

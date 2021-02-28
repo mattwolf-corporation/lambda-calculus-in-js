@@ -368,6 +368,10 @@ const getElementByJsnumIndex = s => i => {
  *
  * @param  {stack} s
  * @return {Array} Array
+ * @example
+ * const stackWithValues = convertArrayToStack([1,2,3])
+ *
+ * convertArrayToStack(stackWithValues) === [1,2,3]
  */
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
@@ -376,6 +380,9 @@ const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
  *
  * @param  {Array} array
  * @return {stack} stack
+ * const stackWithValues = convertArrayToStack([1,2,3])
+ *
+ * convertArrayToStack(stackWithValues) === [1,2,3]
  */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 

@@ -2,11 +2,13 @@ import {TestSuite} from "../test.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent, ap,
+    chainMaybe, tryCatch, getContent, apply,
     liftA2, apMaybe, liftA2Maybe
 } from "../../src/box/box.js";
 import {maybeDiv, maybeElement, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
+import {HttpGetSync, HttpGet, jokeUrl} from "../../src/IO/http.js";
 
 
 const boxSuite = TestSuite("Box");
@@ -84,12 +86,18 @@ boxSuite.add("box.chain", assert => {
     const box1 = Box(10)
                     (chain)(num => Box(num * 2))
 
+    assert.equals(getContent(box1), 20);
+
+
     const box2 = Box(1)
                         (mapf)(num => num + 5)
                         (chain)(num => Box(num * 2)
                                             (mapf)(num => num + 1))
                         (chain)(num => Box(num * 3)
                                             (mapf)(num => num + 1))
+
+    assert.equals(getContent(box2), 40);
+
 
     const box3 = Box("a")
                         (mapf)(a => a + "b")
@@ -98,24 +106,30 @@ boxSuite.add("box.chain", assert => {
                         (chain)(abcd => Box(abcd + "e")
                                         (mapf)(abcde => abcde + "f"))
 
+    assert.equals(getContent(box3), "abcdef");
+
+
     const box4 = Box(10)
                         (chain)(num => Box(num)
                                             (mapf)(num => num + 2)
                                             (mapf)(num => num + 3))
                         (mapf)(num => num - 15)
 
-    assert.equals(getContent(box1), 20);
-    assert.equals(getContent(box2), 40);
-    assert.equals(getContent(box3), "abcdef");
     assert.equals(getContent(box4), 0);
+
+
+    const box5 = Box(10)
+                    (chain)(num => Box(num * 2))
+                    (fold)(x => x + 5)
+
+    assert.equals(box5, 25);
 });
 
 boxSuite.add("box example", assert => {
     const nextCharForNumberString = str =>
         Box(str)
         (chain)(s => Box(s)
-                        (mapf)(s => s.trim())
-        )
+                        (mapf)(s => s.trim()))
         (mapf)(r => parseInt(r))
         (mapf)(i => i + 1)
         (mapf)(i => String.fromCharCode(i))
@@ -130,12 +144,12 @@ boxSuite.add("box example", assert => {
 
 boxSuite.add("box debug", assert => {
 
-    const result = () => Box(10)
+    const methodeUnderTest = () => Box(10)
                             (mapf)(debug)
                             (mapf)(n => n + 2)
                             (fold)(debug);
 
-    assert.consoleLogEquals(result, "10", "12");
+    assert.consoleLogEquals(methodeUnderTest, "10", "12");
 
 });
 
@@ -378,17 +392,17 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
 
 
 
-boxSuite.add("box.ap", assert => {
+boxSuite.add("box apply", assert => {
 
     const result1 = Box(x => x + 5)
-                        (ap)(Box(10));
+                        (apply)(Box(10));
 
     assert.equals(getContent(result1), 15);
 
 
     const result2 = Box( x => y => x + y)
-                        (ap)(Box(10))
-                        (ap)(Box(14));
+                        (apply)(Box(10))
+                        (apply)(Box(14));
 
     assert.equals(getContent(result2), 24);
 });
@@ -412,10 +426,10 @@ boxSuite.add("liftA2", assert => {
 
 boxSuite.add("maybe.ap", assert => {
 
-    const result1 = Box(Just(x => x + 5))
+    const box1 = Box(Just(x => x + 5))
                         (apMaybe)(Just(10));
 
-    const res = getContent(result1)
+    const res = getContent(box1)
                     (_ => console.error('sdv'))
                     (id)
 
@@ -423,11 +437,11 @@ boxSuite.add("maybe.ap", assert => {
 
 
 
-    const result2 = Box(Just( x => y => x + y))
+    const box2 = Box(Just( x => y => x + y))
                         (apMaybe)(Just(10))
                         (apMaybe)(Just(14));
 
-    const res2 = getContent(result2)
+    const res2 = getContent(box2)
                         (_ => console.error('sdv'))
                         (id)
 
@@ -452,20 +466,51 @@ boxSuite.add("lazy Box evaluation", assert => {
     const notLazyResult = Box("a")
                             (mapf)(a   => a   + "b")
                             (mapf)(ab  => ab  + "c")
-                            (mapf)(abc => abc + "d")
+                            (fold)(abc => abc + "d")
 
-    assert.equals(getContent(notLazyResult), "abcd");
+    assert.equals(notLazyResult, "abcd");
 
 
     const lazyResult = () => Box("a")
                                 (mapf)(a   => a   + "b")
                                 (mapf)(ab  => ab  + "c")
-                                (mapf)(abc => abc + "d")
+                                (fold)(abc => abc + "d")
 
-    assert.equals(getContent(lazyResult()), "abcd");
-    assert.equals(getContent(lazyResult()), "abcd");
+    assert.equals(lazyResult(), "abcd");
 });
 
+
+boxSuite.add("box with stack", assert => {
+
+    const result = Box(convertArrayToStack([1,2,3,4]))
+                            (mapf)(map(x => x * 2))
+                            (fold)(filter(x => x > 4))
+
+    assert.arrayEquals(convertStackToArray(result), [6,8]);
+});
+
+boxSuite.add("box with Http", assert => {
+
+    const result = Box(HttpGetSync(jokeUrl))
+                        (mapf)(JSON.parse)
+                        (fold)(x => x.value)
+    console.log(result)
+
+    assert.equals(result.length > 0, true);
+
+
+    // const result2 = HttpGet(jokeUrl)(resp => Box(resp)
+    //                         (mapf)(JSON.parse)
+    //                         (fold)(x => x.value))
+    // console.log(result2)
+    // assert.equals(result2.length > 0, true);
+
+
+    // const result3 = HttpGet(jokeUrl)(x => JSON.parse(x).value)
+    //
+    // console.log(result3)
+    // assert.equals(result3.length > 0, true);
+});
 
 
 boxSuite.report();
