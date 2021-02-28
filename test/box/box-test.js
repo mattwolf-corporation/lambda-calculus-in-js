@@ -8,7 +8,7 @@ import {
 import {maybeDiv, maybeElement, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
-import {HttpGetSync, HttpGet, jokeUrl} from "../../src/IO/http.js";
+import {HttpGetSync, HttpGet, jokeUrl, DataFlowVariable} from "../../src/IO/http.js";
 
 
 const boxSuite = TestSuite("Box");
@@ -489,27 +489,30 @@ boxSuite.add("box with stack", assert => {
     assert.arrayEquals(convertStackToArray(result), [6,8]);
 });
 
-boxSuite.add("box with Http", assert => {
+boxSuite.add("box with Http", async assert => {
 
-    const result = Box(HttpGetSync(jokeUrl))
-                        (mapf)(JSON.parse)
-                        (fold)(x => x.value)
-    console.log(result)
+    const result = Box( HttpGetSync(jokeUrl) )
+                     (mapf)( JSON.parse   )
+                     (fold)( x => x.value )
 
-    assert.equals(result.length > 0, true);
-
-
-    // const result2 = HttpGet(jokeUrl)(resp => Box(resp)
-    //                         (mapf)(JSON.parse)
-    //                         (fold)(x => x.value))
-    // console.log(result2)
-    // assert.equals(result2.length > 0, true);
+    assert.true(result.length > 0);
 
 
-    // const result3 = HttpGet(jokeUrl)(x => JSON.parse(x).value)
+    // asynchronous cant be test now - need async test -> checkout console for value
+    HttpGet(jokeUrl)(resp => Box(resp)
+                                          (mapf)(JSON.parse)
+                                          (fold)(x => console.log( x.value)))
+
+
+    // const xhr = DataFlowVariable(async () => await HttpGet(jokeUrl))
+    // console.log(xhr().response)
     //
-    // console.log(result3)
-    // assert.equals(result3.length > 0, true);
+    // const xhr = DataFlowVariable(async () => await HttpGetAsync(jokeUrl))
+    // xhr().then(x => console.log(x.response))
+    // console.log(result2)
+    // await assert.equalsAsync(result2, true);
+
+
 });
 
 

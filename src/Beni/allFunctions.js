@@ -1,4 +1,3 @@
-
 /*
 idea shortcuts:
 Shift-Alt I   : inspection window (errors, warning)
@@ -165,7 +164,7 @@ const True = K;
  *    (Then( "same"     ))
  *    (Else( "not same" ))
  */
-const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
+const If = condition => truthy => falsy => condition(truthy)(falsy);
 
 /**
  * Syntactic sugar for creating a If-Then-Else-Construct for lazy Evaluation - it avoid that JavaScript eagerly evaluate both cases (then and else)
@@ -180,7 +179,7 @@ const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
  *      (Then( () => "same"     ))
  *      (Else( () => "not same" ))
  */
-const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy)) ();
+const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy))();
 
 /**
  * Syntactic sugar for If-Construct
@@ -718,22 +717,22 @@ const reduce = reduceFn => initialValue => s => {
         const stack = argsTriple(firstOfTriple);
 
         const getTriple = argsTriple => {
-            const reduceFunction    = argsTriple(secondOfTriple);
-            const preAcc            = argsTriple(thirdOfTriple);
-            const curr              = head(stack);
-            const acc               = reduceFunction(preAcc, curr);
-            const preStack          = stack(stackPredecessor);
+            const reduceFunction = argsTriple(secondOfTriple);
+            const preAcc = argsTriple(thirdOfTriple);
+            const curr = head(stack);
+            const acc = reduceFunction(preAcc, curr);
+            const preStack = stack(stackPredecessor);
             return triple(preStack)(reduceFunction)(acc);
         }
 
-        return If( hasPre(stack))
-        (Then( getTriple(argsTriple)))
-        (Else( argsTriple) );
+        return If(hasPre(stack))
+        (Then(getTriple(argsTriple)))
+        (Else(argsTriple));
     };
 
     const times = size(s);
     const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
-    const argsTriple    = triple(reversedStack)(reduceFn)(initialValue);
+    const argsTriple = triple(reversedStack)(reduceFn)(initialValue);
 
     return (times(reduceIteration)(argsTriple))(thirdOfTriple);
 };
@@ -793,7 +792,7 @@ const maybeElementByIndex = stack => index =>
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
             (_ => eitherJsNumOrOther(index)
                 (_ => maybeElementByChurchIndex(stack)(index))
-                (_ => maybeElementByJsNumIndex (stack)(index))
+                (_ => maybeElementByJsNumIndex(stack)(index))
             ))
     (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
         (id) // return value
@@ -812,8 +811,8 @@ const maybeElementByJsNumIndex = stack => index => maybeElementWithCustomErrorMe
  * @return { function(i:churchNumber) : * } stack-value
  */
 const getElementByChurchNumberIndex = s => i =>
-    If( leq(i)(size(s)))
-    (Then( head( ( churchSubtraction(size(s))(i) )(getPreStack)(s))))
+    If(leq(i)(size(s)))
+    (Then(head((churchSubtraction(size(s))(i))(getPreStack)(s))))
     (Else(undefined));
 
 
@@ -1056,17 +1055,17 @@ const forEach = stack => callbackFunc => {
  * @example
  */
 const removeByIndex = stack => index => {
-    const times         = size(stack);
+    const times = size(stack);
     const reversedStack = reverseStack(stack);
 
     const iteration = argsTriple => {
-        const currentStack  = argsTriple(firstOfTriple)
-        const resultStack   = argsTriple(secondOfTriple)
-        const currentIndex  = argsTriple(thirdOfTriple)
+        const currentStack = argsTriple(firstOfTriple)
+        const resultStack = argsTriple(secondOfTriple)
+        const currentIndex = argsTriple(thirdOfTriple)
 
-        return If( hasPre(currentStack))
-        (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex)) )
-        (Else( argsTriple))
+        return If(hasPre(currentStack))
+        (Then(removeByCondition(currentStack)(resultStack)(index)(currentIndex)))
+        (Else(argsTriple))
     }
 
     return (times
@@ -1086,11 +1085,11 @@ const removeByIndex = stack => index => {
  * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
  */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
-    const currentElement    = head(currentStack);
-    const indexNumber       = typeof index === "number" ? toChurchNum(index) : index;
-    const result            = If( eq(indexNumber)(currentIndex) )
-    (Then( resultStack ))
-    (Else( push( resultStack )( currentElement )));
+    const currentElement = head(currentStack);
+    const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
+    const result = If(eq(indexNumber)(currentIndex))
+    (Then(resultStack))
+    (Else(push(resultStack)(currentElement)));
 
     return triple
     (getPreStack(currentStack))
@@ -1124,7 +1123,7 @@ const concat = s1 => s2 =>
         ? s2
         : s2 === emptyStack
         ? s1
-        : reduce((acc, curr) => push(acc) (curr)) (s1) (s2);
+        : reduce((acc, curr) => push(acc)(curr))(s1)(s2);
 
 /**
  *
@@ -1150,7 +1149,7 @@ const concat = s1 => s2 =>
  * getElementByIndex( flattenStack )( 5 ) ===  5
  * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
+const flatten = reduce((acc, curr) => concat(acc)(curr))(emptyStack);
 
 
 /**
@@ -1180,9 +1179,9 @@ const zipWith = f => s1 => s2 => {
     const size2 = size(s2);
 
     const zipElements = t => {
-        const s1    = t(firstOfTriple);
-        const s2    = t(secondOfTriple);
-        const acc   = t(thirdOfTriple);
+        const s1 = t(firstOfTriple);
+        const s2 = t(secondOfTriple);
+        const acc = t(thirdOfTriple);
 
         const element1 = head(s1);
         const element2 = head(s2);
@@ -1200,7 +1199,7 @@ const zipWith = f => s1 => s2 => {
         (Then(zipElements(t)))
         (Else(t));
 
-    const times =  min(size1)(size2);
+    const times = min(size1)(size2);
 
     return times
     (iteration)
@@ -1275,22 +1274,22 @@ const stackEquals = s1 => s2 => {
     }
 
     const iteration = t =>
-        LazyIf( and( hasPre( t(firstOfTriple)) )( t(thirdOfTriple)) )
+        LazyIf(and(hasPre(t(firstOfTriple)))(t(thirdOfTriple)))
         (Then(() => compareElements(t)))
         (Else(() => t));
 
-    return LazyIf( eq(size1)(size2) )
+    return LazyIf(eq(size1)(size2))
     (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
         (Else(() => False))
 }
 
 
-const Left   = x => f => _ => f (x);
-const Right  = x => _ => g => g (x);
+const Left = x => f => _ => f(x);
+const Right = x => _ => g => g(x);
 const either = id;
 
-const Nothing  = Left();
-const Just     = Right ;
+const Nothing = Left();
+const Just = Right;
 
 
 /**
@@ -1317,7 +1316,6 @@ const maybeDiv = num => divisor =>
     divisor !== 0
         ? Just(num / divisor)
         : Nothing
-
 
 
 // const getJsNumberOrFunction = val =>
@@ -1401,7 +1399,6 @@ const eitherAnyOrError = f => {
 }
 
 
-
 /**
  * Generic Types
  * @typedef {function} pair
@@ -1437,7 +1434,7 @@ const listMap = stack
  *
  * @type {function(Function): {f: {index, predecessor, head}}}
  */
-const emptyListMap = listMap(n0)(id)( pair(id)(id) );
+const emptyListMap = listMap(n0)(id)(pair(id)(id));
 
 /**
  * A help function to create a new listMap
@@ -1466,12 +1463,12 @@ const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]
  * getElementByKey( testListMap )( 3 ) === 42
  */
 const getElementByKey = listMap => key => {
-    const times         = size(listMap);
-    const initArgsPair  = pair(listMap)(id);
+    const times = size(listMap);
+    const initArgsPair = pair(listMap)(id);
 
     const getElement = argsPair => {
-        const stack             = argsPair(fst);
-        const predecessorStack  = (stack)(stackPredecessor);
+        const stack = argsPair(fst);
+        const predecessorStack = (stack)(stackPredecessor);
         const currentKeyValPair = head(stack);
         if (currentKeyValPair(fst) === key) {
             return pair(predecessorStack)(currentKeyValPair(snd));
@@ -1498,22 +1495,22 @@ const getElementByKey = listMap => key => {
  * jsnum( size(listMapOneRemoved) ) === 2
  */
 const removeByKey = listMap => key => {
-    const times         = size(listMap);
+    const times = size(listMap);
     const reversedStack = reverseStack(listMap);
 
     const iteration = argsPair => {
-        const currentStack  = argsPair(fst)
-        const resultStack   = argsPair(snd)
+        const currentStack = argsPair(fst)
+        const resultStack = argsPair(snd)
 
-        return If( hasPre(currentStack) )
-        (Then( removeByCon(currentStack)(resultStack)(key) ))
-        (Else( argsPair ));
+        return If(hasPre(currentStack))
+        (Then(removeByCon(currentStack)(resultStack)(key)))
+        (Else(argsPair));
     }
 
     return (times
         (iteration)
-        (pair (reversedStack)(emptyListMap) )
-    ) (snd);
+        (pair(reversedStack)(emptyListMap))
+    )(snd);
 }
 
 /**
@@ -1521,18 +1518,18 @@ const removeByKey = listMap => key => {
  */
 const removeByCon = currentStack => resultStack => key => {
     const currentKeyValPair = head(currentStack);
-    const currentElement    = currentKeyValPair(snd);
-    const currentKey        = currentKeyValPair(fst);
-    const result            =  key === currentKey
+    const currentElement = currentKeyValPair(snd);
+    const currentKey = currentKeyValPair(fst);
+    const result = key === currentKey
         ? resultStack
-        : push( resultStack )(pair( currentKey )( currentElement ));
+        : push(resultStack)(pair(currentKey)(currentElement));
 
-    return pair( getPreStack(currentStack) )(result);
+    return pair(getPreStack(currentStack))(result);
 }
 
-const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
+const mapListMap = f => map(p => pair(p(fst))(f(p(snd))));
 
-const filterListMap = f => filter(p => f(p(snd)) );
+const filterListMap = f => filter(p => f(p(snd)));
 
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
 
@@ -1715,19 +1712,17 @@ const logListenersToConsole = listeners => _ => {
 // Observable Handler-Utilities
 const handlerBuilder = key => handlerFn => pair(key)(handlerFn)
 
-const handlerFnLogToConsole                        = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const buildHandlerFnTextContent         = element => nVal => oVal => element.textContent = nVal
+const handlerFnLogToConsole = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
+const buildHandlerFnTextContent = element => nVal => oVal => element.textContent = nVal
 const buildHandlerFnTextContentOldValue = element => nVal => oVal => element.textContent = oVal
-const buildHandlerFnTextContentLength   = element => nVal => oVal => element.textContent = nVal.length
-const buildHandlerFnValue               = element => nVal => oVal => element.value       = nVal
-
-
+const buildHandlerFnTextContentLength = element => nVal => oVal => element.textContent = nVal.length
+const buildHandlerFnValue = element => nVal => oVal => element.value = nVal
 
 
 // Box === Monade
-const Box   = x => mapf(x)(id);                     // Box.of
-const mapf  = x => f => g => g(f(x));               // Box.map
-const fold  = x => f =>        f(x);   // T         // map and then get content out of the box
+const Box = x => mapf(x)(id);                     // Box.of
+const mapf = x => f => g => g(f(x));               // Box.map
+const fold = x => f => f(x);   // T         // map and then get content out of the box
 const chain = x => f => g => g((f(x)(id)));         // Box.flatMap
 const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
 const getContent = b => b(id)                       // get Content out of the box (unwrap)
@@ -1742,14 +1737,14 @@ const debug = x => {
 
 
 // maybe box methods
-const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
-const flatMapMaybe  = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap
+const mapMaybe = maybe => f => maybe(() => maybe)(x => Just(f(x)));  // maybe.map
+const flatMapMaybe = maybe => f => maybe(() => maybe)(x => f(x));  // maybe.flatmap
 
-const mapfMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
-const foldMaybe     = mapMaybe;                                             // map and then get Content out of the box
-const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));                 // map ant then flatten (returns a box) --> for chaining
+const mapfMaybe = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
+const foldMaybe = mapMaybe;                                             // map and then get Content out of the box
+const chainMaybe = x => f => g => g(flatMapMaybe(x)(f));                 // map ant then flatten (returns a box) --> for chaining
 // const apMaybe    = x => f => g => g(x(() => x)(func => mapMaybe(f)(func)));
-const apMaybe       = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
+const apMaybe = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
 
 const liftA2Maybe = f => fx => fy =>
     Box(fx)
@@ -1765,3 +1760,60 @@ const tryCatch = f => {
     }
 }
 
+
+const DataFlowVariable = howto => {
+    let value = undefined;
+    return () => {
+        if (value !== undefined) {
+            return value
+        }
+        value = howto();
+        return value;
+    }
+};
+
+const jokeUrl = "https://api.chucknorris.io/jokes/random";
+
+const HttpGet = url => callback => {
+    const xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.onreadystatechange = () =>
+        (xmlHttp.readyState > 1 && xmlHttp.readyState < 4)
+                ? (xmlHttp.status < 200 || xmlHttp.status >= 300)                            ? xmlHttp.abort()                      : () => console.log("not readystate: " + xmlHttp.readyState)
+                : (xmlHttp.readyState === 4 && xmlHttp.status >= 200 && xmlHttp.status <300) ? callback(xmlHttp.responseText) : () => console.error("error fetch data")
+
+
+    xmlHttp.open("GET", url, true);
+    xmlHttp.timeout = 10*1000;                     //10 seconds
+    xmlHttp.ontimeout = () =>  console.error("timeout");
+    xmlHttp.send();
+}
+
+// const HttpGet = url => callback => {
+//     const xmlHttp = new XMLHttpRequest();
+//     xmlHttp.onreadystatechange = () =>
+//         (xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200)
+//             ? callback(xmlHttp.response)
+//             : new Error("god damnit")
+//     xmlHttp.open("GET", url, true); // true for asynchronous
+//     xmlHttp.send();
+// }
+
+
+const HttpGetAsync = url => {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, true); // true for asynchronous
+    xmlHttp.send();
+    return xmlHttp;
+}
+
+// const xhr = DataFlowVariable(async () => await HttpGetAsync(jokeUrl))()
+// xhr.then(x => x.response)
+
+
+const HttpGetSync = url => {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false); // false for synchronous request
+    xmlHttp.send();
+    return xmlHttp.response;
+}

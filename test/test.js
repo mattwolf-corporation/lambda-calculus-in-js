@@ -12,6 +12,8 @@ const Assert = () => {
         const result = (actual === expected);
         addTest(actual, expected, result);
     };
+    const truthy = actual =>
+        addTest(actual, true, actual);
 
     const churchNumberEquals = (actual, expected) => {
         const result = (jsNum(actual) === jsNum(expected));
@@ -79,6 +81,7 @@ const Assert = () => {
     return {
         getOk: () => ok,
         equals: equals,
+        true: truthy,
         churchNumberEquals: churchNumberEquals,
         churchBooleanEquals: churchBooleanEquals,
         arrayEquals: arrayEquals,
