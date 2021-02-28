@@ -15,44 +15,43 @@ import {
 import {
     onInputListener,
     onInputListeners,
-    setInitialsValues,
     toHexString,
     toRGBString,
     addUnSubscriberToggle,
     creatToggleElement
 } from "../observableUtilities.js";
-import {getDomElement, getDomElements} from "../../../maybe/maybe.js";
+import {getDomElements} from "../../../maybe/maybe.js";
 
 
 const [resultColor, rgbValue, hex, hsl] = getDomElements("resultColor", "rgbValue", "hex", "hsl")
-const [inputR, inputG, inputB] = getDomElements("inputR", "inputG", "inputB")
-const [rangeR, rangeG, rangeB] = getDomElements("rangeR", "rangeG", "rangeB")
+const [inputR, inputG, inputB]          = getDomElements("inputR", "inputG", "inputB")
+const [rangeR, rangeG, rangeB]          = getDomElements("rangeR", "rangeG", "rangeB")
 
-const getRed = firstOfTriple
-const getGreen = secondOfTriple
-const getBlue = thirdOfTriple
+const getRed    = firstOfTriple
+const getGreen  = secondOfTriple
+const getBlue   = thirdOfTriple
 
-const valueHandlerInputR = handlerBuilder(1)(nVal => oVal => inputR.value = nVal(getRed))
-const valueHandlerRangeR = handlerBuilder(2)(nVal => oVal => rangeR.value = nVal(getRed))
-const valueHandlerInputG = handlerBuilder(3)(nVal => oVal => inputG.value = nVal(getGreen))
-const valueHandlerRangeG = handlerBuilder(4)(nVal => oVal => rangeG.value = nVal(getGreen))
-const valueHandlerInputB = handlerBuilder(5)(nVal => oVal => inputB.value = nVal(getBlue))
-const valueHandlerRangeB = handlerBuilder(6)(nVal => oVal => rangeB.value = nVal(getBlue))
-const rgbHandlerBgColorRGB = handlerBuilder(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
-const valueHandlerRgbTextRGB = handlerBuilder(8)(nVal => oVal => rgbValue.value = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
-const valueHandlerHexTextRGB = handlerBuilder(9)(nVal => oVal => hex.textContent = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerInputR       = handlerBuilder(1)(nVal => oVal => inputR.value                      = nVal(getRed))
+const valueHandlerRangeR       = handlerBuilder(2)(nVal => oVal => rangeR.value                      = nVal(getRed))
+const valueHandlerInputG       = handlerBuilder(3)(nVal => oVal => inputG.value                      = nVal(getGreen))
+const valueHandlerRangeG       = handlerBuilder(4)(nVal => oVal => rangeG.value                      = nVal(getGreen))
+const valueHandlerInputB       = handlerBuilder(5)(nVal => oVal => inputB.value                      = nVal(getBlue))
+const valueHandlerRangeB       = handlerBuilder(6)(nVal => oVal => rangeB.value                      = nVal(getBlue))
+const rgbHandlerBgColorRGB     = handlerBuilder(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerRgbTextRGB   = handlerBuilder(8)(nVal => oVal => rgbValue.value                    = toRGBString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
+const valueHandlerHexTextRGB   = handlerBuilder(9)(nVal => oVal => hex.textContent                   = toHexString(nVal(getRed), nVal(getGreen), nVal(getBlue)))
 
 
 let rgbObservable = InitObservable(triple(154)(211)(44))
-                                (addListener)(valueHandlerInputR)
-                                (addListener)(valueHandlerRangeR)
-                                (addListener)(valueHandlerInputG)
-                                (addListener)(valueHandlerRangeG)
-                                (addListener)(valueHandlerInputB)
-                                (addListener)(valueHandlerRangeB)
-                                (addListener)(rgbHandlerBgColorRGB)
-                                (addListener)(valueHandlerRgbTextRGB)
-                                (addListener)(valueHandlerHexTextRGB)
+                                (addListener)( valueHandlerInputR )
+                                (addListener)( valueHandlerRangeR )
+                                (addListener)( valueHandlerInputG )
+                                (addListener)( valueHandlerRangeG )
+                                (addListener)( valueHandlerInputB )
+                                (addListener)( valueHandlerRangeB )
+                                (addListener)( rgbHandlerBgColorRGB )
+                                (addListener)( valueHandlerRgbTextRGB )
+                                (addListener)( valueHandlerHexTextRGB )
 
 
 inputR.oninput = _ =>
@@ -102,9 +101,6 @@ rangeB.oninput = _ =>
         (rgbObservable(getValue)(getGreen))
         (rangeB.value)
     )
-
-setInitialsValues(rgbObservable)
-
 
 
 

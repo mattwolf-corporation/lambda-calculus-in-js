@@ -251,10 +251,10 @@ stackSuite.add("reduce", assert => {
     const reduceFunctionChurchNumbersSum = (acc, curr) => churchAddition(acc)(curr);
     const reduceToArray = (acc, curr) => [...acc, curr];
 
-    assert.equals(reduce(reduceFunctionSum)(0)(stackWithNumbers), 3);
-    assert.equals(reduce(reduceFunctionSum)(0)(push(stackWithNumbers)(3)), 6);
-    assert.equals(reduce((acc, curr) => acc + curr.income)(0)(personStack), 15000);
-    assert.equals(jsNum(reduce(reduceFunctionChurchNumbersSum)(n0)(stackWithChurchNumbers)), 14);
+    assert.equals( reduce( reduceFunctionSum )(0)(stackWithNumbers), 3);
+    assert.equals( reduce( reduceFunctionSum )(0)(push(stackWithNumbers)(3)), 6);
+    assert.equals( reduce((acc, curr) => acc + curr.income)(0)(personStack), 15000);
+    assert.equals( jsNum( reduce( reduceFunctionChurchNumbersSum )(n0)(stackWithChurchNumbers)), 14);
     assert.arrayEquals(reduce(reduceToArray)([])(stackWithNumbers), [0, 1, 2]);
 });
 

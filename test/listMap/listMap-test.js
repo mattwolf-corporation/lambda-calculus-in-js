@@ -131,10 +131,7 @@ listMapSuite.add("listMap - special keys", assert => {
 });
 
 listMapSuite.add("map", assert => {
-    const result = map(p => {
-        const person = p(snd);
-        return person.firstName.toUpperCase();
-    })(testListMap);
+    const result = map(p => p(snd).firstName.toUpperCase())(testListMap);
 
     assert.churchNumberEquals( size(result), n5);
     assert.equals(getElementByIndex(result)(n1), "PETER");

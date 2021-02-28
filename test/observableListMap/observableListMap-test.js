@@ -14,23 +14,54 @@ import {
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
 
+observableListMapSuite.add("InitObservable", assert => {
+
+    // first Listener
+    const valueHolder = {};
+    const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
+
+    assert.equals(valueHolder.value, undefined)
+
+    let testObs = InitObservable(42)
+                (addListener)(valueHandler)
+
+    assert.equals(valueHolder.value, 42)
+
+
+    // second Listener
+    const valueHolder2 = {};
+    const valueHandler2 = handlerBuilder(867)(buildHandlerFnValue(valueHolder2))
+
+    testObs = testObs(addListener)(valueHandler2)
+
+    assert.equals(valueHolder2.value, 42)
+
+});
+
 observableListMapSuite.add("setValue", assert => {
     const consoleHandler = handlerBuilder(42)(handlerFnLogToConsole)
 
     const valueHolder = {};
     const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
 
-    let testObs = InitObservable(0)
-                         (addListener)(consoleHandler)
-                         (addListener)(valueHandler)
+    let testObs;
+    const methodeUnderTest1 = () => testObs = InitObservable(0)
+                                                    (addListener)(consoleHandler)
+                                                    (addListener)(valueHandler)
 
-    const methodUnderTest1 = () => testObs = testObs(setValue)(66);
-    const methodUnderTest2 = () => testObs = testObs(setValue)(96);
+    assert.consoleLogEquals(methodeUnderTest1, "Value: new = 0, old = 0")
+    assert.equals(valueHolder.value, 0)
 
-    assert.consoleLogEquals(methodUnderTest1, "Value: new = 66, old = 0")
+
+    const methodUnderTest2 = () => testObs = testObs(setValue)(66);
+
+    assert.consoleLogEquals(methodUnderTest2, "Value: new = 66, old = 0")
     assert.equals(valueHolder.value, 66)
 
-    assert.consoleLogEquals(methodUnderTest2, "Value: new = 96, old = 66")
+
+    const methodUnderTest3 = () => testObs = testObs(setValue)(96);
+
+    assert.consoleLogEquals(methodUnderTest3, "Value: new = 96, old = 66")
     assert.equals(valueHolder.value, 96)
 });
 
@@ -52,9 +83,14 @@ observableListMapSuite.add("logListenersToConsole", assert => {
     const valueHolder = {};
     const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
 
-    let testObs = InitObservable(0)
-                            (addListener)(consoleHandler)
-                            (addListener)(valueHandler)
+
+    let testObs;
+    const methodeUnderTest1 = () => testObs = InitObservable("hello")
+                                                    (addListener)(consoleHandler)
+                                                    (addListener)(valueHandler)
+
+    assert.consoleLogEquals(methodeUnderTest1, "Value: new = hello, old = hello")
+
 
     const expectedLogs = [
         "element at: 1: 42 | nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)",
@@ -71,9 +107,12 @@ observableListMapSuite.add("removeListenerByHandler", assert => {
     const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
 
     // when 1
-    let testObs = InitObservable(0)
-                        (addListener)(consoleHandler)
-                        (addListener)(valueHandler)
+    let testObs;
+    const methodeUnderTest = () => testObs = InitObservable(0)
+                                                    (addListener)(consoleHandler)
+                                                    (addListener)(valueHandler)
+
+    assert.consoleLogEquals(methodeUnderTest, "Value: new = 0, old = 0")
 
     const methodUnderTest1 = () => testObs = testObs(setValue)(66);
 

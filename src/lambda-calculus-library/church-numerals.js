@@ -122,6 +122,11 @@ const toChurchNum = n => n === 0 ? n0 : succ(toChurchNum(n - 1))
  * @function
  * @param   {churchNumber} n
  * @returns {number} js number of n
+ * @example
+ * jsNum(n0) === 0
+ * jsNum(n1) === 1
+ * jsNum(n2) === 2
+ * jsNum(n3) === 3
  */
 const jsNum = n => n(x => x + 1)(0);
 

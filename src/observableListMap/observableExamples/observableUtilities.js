@@ -1,6 +1,6 @@
 import {getDomElement} from "../../maybe/maybe.js";
 
-export {onInputListener, onInputListeners, toHexString, toRGBString, setInitialsValues, creatToggleElement, addUnSubscriberToggle}
+export {onInputListener, onInputListeners, toHexString, toRGBString, creatToggleElement, addUnSubscriberToggle}
 import {addListener, getValue, removeListenerByHandler, setValue} from "../observableListMap.js";
 
 const onInputListener = (observable, input) => input.oninput = _ => observable = observable(setValue)(input.value) // maybe impl for safety
@@ -14,8 +14,6 @@ const toHex = n => {
     return hex.length === 1 ? "0" + hex : hex
 }
 
-const setInitialsValues = (...observables) =>
-    observables.forEach(obs => obs(setValue)(obs(getValue)))
 
 const creatToggleElement = (parentElementId, appendAsSibling = false) => {
     const parentElement = getDomElement(parentElementId)

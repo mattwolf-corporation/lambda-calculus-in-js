@@ -59,16 +59,17 @@ const Assert = () => {
         const originalConsoleLogger = console[consoleType];
         const logs = [];
         console[consoleType] = log => logs.push(log.toString());
-
+        let callback;
         try {
-            methodUnderTest()
+            callback = methodUnderTest()
         } catch (err) {
             console.error(err);
         } finally {
             console[consoleType] = originalConsoleLogger;
         }
 
-        arrayEquals(logs, expectedConsoleLogs)
+        arrayEquals(logs, expectedConsoleLogs);
+        return callback;
     }
 
     const consoleErrorEquals = consoleEquals('error')
@@ -169,7 +170,7 @@ const renderReport = (name, tests) => {
     const output = document.getElementById("output");
     output.insertAdjacentHTML("beforeend",
         `<fieldset style="border-color: ${totalFailed > 0 ? 'red' : 'green'}">
-                    <legend>${name}</legend>
+                    <legend><h3>${name}</h3></legend>
                         <table style="width: fit-content"> 
                             <tr>
                                 <th>Function</th>
