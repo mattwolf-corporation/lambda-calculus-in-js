@@ -45,7 +45,7 @@ import {
     pushToStack,
     reduce,
     removeByIndex,
-    reverseStack, getIndexOfElement,
+    reverseStack, getIndexOfElement, containsElement,
     size,
     stackEquals,
     stackPredecessor,
@@ -383,9 +383,9 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
     assert.equals(elements[1], 10);
     assert.equals(elements[2], 15);
 
-    assert.equals(indices[0], 1);
-    assert.equals(indices[1], 2);
-    assert.equals(indices[2], 3);
+    assert.churchNumberEquals(indices[0], n1);
+    assert.churchNumberEquals(indices[1], n2);
+    assert.churchNumberEquals(indices[2], n3);
 });
 
 stackSuite.add("performance test: for/foreach loop - stack implementation", assert => {
@@ -702,22 +702,45 @@ stackSuite.add("maybeElementByJsnumIndex", assert => {
 });
 
 stackSuite.add("getIndexOfElement ", assert => {
-    const stackWithNumbers = convertArrayToStack([1, 2, 3, 4]);
+    const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
 
-    assert.churchBooleanEquals( getIndexOfElement(stackWithNumbers)(0), False)
-    assert.equals(              getIndexOfElement(stackWithNumbers)(1), 1)
-    assert.equals(              getIndexOfElement(stackWithNumbers)(2), 2)
-    assert.equals(              getIndexOfElement(stackWithNumbers)(3), 3)
-    assert.equals(              getIndexOfElement(stackWithNumbers)(4), 4)
-    assert.churchBooleanEquals( getIndexOfElement(stackWithNumbers)(5), False)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(-1), False)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(0), n1)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(11),n2)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(22),n3)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(33),n4)
+    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(44), False)
+
+    assert.churchNumberEquals( n0 , False) // n0 === False
 
 
     const stackWithStrings = convertArrayToStack(["a", "b", "c"]);
 
-    assert.equals(              getIndexOfElement(stackWithStrings)("a"), 1)
-    assert.equals(              getIndexOfElement(stackWithStrings)("b"), 2)
-    assert.equals(              getIndexOfElement(stackWithStrings)("c"), 3)
-    assert.churchBooleanEquals( getIndexOfElement(stackWithStrings)("xx"), False)
+    assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("a"), n1)
+    assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("b"), n2)
+    assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("c"), n3)
+    assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("xx"), False)
+});
+
+stackSuite.add("containsElement ", assert => {
+    const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
+
+    assert.equals( containsElement(stackWithNumbers)(-1), False)
+    assert.equals( containsElement(stackWithNumbers)(0), True)
+    assert.equals( containsElement(stackWithNumbers)(11),True)
+    assert.equals( containsElement(stackWithNumbers)(22),True)
+    assert.equals( containsElement(stackWithNumbers)(33),True)
+    assert.equals( containsElement(stackWithNumbers)(44), False)
+
+    assert.churchNumberEquals( n0 , False) // n0 === False
+
+
+    const stackWithStrings = convertArrayToStack(["a", "b", "c"]);
+
+    assert.equals( containsElement(stackWithStrings)("a"), True)
+    assert.equals( containsElement(stackWithStrings)("b"), True)
+    assert.equals( containsElement(stackWithStrings)("c"), True)
+    assert.equals( containsElement(stackWithStrings)("xx"), False)
 });
 
 stackSuite.report();

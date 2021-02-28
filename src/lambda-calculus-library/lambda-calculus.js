@@ -228,9 +228,9 @@ const Else = I;
  * @param   {churchBoolean} Church-Boolean
  * @returns {churchBoolean} negation of the insert Church-Boolean
  * @example
- * not(True)      === False;
- * not(False)     === True;
- * not(not(True)) === True;
+ * not(True )    ("a")("b")  === "b"
+ * not(False)    ("a")("b")  === "a"
+ * not(not(True))("a")("b")  === "a"
  */
 const not = C;
 
