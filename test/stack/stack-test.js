@@ -471,36 +471,36 @@ stackSuite.add("concat", assert => {
     const r1 = concat(concat(s1)(s2))(s3);   // ( s1 (+) s2 )  (+) s3
     const r2 = concat(s1)(concat(s2)(s3));  // s1 (+) ( s2 (+) s3 )
 
-    assert.equals(jsNum(size(r1)), 6);
-    assert.equals( getElementByIndex(r1)(0), id);
-    assert.equals( getElementByIndex(r1)(1), 1);
-    assert.equals( getElementByIndex(r1)(2), 2);
-    assert.equals( getElementByIndex(r1)(3), 3);
-    assert.equals(getElementByIndex(r1)(4), 4);
-    assert.equals(getElementByIndex(r1)(5), 5);
-    assert.equals(getElementByIndex(r1)(6), 6);
+    assert.equals( jsNum(size(r1)), 6);
+    assert.equals( getElementByIndex( r1 )(0), id);
+    assert.equals( getElementByIndex( r1 )(1), 1);
+    assert.equals( getElementByIndex( r1 )(2), 2);
+    assert.equals( getElementByIndex( r1 )(3), 3);
+    assert.equals( getElementByIndex( r1 )(4), 4);
+    assert.equals( getElementByIndex( r1 )(5), 5);
+    assert.equals( getElementByIndex( r1 )(6), 6);
 
-    assert.equals(jsNum(size(r2)), 6);
-    assert.equals(getElementByIndex(r2)(0), id);
-    assert.equals(getElementByIndex(r2)(1), 1);
-    assert.equals(getElementByIndex(r2)(2), 2);
-    assert.equals(getElementByIndex(r2)(3), 3);
-    assert.equals(getElementByIndex(r2)(4), 4);
-    assert.equals(getElementByIndex(r2)(5), 5);
-    assert.equals(getElementByIndex(r2)(6), 6);
+    assert.equals( jsNum(size(r2)), 6);
+    assert.equals( getElementByIndex( r2 )(0), id);
+    assert.equals( getElementByIndex( r2 )(1), 1);
+    assert.equals( getElementByIndex( r2 )(2), 2);
+    assert.equals( getElementByIndex( r2 )(3), 3);
+    assert.equals( getElementByIndex( r2 )(4), 4);
+    assert.equals( getElementByIndex( r2 )(5), 5);
+    assert.equals( getElementByIndex( r2 )(6), 6);
 
-    const s4  = convertArrayToStack([1, 2, 3]);
+    const s4 = convertArrayToStack([1, 2, 3]);
     const s5 = convertArrayToStack([4, 5]);
 
     const r3 = concat(s4)(s5);
 
-    assert.equals(jsNum(size(r3)), 5);
-    assert.equals(getElementByIndex(r3)(0), id);
-    assert.equals(getElementByIndex(r3)(1), 1);
-    assert.equals(getElementByIndex(r3)(2), 2);
-    assert.equals(getElementByIndex(r3)(3), 3);
-    assert.equals(getElementByIndex(r3)(4), 4);
-    assert.equals(getElementByIndex(r3)(5), 5);
+    assert.equals( jsNum(size(r3)), 5);
+    assert.equals( getElementByIndex(r3)(0), id);
+    assert.equals( getElementByIndex(r3)(1), 1);
+    assert.equals( getElementByIndex(r3)(2), 2);
+    assert.equals( getElementByIndex(r3)(3), 3);
+    assert.equals( getElementByIndex(r3)(4), 4);
+    assert.equals( getElementByIndex(r3)(5), 5);
 
 });
 

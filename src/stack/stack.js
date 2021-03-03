@@ -372,19 +372,22 @@ const getIndexOfElement2 = s => element => {
 
 // gives the church index
 const getIndexOfElement = s => element => {
-    const times = succ(size(s));
-    const initArgsPair = pair(s)(False); // TODO: set value to undefined
 
     const getIndex = argsPair => {
-        const stack = argsPair(fst);
+        const stack  = argsPair(fst);
         const result = pair(getPreStack(stack));
 
         return If( convertJsBoolToChurchBool(head(stack) === element))
-        (Then( result(getStackIndex(stack)) ) )
-        (Else( result(argsPair(snd)) ) );
+                (Then( result(getStackIndex(stack)) ) )
+                (Else( result(argsPair(snd))        ) );
     }
 
-    return (times(getIndex)(initArgsPair))(snd);
+    const times        = succ(size(s));
+    const initArgsPair = pair(s)(False); // TODO: set value to undefined
+
+    return (times
+                (getIndex)(initArgsPair)
+            )(snd);
 }
 
 // const containsElement2 = s => element => is0(getIndexOfElement(s)(element))(False)(True)
@@ -458,18 +461,20 @@ const map = mapFunction => s => {
     const mapIteration = argsPair => {
         const index = argsPair(snd);
 
-        if (convertToJsBool(eq(times)(index))) {
+        if (convertToJsBool( eq(times)(index)) ) {
             return argsPair;
         }
         const increasedIndex = succ(argsPair(snd));
-        const valueToMap = getElementByIndex(s)(increasedIndex);
-        const mappedValue = mapFunction(valueToMap);
-        const resultStack = push(argsPair(fst))(mappedValue);
+        const valueToMap     = getElementByIndex(s)(increasedIndex);
+        const mappedValue    = mapFunction(valueToMap);
+        const resultStack    = push(argsPair(fst))(mappedValue);
 
         return pair(resultStack)(increasedIndex);
     };
 
-    return (times(mapIteration)(initArgsPair))(fst);
+    return (times
+                (mapIteration)(initArgsPair)
+            )(fst);
 };
 
 /**
@@ -504,7 +509,9 @@ const filter = filterFunction => s => {
         return pair(stack)(increasedIndex);
     };
 
-    return (times(filterIteration)(initArgsPair))(fst);
+    return (times
+                (filterIteration)(initArgsPair)
+            )(fst);
 };
 
 /**
@@ -561,7 +568,8 @@ const forEachOld = stack => f => {
         return s;
     };
 
-    times(iteration)(reversedStack);
+    times
+        (iteration)(reversedStack);
 };
 
 
@@ -593,15 +601,16 @@ const forEach = stack => callbackFunc => {
 
         callbackFunc(element, index);
 
-        return pair(getPreStack(s))(index + 1);
+        return pair( getPreStack(s) )(index + 1 );
     }
 
     const iteration = p =>
         If(hasPre(p(fst)))
-        (Then(invokeCallback(p)))
-        (Else(p));
+            (Then(invokeCallback(p)))
+            (Else(p));
 
-    times(iteration)(pair(reversedStack)(1));
+    times
+        (iteration)( pair(reversedStack)(1) );
 };
 
 /**
@@ -826,15 +835,25 @@ const stackEquals = s1 => s2 => {
 
         const result = convertJsBoolToChurchBool(element1 === element2);
 
-        return triple(getPreStack(s1))(getPreStack(s2))(result);
+        return triple
+                (getPreStack(s1))
+                (getPreStack(s2))
+                (result);
     }
 
     const iteration = t =>
         LazyIf( and( hasPre( t(firstOfTriple)) )( t(thirdOfTriple)) )
-        (Then(() => compareElements(t)))
-        (Else(() => t));
+            (Then(() => compareElements(t)))
+            (Else(() => t));
 
     return LazyIf( eq(size1)(size2) )
-        (Then(() => times(iteration)(triple(reverseStack(s1))(reverseStack(s2))(True))(thirdOfTriple))) // should only be executed when needed
-        (Else(() => False))
-}
+                (Then(() => times                       // should only be executed when needed
+                                (iteration)
+                                    (triple
+                                        (reverseStack(s1))
+                                        (reverseStack(s2))
+                                        (True))
+                                    (thirdOfTriple))
+                )
+                (Else(() => False));
+};
