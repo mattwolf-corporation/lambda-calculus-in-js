@@ -383,9 +383,9 @@ stackSuite.add("for / foreach loop - stack implementation", assert => {
     assert.equals(elements[1], 10);
     assert.equals(elements[2], 15);
 
-    assert.churchNumberEquals(indices[0], n1);
-    assert.churchNumberEquals(indices[1], n2);
-    assert.churchNumberEquals(indices[2], n3);
+    assert.equals(indices[0], 1);
+    assert.equals(indices[1], 2);
+    assert.equals(indices[2], 3);
 });
 
 stackSuite.add("performance test: for/foreach loop - stack implementation", assert => {
@@ -725,22 +725,22 @@ stackSuite.add("getIndexOfElement ", assert => {
 stackSuite.add("containsElement ", assert => {
     const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
 
-    assert.equals( containsElement(stackWithNumbers)(-1), False)
-    assert.equals( containsElement(stackWithNumbers)(0), True)
-    assert.equals( containsElement(stackWithNumbers)(11),True)
-    assert.equals( containsElement(stackWithNumbers)(22),True)
-    assert.equals( containsElement(stackWithNumbers)(33),True)
-    assert.equals( containsElement(stackWithNumbers)(44), False)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(-1), False)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(0), True)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(11),True)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(22),True)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(33),True)
+    assert.churchBooleanEquals( containsElement(stackWithNumbers)(44), False)
 
     assert.churchNumberEquals( n0 , False) // n0 === False
 
 
     const stackWithStrings = convertArrayToStack(["a", "b", "c"]);
 
-    assert.equals( containsElement(stackWithStrings)("a"), True)
-    assert.equals( containsElement(stackWithStrings)("b"), True)
-    assert.equals( containsElement(stackWithStrings)("c"), True)
-    assert.equals( containsElement(stackWithStrings)("xx"), False)
+    assert.churchBooleanEquals( containsElement(stackWithStrings)("a"), True)
+    assert.churchBooleanEquals( containsElement(stackWithStrings)("b"), True)
+    assert.churchBooleanEquals( containsElement(stackWithStrings)("c"), True)
+    assert.churchBooleanEquals( containsElement(stackWithStrings)("xx"), False)
 });
 
 stackSuite.report();
