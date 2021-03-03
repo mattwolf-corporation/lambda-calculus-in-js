@@ -29,24 +29,12 @@ const p1 = pair(16)(personList[1])
 const p2 = pair(17)(personList[2])
 const p3 = pair(18)(personList[3])
 const p4 = pair(19)(personList[4])
-
-const testListMap = startListMap
-(pushToStack) ( p0 )
-(pushToStack) ( p1 )
-(pushToStack) ( p2 )
-(pushToStack) ( p3 )
-(pushToStack) ( p4 )
-(id)
+const testListMap = convertArrayToStack([p0, p1, p2, p3, p4])
 
 const z1 = pair(15)(5)
 const z2 = pair(16)(10)
 const z3 = pair(17)(15)
-
-const listMapWithNumbers = startListMap
-(pushToStack) ( z1 )
-(pushToStack) ( z2 )
-(pushToStack) ( z3 )
-(id)
+const listMapWithNumbers = convertArrayToStack([z1,z2,z3])
 
 listMapSuite.add("emptyListMap", assert => {
     assert.equals(convertToJsBool(hasPre(emptyListMap)), false);

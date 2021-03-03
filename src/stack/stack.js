@@ -740,8 +740,6 @@ const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
  * getElementByIndex( zippedStack )( 3 ) ===  9
  */
 const zipWith = f => s1 => s2 => {
-    const size1 = size(s1);
-    const size2 = size(s2);
 
     const zipElements = t => {
         const s1    = t(firstOfTriple);
@@ -764,7 +762,7 @@ const zipWith = f => s1 => s2 => {
             (Then(zipElements(t)))
             (Else(t));
 
-    const times =  min(size1)(size2);
+    const times =  min(size(s1))(size(s2));
 
     return times
         (iteration)
