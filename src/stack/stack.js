@@ -364,13 +364,31 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const getIndexOfElement = s => element => {
+const getIndexOfElement2 = s => element => {
     let foundIndex = False; // False is equivalent to n0
     forEach(s)( (ele, index) => foundIndex = ele === element ? index : foundIndex )
     return foundIndex
 }
 
-const containsElement = s => element => is0(getIndexOfElement(s)(element))(False)(True)
+// gives the church index
+const getIndexOfElement = s => element => {
+    const times = succ(size(s));
+    const initArgsPair = pair(s)(False); // TODO: set value to undefined
+
+    const getIndex = argsPair => {
+        const stack = argsPair(fst);
+        const result = pair(getPreStack(stack));
+
+        return If( convertJsBoolToChurchBool(head(stack) === element))
+        (Then( result(getStackIndex(stack)) ) )
+        (Else( result(argsPair(snd)) ) );
+    }
+
+    return (times(getIndex)(initArgsPair))(snd);
+}
+
+// const containsElement2 = s => element => is0(getIndexOfElement(s)(element))(False)(True)
+const containsElement = s => element => not(is0(getIndexOfElement(s)(element)));
 
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
@@ -575,7 +593,7 @@ const forEach = stack => callbackFunc => {
 
         callbackFunc(element, index);
 
-        return pair(getPreStack(s))(succ(index));
+        return pair(getPreStack(s))(index + 1);
     }
 
     const iteration = p =>
@@ -583,7 +601,7 @@ const forEach = stack => callbackFunc => {
         (Then(invokeCallback(p)))
         (Else(p));
 
-    times(iteration)(pair(reversedStack)(n1));
+    times(iteration)(pair(reversedStack)(1));
 };
 
 /**
