@@ -56,9 +56,11 @@ const maybeElement = element =>
         : Nothing
 
 const maybeElementWithCustomErrorMessage = errorMessage => element =>
-    element || element === 0
-        ? Right(element)
-        : Left(errorMessage)
+    maybeElement(element)
+        (() => Left(errorMessage))
+        (() => Just(element))
+
+
 
 /**
  *
@@ -73,10 +75,8 @@ const eitherDomElement = elemId =>
 const maybeDomElement = elemId =>
     eitherDomElement(elemId)(Nothing)(Just)
 
-const getDomElementAbstraction = elemId => elementFunction =>
-    eitherDomElement(elemId)
-    (console.error)
-    (elementFunction)
+const getDomElementAbstraction = elemId =>
+    eitherDomElement(elemId)(console.error)
 
 
 /**
@@ -120,6 +120,11 @@ const eitherAnyOrError = f => {
     } catch (error) {
         return Left(error);
     }
+}
+
+const maybes = (...ms) => {
+  const mayStacks = convertArrayToStack(ms);
+  forEach(mayStacks)(m => m()())
 }
 
 //TODO: get or create method

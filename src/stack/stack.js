@@ -319,11 +319,13 @@ const maybeElementByIndex = stack => index =>
     (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
     (id) // return value
 
-const maybeElementByChurchIndex = stack => index => eitherFunctionOrOther(index)
+const maybeElementByChurchIndex = stack => index =>
+    eitherFunctionOrOther(index)
     (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
     (_ => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(index)));  // index is a Churmber
 
-const maybeElementByJsNumIndex = stack => index => maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
+const maybeElementByJsNumIndex = stack => index =>
+    maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
@@ -363,7 +365,7 @@ const getElementByJsnumIndex = s => i => {
 };
 
 const getIndexOfElement = s => element => {
-    let foundIndex = False;
+    let foundIndex = False; // False is equivalent to n0
     forEach(s)( (ele, index) => foundIndex = ele === element ? index : foundIndex )
     return foundIndex
 }

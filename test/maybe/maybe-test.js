@@ -58,8 +58,8 @@ maybeSuite.add("maybeDiv", assert => {
     assert.equals( maybeDiv("Hello")("World")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
-maybeSuite.add("maybeNumber", assert => {
-    assert.equals( eitherJsNumOrOther(10)(_ => "Nothing")(_ => "Just"), "Just");
+maybeSuite.add("eitherJsNumOrOther", assert => {
+    assert.equals( eitherJsNumOrOther(10)(_ => "Nothing")(x => x + 5), 15);
     assert.equals( eitherJsNumOrOther("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
