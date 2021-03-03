@@ -364,12 +364,6 @@ const getElementByJsnumIndex = s => i => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-const getIndexOfElement2 = s => element => {
-    let foundIndex = False; // False is equivalent to n0
-    forEach(s)( (ele, index) => foundIndex = ele === element ? index : foundIndex )
-    return foundIndex
-}
-
 // gives the church index
 const getIndexOfElement = s => element => {
 
@@ -390,7 +384,6 @@ const getIndexOfElement = s => element => {
             )(snd);
 }
 
-// const containsElement2 = s => element => is0(getIndexOfElement(s)(element))(False)(True)
 const containsElement = s => element => not(is0(getIndexOfElement(s)(element)));
 
 /**
