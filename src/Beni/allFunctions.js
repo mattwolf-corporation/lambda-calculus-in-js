@@ -1037,7 +1037,7 @@ const forEach = stack => callbackFunc => {
 
         callbackFunc(element, index);
 
-        return pair(getPreStack(s))(index + 1);
+        return pair(getPreStack(s))( succ(index) );
     }
 
     const iteration = p =>
@@ -1045,7 +1045,7 @@ const forEach = stack => callbackFunc => {
         (Then(invokeCallback(p)))
         (Else(p));
 
-    times(iteration)(pair(reversedStack)(1));
+    times(iteration)(pair(reversedStack)( n1 ));
 };
 
 /**

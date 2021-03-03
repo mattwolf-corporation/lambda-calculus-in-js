@@ -1,10 +1,7 @@
 import {getDomElement} from "../../maybe/maybe.js";
-
-export {onInputListener, onInputListeners, toHexString, toRGBString, creatToggleElement, addUnSubscriberToggle}
+export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle}
 import {addListener, getValue, removeListenerByHandler, setValue} from "../observableListMap.js";
 
-const onInputListener = (observable, input) => input.oninput = _ => observable = observable(setValue)(input.value) // maybe impl for safety
-const onInputListeners = (observable, ...inputs) => inputs.map(input => onInputListener(observable, input))
 
 const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'
 const toHexString = (r, g, b) => "#" + toHex(r) + toHex(g) + toHex(b)
@@ -15,17 +12,16 @@ const toHex = n => {
 }
 
 
-const creatToggleElement = (parentElementId, appendAsSibling = false) => {
+const creatHtmlUnsubscribeToggle = (parentElementId, appendAsSibling = false) => {
     const parentElement = getDomElement(parentElementId)
     const template = document.createElement('div');
     template.innerHTML = `<input type = "checkbox" id = "unSub${parentElementId}" name = "unSub${parentElementId}" style = "visibility: hidden">
                           <label for = "unSub${parentElementId}" id="unSub${parentElementId}Label" class="unsubLabel">Unsubscribe</label>`
 
-    if (appendAsSibling){
-        parentElement.parentNode.insertBefore( template, parentElement.nextSibling)
-    } else{
-        parentElement.appendChild(template)
-    }
+    appendAsSibling
+        ? parentElement.parentNode.insertBefore( template, parentElement.nextSibling )
+        : parentElement.appendChild( template )
+
 
     const [toggleElement, labelElement] = template.children;
     return toggleElement

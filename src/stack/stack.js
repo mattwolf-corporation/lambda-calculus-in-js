@@ -370,7 +370,8 @@ const getIndexOfElement = s => element => {
     return foundIndex
 }
 
-const containsElement = s => element => is0(getIndexOfElement(s)(element))(False)(True)
+const containsElement = s => element =>
+    is0(getIndexOfElement(s)(element))(False)(True)
 
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
@@ -575,7 +576,7 @@ const forEach = stack => callbackFunc => {
 
         callbackFunc(element, index);
 
-        return pair(getPreStack(s))(succ(index));
+        return pair(getPreStack(s))( succ(index) );
     }
 
     const iteration = p =>
@@ -583,7 +584,7 @@ const forEach = stack => callbackFunc => {
         (Then(invokeCallback(p)))
         (Else(p));
 
-    times(iteration)(pair(reversedStack)(n1));
+    times(iteration)(pair(reversedStack)( n1 ));
 };
 
 /**

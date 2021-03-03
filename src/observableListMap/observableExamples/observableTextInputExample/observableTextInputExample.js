@@ -1,65 +1,53 @@
-import { InitObservable, addListener, removeListenerByHandler, handlerFnLogToConsole, buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, handlerBuilder, buildHandlerFnTextContentLength }
-from "../../observableListMap.js";
-import { onInputListener } from "../observableUtilities.js";
-import {getDomElements, eitherDomElement, getDomElementsAsMaybe} from "../../../maybe/maybe.js";
 import {
-    Box, fold, mapf, chain, debug, mapMaybe,
-    flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent
-} from "../../../box/box.js";
+    InitObservable,
+    addListener,
+    removeListenerByHandler,
+    handlerFnLogToConsole,
+    buildHandlerFnTextContent,
+    buildHandlerFnTextContentOldValue,
+    handlerBuilder,
+    buildHandlerFnTextContentLength,
+    setValue
+}from "../../observableListMap.js";
+import {getDomElements} from "../../../maybe/maybe.js";
+
 
 // The Elements from the Dom
-const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes")
+const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");
 
 // Define Observable-Handler
-const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) )
-const oldValueHandler     = handlerBuilder(2)( buildHandlerFnTextContentOldValue  (oldValue) )
-const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnTextContentLength    (sizes)    )
-const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                         )
+const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) );
+const oldValueHandler     = handlerBuilder(2)( buildHandlerFnTextContentOldValue  (oldValue) );
+const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnTextContentLength    (sizes)    );
+const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                         );
 
 // Create Observable-Object, define InitVal and append the Observable-Handler as Listener
-let inputObservable = InitObservable("")
-                            (addListener)(newValueHandler)
-                            (addListener)(oldValueHandler)
-                            (addListener)(labelSizeHandler)
-                            (addListener)(consoleHandler);
+let valueObservables = InitObservable("")
+                            (addListener)( newValueHandler  )
+                            (addListener)( oldValueHandler  )
+                            (addListener)( labelSizeHandler )
+                            (addListener)( consoleHandler   );
 
-// Connect the Observable-Object with the Input-Text-Field
-onInputListener(inputObservable, inputText)
-
+// Connect the Observables with the Input-Text-Field
+inputText.oninput = _ => valueObservables = valueObservables(setValue)(inputText.value);
 
 //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
-const [unsubNewValue, unsubOldValue, unsubSize] = getDomElementsAsMaybe("unsubNewValue", "unsubOldValue", "unsubSize")
+const [unsubNewValue, unsubOldValue, unsubSize] = getDomElements("unsubNewValue", "unsubOldValue", "unsubSize");
 
+unsubNewValue.onclick = _ =>
+    valueObservables =
+        unsubNewValue.checked
+            ? valueObservables(addListener)(newValueHandler)
+            : valueObservables(removeListenerByHandler)(newValueHandler);
 
-unsubNewValue(console.error)(newValueElem =>
-    newValueElem.onclick = _ => {
+unsubOldValue.onclick = _ =>
+    valueObservables =
+        unsubOldValue.checked
+            ? valueObservables(addListener)(oldValueHandler)
+            : valueObservables(removeListenerByHandler)(oldValueHandler);
 
-        inputObservable = newValueElem.checked
-            ? inputObservable(addListener)(newValueHandler)
-            : inputObservable(removeListenerByHandler)(newValueHandler)
-
-        onInputListener(inputObservable, inputText)
-    })
-
-unsubOldValue(console.error)(oldValueElem =>
-    oldValueElem.onclick = _ => {
-
-        inputObservable = unsubOldValue.checked
-            ? inputObservable(addListener)(oldValueHandler)
-            : inputObservable(removeListenerByHandler)(oldValueHandler)
-
-        onInputListener(inputObservable, inputText)
-    })
-
-
-unsubSize(console.error)(sizeElem =>
-    sizeElem.onclick = _ => {
-        inputObservable = unsubSize.checked
-            ? inputObservable(addListener)(labelSizeHandler)
-            : inputObservable(removeListenerByHandler)(labelSizeHandler)
-
-        onInputListener(inputObservable, inputText)
-    })
-
-
+unsubSize.onclick = _ =>
+    valueObservables =
+        unsubSize.checked
+            ? valueObservables(addListener)(labelSizeHandler)
+            : valueObservables(removeListenerByHandler)(labelSizeHandler);
