@@ -55,7 +55,9 @@ import {
     zipWithOneLiner
 
 } from "../../src/stack/stack.js";
-import {getOrDefault, Just, Nothing} from "../../src/maybe/maybe.js";
+import {getOrDefault, Just, Nothing, maybeDomElement} from "../../src/maybe/maybe.js";
+import {flatMapMaybe, mapMaybe} from "../../src/box/box.js";
+import {emptyListMap} from "../../src/listMap/listMap.js"
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
@@ -741,6 +743,33 @@ stackSuite.add("containsElement ", assert => {
     assert.churchBooleanEquals( containsElement(stackWithStrings)("b"), True)
     assert.churchBooleanEquals( containsElement(stackWithStrings)("c"), True)
     assert.churchBooleanEquals( containsElement(stackWithStrings)("xx"), False)
+});
+
+stackSuite.add(" sdgsgsd", assert => {
+    // const eitherElements = maybeFunc => (...elements) => {
+    //     const stackWithElems = convertArrayToStack(elements);
+    //     //const values = map(key => maybeFunc(key))(stackWithElems);
+    //     // const pairs = elements.map(key => {
+    //     //     const maybeElem = maybeFunc(key);
+    //     //     return pair(key)(maybeElem);
+    //     // });
+    //
+    //     //const listM = zipListMap(stackWithElems)(values);
+    //
+    //     // reduce((acc, curr) => mapMaybe(curr)(val => mapMaybe()))(emptyStack)(s)
+    //     return reduce
+    //     ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) )
+    //     )
+    //     (Just(emptyListMap))
+    //     (stackWithElems)
+    // }
+    //
+    // eitherElements(str => {
+    //     const elem = document.getElementById(str);
+    //     return elem ? Just(elem) : Nothing;
+    // })("inputText", "newValue")(_ => console.error("wtffff!"))(
+    //     stack => console.log("Erfolg!!!")
+    // )
 });
 
 stackSuite.report();
