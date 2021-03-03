@@ -16,28 +16,6 @@ import {flatMapMaybe, mapMaybe} from "../../../box/box.js";
 import {pair, showPair, fst, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
 import {emptyListMap} from "../../../listMap/listMap.js";
 
-const maybes = (...ms) => fn => {
-    const mayStacks = convertArrayToStack(ms);
-    forEach(mayStacks)(m => m()())
-}
-
-// variante 1
-// ("inputText", maybe("inputText"))
-// maybes("inputText", "newValue")(m => document.getElementById(m))
-// (_ => console.error) //wenn einer failed und erstell eine RIESEN TEXT ERROR PAGE ans DOM BODY
-// (stack => {           // wenn alle erfolgreich
-//     // Problem wie weiss man welches element was ist und name ???
-//     // Lüsung evtl listMap verwenden weil keyValue und dann kann save auf getElment by key zugegegriffen werden
-//
-//     const inputText = getElementByKey(stack)("inpuText")
-//
-//     startProgramm(inputText, newValue) // final aus
-// } )
-
-//
-// function startProgramm(...args){
-//     args === [inputText,newValue  ]
-// }
 
 //// Test
 
@@ -62,16 +40,7 @@ const logListMapToConsole = listmap => {
 
 const eitherElements = maybeFunc => (...elements) => {
     const stackWithElems = convertArrayToStack(elements);
-    logStackToConsole(stackWithElems);
-    //const values = map(key => maybeFunc(key))(stackWithElems);
-    // const pairs = elements.map(key => {
-    //     const maybeElem = maybeFunc(key);
-    //     return pair(key)(maybeElem);
-    // });
 
-    //const listM = zipListMap(stackWithElems)(values);
-
-    // reduce((acc, curr) => mapMaybe(curr)(val => mapMaybe()))(emptyStack)(s)
     return reduce
     ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) )
     )
@@ -79,33 +48,17 @@ const eitherElements = maybeFunc => (...elements) => {
     (stackWithElems)
 }
 // key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
-eitherElements(str => t(str))("inputText", "newValue")(_ => console.error("wtffff!"))
+eitherElements(str => t(str))("inputText", "newValue")(_ => console.error("failed!"))
 (listMap => {
         // logListMapToConsole(stack)
-        //stack => console.log(stack)
+        // stack => console.log(stack)
         const inputText = getElementByKey(listMap)("inputText");
         const newValue = getElementByKey(listMap)("newValue");
 
         startProgram(inputText, newValue);
     }
 )
-
-
-
 ////
-
-//varinate 2
-
-// const kmaybes = maybeKaskade
-//                     (maybeNumber(3))
-//                     (nextMaybe)
-//                     (maybeNumber(4))
-//                     (nextMaybe)
-//                     (maybeNumber(5))
-//                     (endMaybe)
-//
-// kmaybes === ([Just3,Just4,Just5])
-
 
 
 // The Elements from the Dom
