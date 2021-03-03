@@ -86,8 +86,8 @@ const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]
  * getElementByKey( testListMap )( 3 ) === 42
  */
 const getElementByKey = listMap => key => {
-    const times         = size(listMap);
-    const initArgsPair  = pair(listMap)(id);
+    const times         = size(listMap); // TODO: successor of size
+    const initArgsPair  = pair(listMap)(id); // TODO: set to undefined
 
     const getElement = argsPair => {
         const stack             = argsPair(fst);
