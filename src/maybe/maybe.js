@@ -131,26 +131,26 @@ const eitherAnyOrError = f => {
     }
 }
 
-const startProgram = param1 => param2 => {};
-
-const t = str => {
-    const elem = document.getElementById(str);
-    return elem ? Just(elem) : Nothing;
-}
-
-const t2 = str => {
-    const elem = document.getElementById(str);
-    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-}
-
-const maybeElements = maybeFunc => (...elements) => {
-    const stackWithElems = convertArrayToStack(elements);
-
-    return reduce
-    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
-    (Just(emptyListMap))
-    (stackWithElems)
-}
+// const startProgram = param1 => param2 => {};
+//
+// const t = str => {
+//     const elem = document.getElementById(str);
+//     return elem ? Just(elem) : Nothing;
+// }
+//
+// const t2 = str => {
+//     const elem = document.getElementById(str);
+//     return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
+// }
+//
+// const maybeElements = maybeFunc => (...elements) => {
+//     const stackWithElems = convertArrayToStack(elements);
+//
+//     return reduce
+//     ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
+//     (Just(emptyListMap))
+//     (stackWithElems)
+// }
 
 // const eitherElementsOrErrors = eitherFunc => (...elements) => {
 //     const stackWithElems = convertArrayToStack(elements);

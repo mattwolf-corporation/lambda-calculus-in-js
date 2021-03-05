@@ -1,19 +1,19 @@
 import {TestSuite} from "../test.js";
 
 import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {
-    n1,
-    n2,
-    n3,
-    n4,
-    n5,
-    n6,
-    n7,
-    n8,
-    n9,
-    churchMultiplication,
-    jsNum
-} from "../../src/lambda-calculus-library/church-numerals.js";
+// import {
+//     n1,
+//     n2,
+//     n3,
+//     n4,
+//     n5,
+//     n6,
+//     n7,
+//     n8,
+//     n9,
+//     churchMultiplication,
+//     jsNum
+// } from "../../src/lambda-calculus-library/church-numerals.js";
 import {
     Nothing, Left, Right,
     Just,
@@ -26,8 +26,8 @@ import {
     maybeElement,
     eitherJsNumOrOther
 } from "../../src/maybe/maybe.js";
-import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
-import {getElementByKey} from "../../src/listMap/listMap.js"
+// import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
+// import {getElementByKey} from "../../src/listMap/listMap.js"
 
 const maybeSuite = TestSuite("Maybe");
 
@@ -152,10 +152,10 @@ maybeSuite.add("getOrDefault", assert => {
 //     assert.equals( test("id"), Nothing);
 // });
 
-const t2 = str => {
-    const elem = document.getElementById(str);
-    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-}
+// const t2 = str => {
+//     const elem = document.getElementById(str);
+//     return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
+// }
 
 // maybeSuite.add("eitherElementsOrErrors", assert => {
 //     setup();
