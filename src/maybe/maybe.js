@@ -51,12 +51,17 @@ const maybeDiv = num => divisor =>
  * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
  */
 const maybeElement = element =>
+    eitherElement(element)
+        (() => Nothing)
+        (() => Just(element))
+
+const eitherElement = element =>
     element || element === 0
-        ? Just(element)
-        : Nothing
+        ? Right(element)
+        : Left(`${element} is not found, undefined or a falsy value`)
 
 const maybeElementWithCustomErrorMessage = errorMessage => element =>
-    maybeElement(element)
+    eitherElement(element)
         (() => Left(errorMessage))
         (() => Just(element))
 

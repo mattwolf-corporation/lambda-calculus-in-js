@@ -54,11 +54,18 @@ const HttpGetSync = url => {
     return xmlHttp.responseText;
 }
 
+
+const HttpPostSync = body => url => {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "POST", url, false ); // false for synchronous request
+    xmlHttp.send(body);
+    return xmlHttp;
+}
+
 // Beispiel HttpGetSync
 // Box(HttpGetSync(jokeUrl))
 //      (mapf)(JSON.parse)
 //      (fold)(x => x.value)
-
 
 
 const DataFlowVariable = howto => {

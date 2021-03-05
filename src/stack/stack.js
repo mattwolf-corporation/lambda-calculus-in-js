@@ -29,7 +29,6 @@ import {
     Nothing,
     maybeElementWithCustomErrorMessage, eitherAnyOrError
 } from "../maybe/maybe.js";
-import {mapMaybe, flatMapMaybe, Box} from "../box/box.js";
 
 import {
     n0,
@@ -361,7 +360,9 @@ const getElementByJsnumIndex = s => i => {
         }
         return result(argsPair(snd));
     };
-    return (times(getElement)(initArgsPair))(snd);
+    return (times
+                (getElement)(initArgsPair)
+            )(snd);
 };
 
 // gives the church index
@@ -448,8 +449,6 @@ const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? 
  * getElementByIndex( stackMultiplied )( 3 ) === 12
  */
 const map = mapFunction => s => {
-    const times = size(s);
-    const initArgsPair = pair(emptyStack)(n0);
 
     const mapIteration = argsPair => {
         const index = argsPair(snd);
@@ -464,6 +463,9 @@ const map = mapFunction => s => {
 
         return pair(resultStack)(increasedIndex);
     };
+
+    const times        = size(s);
+    const initArgsPair = pair(emptyStack)(n0);
 
     return (times
                 (mapIteration)(initArgsPair)
@@ -584,23 +586,25 @@ const forEachOld = stack => f => {
  * // At Index 3 is the Element 15
  */
 const forEach = stack => callbackFunc => {
-    const times = size(stack);
-    const reversedStack = reverseStack(stack);
+
 
     const invokeCallback = p => {
-        const s = p(fst);
-        const index = p(snd);
-        const element = head(s);
+        const _stack   = p(fst);
+        const _index   = p(snd);
+        const _element = head(_stack);
 
-        callbackFunc(element, index);
+        callbackFunc(_element, _index);
 
-        return pair( getPreStack(s) )(index + 1 );
+        return pair( getPreStack(_stack) )(_index + 1 );
     }
 
     const iteration = p =>
         If(hasPre(p(fst)))
             (Then(invokeCallback(p)))
             (Else(p));
+
+    const times         = size(stack);
+    const reversedStack = reverseStack(stack);
 
     times
         (iteration)( pair(reversedStack)(1) );
