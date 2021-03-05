@@ -10,11 +10,6 @@ import {
     setValue
 }from "../../observableListMap.js";
 import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
-// import {convertArrayToStack, push, reduce, logStackToConsole, map, emptyStack} from "../../../stack/stack.js";
-// import {flatMapMaybe, mapMaybe} from "../../../box/box.js";
-// import {pair, showPair, fst, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-// import {emptyListMap, getElementByKey} from "../../../listMap/listMap.js";
-
 
 // The Elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");

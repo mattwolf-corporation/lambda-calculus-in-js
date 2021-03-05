@@ -47,7 +47,7 @@ import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lam
  * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
  * @return {triple} listMap as stack
  */
-const listMap = stack
+const listMap = stack;
 
 /**
  * Representation of the empty stack

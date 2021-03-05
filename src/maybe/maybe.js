@@ -143,7 +143,7 @@ const t2 = str => {
     return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
 }
 
-const maybeeElements = maybeFunc => (...elements) => {
+const maybeElements = maybeFunc => (...elements) => {
     const stackWithElems = convertArrayToStack(elements);
 
     return reduce
@@ -152,38 +152,38 @@ const maybeeElements = maybeFunc => (...elements) => {
     (stackWithElems)
 }
 
-const eitherElements2 = eitherFunc => (...elements) => {
-    const stackWithElems = convertArrayToStack(elements);
-
-    return reduce
-    ((acc, curr) => acc
-        ( stack => Left( (eitherFunc(curr))
-            (err => push(stack)(err))
-            (_ => stack) )
-        )
-        ( listMap => (eitherFunc(curr))
-            (err => Left(push(emptyStack)(err)) )
-            (val => Right(push(listMap)( pair(curr)(val) )) )
-        )
-    )
-    (Right(emptyListMap))
-    (stackWithElems);
-}
+// const eitherElementsOrErrors = eitherFunc => (...elements) => {
+//     const stackWithElems = convertArrayToStack(elements);
+//
+//     return reduce
+//     ((acc, curr) => acc
+//         ( stack => Left( (eitherFunc(curr))
+//             (err => push(stack)(err))
+//             (_ => stack) )
+//         )
+//         ( listMap => (eitherFunc(curr))
+//             (err => Left(push(emptyStack)(err)) )
+//             (val => Right(push(listMap)( pair(curr)(val) )) )
+//         )
+//     )
+//     (Right(emptyListMap))
+//     (stackWithElems);
+// }
 
 // key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
-eitherElements2(str => t2(str))("inputtText", "newVeeealue")
-(stackOfErrors => logStackToConsole(stackOfErrors))
-(listMapWithElements => { // TODO: array destructuring
-        // const [a,b,c] = convertStackToArray(stackOfElements); TODO: work this
-        // logListMapToConsole(stack)
-        // stack => console.log(stack)
-        const inputText = getElementByKey(listMapWithElements)("inputText");
-        const newValue = getElementByKey(listMapWithElements)("newValue");
-
-        console.log(inputText);
-        console.log(newValue);
-
-        startProgram(inputText, newValue);
-    }
-)
+// eitherElements2(str => t2(str))("inputtText", "newVeeealue")
+// (stackOfErrors => logStackToConsole(stackOfErrors))
+// (listMapWithElements => { // TODO: array destructuring
+//         // const [a,b,c] = convertStackToArray(stackOfElements); TODO: work this
+//         // logListMapToConsole(stack)
+//         // stack => console.log(stack)
+//         const inputText = getElementByKey(listMapWithElements)("inputText");
+//         const newValue = getElementByKey(listMapWithElements)("newValue");
+//
+//         console.log(inputText);
+//         console.log(newValue);
+//
+//         startProgram(inputText, newValue);
+//     }
+// )
 

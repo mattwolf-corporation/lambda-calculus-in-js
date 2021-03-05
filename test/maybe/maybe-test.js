@@ -1,7 +1,19 @@
 import {TestSuite} from "../test.js";
 
 import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n1,n2,n3,n4,n5,n6,n7,n8,n9, churchMultiplication} from "../../src/lambda-calculus-library/church-numerals.js";
+import {
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    churchMultiplication,
+    jsNum
+} from "../../src/lambda-calculus-library/church-numerals.js";
 import {
     Nothing, Left, Right,
     Just,
@@ -14,6 +26,8 @@ import {
     maybeElement,
     eitherJsNumOrOther
 } from "../../src/maybe/maybe.js";
+import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
+import {getElementByKey} from "../../src/listMap/listMap.js"
 
 const maybeSuite = TestSuite("Maybe");
 
@@ -136,6 +150,39 @@ maybeSuite.add("getOrDefault", assert => {
 //     assert.equals( test(3), 3);
 //     assert.equals( test(id), id);
 //     assert.equals( test("id"), Nothing);
+// });
+
+const t2 = str => {
+    const elem = document.getElementById(str);
+    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
+}
+
+// maybeSuite.add("eitherElementsOrErrors", assert => {
+//     setup();
+//
+//     // const result = eitherElementsOrErrors(str => t2(str))("test", "test")
+//     // (stackOfErrors => logStackToConsole(stackOfErrors))
+//     // (listMapWithElements => { // TODO: array destructuring
+//     //     // const [a,b,c] = convertStackToArray(stackOfElements); TODO: work this
+//     //     // logListMapToConsole(stack)
+//     //     // stack => console.log(stack)
+//     //     const inputText = getElementByKey(listMapWithElements)("inputText");
+//     //     const newValue = getElementByKey(listMapWithElements)("newValue");
+//     //
+//     //     console.log(inputText);
+//     //     console.log(newValue);
+//     //
+//     //     // startProgram(inputText, newValue);
+//     // });
+//     //
+//     // assert.equals( jsNum(size(result)), 2);
+//
+//     // assert.equals(getElementByIndex(zippedStack)(0), id);
+//     // assert.equals(getElementByIndex(zippedStack)(1), 5);
+//     // assert.equals(getElementByIndex(zippedStack)(2), 7);
+//     // assert.equals(getElementByIndex(zippedStack)(3), 9);
+//
+//     tearDown();
 // });
 
 maybeSuite.report();
