@@ -100,23 +100,23 @@ rangeB.oninput = _ =>
 
 
 // Toggleable Un/Subscribers
-const rgbResultElement = creatHtmlUnsubscribeToggle("resultColor");
+const rgbResultElement = creatHtmlUnsubscribeToggle( "resultColor", "RGB-Background");
 rgbResultElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, rgbHandlerBgColorRGB, rgbResultElement, "RGB-Background");
+    rgbObservable = addUnSubscriberToggle(rgbObservable, rgbHandlerBgColorRGB, rgbResultElement );
 
-const rgbTextElement = creatHtmlUnsubscribeToggle("rgbValue", true);
+const rgbTextElement = creatHtmlUnsubscribeToggle("rgbValue", "RGB", true);
 rgbTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRgbTextRGB, rgbTextElement, "RGB");
+    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRgbTextRGB, rgbTextElement);
 
-const hexTextElement = creatHtmlUnsubscribeToggle("hex", true);
+const hexTextElement = creatHtmlUnsubscribeToggle("hex", "HEX",true);
 hexTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerHexTextRGB, hexTextElement, "HEX");
+    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerHexTextRGB, hexTextElement);
 
-const inputRTextElement = creatHtmlUnsubscribeToggle("inputR", true);
+const inputRTextElement = creatHtmlUnsubscribeToggle("inputR","Input R", true);
 inputRTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerInputR, inputRTextElement, "Input R");
+    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerInputR, inputRTextElement);
 
-const rangeRTextElement = creatHtmlUnsubscribeToggle("rangeR", true);
+const rangeRTextElement = creatHtmlUnsubscribeToggle("rangeR", "Range R", true);
 rangeRTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRangeR, rangeRTextElement, "Range R");
+    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRangeR, rangeRTextElement);
 
