@@ -1,7 +1,5 @@
-export {
-    listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
-    filterListMap, reduceListMap, convertObjToListMap
-}
+import {id, pair, fst, snd, If, Else, Then, triple} from "../lambda-calculus-library/lambda-calculus.js";
+import {n0} from "../lambda-calculus-library/church-numerals.js";
 import {
     stack,
     size,
@@ -19,8 +17,10 @@ import {
     filter,
     reduce
 } from "../stack/stack.js";
-import {n0} from "../lambda-calculus-library/church-numerals.js";
-import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lambda-calculus.js";
+export {
+    listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
+    filterListMap, reduceListMap, convertObjToListMap
+}
 
 /**
  * Generic Types
@@ -47,7 +47,7 @@ import {id, pair, fst, snd, If, Else, Then} from "../lambda-calculus-library/lam
  * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
  * @return {triple} listMap as stack
  */
-const listMap = stack;
+const listMap = triple;
 
 /**
  * Representation of the empty stack
