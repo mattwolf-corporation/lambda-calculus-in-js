@@ -7,85 +7,13 @@ import {
     buildHandlerFnTextContentOldValue,
     handlerBuilder,
     buildHandlerFnTextContentLength,
-    setValue,
-    logListenersToConsole
+    setValue
 }from "../../observableListMap.js";
-import {getDomElements, Just, Nothing, mapEither, flatMapEither, Right, Left } from "../../../maybe/maybe.js";
-import {convertArrayToStack, push, reduce, logStackToConsole, map, emptyStack} from "../../../stack/stack.js";
-import {flatMapMaybe, mapMaybe} from "../../../box/box.js";
-import {pair, showPair, fst, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-import {emptyListMap, getElementByKey} from "../../../listMap/listMap.js";
-
-
-//// Test
-
-const startProgram = param1 => param2 => {};
-
-const t = str => {
-    const elem = document.getElementById(str);
-    return elem ? Just(elem) : Nothing;
-}
-
-const t2 = str => {
-    const elem = document.getElementById(str);
-    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-}
-
-const logListMapToConsole = listmap => {
-    const logIteration = (acc, curr) => {
-        const index = acc + 1;
-        const key = curr(fst);
-        const val = curr(snd);
-        const element = typeof (val) === 'object' ? JSON.stringify(val) : val;
-        console.log('element at: ' + index + ': ' + showPair(pair(key)(val)));
-        return index;
-    };
-    reduce(logIteration)(0)(listmap);
-};
-
-const eitherElements = maybeFunc => (...elements) => {
-    const stackWithElems = convertArrayToStack(elements);
-
-    return reduce
-    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
-    (Just(emptyListMap))
-    (stackWithElems)
-}
-
-const eitherElements2 = eitherFunc => (...elements) => {
-    const stackWithElems = convertArrayToStack(elements);
-
-    return reduce
-    ((acc, curr) => acc
-                                ( stack => Left( (eitherFunc(curr))
-                                                        (err => push(stack)(err))
-                                                        (_ => stack) )
-                                )
-                                ( listMap => (eitherFunc(curr))
-                                                    (err => Left(push(emptyStack)(err)) )
-                                                    (val => Right(push(listMap)( pair(curr)(val) )) )
-                                )
-    )
-    (Right(emptyListMap))
-    (stackWithElems);
-}
-// key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
-eitherElements2(str => t2(str))("inputtText", "newVeeealue")
-(stackOfErrors => logStackToConsole(stackOfErrors))
-(listMapWithElements => { // TODO: array destructuring
-        const [a,b,c] = convertStackToArray(stackOfElements);
-        // logListMapToConsole(stack)
-        // stack => console.log(stack)
-        const inputText = getElementByKey(listMapWithElements)("inputText");
-        const newValue = getElementByKey(listMapWithElements)("newValue");
-
-        console.log(inputText);
-        console.log(newValue);
-
-        startProgram(inputText, newValue);
-    }
-)
-////
+import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
+// import {convertArrayToStack, push, reduce, logStackToConsole, map, emptyStack} from "../../../stack/stack.js";
+// import {flatMapMaybe, mapMaybe} from "../../../box/box.js";
+// import {pair, showPair, fst, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
+// import {emptyListMap, getElementByKey} from "../../../listMap/listMap.js";
 
 
 // The Elements from the Dom

@@ -1,13 +1,14 @@
-import {id} from "../lambda-calculus-library/lambda-calculus.js";
-import {convertArrayToStack, reduce } from "../stack/stack.js";
+import {id, pair} from "../lambda-calculus-library/lambda-calculus.js";
+import {convertArrayToStack, emptyStack, logStackToConsole, push, reduce, convertStackToArray} from "../stack/stack.js";
 import {mapMaybe, flatMapMaybe} from "../box/box.js";
+import {emptyListMap, getElementByKey} from "../listMap/listMap.js";
 
 export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
     getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage,
-    eitherAnyOrError, maybeDomElement, mapEither, flatMapEither
+    eitherAnyOrError, maybeDomElement
 }
 
 const Left   = x => f => _ => f (x);
@@ -130,34 +131,59 @@ const eitherAnyOrError = f => {
     }
 }
 
-const maybes = (...ms) => {
-  const mayStacks = convertArrayToStack(ms);
-  forEach(mayStacks)(m => m()())
+const startProgram = param1 => param2 => {};
+
+const t = str => {
+    const elem = document.getElementById(str);
+    return elem ? Just(elem) : Nothing;
 }
 
-//TODO: get or create method
+const t2 = str => {
+    const elem = document.getElementById(str);
+    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
+}
 
-// maybe box methods
-const mapEither      = either => f => either (_ => either) (x => Right(f(x)));  // either.map
-const flatMapEither  = either => f => either (_ => either) (x =>       f(x));  // either.flatmap
+const maybeeElements = maybeFunc => (...elements) => {
+    const stackWithElems = convertArrayToStack(elements);
 
-// const eitherElements = maybeFunc => elements => {
-//     const stackWithElems = convertArrayToStack(elements);
-//     //const values = map(key => maybeFunc(key))(stackWithElems);
-//     // const pairs = elements.map(key => {
-//     //     const maybeElem = maybeFunc(key);
-//     //     return pair(key)(maybeElem);
-//     // });
-//
-//     //const listM = zipListMap(stackWithElems)(values);
-//
-//     // reduce((acc, curr) => mapMaybe(curr)(val => mapMaybe()))(emptyStack)(s)
-//     return reduce
-//     ((acc, curr) => flatMapMaybe(acc)(stack => mapMaybe(maybeFunc(curr))(val => push(stack)(pair(curr)(val)))))
-//     (emptyListMap)
-//     (stackWithElems)
-// }
-//
-// eitherElements(maybeDomElement)("inputText", "newValue")(_ => console.error("wtffff!"))(
-//     stack => console.log("Erfolg!!!")
-// )
+    return reduce
+    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
+    (Just(emptyListMap))
+    (stackWithElems)
+}
+
+const eitherElements2 = eitherFunc => (...elements) => {
+    const stackWithElems = convertArrayToStack(elements);
+
+    return reduce
+    ((acc, curr) => acc
+        ( stack => Left( (eitherFunc(curr))
+            (err => push(stack)(err))
+            (_ => stack) )
+        )
+        ( listMap => (eitherFunc(curr))
+            (err => Left(push(emptyStack)(err)) )
+            (val => Right(push(listMap)( pair(curr)(val) )) )
+        )
+    )
+    (Right(emptyListMap))
+    (stackWithElems);
+}
+
+// key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
+eitherElements2(str => t2(str))("inputtText", "newVeeealue")
+(stackOfErrors => logStackToConsole(stackOfErrors))
+(listMapWithElements => { // TODO: array destructuring
+        // const [a,b,c] = convertStackToArray(stackOfElements); TODO: work this
+        // logListMapToConsole(stack)
+        // stack => console.log(stack)
+        const inputText = getElementByKey(listMapWithElements)("inputText");
+        const newValue = getElementByKey(listMapWithElements)("newValue");
+
+        console.log(inputText);
+        console.log(newValue);
+
+        startProgram(inputText, newValue);
+    }
+)
+
