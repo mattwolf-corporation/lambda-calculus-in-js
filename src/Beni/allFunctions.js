@@ -646,7 +646,7 @@ const getPreStack = s => s(stackPredecessor)
  *  A function that takes a stack and a value. The function returns a new stack with the pushed value
  * @haskell push :: stack -> a -> stack
  * @param {stack} s
- * @return {stack} stack with value x
+ * @return {stack} stack with value a
  */
 const push = s => stack(succ(s(stackIndex)))(s);
 
@@ -841,12 +841,28 @@ const getElementByJsnumIndex = s => i => {
 };
 
 
-/**
- *  A function that takes an stack and converts the stack into an array. The function returns an array
- *
- * @param  {stack} s
- * @return {Array} Array
- */
+// gives the church index
+const getIndexOfElement = s => element => {
+
+    const getIndex = argsPair => {
+        const stack = argsPair(fst);
+        const result = pair(getPreStack(stack));
+
+        return If(convertJsBoolToChurchBool(head(stack) === element))
+        (Then(result(getStackIndex(stack))))
+        (Else(result(argsPair(snd))));
+    }
+
+    const times = succ(size(s));
+    const initArgsPair = pair(s)(False); // TODO: set value to undefined
+
+    return (times
+        (getIndex)(initArgsPair)
+    )(snd);
+}
+
+const containsElement = s => element => not(is0(getIndexOfElement(s)(element)));
+
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
 /**
@@ -873,28 +889,10 @@ const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(a
  */
 const mapWithReduce = mapFunc => reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
 
-/**
- *  A function that accepts a stack and a filter function. The function returns the filtered stack.
- *
- * @param  {function} filterFunc
- * @return {function(reduce:stack): function(stack)} stack
- */
+
 const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
 
-/**
- *  A function that takes a map function and a stack. The function returns the mapped stack
- *
- * @param  {function} mapFunction
- * @return {function(s:stack): stack} stack
- * @example
- * const stackWithNumbers = convertArrayToStack([2,5,6])
- *
- * const stackMultiplied  = map( x => x * 2)(stackWithNumbers)
- *
- * getElementByIndex( stackMultiplied )( 1 ) ===  4
- * getElementByIndex( stackMultiplied )( 2 ) === 10
- * getElementByIndex( stackMultiplied )( 3 ) === 12
- */
+
 const map = mapFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -916,17 +914,7 @@ const map = mapFunction => s => {
     return (times(mapIteration)(initArgsPair))(fst);
 };
 
-/**
- * A function that accepts a stack and a filter function. The function returns the filtered stack
- *
- * @param  {function} filterFunction
- * @return {function(s:stack): stack} pair
- *
- * @example
- * const stackWithNumbers = convertArrayToStack([42,7,3])
- *
- * filter(x => x < 20 && x > 5)(stackWithNumbers) === convertArrayToStack([7])
- */
+
 const filter = filterFunction => s => {
     const times = size(s);
     const initArgsPair = pair(emptyStack)(n0);
@@ -951,81 +939,147 @@ const filter = filterFunction => s => {
     return (times(filterIteration)(initArgsPair))(fst);
 };
 
-/**
- *  A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
- *
- * @param {stack} stack
- */
 const logStackToConsole = stack =>
     forEach(stack)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element)))
 
 
-/**
- * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
- *
- * @function stackOperationBuilder
- * @param   {stackOp} stackOp
- * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
- */
 const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 
-/**
- * pushToStack is a Stack-Builder-Command to push new values to the current stack
- *
- * @param   {stackOpBuilder} stackOp
- * @returns {function(pushToStack)} pushToStack
- *
- * @example
- * const stackOfWords = convertArrayToStack(["Hello", "World"])
- *
- * getElementByIndex( stackOfWords )( 1 ) === "Hello"
- * getElementByIndex( stackOfWords )( 2 ) === "World"
- */
+
 const pushToStack = stackOpBuilder(push);
 
 
-/**
- * Foreach implementation for stack
- * A function that expects a stack and a callback function.
- * The current element of the stack iteration and the index of this element is passed to this callback function
- */
-const forEachOld = stack => f => {
-    const times = size(stack);
-    const reversedStack = reverseStack(stack);
+const readyDomElements = (...neededDomElements) => leftCallback =>  rightCallback => {
+    const eitherStack = eitherMapStack(x => document.getElementById(x))(...neededDomElements);
+    const times       = size(eitherStack);
 
-    const iteration = s => {
-        if (convertToJsBool(hasPre(s))) {
-            const element = head(s);
-            const index = jsNum(succ(churchSubtraction(times)(size(s))));
+                             // Left / Right / Index
+    const initTriple = triple(emptyStack)(emptyStack)(eitherStack);
 
-            f(element, index);
+    const leftRight = times(argsTriple => {
+        const valueStack = argsTriple(thirdOfTriple);
+        const leftStack  = argsTriple(firstOfTriple);
+        const rightStack = argsTriple(secondOfTriple);
 
-            return (pop(s))(fst);
+        const eitherElement = head(valueStack) //getElementByChurchNumberIndex(eitherStack)(index);
+
+        return eitherElement
+        (e => triple
+            (push(leftStack)(e))
+            (rightStack)
+            (getPreStack(valueStack))
+        )
+        (e => triple
+            (leftStack)
+            (push(rightStack)(e))
+            (getPreStack(valueStack))
+        );
+
+    })(initTriple)
+
+    console.log("Left size: "+ jsNum(size(leftRight(firstOfTriple))))
+    logStackToConsole(leftRight(firstOfTriple))
+    console.log("---")
+    console.log("Right size: "+ jsNum(size(leftRight(secondOfTriple))))
+    logStackToConsole(leftRight(secondOfTriple))
+
+    leftCallback(  leftRight(firstOfTriple)  )
+    rightCallback( leftRight(secondOfTriple) )
+
+
+    // return [leftRight(firstOfTriple), leftRight(secondOfTriple)]
+}
+
+const eitherAllRight = stackWithEithers => {
+    const times = size(stackWithEithers);
+
+}
+
+const eitherMapStack = mapFn => (...elements) => {
+
+    const elementStack = reverseStack(convertArrayToStack(elements));
+    const times        = size(elementStack);
+    const initPair     = pair(emptyStack)(elementStack);
+
+    return times(argsPair => {
+            const newStack   = argsPair(fst);
+            const eleStack   = argsPair(snd);
+
+            const value  = mapFn( head(eleStack) );
+
+            // console.log(value)
+            // console.log(jsNum(indexT))
+
+            const leftOrRight = value ? Right(value) : Left(value);
+            const nextStack   = push(newStack)(leftOrRight);
+
+            return pair
+                (nextStack)
+                (getPreStack(eleStack));
         }
-        return s;
-    };
+    )(initPair)
+    (fst);
+}
 
-    times(iteration)(reversedStack);
-};
+const maybes = (...ms) => fn => {
+    const elementStack = convertArrayToStack(ms)
+    const times = size(elementStack);
+
+    const initPair = pair(emptyStack)(n1);
+
+    return times(argsPair => {
+            const indexT = argsPair(snd);
+            const stackT = argsPair(fst);
+
+            const value = fn(getElementByIndex(elementStack)(indexT))
+
+            console.log(value)
+            console.log(jsNum(indexT))
+
+            if (!value) {
+                console.log(getElementByIndex(elementStack)(indexT) + " is not valid")
+                const newMissingStack = push(stackT)(getElementByIndex(elementStack)(indexT) + " is not valid")
+                return pair(newMissingStack)(succ(indexT))
+            }
+
+            const newWithValueStack = push(stackT)(value)
+            return pair(newWithValueStack)(succ(indexT))
+        }
+    )(initPair)
+    (fst);
+}
 
 
-/**
- * Foreach implementation for stack
- * A function that expects a stack and a callback function.
- * The current element of the stack iteration and the index of this element is passed to this callback function
- *
- * @param stack
- * @return {function(callbackFunc:function): void}
- * @example
- * const stackWithNumbers = convertArrayToStack([5,10,15])
- *
- * forEach( stackWithNumbers )( (element, index) => console.log("At Index " + index + " is the Element " + element) );
- *
- * // Console-Output is:
- * // At Index 1 is the Element 5
- * // At Index 2 is the Element 10
- * // At Index 3 is the Element 15
- */
+// const maybes = (...ms) => fn => {
+//     const elementStack = convertArrayToStack(ms)
+//     const mappedStacks = map(fn)(elementStack);
+//     const times        = size(mappedStacks);
+//
+//     const initTriple  = triple
+//                             (mappedStacks)
+//                             (n1)
+//                             (emptyStack);
+//
+//     times(argsTriple => {
+//         const indexT = argsPair(snd);
+//         const stackT = argsPair(fst);
+//
+//         const value = getElementByIndex(mappedStacks)(indexT)
+//
+//         console.log(value)
+//         console.log(jsNum(indexT))
+//
+//         if(value === undefined ){
+//             console.log(getElementByIndex(elementStack)(indexT) + " is not valid")
+//         }
+//
+//         return triple
+//             (mappedStacks)
+//             (succ(indexT))
+//             ()
+//     })(initTriple);
+// }
+
 const forEach = stack => callbackFunc => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1037,7 +1091,7 @@ const forEach = stack => callbackFunc => {
 
         callbackFunc(element, index);
 
-        return pair(getPreStack(s))( succ(index) );
+        return pair(getPreStack(s))(index + 1);
     }
 
     const iteration = p =>
@@ -1045,15 +1099,11 @@ const forEach = stack => callbackFunc => {
         (Then(invokeCallback(p)))
         (Else(p));
 
-    times(iteration)(pair(reversedStack)( n1 ));
+    times
+    (iteration)(pair(reversedStack)(1));
 };
 
-/**
- * Remove element by given Index
- *
- * @param {stack} stack without the element
- * @example
- */
+
 const removeByIndex = stack => index => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1079,11 +1129,6 @@ const removeByIndex = stack => index => {
 }
 
 
-/**
- *
- * @param  {stack} currentStack
- * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
- */
 const removeByCondition = currentStack => resultStack => index => currentIndex => {
     const currentElement = head(currentStack);
     const indexNumber = typeof index === "number" ? toChurchNum(index) : index;
@@ -1098,26 +1143,6 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
 }
 
 
-/**
- * Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
- *
- * @param  {stack} s1
- * @return {function(s2:stack)} a concated stack
- *
- * @haskell concat :: [a] -> [a] -> [a]
- *
- * @example
- * const elements1          = convertArrayToStack( ["Hello", "Haskell"] );
- * const elements2          = convertArrayToStack( ["World", "Random"] );
- * const concatenatedStacks = concat( elements1 )( elements2 );
- *
- * jsNum( size( concatenatedStacks ) )          === 4
- * getElementByIndex( concatenatedStacks )( 0 ) === id
- * getElementByIndex( concatenatedStacks )( 1 ) === "Hello"
- * getElementByIndex( concatenatedStacks )( 2 ) === "Haskell"
- * getElementByIndex( concatenatedStacks )( 3 ) === "World"
- * getElementByIndex( concatenatedStacks )( 4 ) === "Random"
- */
 const concat = s1 => s2 =>
     s1 === emptyStack
         ? s2
@@ -1125,55 +1150,10 @@ const concat = s1 => s2 =>
         ? s1
         : reduce((acc, curr) => push(acc)(curr))(s1)(s2);
 
-/**
- *
- *
- * @param {stack} stack
- * @return {stack} a flatten stack
- *
- * @example
- * const s1            = convertArrayToStack([1, 2]);
- * const s2            = convertArrayToStack([3, 4]);
- * const s3            = convertArrayToStack([5, 6]);
- * const stackOfStacks = convertArrayToStack([s1, s2, s3]);
- *
- * const flattenStack  = flatten(stackOfStacks);
- *
- * jsNum( size( flattenStack ) )          ===  6
- *
- * getElementByIndex( flattenStack )( 0 ) === id
- * getElementByIndex( flattenStack )( 1 ) ===  1
- * getElementByIndex( flattenStack )( 2 ) ===  2
- * getElementByIndex( flattenStack )( 3 ) ===  3
- * getElementByIndex( flattenStack )( 4 ) ===  4
- * getElementByIndex( flattenStack )( 5 ) ===  5
- * getElementByIndex( flattenStack )( 6 ) ===  6
- */
+
 const flatten = reduce((acc, curr) => concat(acc)(curr))(emptyStack);
 
 
-/**
- *  Zip (combine) with two Stacks and apply a function
- *
- * @haskell zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
- *
- * @param {function} f
- * @return { function(s1:stack): function(s2:stack): stack}
- *
- * @example
- * const add = x => y => x + y;
- * const s1  = convertArrayToStack([1, 2, 3]);
- * const s2  = convertArrayToStack([4, 5, 6]);
- *
- * const zippedStack = zipWith(add)(s1)(s2);
- *
- * jsNum( size( zippedStack ) )          ===  3
- *
- * getElementByIndex( zippedStack )( 0 ) === id
- * getElementByIndex( zippedStack )( 1 ) ===  5
- * getElementByIndex( zippedStack )( 2 ) ===  7
- * getElementByIndex( zippedStack )( 3 ) ===  9
- */
 const zipWith = f => s1 => s2 => {
     const size1 = size(s1);
     const size2 = size(s2);
@@ -1211,34 +1191,7 @@ const zipWith = f => s1 => s2 => {
     (thirdOfTriple);
 }
 
-const zipWithOneLiner = null;
-// const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
 
-// const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
-// ((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
-// (t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
-// (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
-// ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
-// (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
-
-
-// TODO: zip with empty stacks ?
-/**
- * Zip (combine) two Stack to one stack of pairs
- * @haskell zip :: [a] -> [b] -> [(a, b)]
- *
- * @type {function(triple): function(triple): triple}
- * @example
- * const s1 = convertArrayToStack([1, 2]);
- * const s2 = convertArrayToStack([3, 4]);
- *
- * const zippedStack = zip(s1)(s2);
- *
- * jsNum( size(zippedStack) )          === 2
- * getElementByIndex( zippedStack )(0) === id
- * getElementByIndex( zippedStack )(1) === pair(1)(3)
- * getElementByIndex( zippedStack )(2) === pair(2)(4)
- */
 const zip = zipWith(pair);
 
 
@@ -1292,24 +1245,11 @@ const Nothing = Left();
 const Just = Right;
 
 
-/**
- * unpacks the Maybe element if it is there, otherwise it returns the default value
- *
- * @param maybeObject
- * @return {function(defaultVal:function): *} maybe value or given default value
- * @example
- * getOrDefault( maybeDiv(6)(2) )( "Can't divide by zero" ) === 3
- * getOrDefault( maybeDiv(6)(0) )( "Can't divide by zero" ) === "Can't divide by zero"
- */
 const getOrDefault = maybeObject => defaultVal =>
     maybeObject(() => defaultVal)
     (id)
 
-/**
- *
- * @param  {number} num
- * @return {function(divisor:number): Just|Nothing} a Maybe (Just with the divided value or Nothing)
- */
+
 const maybeDiv = num => divisor =>
     Number.isInteger(num) &&
     Number.isInteger(divisor) &&
@@ -1318,14 +1258,6 @@ const maybeDiv = num => divisor =>
         : Nothing
 
 
-// const getJsNumberOrFunction = val =>
-//     getOrDefault( maybeNumber(val) )( getOrDefault( maybeFunction(val) ) (Nothing) )
-
-/**
- * Take the element as maybe value if the element is a truthy value inclusive number Zero
- * @param  {*} element
- * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
- */
 const maybeElement = element =>
     element || element === 0
         ? Just(element)
@@ -1399,31 +1331,6 @@ const eitherAnyOrError = f => {
 }
 
 
-/**
- * Generic Types
- * @typedef {function} pair
- * @typedef {function} churchBoolean
- * @typedef {function} churchNumber
- * @typedef {function} stack
- * @typedef {function} listMap
- */
-
-
-/**
- * index -> predecessor -> pair -> f -> f(index)(predecessor)(head) ; Triple
- *
- * The listMap is a pure functional data structure and is therefore immutable.
- * The listMap is implemented as a stack aka triplet.
- * So the listMap have all the features and functionality that have the stack too.
- *
- * The first value of the listMap represents the size (number of elements) of the listMap.
- * At the same time the first value represents the index of the head (top value) of the listMap.
- * The second value represents the predecessor listMap
- * The third value represents the head ( top value ) of the listMap
- *
- * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
- * @return {triple} listMap as stack
- */
 const listMap = stack
 
 /**
@@ -1436,32 +1343,13 @@ const listMap = stack
  */
 const emptyListMap = listMap(n0)(id)(pair(id)(id));
 
-/**
- * A help function to create a new listMap
- */
+
 const startListMap = f => f(emptyListMap);
 
 
-/**
- *
- * @param obj
- * @return {*}
- */
 const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
 
-/**
- * Get the element in the ListMap by the key (Js-Number)
- *
- * @function
- * @param listMap
- * @return {function(key:Number): *} element (value) or id if key not exist
- * @example
- * const testListMap = convertObjToListMap( {1: "Hans", 2: "Peter", 3: 42} )
- *
- * getElementByKey( testListMap )( 1 ) === "Hans"
- * getElementByKey( testListMap )( 2 ) === "Peter"
- * getElementByKey( testListMap )( 3 ) === 42
- */
+
 const getElementByKey = listMap => key => {
     const times = size(listMap);
     const initArgsPair = pair(listMap)(id);
@@ -1480,20 +1368,6 @@ const getElementByKey = listMap => key => {
 };
 
 
-/**
- * Remove the element in the ListMap by the key (key could be anything that can be comparable. Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
- *
- * @function
- * @param  {listMap} listMap
- * @return {function(key:*): *} element (value)
- * @example
- * const testListMap = convertObjToListMap( {1: "Hans", 2: "Peter", 3: 42} )
- *
- * jsnum( size(testListMap) ) === 3
- *
- * const listMapOneRemoved = removeByKey(testListMap)(1)
- * jsnum( size(listMapOneRemoved) ) === 2
- */
 const removeByKey = listMap => key => {
     const times = size(listMap);
     const reversedStack = reverseStack(listMap);
@@ -1513,9 +1387,7 @@ const removeByKey = listMap => key => {
     )(snd);
 }
 
-/**
- * @constructor A constructor for removeByKey
- */
+
 const removeByCon = currentStack => resultStack => key => {
     const currentKeyValPair = head(currentStack);
     const currentElement = currentKeyValPair(snd);
@@ -1533,167 +1405,31 @@ const filterListMap = f => filter(p => f(p(snd)));
 
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
 
-
-/**
- * Generic Types
- * @typedef {function} observable
- * @typedef {function} listMap
- */
-
-
-/**
- * initialValue -> Observable
- *  InitObservable - create new Observable incl. the initialValue
- *
- * @haskell InitObservable :: a -> Observable
- *
- * @function
- * @param {number|churchNumber|string} initialValue
- * @return {observable} - a Observable with an emptyListMap & the InitialValue
- * @example
- * const obsExample = InitObservable(0)
- *                          (addListener)(consoleHandler)
- *                          (addListener)(valueHandler)
- */
 const InitObservable = initialValue => Observable(emptyListMap)(initialValue)(setValue)(initialValue)
 
 
-/**
- * listeners -> value -> observableFunction -> observableFunction
- * Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
- *
- * @haskell InitObservable :: [a] -> b -> c -> c
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(obsFn:function): *}
- */
 const Observable = listeners => value => obsFn =>
     obsFn(listeners)(value)
 
 
-/**
- * listeners -> oldValue -> newValue -> Observable ; setValue
- * set the new value and notify all listeners
- *
- * @extends Observable
- *
- * @haskell setValue :: [a] -> b -> b -> Observable
- *
- * @function
- * @param {listMap} listeners
- * @return {function(oldValue:*): function(newValue:*): function(Function) : Observable}
- * @example
- * let obsExample = InitObservable(0)
- * testObs(getValue) === 0
- *
- * testObs = testObs(setValue)(42)
- * testObs(getValue) === 42
- */
 const setValue = listeners => oldValue => newValue => {
     forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
     return Observable(listeners)(newValue)
 }
 
-/**
- * listeners -> value -> newListener -> Observable ; addListener
- * add new Observable to the ListenerList
- *
- * @haskell addListener :: [a] -> b -> [a] -> Observable
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(newListener:listMap): function(Function) : Observable}
- *
- */
 const addListener = listeners => value => newListener => {
     newListener(snd)(value)(value)
     return Observable(push(listeners)(newListener))(value)
 }
 
-/**
- * listeners -> value -> value ; getValue
- *  get the value of Observable
- *
- * @extends Observable
- *
- * @haskell getValue :: [a] -> b -> b
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(value:*)}
- * @example
- * let obsExample = InitObservable(0)
- * testObs(getValue) === 0
- *
- * testObs = testObs(setValue)(42)
- * testObs(getValue) === 42
- */
+
 const getValue = listeners => value => value
 
-/**
- * listeners -> value -> listenerKey ; removeListenerByKey
- * Remove a Listener by his key
- * @extends Observable
- *
- * @haskell removeListenerByKey :: [a] -> b -> c
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
- * @example
- * const valueHolder  = {};
- * const valueHandler = handlerBuilder(42)(buildHandlerFnValue(valueHolder))
- *
- * let obsExample = InitObservable(0)
- *                  (addListener)(valueHandler)
- *
- * obsExample = obsExample(setValue)(11)
- *
- * valueHolder.value    === 11
- * obsExample(getValue) === 11
- *
- * obsExample = obsExample(removeListenerByKey)(42)
- *
- * obsExample = obsExample(setValue)(66)
- *
- * valueHolder.value    === 11
- * obsExample(getValue) === 66
- */
+
 const removeListenerByKey = listeners => value => listenerKey =>
     Observable(removeByKey(listeners)(listenerKey))(value)
 
 
-/**
- * listeners -> value -> listenerKey ; removeListenerByKey
- * Remove a Listener by his key
- * @extends Observable
- *
- * @haskell removeListenerByKey :: [a] -> b -> c
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
- * @example
- * const valueHolder  = {};
- * const valueHandler = handlerBuilder(42)(buildHandlerFnValue(valueHolder))
- *
- * let obsExample = InitObservable(0)
- *                  (addListener)(valueHandler)
- *
- * obsExample = obsExample(setValue)(11)
- *
- * valueHolder.value    === 11
- * obsExample(getValue) === 11
- *
- * obsExample = obsExample(removeListenerByHandler)(valueHandler)
- *
- * obsExample = obsExample(setValue)(66)
- *
- * valueHolder.value    === 11
- * obsExample(getValue) === 66
- *
- */
 const removeListenerByHandler = listeners => value => handler =>
     Observable(removeByKey(listeners)(handler(fst)))(value)
 
@@ -1779,13 +1515,13 @@ const HttpGet = url => callback => {
 
     xmlHttp.onreadystatechange = () =>
         (xmlHttp.readyState > 1 && xmlHttp.readyState < 4)
-                ? (xmlHttp.status < 200 || xmlHttp.status >= 300)                            ? xmlHttp.abort()                      : () => console.log("not readystate: " + xmlHttp.readyState)
-                : (xmlHttp.readyState === 4 && xmlHttp.status >= 200 && xmlHttp.status <300) ? callback(xmlHttp.responseText) : () => console.error("error fetch data")
+            ? (xmlHttp.status < 200 || xmlHttp.status >= 300) ? xmlHttp.abort() : () => console.log("not readystate: " + xmlHttp.readyState)
+            : (xmlHttp.readyState === 4 && xmlHttp.status >= 200 && xmlHttp.status < 300) ? callback(xmlHttp.responseText) : () => console.error("error fetch data")
 
 
     xmlHttp.open("GET", url, true);
-    xmlHttp.timeout = 10*1000;                     //10 seconds
-    xmlHttp.ontimeout = () =>  console.error("timeout");
+    xmlHttp.timeout = 10 * 1000;                     //10 seconds
+    xmlHttp.ontimeout = () => console.error("timeout");
     xmlHttp.send();
 }
 

@@ -45,7 +45,7 @@ import {
     pushToStack,
     reduce,
     removeByIndex,
-    reverseStack, getIndexOfElement, containsElement,
+    reverseStack, getIndexOfElement, containsElement, maybeIndexOfElement,
     size,
     stackEquals,
     stackPredecessor,
@@ -703,15 +703,17 @@ stackSuite.add("maybeElementByJsnumIndex", assert => {
     // assert.equals(maybeElementByJsnumIndex(s1)({}), undefined);
 });
 
-stackSuite.add("getIndexOfElement ", assert => {
+stackSuite.add("maybe-/getIndexOfElement ", assert => {
     const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
 
-    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(-1), False)
+    assert.equals( maybeIndexOfElement(stackWithNumbers)(-1), Nothing)
+    assert.equals( getIndexOfElement(stackWithNumbers)(-1), undefined)
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(0), n1)
+    assert.churchNumberEquals( maybeIndexOfElement(stackWithNumbers)(0)("not found")(id), n1)
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(11),n2)
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(22),n3)
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(33),n4)
-    assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(44), False)
+    assert.equals( getIndexOfElement(stackWithNumbers)(44), undefined)
 
     assert.churchNumberEquals( n0 , False) // n0 === False
 
@@ -721,7 +723,7 @@ stackSuite.add("getIndexOfElement ", assert => {
     assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("a"), n1)
     assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("b"), n2)
     assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("c"), n3)
-    assert.churchNumberEquals( getIndexOfElement(stackWithStrings)("xx"), False)
+    assert.equals( getIndexOfElement(stackWithStrings)("xx"), undefined)
 });
 
 stackSuite.add("containsElement ", assert => {

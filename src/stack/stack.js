@@ -56,7 +56,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement
+    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement,maybeIndexOfElement
 }
 
 /**
@@ -221,7 +221,7 @@ const size = getStackIndex;
  * @param  {function} reduceFn
  * @return {function(initialValue:*): function(s:stack): function(stack)} reduced value
  * @example
- * const stackWithNumbers  = push(push(push(emptyStack)(0))(1))(2);
+ * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
  * const reduceFunctionSum = (acc, curr) => acc + curr;
  * reduce( reduceFunctionSum )( 0 )( stackWithNumbers )          ===  3
@@ -247,16 +247,29 @@ const reduce = reduceFn => initialValue => s => {
             return triple(preStack)(reduceFunction)(acc);
         }
 
-        return If( hasPre(stack))
-                (Then( getTriple(argsTriple)))
+        return If( hasPre(stack) )
+                (Then( getTriple(argsTriple)) )
                 (Else( argsTriple) );
     };
 
     const times = size(s);
-    const reversedStack = times(reduceIteration)(triple(s)((acc, curr) => push(acc)(curr))(emptyStack))(thirdOfTriple);
-    const argsTriple    = triple(reversedStack)(reduceFn)(initialValue);
+    const reversedStack = times
+                            (reduceIteration)
+                                (triple
+                                    (s)
+                                    ((acc, curr) => push(acc)(curr))
+                                    (emptyStack)
+                                )(thirdOfTriple);
 
-    return (times(reduceIteration)(argsTriple))(thirdOfTriple);
+    const argsTriple    = triple
+                            (reversedStack)
+                            (reduceFn)
+                            (initialValue);
+
+    return (times
+                (reduceIteration)
+                (argsTriple)
+            )(thirdOfTriple);
 };
 
 /**
@@ -268,7 +281,7 @@ const reduce = reduceFn => initialValue => s => {
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : * } stack-value or undefined not exist
  * @example
- * const stackWithNumbers = push(push(push(emptyStack)(0))(1))(2);
+ * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
  * getElementByIndex( stackWithNumbers )( n0 ) === id
  * getElementByIndex( stackWithNumbers )( n1 ) ===  0
@@ -294,7 +307,7 @@ const getElementByIndex = stack => index =>
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
  * @example
- * const stackWithNumbers = push(push(push(emptyStack)(0))(1))(2);
+ * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
  * maybeElementByIndex( stackWithNumbers )( n0 ) === Just(id)
  * maybeElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
@@ -366,7 +379,22 @@ const getElementByJsnumIndex = s => i => {
             )(snd);
 };
 
-// gives the church index
+
+/**
+ * A function that takes a stack and an element. The function returns the index (ChurchNumber) of the element from the passed stack.
+ * Returns undefined when element does not exist in the stack.
+ *
+ * @function
+ * @param {stack} s
+ * @return { function(element:*) : churchNumber|undefined } a ChurchNumber or undefined
+ * @example
+ * const stackWithNumbers  = convertArrayToStack([0,1,2]);
+ *
+ * getIndexOfElement( stackWithNumbers )(  0 ) === n1
+ * getIndexOfElement( stackWithNumbers )(  1 ) === n2
+ * getIndexOfElement( stackWithNumbers )(  2 ) === n3
+ * getIndexOfElement( stackWithNumbers )( 42 ) === undefined
+ */
 const getIndexOfElement = s => element => {
 
     const getIndex = argsPair => {
@@ -374,19 +402,47 @@ const getIndexOfElement = s => element => {
         const result = pair(getPreStack(stack));
 
         return If( convertJsBoolToChurchBool(head(stack) === element))
-                (Then( result(getStackIndex(stack)) ) )
-                (Else( result(argsPair(snd))        ) );
+                    (Then( result(getStackIndex(stack)) ) )
+                    (Else( result(argsPair(snd))        ) );
     }
 
     const times        = succ(size(s));
-    const initArgsPair = pair(s)(False); // TODO: set value to undefined
+    const initArgsPair = pair(s)(undefined);
 
     return (times
                 (getIndex)(initArgsPair)
             )(snd);
 }
 
-const containsElement = s => element => not(is0(getIndexOfElement(s)(element)));
+/**
+ * A function that takes a stack and an element. The function returns a maybe-Monade Just with the index (ChurchNumber) of the element from the passed stack.
+ * Returns Nothing when element does not exist in the stack.
+ *
+ * @function
+ * @param {stack} s
+ * @return { function(element:*) : Just|Nothing } Just(withIndex) or Nothing
+ */
+const maybeIndexOfElement = s => element =>{
+    const result = getIndexOfElement(s)(element)
+    return result === undefined
+            ? Nothing
+            : Just(result)
+}
+
+/**
+ * A function that takes a stack and an element.
+ * Returns True (ChurchBoolean) when element does exist in the stack.
+ * Returns False (ChurchBoolean) when element does not exist in the stack.
+ *
+ * @function
+ * @param {stack} s
+ * @return { function(element:*) : churchBoolean } True or False
+ */
+const containsElement = s => element =>
+    maybeIndexOfElement(s)(element)
+    (() => False)
+    (() => True);
+
 
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
@@ -394,9 +450,9 @@ const containsElement = s => element => not(is0(getIndexOfElement(s)(element)));
  * @param  {stack} s
  * @return {Array} Array
  * @example
- * const stackWithValues = convertArrayToStack([1,2,3])
+ * const stackWithValues = convertArrayToStack( [1,2,3] )
  *
- * convertArrayToStack(stackWithValues) === [1,2,3]
+ * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
@@ -405,9 +461,9 @@ const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
  *
  * @param  {Array} array
  * @return {stack} stack
- * const stackWithValues = convertArrayToStack([1,2,3])
+ * const stackWithValues = convertArrayToStack( [1,2,3] )
  *
- * convertArrayToStack(stackWithValues) === [1,2,3]
+ * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
@@ -689,20 +745,21 @@ const concat = s1 => s2 =>
           : reduce((acc, curr) => push(acc) (curr)) (s1) (s2);
 
 /**
+ * This function flatten a nested stack of stacks with values
  *
- *
- * @param {stack} stack
+ * @param  {stack} stack
  * @return {stack} a flatten stack
- *
  * @example
  * const s1            = convertArrayToStack([1, 2]);
  * const s2            = convertArrayToStack([3, 4]);
  * const s3            = convertArrayToStack([5, 6]);
  * const stackOfStacks = convertArrayToStack([s1, s2, s3]);
  *
- * const flattenStack  = flatten(stackOfStacks);
+ * const flattenStack  = flatten( stackOfStacks );
  *
  * jsNum( size( flattenStack ) )          ===  6
+ *
+ * convertStackToArray(flattenStack)      === [1,2,3,4,5,6]
  *
  * getElementByIndex( flattenStack )( 0 ) === id
  * getElementByIndex( flattenStack )( 1 ) ===  1
@@ -729,6 +786,8 @@ const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
  * const s2  = convertArrayToStack([4, 5, 6]);
  *
  * const zippedStack = zipWith(add)(s1)(s2);
+ *
+ * convertStackToArray( zippedStack )    === [5,7,9]
  *
  * jsNum( size( zippedStack ) )          ===  3
  *
