@@ -24,9 +24,7 @@ import {
     getDomElements,
     getDomElementAbstraction,
     maybeElement,
-    eitherJsNumOrOther,
-    eitherElementsOrErrors,
-    maybeElements
+    eitherJsNumOrOther
 } from "../../src/maybe/maybe.js";
 import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
 import {getElementByKey} from "../../src/listMap/listMap.js"

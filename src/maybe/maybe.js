@@ -8,7 +8,7 @@ export {
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
     getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage,
-    eitherAnyOrError, maybeDomElement, eitherElementsOrErrors, maybeElements
+    eitherAnyOrError, maybeDomElement
 }
 
 const Left   = x => f => _ => f (x);
@@ -152,23 +152,23 @@ const maybeElements = maybeFunc => (...elements) => {
     (stackWithElems)
 }
 
-const eitherElementsOrErrors = eitherFunc => (...elements) => {
-    const stackWithElems = convertArrayToStack(elements);
-
-    return reduce
-    ((acc, curr) => acc
-        ( stack => Left( (eitherFunc(curr))
-            (err => push(stack)(err))
-            (_ => stack) )
-        )
-        ( listMap => (eitherFunc(curr))
-            (err => Left(push(emptyStack)(err)) )
-            (val => Right(push(listMap)( pair(curr)(val) )) )
-        )
-    )
-    (Right(emptyListMap))
-    (stackWithElems);
-}
+// const eitherElementsOrErrors = eitherFunc => (...elements) => {
+//     const stackWithElems = convertArrayToStack(elements);
+//
+//     return reduce
+//     ((acc, curr) => acc
+//         ( stack => Left( (eitherFunc(curr))
+//             (err => push(stack)(err))
+//             (_ => stack) )
+//         )
+//         ( listMap => (eitherFunc(curr))
+//             (err => Left(push(emptyStack)(err)) )
+//             (val => Right(push(listMap)( pair(curr)(val) )) )
+//         )
+//     )
+//     (Right(emptyListMap))
+//     (stackWithElems);
+// }
 
 // key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
 // eitherElements2(str => t2(str))("inputtText", "newVeeealue")
