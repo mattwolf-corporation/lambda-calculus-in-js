@@ -8,7 +8,7 @@ export {
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
     getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage,
-    eitherAnyOrError, maybeDomElement
+    eitherAnyOrError, maybeDomElement, eitherElementsOrErrors, maybeElements
 }
 
 const Left   = x => f => _ => f (x);
@@ -131,46 +131,35 @@ const eitherAnyOrError = f => {
     }
 }
 
-// const startProgram = param1 => param2 => {};
-//
-// const t = str => {
-//     const elem = document.getElementById(str);
-//     return elem ? Just(elem) : Nothing;
-// }
-//
-// const t2 = str => {
-//     const elem = document.getElementById(str);
-//     return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-// }
-//
-// const maybeElements = maybeFunc => (...elements) => {
-//     const stackWithElems = convertArrayToStack(elements);
-//
-//     return reduce
-//     ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
-//     (Just(emptyListMap))
-//     (stackWithElems)
-// }
+const maybeElements = maybeFunc => (...elements) => {
+    const stackWithElems = convertArrayToStack(elements);
 
-// const eitherElementsOrErrors = eitherFunc => (...elements) => {
-//     const stackWithElems = convertArrayToStack(elements);
-//
-//     return reduce
-//     ((acc, curr) => acc
-//         ( stack => Left( (eitherFunc(curr))
-//             (err => push(stack)(err))
-//             (_ => stack) )
-//         )
-//         ( listMap => (eitherFunc(curr))
-//             (err => Left(push(emptyStack)(err)) )
-//             (val => Right(push(listMap)( pair(curr)(val) )) )
-//         )
-//     )
-//     (Right(emptyListMap))
-//     (stackWithElems);
-// }
+    return reduce
+    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
+    (Just(emptyListMap))
+    (stackWithElems)
+}
 
 // key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
+const eitherElementsOrErrors = eitherFunc => (...elements) => {
+    const stackWithElems = convertArrayToStack(elements);
+
+    return reduce
+    ((acc, curr) => acc
+        ( stack => Left( (eitherFunc(curr))
+            (err => push(stack)(err))
+            (_ => stack) )
+        )
+        ( listMap => (eitherFunc(curr))
+            (err => Left(push(emptyStack)(err)) )
+            (val => Right(push(listMap)( pair(curr)(val) )) )
+        )
+    )
+    (Right(emptyListMap))
+    (stackWithElems);
+}
+
+
 // eitherElements2(str => t2(str))("inputtText", "newVeeealue")
 // (stackOfErrors => logStackToConsole(stackOfErrors))
 // (listMapWithElements => { // TODO: array destructuring
