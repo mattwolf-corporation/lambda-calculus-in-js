@@ -82,7 +82,9 @@ const eitherDomElement = elemId =>
                 : Left(Error(`no element exist with id: ${elemId}`))
 
 const maybeDomElement = elemId =>
-    eitherDomElement(elemId)(Nothing)(Just)
+    eitherDomElement(elemId)
+        (_ => Nothing)
+        (e => Just(e))
 
 const getDomElementAbstraction = elemId =>
     eitherDomElement(elemId)(console.error)
