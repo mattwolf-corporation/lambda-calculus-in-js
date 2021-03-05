@@ -10,11 +10,11 @@ import {
     setValue,
     logListenersToConsole
 }from "../../observableListMap.js";
-import {getDomElements, Just, Nothing, } from "../../../maybe/maybe.js";
-import {convertArrayToStack, push, reduce, logStackToConsole, map} from "../../../stack/stack.js";
+import {getDomElements, Just, Nothing, mapEither, flatMapEither, Right, Left } from "../../../maybe/maybe.js";
+import {convertArrayToStack, push, reduce, logStackToConsole, map, emptyStack} from "../../../stack/stack.js";
 import {flatMapMaybe, mapMaybe} from "../../../box/box.js";
 import {pair, showPair, fst, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-import {emptyListMap} from "../../../listMap/listMap.js";
+import {emptyListMap, getElementByKey} from "../../../listMap/listMap.js";
 
 
 //// Test
@@ -24,6 +24,11 @@ const startProgram = param1 => param2 => {};
 const t = str => {
     const elem = document.getElementById(str);
     return elem ? Just(elem) : Nothing;
+}
+
+const t2 = str => {
+    const elem = document.getElementById(str);
+    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
 }
 
 const logListMapToConsole = listmap => {
@@ -42,18 +47,40 @@ const eitherElements = maybeFunc => (...elements) => {
     const stackWithElems = convertArrayToStack(elements);
 
     return reduce
-    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) )
-    )
+    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
     (Just(emptyListMap))
     (stackWithElems)
 }
+
+const eitherElements2 = eitherFunc => (...elements) => {
+    const stackWithElems = convertArrayToStack(elements);
+
+    return reduce
+    ((acc, curr) => acc
+                                ( stack => Left( (eitherFunc(curr))
+                                                        (err => push(stack)(err))
+                                                        (_ => stack) )
+                                )
+                                ( listMap => (eitherFunc(curr))
+                                                    (err => Left(push(emptyStack)(err)) )
+                                                    (val => Right(push(listMap)( pair(curr)(val) )) )
+                                )
+    )
+    (Right(emptyListMap))
+    (stackWithElems);
+}
 // key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
-eitherElements(str => t(str))("inputText", "newValue")(_ => console.error("failed!"))
-(listMap => {
+eitherElements2(str => t2(str))("inputtText", "newVeeealue")
+(stackOfErrors => logStackToConsole(stackOfErrors))
+(listMapWithElements => { // TODO: array destructuring
+        const [a,b,c] = convertStackToArray(stackOfElements);
         // logListMapToConsole(stack)
         // stack => console.log(stack)
-        const inputText = getElementByKey(listMap)("inputText");
-        const newValue = getElementByKey(listMap)("newValue");
+        const inputText = getElementByKey(listMapWithElements)("inputText");
+        const newValue = getElementByKey(listMapWithElements)("newValue");
+
+        console.log(inputText);
+        console.log(newValue);
 
         startProgram(inputText, newValue);
     }
