@@ -45,7 +45,7 @@ export {
  * The third value represents the head ( top value ) of the listMap
  *
  * @type {function(index:churchNumber): function(predecessor:stack):  function(value:*): function(f:function): ({f: {index value head}}) }
- * @return {triple} listMap as stack
+ * @return {triple} listMap as triple aka stack
  */
 const listMap = triple;
 
@@ -57,8 +57,8 @@ const listMap = triple;
  *
  * @type {function(Function): {f: {index, predecessor, head}}}
  */
-const emptyListMap = listMap(n0)(id)( pair(id)(id) ); // TODO: bei array to stack fehlt der list map dann die empty listmap
-// TODO: converter schreiben ähnlicg convert to Stack (initial einfach empylistmap)
+const emptyListMap = listMap(n0)(id)( pair(id)(id) );
+
 
 /**
  * A help function to create a new listMap
@@ -122,14 +122,22 @@ const removeByKey = listMap => key => {
     const times         = size(listMap);
     const reversedStack = reverseStack(listMap);
 
-    const iteration = argsPair => {
-        const currentStack  = argsPair(fst)
-        const resultStack   = argsPair(snd)
+    const removeByCon = currentStack => resultStack => key => {
+        const currentKeyValPair = head(currentStack);
+        const currentElement    = currentKeyValPair(snd);
+        const currentKey        = currentKeyValPair(fst);
+        const result            =  key === currentKey
+            ? resultStack
+            : push( resultStack )(pair( currentKey )( currentElement ));
 
-        return If( hasPre(currentStack) )
-                (Then( removeByCon(currentStack)(resultStack)(key) ))
-                (Else( argsPair ));
+        return pair( getPreStack(currentStack) )(result);
     }
+
+    const iteration = argsPair =>
+        If( hasPre(argsPair(fst)) )
+            (Then( removeByCon(argsPair(fst))(argsPair(snd))(key) ))
+            (Else( argsPair ));
+
 
     return (times
                 (iteration)
@@ -137,21 +145,6 @@ const removeByKey = listMap => key => {
             ) (snd);
 }
 
-/**
- * @constructor A constructor for removeByKey
- */
-const removeByCon = currentStack => resultStack => key => {
-    const currentKeyValPair = head(currentStack);
-    const currentElement    = currentKeyValPair(snd);
-    const currentKey        = currentKeyValPair(fst);
-    const result            =  key === currentKey
-                                   ? resultStack
-                                   : push( resultStack )(pair( currentKey )( currentElement ));
-
-    return pair( getPreStack(currentStack) )(result);
-}
-
-// TODO: aus key liste und aus value liste -> listmap erstellen mit Zip/zipWith
 
 const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 

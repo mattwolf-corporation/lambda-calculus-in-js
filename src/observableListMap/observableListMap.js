@@ -3,15 +3,16 @@ import {push, forEach, reduce} from "../stack/stack.js";
 import {pair, showPair, snd, fst, Else, If, Then, id} from "../lambda-calculus-library/lambda-calculus.js";
 
 export {
-    InitObservable, addListener, setValue, getValue, removeListenerByKey, removeListenerByHandler,
-    logListenersToConsole, handlerFnLogToConsole, handlerBuilder,
-    buildHandlerFnTextContent, buildHandlerFnTextContentOldValue, buildHandlerFnTextContentLength, buildHandlerFnValue
+    InitObservable, addListener, setValue, getValue, removeListenerByKey, removeListener,
+    logListenersToConsole, listenerLogToConsole, newListener,
+    listenerNewValueToDomElementTextContent, listenerOldValueToDomElementTextContent, listenerNewValueLengthToElementTextContent, listenerNewValueToElement
 
 }
 
 /**
  * Generic Types
  * @typedef {function} observable
+ * @typedef {function} listener
  * @typedef {function} listMap
  */
 
@@ -22,6 +23,7 @@ export {
  *
  * @haskell InitObservable :: [a] -> b -> c -> c
  *
+ * @sideeffects
  * @function
  * @param  {listMap} listeners
  * @return {function(value:*): function(obsFn:function): function(obsFn:function)} a Observable-Function
@@ -35,13 +37,14 @@ const Observable = listeners => value => obsFn =>
  *
  * @haskell InitObservable :: a -> Observable
  *
+ * @sideeffects
  * @function
  * @param {number|churchNumber|string} initialValue
  * @return {observable} - a Observable with an emptyListMap & the InitialValue
  * @example
  * const obsExample = InitObservable(0)
- *                          (addListener)(consoleHandler)
- *                          (addListener)(valueHandler)
+ *                          (addListener)( listenerLogToConsole      )
+ *                          (addListener)( listenerNewValueToElement )
  */
 const InitObservable = initialValue =>
     Observable(emptyListMap)(initialValue)(setValue)(initialValue)
@@ -61,7 +64,6 @@ const InitObservable = initialValue =>
  * @example
  * let obsExample = InitObservable(0)
  * testObs(getValue) === 0
- *
  * testObs = testObs(setValue)(42)
  * testObs(getValue) === 42
  */
@@ -117,23 +119,23 @@ const getValue = listeners => value => value;
  * @param {listMap} listeners
  * @return {function(value:*): function(listenerKey:*)}
  * @example
- * const valueHolder  = {};
- * const valueHandler = handlerBuilder(42)(buildHandlerFnValue(valueHolder))
+ * let observedObject = {};
+ * const listenerValue = newListener( 42 )( listenerNewValueToElement (valueHolder) );
  *
  * let obsExample = InitObservable(0)
- *                  (addListener)(valueHandler)
+ *                      (addListener)(listenerValue)
+ *
+ * observedObject.value === 0  // variable "observedObject" get updated from InitialValue
  *
  * obsExample = obsExample(setValue)(11)
  *
- * valueHolder.value    === 11
- * obsExample(getValue) === 11
+ * observedObject.value === 11  // variable "observedObject" get updated
  *
  * obsExample = obsExample(removeListenerByKey)(42)
  *
  * obsExample = obsExample(setValue)(66)
  *
- * valueHolder.value    === 11
- * obsExample(getValue) === 66
+ * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
 const removeListenerByKey = listeners => value => listenerKey =>
     Observable(removeByKey(listeners)(listenerKey))(value)
@@ -150,26 +152,25 @@ const removeListenerByKey = listeners => value => listenerKey =>
  * @param {listMap} listeners
  * @return {function(value:*): function(listenerKey:*)}
  * @example
- * let valueHolder; // a undefined value-holder example
- * const valueHandler = handlerBuilder(42)(newValue => oldValue => valueHolder = newValue) // creat a "valueHandler" with key 42, which pass the newValues from any Observable to the variable "valueHolder"
+ * let observedObject = {};
+ * const listenerValue = newListener( 42 )( listenerNewValueToElement (valueHolder) );
  *
  * let obsExample = InitObservable(0)
- *                      (addListener)(valueHandler) // add the "valueHandler" to the Observable "obsExample"
+ *                      (addListener)(listenerValue)
+ *
+ * observedObject.value === 0  // variable "observedObject" get updated from InitialValue
  *
  * obsExample = obsExample(setValue)(11)
  *
- * valueHolder.value    === 11 // variable "valueHolder" get updated
- * obsExample(getValue) === 11
+ * observedObject.value === 11  // variable "observedObject" get updated
  *
- * obsExample = obsExample(removeListenerByHandler)(valueHandler) // removes the "valueHanlder" from the Observable "obsExample"
+ * obsExample = obsExample(removeListener)(listenerValue)
  *
  * obsExample = obsExample(setValue)(66)
  *
- * valueHolder.value    === 11  // variable "valueHolder" getting no updates anymore
- * obsExample(getValue) === 66
- *
+ * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
-const removeListenerByHandler = listeners => value => handler =>
+const removeListener = listeners => value => handler =>
     Observable(removeByKey(listeners)(handler(fst)))(value)
 
 // Observable Tools
@@ -185,10 +186,25 @@ const logListenersToConsole = listeners => _ => {
 
 
 // Observable Handler-Utilities
-const handlerBuilder = key => handlerFn => pair(key)(handlerFn)
 
-const handlerFnLogToConsole                        = nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const buildHandlerFnTextContent         = element => nVal => oVal => element.textContent = nVal
-const buildHandlerFnTextContentOldValue = element => nVal => oVal => element.textContent = oVal
-const buildHandlerFnTextContentLength   = element => nVal => oVal => element.textContent = nVal.length
-const buildHandlerFnValue               = element => nVal => oVal => element.value = nVal
+/**
+ * Syntactic sugar for creating a pair of Key and Value for the new Listener.
+ * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
+ * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
+ *
+ * @function
+ * @param {*} key
+ * @return {function(listenerFn:function): listener} new listener for the observable
+ * @example
+ *
+ */
+const  newListener = key => listenerFn => pair(key)(listenerFn);
+
+/*
+    Listener-Functions
+ */
+const listenerLogToConsole                        =            nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
+const listenerNewValueToElement                   = element => nVal => oVal => element.value = nVal
+const listenerNewValueToDomElementTextContent     = element => nVal => oVal => element.textContent = nVal
+const listenerOldValueToDomElementTextContent     = element => nVal => oVal => element.textContent = oVal
+const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => element.textContent = nVal.length

@@ -1,13 +1,13 @@
 import {TestSuite, BenchmarkTest} from "../test.js";
 import {
     addListener,
-    buildHandlerFnValue,
+    listenerNewValueToElement,
     getValue,
-    handlerBuilder,
-    handlerFnLogToConsole,
+    newListener,
+    listenerLogToConsole,
     InitObservable,
     logListenersToConsole,
-    removeListenerByHandler,
+    removeListener,
     setValue
 } from "../../src/observableListMap/observableListMap.js";
 
@@ -18,7 +18,7 @@ observableListMapSuite.add("InitObservable", assert => {
 
     // first Listener
     const valueHolder = {};
-    const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
+    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
 
     assert.equals(valueHolder.value, undefined)
 
@@ -30,7 +30,7 @@ observableListMapSuite.add("InitObservable", assert => {
 
     // second Listener
     const valueHolder2 = {};
-    const valueHandler2 = handlerBuilder(867)(buildHandlerFnValue(valueHolder2))
+    const valueHandler2 = newListener(867)(listenerNewValueToElement(valueHolder2))
 
     testObs = testObs(addListener)(valueHandler2)
 
@@ -39,10 +39,10 @@ observableListMapSuite.add("InitObservable", assert => {
 });
 
 observableListMapSuite.add("setValue", assert => {
-    const consoleHandler = handlerBuilder(42)(handlerFnLogToConsole)
+    const consoleHandler = newListener(42)(listenerLogToConsole)
 
     const valueHolder = {};
-    const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
+    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
 
     let testObs;
     const methodeUnderTest1 = () => testObs = InitObservable(0)
@@ -78,10 +78,10 @@ observableListMapSuite.add("getValue", assert => {
 });
 
 observableListMapSuite.add("logListenersToConsole", assert => {
-    const consoleHandler = handlerBuilder(42)(handlerFnLogToConsole)
+    const consoleHandler = newListener(42)(listenerLogToConsole)
 
     const valueHolder = {};
-    const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
+    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
 
 
     let testObs;
@@ -99,37 +99,38 @@ observableListMapSuite.add("logListenersToConsole", assert => {
     assert.consoleLogEquals(() => testObs(logListenersToConsole), ...expectedLogs)
 });
 
-observableListMapSuite.add("removeListenerByHandler", assert => {
+observableListMapSuite.add("removeListener", assert => {
     // given
-    const consoleHandler = handlerBuilder(42)(handlerFnLogToConsole)
+    const listenerConsoleLog = newListener(42)(listenerLogToConsole)
 
-    const valueHolder = {};
-    const valueHandler = handlerBuilder(43)(buildHandlerFnValue(valueHolder))
+    const observedObject = {};
+    const listenerValue = newListener(43)(listenerNewValueToElement(observedObject))
 
     // when 1
     let testObs;
     const methodeUnderTest = () => testObs = InitObservable(0)
-                                                    (addListener)(consoleHandler)
-                                                    (addListener)(valueHandler)
+                                                    (addListener)(listenerConsoleLog)
+                                                    (addListener)(listenerValue)
 
     assert.consoleLogEquals(methodeUnderTest, "Value: new = 0, old = 0")
+    assert.equals(observedObject.value, 0)
 
     const methodUnderTest1 = () => testObs = testObs(setValue)(66);
 
     // then 1
     assert.consoleLogEquals(methodUnderTest1, "Value: new = 66, old = 0")
-    assert.equals(valueHolder.value, 66)
+    assert.equals(observedObject.value, 66)
     assert.equals(testObs(getValue), 66)
 
     // when 2
     const methodUnderTest2 = () => testObs = testObs(setValue)(100);
 
-    testObs = testObs(removeListenerByHandler)(consoleHandler)
-    testObs = testObs(removeListenerByHandler)(valueHandler)
+    testObs = testObs(removeListener)(listenerConsoleLog)
+    testObs = testObs(removeListener)(listenerValue)
 
     // then 2
     assert.consoleLogEquals(methodUnderTest2, ...[])
-    assert.equals(valueHolder.value, 66)
+    assert.equals(observedObject.value, 66)
     assert.equals(testObs(getValue), 100)
 });
 
@@ -142,7 +143,7 @@ observableListMapSuite.add("benchmark test", assert => {
     // addListener
     for (let i = 0; i < 200; i++) { // limit to 6250
         const valueHolder = {};
-        const valueHandler = handlerBuilder(i)(buildHandlerFnValue(valueHolder))
+        const valueHandler = newListener(i)(listenerNewValueToElement(valueHolder))
         listOfValuesHandlers.push(valueHolder)
         testObs = testObs(addListener)(valueHandler)
     }

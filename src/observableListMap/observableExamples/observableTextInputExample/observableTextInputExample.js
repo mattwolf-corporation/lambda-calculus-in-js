@@ -1,53 +1,55 @@
 import {
     InitObservable,
     addListener,
-    removeListenerByHandler,
-    handlerFnLogToConsole,
-    buildHandlerFnTextContent,
-    buildHandlerFnTextContentOldValue,
-    handlerBuilder,
-    buildHandlerFnTextContentLength,
+    removeListener,
+    listenerLogToConsole,
+    listenerNewValueToDomElementTextContent,
+    listenerOldValueToDomElementTextContent,
+    newListener,
+    listenerNewValueLengthToElementTextContent,
     setValue
 }from "../../observableListMap.js";
 import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
 
-// The Elements from the Dom
+// Get some elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");
 
-// Define Observable-Handler
-const newValueHandler     = handlerBuilder(1)( buildHandlerFnTextContent          (newValue) );
-const oldValueHandler     = handlerBuilder(2)( buildHandlerFnTextContentOldValue  (oldValue) );
-const labelSizeHandler    = handlerBuilder(3)( buildHandlerFnTextContentLength    (sizes)    );
-const consoleHandler      = handlerBuilder(4)( handlerFnLogToConsole                         );
+// Create Listener
+const listenerNewValue      = newListener(1)( listenerNewValueToDomElementTextContent     (newValue) );
+const listenerOldValue      = newListener(2)( listenerOldValueToDomElementTextContent     (oldValue) );
+const listenerNewValueSize  = newListener(3)( listenerNewValueLengthToElementTextContent  (sizes)    );
+const listenerConsoleLog    = newListener(4)( listenerLogToConsole                                   );
 
-// Create Observable-Object, define InitVal and append the Observable-Handler as Listener
-let valueObservables = InitObservable("")
-                            (addListener)( newValueHandler  )
-                            (addListener)( oldValueHandler  )
-                            (addListener)( labelSizeHandler )
-                            (addListener)( consoleHandler   );
+// Create Observable-Object, define the Initial-Value and append the Listeners
+let textInputObservables = InitObservable("")
+                            (addListener)( listenerNewValue     )
+                            (addListener)( listenerOldValue      )
+                            (addListener)( listenerNewValueSize )
+                            (addListener)( listenerConsoleLog   );
 
-// Connect the Observables with the Input-Text-Field
-inputText.oninput = _ => valueObservables = valueObservables(setValue)(inputText.value);
+// Connect the Observables with the Input-Text-Field.
+// Every change in the Input-Field execute the 'setValue'-Function with the new value from Input-Field.
+inputText.oninput = _ =>
+    textInputObservables = textInputObservables(setValue)(inputText.value);
 
 
 //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
 const [unsubNewValue, unsubOldValue, unsubSize] = getDomElements("unsubNewValue", "unsubOldValue", "unsubSize");
 
 unsubNewValue.onclick = _ =>
-    valueObservables =
+    textInputObservables =
         unsubNewValue.checked
-            ? valueObservables(addListener)(newValueHandler)
-            : valueObservables(removeListenerByHandler)(newValueHandler);
+            ? textInputObservables(addListener)(listenerNewValue)
+            : textInputObservables(removeListener)(listenerNewValue);
 
 unsubOldValue.onclick = _ =>
-    valueObservables =
+    textInputObservables =
         unsubOldValue.checked
-            ? valueObservables(addListener)(oldValueHandler)
-            : valueObservables(removeListenerByHandler)(oldValueHandler);
+            ? textInputObservables(addListener)(listenerOldValue)
+            : textInputObservables(removeListener)(listenerOldValue);
 
 unsubSize.onclick = _ =>
-    valueObservables =
+    textInputObservables =
         unsubSize.checked
-            ? valueObservables(addListener)(labelSizeHandler)
-            : valueObservables(removeListenerByHandler)(labelSizeHandler);
+            ? textInputObservables(addListener)(listenerNewValueSize)
+            : textInputObservables(removeListener)(listenerNewValueSize);

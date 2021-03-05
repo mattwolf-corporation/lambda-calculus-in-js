@@ -1,6 +1,6 @@
 import {getDomElement} from "../../maybe/maybe.js";
 export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle}
-import {addListener, getValue, removeListenerByHandler, setValue} from "../observableListMap.js";
+import {addListener, getValue, removeListener, setValue} from "../observableListMap.js";
 
 
 const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'
@@ -29,7 +29,7 @@ const addUnSubscriberToggle = (observable, handlerName, toggleElement) => {
     toggleElement.labels[0].textContent = (toggleElement.checked ? "Subscribe " : "UnSubscribe ") + toggleElement.labels[0].title
 
     if (toggleElement.checked) {
-        return observable(removeListenerByHandler)(handlerName)
+        return observable(removeListener)(handlerName)
     } else {
         return observable(addListener)(handlerName)
     }

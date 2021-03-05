@@ -644,7 +644,6 @@ const forEachOld = stack => f => {
  */
 const forEach = stack => callbackFunc => {
 
-
     const invokeCallback = p => {
         const _stack   = p(fst);
         const _index   = p(snd);

@@ -3,8 +3,8 @@ import {
     addListener,
     setValue,
     getValue,
-    removeListenerByHandler,
-    handlerBuilder
+    removeListener,
+    newListener
 } from "../../observableListMap.js";
 import {
     firstOfTriple,
@@ -29,26 +29,26 @@ const getRed    = firstOfTriple;
 const getGreen  = secondOfTriple;
 const getBlue   = thirdOfTriple;
 
-const valueHandlerInputR       = handlerBuilder(1)(nVal => oVal => inputR.value                      = nVal( getRed   ));
-const valueHandlerRangeR       = handlerBuilder(2)(nVal => oVal => rangeR.value                      = nVal( getRed   ));
-const valueHandlerInputG       = handlerBuilder(3)(nVal => oVal => inputG.value                      = nVal( getGreen ));
-const valueHandlerRangeG       = handlerBuilder(4)(nVal => oVal => rangeG.value                      = nVal( getGreen ));
-const valueHandlerInputB       = handlerBuilder(5)(nVal => oVal => inputB.value                      = nVal( getBlue  ));
-const valueHandlerRangeB       = handlerBuilder(6)(nVal => oVal => rangeB.value                      = nVal( getBlue  ));
-const rgbHandlerBgColorRGB     = handlerBuilder(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const valueHandlerRgbTextRGB   = handlerBuilder(8)(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const valueHandlerHexTextRGB   = handlerBuilder(9)(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerInputR       = newListener(1)(nVal => oVal => inputR.value                      = nVal( getRed   ));
+const listenerRangeR       = newListener(2)(nVal => oVal => rangeR.value                      = nVal( getRed   ));
+const listenerInputG       = newListener(3)(nVal => oVal => inputG.value                      = nVal( getGreen ));
+const listenerRangeG       = newListener(4)(nVal => oVal => rangeG.value                      = nVal( getGreen ));
+const listenerInputB       = newListener(5)(nVal => oVal => inputB.value                      = nVal( getBlue  ));
+const listenerRangeB       = newListener(6)(nVal => oVal => rangeB.value                      = nVal( getBlue  ));
+const listenerBgColorRGB   = newListener(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerRgbTextRGB   = newListener(8)(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerHexTextRGB   = newListener(9)(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 
 let rgbObservable = InitObservable(triple(154)(211)(44))
-                                (addListener)( valueHandlerInputR     )
-                                (addListener)( valueHandlerRangeR     )
-                                (addListener)( valueHandlerInputG     )
-                                (addListener)( valueHandlerRangeG     )
-                                (addListener)( valueHandlerInputB     )
-                                (addListener)( valueHandlerRangeB     )
-                                (addListener)( rgbHandlerBgColorRGB   )
-                                (addListener)( valueHandlerRgbTextRGB )
-                                (addListener)( valueHandlerHexTextRGB );
+                                (addListener)( listenerInputR     )
+                                (addListener)( listenerRangeR     )
+                                (addListener)( listenerInputG     )
+                                (addListener)( listenerRangeG     )
+                                (addListener)( listenerInputB     )
+                                (addListener)( listenerRangeB     )
+                                (addListener)( listenerBgColorRGB   )
+                                (addListener)( listenerRgbTextRGB )
+                                (addListener)( listenerHexTextRGB );
 
 inputR.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
@@ -102,21 +102,21 @@ rangeB.oninput = _ =>
 // Toggleable Un/Subscribers
 const rgbResultElement = creatHtmlUnsubscribeToggle( "resultColor", "RGB-Background");
 rgbResultElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, rgbHandlerBgColorRGB, rgbResultElement );
+    rgbObservable = addUnSubscriberToggle(rgbObservable, listenerBgColorRGB, rgbResultElement );
 
 const rgbTextElement = creatHtmlUnsubscribeToggle("rgbValue", "RGB", true);
 rgbTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRgbTextRGB, rgbTextElement);
+    rgbObservable = addUnSubscriberToggle(rgbObservable, listenerRgbTextRGB, rgbTextElement);
 
 const hexTextElement = creatHtmlUnsubscribeToggle("hex", "HEX",true);
 hexTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerHexTextRGB, hexTextElement);
+    rgbObservable = addUnSubscriberToggle(rgbObservable, listenerHexTextRGB, hexTextElement);
 
 const inputRTextElement = creatHtmlUnsubscribeToggle("inputR","Input R", true);
 inputRTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerInputR, inputRTextElement);
+    rgbObservable = addUnSubscriberToggle(rgbObservable, listenerInputR, inputRTextElement);
 
 const rangeRTextElement = creatHtmlUnsubscribeToggle("rangeR", "Range R", true);
 rangeRTextElement.onclick = _ =>
-    rgbObservable = addUnSubscriberToggle(rgbObservable, valueHandlerRangeR, rangeRTextElement);
+    rgbObservable = addUnSubscriberToggle(rgbObservable, listenerRangeR, rangeRTextElement);
 
