@@ -23,7 +23,7 @@ import {
     getDomElement,
     getDomElements,
     getDomElementAbstraction,
-    maybeElement,
+    maybeElement, maybeDomElement,
     eitherJsNumOrOther,
     eitherElementsOrErrors,
     maybeElements
@@ -160,26 +160,22 @@ maybeSuite.add("getOrDefault", assert => {
 //     assert.equals( test("id"), Nothing);
 // });
 
-const t2 = str => {
-    const elem = document.getElementById(str);
-    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-}
 
 maybeSuite.add("eitherElementsOrErrors - good case", assert => {
     setup();
 
-    const result = eitherElementsOrErrors(str => t2(str))("test", "test2")
-    (stackOfErrors => id(stackOfErrors))
-    (listMapWithElements => id(listMapWithElements));
+    const result = eitherElementsOrErrors(eitherDomElement)("test", "test2")
+                            (stackOfErrors => id(stackOfErrors))
+                            (listMapWithElements => id(listMapWithElements));
 
     assert.equals( jsNum(size(result)), 2);
 
-    assert.pairEquals(getElementByIndex(result)(0), pair(id)(id));
-    assert.pairEquals(getElementByIndex(result)(1), pair("test")(dummyDomElem));
-    assert.pairEquals(getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
+    assert.pairEquals(  getElementByIndex(result)(0), pair(id)(id));
+    assert.pairEquals(  getElementByIndex(result)(1), pair("test")(dummyDomElem));
+    assert.pairEquals(  getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
 
-    assert.equals(getElementByKey(result)("test"), dummyDomElem);
-    assert.equals(getElementByKey(result)("test2"), dummyDomElem2);
+    assert.equals(  getElementByKey(result)("test"), dummyDomElem);
+    assert.equals(  getElementByKey(result)("test2"), dummyDomElem2);
 
     tearDown();
 });
@@ -187,15 +183,15 @@ maybeSuite.add("eitherElementsOrErrors - good case", assert => {
 maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
     setup();
 
-    const result = eitherElementsOrErrors(str => t2(str))("random1", "random2")
-    (stackOfErrors => id(stackOfErrors))
-    (listMapWithElements => id(listMapWithElements));
+    const result = eitherElementsOrErrors(eitherDomElement)("random1", "random2")
+                            (stackOfErrors =>       id(stackOfErrors))
+                            (listMapWithElements => id(listMapWithElements));
 
     assert.equals( jsNum(size(result)), 2);
 
-    assert.equals(getElementByIndex(result)(0), id);
-    assert.equals(getElementByIndex(result)(1), "element with id: 'random1' does not exist");
-    assert.equals(getElementByIndex(result)(2), "element with id: 'random2' does not exist");
+    assert.equals(  getElementByIndex(result)(0), id);
+    assert.equals(  getElementByIndex(result)(1), Error("no element exist with id: random1"));
+    assert.equals(  getElementByIndex(result)(2), "Error: no element exist with id: random2");
 
     tearDown();
 });
@@ -208,22 +204,22 @@ const t = str => {
 maybeSuite.add("maybeElements", assert => {
     setup();
 
-    const result = maybeElements(str => t(str))("test", "test2")
-    (_ => id("failed"))
-    (listMapWithElements => id(listMapWithElements));
+    const result = maybeElements(maybeDomElement)("test", "test2")
+                    (_ => "failed")
+                    (listMapWithElements => id(listMapWithElements));
 
     assert.equals( jsNum(size(result)), 2);
 
-    assert.pairEquals(getElementByIndex(result)(0), pair(id)(id));
-    assert.pairEquals(getElementByIndex(result)(1), pair("test")(dummyDomElem));
-    assert.pairEquals(getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
+    assert.pairEquals(  getElementByIndex(result)(0), pair(id)(id));
+    assert.pairEquals(  getElementByIndex(result)(1), pair("test")(dummyDomElem));
+    assert.pairEquals(  getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
 
     assert.equals(getElementByKey(result)("test"), dummyDomElem);
     assert.equals(getElementByKey(result)("test2"), dummyDomElem2);
 
-    const failedResult = maybeElements(str => t(str))("random1", "random2")
-    (_ => id("failed"))
-    (_ => id("success"));
+    const failedResult = maybeElements( t )("random1", "random2")
+                                (_ => "failed")
+                                (_ => "success");
 
     assert.equals(failedResult, "failed");
 

@@ -79,7 +79,7 @@ const maybeElementWithCustomErrorMessage = errorMessage => element =>
 const eitherDomElement = elemId =>
     document.getElementById(elemId)
                 ? Right(document.getElementById(elemId))
-                : Left(new Error(`no element exist with id: ${elemId}`))
+                : Left(Error(`no element exist with id: ${elemId}`))
 
 const maybeDomElement = elemId =>
     eitherDomElement(elemId)(Nothing)(Just)
