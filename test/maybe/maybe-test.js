@@ -1,19 +1,19 @@
 import {TestSuite} from "../test.js";
 
 import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
-// import {
-//     n1,
-//     n2,
-//     n3,
-//     n4,
-//     n5,
-//     n6,
-//     n7,
-//     n8,
-//     n9,
-//     churchMultiplication,
-//     jsNum
-// } from "../../src/lambda-calculus-library/church-numerals.js";
+import {
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+    n6,
+    n7,
+    n8,
+    n9,
+    churchMultiplication,
+    jsNum
+} from "../../src/lambda-calculus-library/church-numerals.js";
 import {
     Nothing, Left, Right,
     Just,
@@ -24,23 +24,31 @@ import {
     getDomElements,
     getDomElementAbstraction,
     maybeElement,
-    eitherJsNumOrOther
+    eitherJsNumOrOther,
+    eitherElementsOrErrors,
+    maybeElements
 } from "../../src/maybe/maybe.js";
-// import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
-// import {getElementByKey} from "../../src/listMap/listMap.js"
+import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
+import {getElementByKey} from "../../src/listMap/listMap.js"
 
 const maybeSuite = TestSuite("Maybe");
 
 const dummyDomElem = document.createElement('div');
+const dummyDomElem2 = document.createElement('div');
 
 const setup = () => {
     dummyDomElem.setAttribute('id', 'test');
+    dummyDomElem2.setAttribute('id', 'test2');
     document.body.appendChild(dummyDomElem);
+    document.body.appendChild(dummyDomElem2);
 }
 
 const tearDown = () => {
     const dummyDomElem = document.getElementById('test')
+    const dummyDomElem2 = document.getElementById('test2')
+
     dummyDomElem.remove();
+    dummyDomElem2.remove();
 }
 
 maybeSuite.add("Nothing", assert => {
@@ -152,37 +160,74 @@ maybeSuite.add("getOrDefault", assert => {
 //     assert.equals( test("id"), Nothing);
 // });
 
-// const t2 = str => {
-//     const elem = document.getElementById(str);
-//     return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
-// }
+const t2 = str => {
+    const elem = document.getElementById(str);
+    return elem ? Right(elem) : Left(`element with id: '${str}' does not exist`);
+}
 
-// maybeSuite.add("eitherElementsOrErrors", assert => {
-//     setup();
-//
-//     // const result = eitherElementsOrErrors(str => t2(str))("test", "test")
-//     // (stackOfErrors => logStackToConsole(stackOfErrors))
-//     // (listMapWithElements => { // TODO: array destructuring
-//     //     // const [a,b,c] = convertStackToArray(stackOfElements); TODO: work this
-//     //     // logListMapToConsole(stack)
-//     //     // stack => console.log(stack)
-//     //     const inputText = getElementByKey(listMapWithElements)("inputText");
-//     //     const newValue = getElementByKey(listMapWithElements)("newValue");
-//     //
-//     //     console.log(inputText);
-//     //     console.log(newValue);
-//     //
-//     //     // startProgram(inputText, newValue);
-//     // });
-//     //
-//     // assert.equals( jsNum(size(result)), 2);
-//
-//     // assert.equals(getElementByIndex(zippedStack)(0), id);
-//     // assert.equals(getElementByIndex(zippedStack)(1), 5);
-//     // assert.equals(getElementByIndex(zippedStack)(2), 7);
-//     // assert.equals(getElementByIndex(zippedStack)(3), 9);
-//
-//     tearDown();
-// });
+maybeSuite.add("eitherElementsOrErrors - good case", assert => {
+    setup();
+
+    const result = eitherElementsOrErrors(str => t2(str))("test", "test2")
+    (stackOfErrors => id(stackOfErrors))
+    (listMapWithElements => id(listMapWithElements));
+
+    assert.equals( jsNum(size(result)), 2);
+
+    assert.pairEquals(getElementByIndex(result)(0), pair(id)(id));
+    assert.pairEquals(getElementByIndex(result)(1), pair("test")(dummyDomElem));
+    assert.pairEquals(getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
+
+    assert.equals(getElementByKey(result)("test"), dummyDomElem);
+    assert.equals(getElementByKey(result)("test2"), dummyDomElem2);
+
+    tearDown();
+});
+
+maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
+    setup();
+
+    const result = eitherElementsOrErrors(str => t2(str))("random1", "random2")
+    (stackOfErrors => id(stackOfErrors))
+    (listMapWithElements => id(listMapWithElements));
+
+    assert.equals( jsNum(size(result)), 2);
+
+    assert.equals(getElementByIndex(result)(0), id);
+    assert.equals(getElementByIndex(result)(1), "element with id: 'random1' does not exist");
+    assert.equals(getElementByIndex(result)(2), "element with id: 'random2' does not exist");
+
+    tearDown();
+});
+
+const t = str => {
+    const elem = document.getElementById(str);
+    return elem ? Just(elem) : Nothing;
+}
+
+maybeSuite.add("maybeElements", assert => {
+    setup();
+
+    const result = maybeElements(str => t(str))("test", "test2")
+    (_ => id("failed"))
+    (listMapWithElements => id(listMapWithElements));
+
+    assert.equals( jsNum(size(result)), 2);
+
+    assert.pairEquals(getElementByIndex(result)(0), pair(id)(id));
+    assert.pairEquals(getElementByIndex(result)(1), pair("test")(dummyDomElem));
+    assert.pairEquals(getElementByIndex(result)(2), pair("test2")(dummyDomElem2));
+
+    assert.equals(getElementByKey(result)("test"), dummyDomElem);
+    assert.equals(getElementByKey(result)("test2"), dummyDomElem2);
+
+    const failedResult = maybeElements(str => t(str))("random1", "random2")
+    (_ => id("failed"))
+    (_ => id("success"));
+
+    assert.equals(failedResult, "failed");
+
+    tearDown();
+});
 
 maybeSuite.report();
