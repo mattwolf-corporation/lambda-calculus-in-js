@@ -6,7 +6,8 @@ export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
-    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherAnyOrError, maybeDomElement
+    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage,
+    eitherAnyOrError, maybeDomElement, mapEither, flatMapEither
 }
 
 const Left   = x => f => _ => f (x);
@@ -131,6 +132,9 @@ const maybes = (...ms) => {
 
 //TODO: get or create method
 
+// maybe box methods
+const mapEither      = either => f => either (_ => either) (x => Right(f(x)));  // either.map
+const flatMapEither  = either => f => either (_ => either) (x =>       f(x));  // either.flatmap
 
 // const eitherElements = maybeFunc => elements => {
 //     const stackWithElems = convertArrayToStack(elements);
