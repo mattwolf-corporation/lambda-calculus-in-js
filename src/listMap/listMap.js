@@ -57,7 +57,8 @@ const listMap = stack
  *
  * @type {function(Function): {f: {index, predecessor, head}}}
  */
-const emptyListMap = listMap(n0)(id)( pair(id)(id) );
+const emptyListMap = listMap(n0)(id)( pair(id)(id) ); // TODO: bei array to stack fehlt der list map dann die empty listmap
+// TODO: converter schreiben ähnlicg convert to Stack (initial einfach empylistmap)
 
 /**
  * A help function to create a new listMap
@@ -149,6 +150,8 @@ const removeByCon = currentStack => resultStack => key => {
 
     return pair( getPreStack(currentStack) )(result);
 }
+
+// TODO: aus key liste und aus value liste -> listmap erstellen mit Zip/zipWith
 
 const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 

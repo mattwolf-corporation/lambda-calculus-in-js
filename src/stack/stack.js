@@ -47,6 +47,7 @@ import {
     is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
     toChurchNum, min, max
 } from '../lambda-calculus-library/church-numerals.js'
+//import {emptyListMap} from "../listMap/listMap.js";
 
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
@@ -771,6 +772,41 @@ const zipWith = f => s1 => s2 => {
         (thirdOfTriple);
 }
 
+// const zipWithListMap = f => s1 => s2 => {
+//
+//     const zipElements = t => {
+//         const s1    = t(firstOfTriple);
+//         const s2    = t(secondOfTriple);
+//         const acc   = t(thirdOfTriple);
+//
+//         const element1 = head(s1);
+//         const element2 = head(s2);
+//
+//         const result = push(acc)(f(element1)(element2));
+//
+//         return triple
+//         (getPreStack(s1))
+//         (getPreStack(s2))
+//         (result);
+//     }
+//
+//     const iteration = t =>
+//         If(hasPre(t(firstOfTriple)))
+//         (Then(zipElements(t)))
+//         (Else(t));
+//
+//     const times =  min(size(s1))(size(s2));
+//
+//     return times
+//     (iteration)
+//     (triple
+//         (reverseStack(s1))
+//         (reverseStack(s2))
+//         (emptyListMap)
+//     )
+//     (thirdOfTriple);
+// }
+
 const zipWithOneLiner = null;
 // const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
 
@@ -800,6 +836,8 @@ const zipWithOneLiner = null;
  * getElementByIndex( zippedStack )(2) === pair(2)(4)
  */
 const zip = zipWith(pair);
+//const zipListMap = zipWithListMap(pair);
+
 
 
 /**

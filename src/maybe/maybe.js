@@ -1,10 +1,12 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
+import {convertArrayToStack, reduce } from "../stack/stack.js";
+import {mapMaybe, flatMapMaybe} from "../box/box.js";
 
 export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDiv, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     getDomElementAbstraction, maybeElement, eitherJsNumOrOther, Left, Right,
-    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherAnyOrError
+    getDomElementsAsMaybe, eitherFunctionOrOther,  maybeElementWithCustomErrorMessage, eitherAnyOrError, maybeDomElement
 }
 
 const Left   = x => f => _ => f (x);
@@ -134,3 +136,24 @@ const maybes = (...ms) => {
 
 //TODO: get or create method
 
+
+// const eitherElements = maybeFunc => elements => {
+//     const stackWithElems = convertArrayToStack(elements);
+//     //const values = map(key => maybeFunc(key))(stackWithElems);
+//     // const pairs = elements.map(key => {
+//     //     const maybeElem = maybeFunc(key);
+//     //     return pair(key)(maybeElem);
+//     // });
+//
+//     //const listM = zipListMap(stackWithElems)(values);
+//
+//     // reduce((acc, curr) => mapMaybe(curr)(val => mapMaybe()))(emptyStack)(s)
+//     return reduce
+//     ((acc, curr) => flatMapMaybe(acc)(stack => mapMaybe(maybeFunc(curr))(val => push(stack)(pair(curr)(val)))))
+//     (emptyListMap)
+//     (stackWithElems)
+// }
+//
+// eitherElements(maybeDomElement)("inputText", "newValue")(_ => console.error("wtffff!"))(
+//     stack => console.log("Erfolg!!!")
+// )
