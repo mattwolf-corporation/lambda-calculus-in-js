@@ -1,6 +1,6 @@
 import {getDomElement} from "../../maybe/maybe.js";
 export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle}
-import {addListener, getValue, removeListener, setValue} from "../observableListMap.js";
+import {addListener, getValue, removeListener, setValue} from "../observable.js";
 
 
 const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'

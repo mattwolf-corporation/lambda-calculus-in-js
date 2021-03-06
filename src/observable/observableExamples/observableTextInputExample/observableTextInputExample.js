@@ -1,5 +1,5 @@
 import {
-    InitObservable,
+    Observable,
     addListener,
     removeListener,
     listenerLogToConsole,
@@ -8,7 +8,7 @@ import {
     newListener,
     listenerNewValueLengthToElementTextContent,
     setValue
-}from "../../observableListMap.js";
+}from "../../observable.js";
 import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
 
 // Get some elements from the Dom
@@ -21,9 +21,9 @@ const listenerNewValueSize  = newListener(3)( listenerNewValueLengthToElementTex
 const listenerConsoleLog    = newListener(4)( listenerLogToConsole                                   );
 
 // Create Observable-Object, define the Initial-Value and append the Listeners
-let textInputObservables = InitObservable("")
+let textInputObservables = Observable("")
                             (addListener)( listenerNewValue     )
-                            (addListener)( listenerOldValue      )
+                            (addListener)( listenerOldValue     )
                             (addListener)( listenerNewValueSize )
                             (addListener)( listenerConsoleLog   );
 
