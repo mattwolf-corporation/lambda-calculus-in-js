@@ -5,11 +5,11 @@ import {
     getValue,
     newListener,
     listenerLogToConsole,
-    InitObservable,
+    Observable,
     logListenersToConsole,
     removeListener,
     setValue
-} from "../../src/observableListMap/observableListMap.js";
+} from "../../src/observable/observable.js";
 
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
@@ -22,7 +22,7 @@ observableListMapSuite.add("InitObservable", assert => {
 
     assert.equals(valueHolder.value, undefined)
 
-    let testObs = InitObservable(42)
+    let testObs = Observable(42)
                 (addListener)(valueHandler)
 
     assert.equals(valueHolder.value, 42)
@@ -45,7 +45,7 @@ observableListMapSuite.add("setValue", assert => {
     const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
 
     let testObs;
-    const methodeUnderTest1 = () => testObs = InitObservable(0)
+    const methodeUnderTest1 = () => testObs = Observable(0)
                                                     (addListener)(consoleHandler)
                                                     (addListener)(valueHandler)
 
@@ -67,7 +67,7 @@ observableListMapSuite.add("setValue", assert => {
 
 observableListMapSuite.add("getValue", assert => {
 
-    let testObs = InitObservable(0)
+    let testObs = Observable(0)
     assert.equals(testObs(getValue), 0)
 
     testObs = testObs(setValue)(66)
@@ -85,7 +85,7 @@ observableListMapSuite.add("logListenersToConsole", assert => {
 
 
     let testObs;
-    const methodeUnderTest1 = () => testObs = InitObservable("hello")
+    const methodeUnderTest1 = () => testObs = Observable("hello")
                                                     (addListener)(consoleHandler)
                                                     (addListener)(valueHandler)
 
@@ -108,7 +108,7 @@ observableListMapSuite.add("removeListener", assert => {
 
     // when 1
     let testObs;
-    const methodeUnderTest = () => testObs = InitObservable(0)
+    const methodeUnderTest = () => testObs = Observable(0)
                                                     (addListener)(listenerConsoleLog)
                                                     (addListener)(listenerValue)
 
@@ -136,7 +136,7 @@ observableListMapSuite.add("removeListener", assert => {
 
 observableListMapSuite.add("benchmark test", assert => {
 
-    let testObs = InitObservable(0)
+    let testObs = Observable(0)
 
     let listOfValuesHandlers = []
 

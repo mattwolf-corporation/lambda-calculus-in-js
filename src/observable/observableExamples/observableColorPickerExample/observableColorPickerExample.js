@@ -1,11 +1,11 @@
 import {
-    InitObservable,
+    Observable,
     addListener,
     setValue,
     getValue,
     removeListener,
     newListener
-} from "../../observableListMap.js";
+} from "../../observable.js";
 import {
     firstOfTriple,
     secondOfTriple,
@@ -39,7 +39,7 @@ const listenerBgColorRGB   = newListener(7)(nVal => oVal => resultColor.style.ba
 const listenerRgbTextRGB   = newListener(8)(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 const listenerHexTextRGB   = newListener(9)(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 
-let rgbObservable = InitObservable(triple(154)(211)(44))
+let rgbObservable = Observable(triple(154)(211)(44))
                                 (addListener)( listenerInputR     )
                                 (addListener)( listenerRangeR     )
                                 (addListener)( listenerInputG     )
