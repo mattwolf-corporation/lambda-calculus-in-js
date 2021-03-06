@@ -19,7 +19,7 @@ import {
 } from '../lambda-calculus-library/lambda-calculus.js'
 
 import {
-    maybeElement,
+    maybeTruthy,
     getOrDefault,
     eitherFunction,
     eitherNumber,
@@ -27,7 +27,7 @@ import {
     Right,
     Just,
     Nothing,
-    eitherElementOrCustomErrorMessage, eitherTryCatch
+    eitherElementOrCustomErrorMessage, eitherTryCatch, eitherNotNullAndUndefined
 } from "../maybe/maybe.js";
 
 import {
@@ -47,7 +47,6 @@ import {
     is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
     toChurchNum, min, max
 } from '../lambda-calculus-library/church-numerals.js'
-//import {emptyListMap} from "../listMap/listMap.js";
 
 export {
     stack, stackIndex, stackPredecessor, stackValue, emptyStack,
@@ -296,49 +295,51 @@ const reduce = reduceFn => initialValue => s => {
  * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
  */
 const getElementByIndex = stack => index =>
-    maybeElementByIndex(stack)(index)
+    eitherElementByIndex(stack)(index)
     (console.error)
     (id);
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number). The function returns a maybe with the value or Nothing if not exist or illegal index argument
- * @haskell maybeElementByIndex :: stack -> number -> maybe
+ * @haskell eitherElementByIndex :: stack -> number -> maybe
  * @function
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
- * maybeElementByIndex( stackWithNumbers )( n0 ) === Just(id)
- * maybeElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
- * maybeElementByIndex( stackWithNumbers )( n2 ) ===  Just(1)
- * maybeElementByIndex( stackWithNumbers )( n3 ) ===  Just(2)
+ * eitherElementByIndex( stackWithNumbers )( n0 ) === Just(id)
+ * eitherElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
+ * eitherElementByIndex( stackWithNumbers )( n2 ) ===  Just(1)
+ * eitherElementByIndex( stackWithNumbers )( n3 ) ===  Just(2)
  *
- * maybeElementByIndex( stackWithNumbers )( 0 ) === Just(id)
- * maybeElementByIndex( stackWithNumbers )( 1 ) ===  Just(0)
- * maybeElementByIndex( stackWithNumbers )( 2 ) ===  Just(1)
- * maybeElementByIndex( stackWithNumbers )( 3 ) ===  Just(2)
+ * eitherElementByIndex( stackWithNumbers )( 0 ) === Just(id)
+ * eitherElementByIndex( stackWithNumbers )( 1 ) ===  Just(0)
+ * eitherElementByIndex( stackWithNumbers )( 2 ) ===  Just(1)
+ * eitherElementByIndex( stackWithNumbers )( 3 ) ===  Just(2)
  *
  * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
-const maybeElementByIndex = stack => index =>
+const eitherElementByIndex = stack => index =>
     eitherTryCatch(
         () => eitherFunction(stack) // stack value is NOT a stack aka function
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
             (_ => eitherNumber(index)
-                (_ => maybeElementByChurchIndex(stack)(index))
-                (_ => maybeElementByJsNumIndex (stack)(index))
+                (_ => eitherElementByChurchIndex(stack)(index))
+                (_ => eitherElementByJsNumIndex (stack)(index))
             ))
     (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
     (id) // return value
 
-const maybeElementByChurchIndex = stack => index =>
+const eitherElementByChurchIndex = stack => index =>
     eitherFunction(index)
-    (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-    (_ => eitherElementOrCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(index)));  // index is a Churmber
+        (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
+        (_ => eitherNotNullAndUndefined(getElementByChurchNumberIndex(stack)(index))(_ => Left("invalid index"))(e => Right(e)));
 
-const maybeElementByJsNumIndex = stack => index =>
-    eitherElementOrCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
+const eitherElementByJsNumIndex = stack => index =>
+    eitherNotNullAndUndefined(getElementByJsnumIndex(stack)(index))
+        (_ => Left("invalid index"))
+        (element => Right(element));
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
@@ -422,7 +423,7 @@ const getIndexOfElement = s => element => {
  * @param {stack} s
  * @return { function(element:*) : Just|Nothing } Just(withIndex) or Nothing
  */
-const maybeIndexOfElement = s => element =>{
+const maybeIndexOfElement = s => element => {
     const result = getIndexOfElement(s)(element)
     return result === undefined
             ? Nothing

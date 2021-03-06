@@ -5,7 +5,7 @@ import {
     chainMaybe, tryCatch, getContent, apply,
     liftA2, apMaybe, liftA2Maybe
 } from "../../src/box/box.js";
-import {maybeDivision, maybeElement, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
+import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
 import {HttpGetSync, HttpGet, jokeUrl, DataFlowVariable} from "../../src/IO/http.js";
@@ -279,7 +279,7 @@ boxSuite.add("maybeBox example", assert => {
 
 boxSuite.add("findColor maybeBox example", assert => {
     const findColor = name =>
-        maybeElement({red: '#ff4444', blue: '#3b5998', yellow: '#fff68f'}[name]);
+        maybeTruthy({red: '#ff4444', blue: '#3b5998', yellow: '#fff68f'}[name]);
 
     const findCol = c =>
         Box(findColor(c))

@@ -6,9 +6,9 @@ import {emptyListMap} from "../listMap/listMap.js";
 export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements,
-    eitherDomElementOrConsoleError, maybeElement, eitherNumber, Left, Right, eitherFunction,
+    eitherDomElementOrConsoleError, maybeTruthy, eitherNumber, Left, Right, eitherFunction,
     eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement,
-    eitherElementsOrErrorsByFunction, maybeElementsByFunction
+    eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined
 }
 
 const Left   = x => f => _ => f (x);
@@ -45,23 +45,28 @@ const maybeDivision = dividend => divisor =>
         ? Just(dividend / divisor)
         : Nothing;
 
-const eitherElement = element =>
+const eitherTruthy = element =>
     element
         ? Right(element)
         : Left(`'${element}' is a falsy value`);
+
+const eitherNotNullAndUndefined = element =>
+    element !== null && element !== undefined
+        ? Right(element)
+        : Left(`element is '${element}'`);
 
 /**
  * Take the element as maybe value if the element is a truthy value inclusive number Zero
  * @param  {*} element
  * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
  */
-const maybeElement = element =>
-    eitherElement(element)
+const maybeTruthy = element =>
+    eitherTruthy(element)
         (_ => Nothing)
         (_ => Just(element));
 
 const eitherElementOrCustomErrorMessage = errorMessage => element =>
-    eitherElement(element)
+    eitherTruthy(element)
         (_ => Left(errorMessage))
         (_ => Right(element));
 

@@ -23,7 +23,7 @@ import {
     getDomElement,
     getDomElements,
     eitherDomElementOrConsoleError,
-    maybeElement, maybeDomElement,
+    maybeTruthy, maybeDomElement,
     eitherNumber,
     eitherElementsOrErrorsByFunction,
     maybeElementsByFunction
@@ -65,12 +65,12 @@ maybeSuite.add("Just", assert => {
 });
 
 maybeSuite.add("maybeElement", assert => {
-    assert.equals( maybeElement(false)(() => 10)(() => 42), 10);
-    assert.equals( maybeElement(null)(() => 34)(() => 42), 34);
-    assert.equals( maybeElement(undefined)(() => 10)(() => 42), 10);
-    assert.equals( maybeElement(true)(() => 10)(() => 42), 42);
-    assert.equals( maybeElement(0)(() => 10)(() => 42), 10);
-    assert.equals( maybeElement(1)(() => 10)(() => 42), 42);
+    assert.equals( maybeTruthy(false)(() => 10)(() => 42), 10);
+    assert.equals( maybeTruthy(null)(() => 34)(() => 42), 34);
+    assert.equals( maybeTruthy(undefined)(() => 10)(() => 42), 10);
+    assert.equals( maybeTruthy(true)(() => 10)(() => 42), 42);
+    assert.equals( maybeTruthy(0)(() => 10)(() => 42), 10);
+    assert.equals( maybeTruthy(1)(() => 10)(() => 42), 42);
 });
 
 maybeSuite.add("maybeDiv", assert => {
@@ -98,7 +98,7 @@ maybeSuite.add("getDomElementAbstraction", assert => {
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => eitherDomElementOrConsoleError(elementNotExistName)(id)
-    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
+    assert.consoleErrorEquals(methodUnderTest, `no element exist with id: ${elementNotExistName}`)
 
     tearDown()
 });
@@ -109,7 +109,7 @@ maybeSuite.add("getDomElement", assert => {
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => getDomElement(elementNotExistName)
-    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
+    assert.consoleErrorEquals(methodUnderTest, `no element exist with id: ${elementNotExistName}`)
 
     tearDown()
 });
@@ -120,7 +120,7 @@ maybeSuite.add("getDomElements", assert => {
 
     const elementNotExistName = "elementNotExist"
     const methodUnderTest = () => getDomElements(elementNotExistName, "test")
-    assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
+    assert.consoleErrorEquals(methodUnderTest, `no element exist with id: ${elementNotExistName}`)
     tearDown();
 });
 
@@ -191,7 +191,7 @@ maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
 
     assert.equals( getElementByIndex(result)(0), id);
     assert.equals( getElementByIndex(result)(1),"no element exist with id: random1");
-    assert.equals( getElementByIndex(result)(2), "Error: no element exist with id: random2");
+    assert.equals( getElementByIndex(result)(2), "no element exist with id: random2");
 
     tearDown();
 });
