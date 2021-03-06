@@ -17,16 +17,16 @@ import {
 import {
     Nothing, Left, Right,
     Just,
-    maybeDiv,
+    maybeDivision,
     eitherDomElement,
     getOrDefault,
     getDomElement,
     getDomElements,
-    getDomElementAbstraction,
+    eitherDomElementOrConsoleError,
     maybeElement, maybeDomElement,
-    eitherJsNumOrOther,
-    eitherElementsOrErrors,
-    maybeElements
+    eitherNumber,
+    eitherElementsOrErrorsByFunction,
+    maybeElementsByFunction
 } from "../../src/maybe/maybe.js";
 import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
 import {getElementByKey} from "../../src/listMap/listMap.js"
@@ -69,20 +69,20 @@ maybeSuite.add("maybeElement", assert => {
     assert.equals( maybeElement(null)(() => 34)(() => 42), 34);
     assert.equals( maybeElement(undefined)(() => 10)(() => 42), 10);
     assert.equals( maybeElement(true)(() => 10)(() => 42), 42);
-    assert.equals( maybeElement(0)(() => 10)(() => 42), 42);
+    assert.equals( maybeElement(0)(() => 10)(() => 42), 10);
     assert.equals( maybeElement(1)(() => 10)(() => 42), 42);
 });
 
 maybeSuite.add("maybeDiv", assert => {
-    assert.equals( maybeDiv(10)(2)(val => val + 10)(val => val + 3), 8);
-    assert.equals( maybeDiv(10)(0)(_ => "Nothing")(_ => "Just"), "Nothing");
-    assert.equals( maybeDiv(10)(3)(_ => "Nothing")(_ => "Just"), "Just");
-    assert.equals( maybeDiv("Hello")("World")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( maybeDivision(10)(2)(val => val + 10)(val => val + 3), 8);
+    assert.equals( maybeDivision(10)(0)(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( maybeDivision(10)(3)(_ => "Nothing")(_ => "Just"), "Just");
+    assert.equals( maybeDivision("Hello")("World")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
 maybeSuite.add("eitherJsNumOrOther", assert => {
-    assert.equals( eitherJsNumOrOther(10)(_ => "Nothing")(x => x + 5), 15);
-    assert.equals( eitherJsNumOrOther("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
+    assert.equals( eitherNumber(10)(_ => "Nothing")(x => x + 5), 15);
+    assert.equals( eitherNumber("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
 });
 
 maybeSuite.add("maybeDomElement", assert => {
@@ -94,10 +94,10 @@ maybeSuite.add("maybeDomElement", assert => {
 
 maybeSuite.add("getDomElementAbstraction", assert => {
     setup();
-    assert.equals(getDomElementAbstraction('test')(id), dummyDomElem);
+    assert.equals(eitherDomElementOrConsoleError('test')(id), dummyDomElem);
 
     const elementNotExistName = "elementNotExist"
-    const methodUnderTest = () => getDomElementAbstraction(elementNotExistName)(id)
+    const methodUnderTest = () => eitherDomElementOrConsoleError(elementNotExistName)(id)
     assert.consoleErrorEquals(methodUnderTest, `Error: no element exist with id: ${elementNotExistName}`)
 
     tearDown()
@@ -126,10 +126,10 @@ maybeSuite.add("getDomElements", assert => {
 
 maybeSuite.add("getOrDefault", assert => {
     setup()
-    assert.equals( getOrDefault(eitherJsNumOrOther(5))(0), 5);
-    assert.equals( getOrDefault(eitherJsNumOrOther("NaN"))(42), 42);
-    assert.equals( getOrDefault(eitherJsNumOrOther("5"))(42), 42);
-    assert.equals( getOrDefault(eitherJsNumOrOther((() => 5)()))(42), 5);
+    assert.equals( getOrDefault(eitherNumber(5))(0), 5);
+    assert.equals( getOrDefault(eitherNumber("NaN"))(42), 42);
+    assert.equals( getOrDefault(eitherNumber("5"))(42), 42);
+    assert.equals( getOrDefault(eitherNumber((() => 5)()))(42), 5);
     tearDown();
 });
 
@@ -164,7 +164,7 @@ maybeSuite.add("getOrDefault", assert => {
 maybeSuite.add("eitherElementsOrErrors - good case", assert => {
     setup();
 
-    const result = eitherElementsOrErrors(eitherDomElement)("test", "test2")
+    const result = eitherElementsOrErrorsByFunction(eitherDomElement)("test", "test2")
                             (id)
                             (id);
 
@@ -183,14 +183,14 @@ maybeSuite.add("eitherElementsOrErrors - good case", assert => {
 maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
     setup();
 
-    const result = eitherElementsOrErrors(eitherDomElement)("random1", "random2")
+    const result = eitherElementsOrErrorsByFunction(eitherDomElement)("random1", "random2")
                             (id)
                             (id);
 
     assert.equals( jsNum(size(result)), 2);
 
     assert.equals( getElementByIndex(result)(0), id);
-    assert.equals( getElementByIndex(result)(1), Error("no element exist with id: random1"));
+    assert.equals( getElementByIndex(result)(1),"no element exist with id: random1");
     assert.equals( getElementByIndex(result)(2), "Error: no element exist with id: random2");
 
     tearDown();
@@ -200,7 +200,7 @@ maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
 maybeSuite.add("maybeElements", assert => {
     setup();
 
-    const result = maybeElements(maybeDomElement)("test", "test2")
+    const result = maybeElementsByFunction(maybeDomElement)("test", "test2")
                     (id)
                     (id);
 
@@ -213,7 +213,7 @@ maybeSuite.add("maybeElements", assert => {
     assert.equals( getElementByKey(result)("test"), dummyDomElem);
     assert.equals( getElementByKey(result)("test2"), dummyDomElem2);
 
-    const failedResult = maybeElements( maybeDomElement )("random1", "random2")
+    const failedResult = maybeElementsByFunction( maybeDomElement )("random1", "random2")
                                 (_ => "failed")
                                 (_ => "success");
 

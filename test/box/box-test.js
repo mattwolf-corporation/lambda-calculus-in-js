@@ -5,7 +5,7 @@ import {
     chainMaybe, tryCatch, getContent, apply,
     liftA2, apMaybe, liftA2Maybe
 } from "../../src/box/box.js";
-import {maybeDiv, maybeElement, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
+import {maybeDivision, maybeElement, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
 import {HttpGetSync, HttpGet, jokeUrl, DataFlowVariable} from "../../src/IO/http.js";
@@ -155,11 +155,11 @@ boxSuite.add("box debug", assert => {
 
 boxSuite.add("mapMaybe", assert => {
 
-    const resultSuccess = mapMaybe(maybeDiv(10)(2))(x => x * 10)
+    const resultSuccess = mapMaybe(maybeDivision(10)(2))(x => x * 10)
                                     (() => 'error: division by zero')
                                     (id);
 
-    const resultFailure = mapMaybe(maybeDiv(10)(0))(x => x * 10)
+    const resultFailure = mapMaybe(maybeDivision(10)(0))(x => x * 10)
                                     (() => 'error: division by zero')
                                     (id);
 
@@ -252,7 +252,7 @@ boxSuite.add("chainMaybe", assert => {
 boxSuite.add("maybeBox example", assert => {
 
     const maybeBoxDivison = num => div =>
-        Box(maybeDiv(num)(div))
+        Box(maybeDivision(num)(div))
             (mapfMaybe)(x => x * 10)
             (mapfMaybe)(x => x * 2)
             (foldMaybe)(x => x + 2)

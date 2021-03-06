@@ -21,13 +21,13 @@ import {
 import {
     maybeElement,
     getOrDefault,
-    eitherFunctionOrOther,
-    eitherJsNumOrOther,
+    eitherFunction,
+    eitherNumber,
     Left,
     Right,
     Just,
     Nothing,
-    maybeElementWithCustomErrorMessage, eitherAnyOrError
+    eitherElementOrCustomErrorMessage, eitherTryCatch
 } from "../maybe/maybe.js";
 
 import {
@@ -322,10 +322,10 @@ const getElementByIndex = stack => index =>
  * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
  */
 const maybeElementByIndex = stack => index =>
-    eitherAnyOrError(
-        () => eitherFunctionOrOther(stack) // stack value is NOT a stack aka function
+    eitherTryCatch(
+        () => eitherFunction(stack) // stack value is NOT a stack aka function
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
-            (_ => eitherJsNumOrOther(index)
+            (_ => eitherNumber(index)
                 (_ => maybeElementByChurchIndex(stack)(index))
                 (_ => maybeElementByJsNumIndex (stack)(index))
             ))
@@ -333,12 +333,12 @@ const maybeElementByIndex = stack => index =>
     (id) // return value
 
 const maybeElementByChurchIndex = stack => index =>
-    eitherFunctionOrOther(index)
+    eitherFunction(index)
     (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-    (_ => maybeElementWithCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(index)));  // index is a Churmber
+    (_ => eitherElementOrCustomErrorMessage("invalid index")(getElementByChurchNumberIndex(stack)(index)));  // index is a Churmber
 
 const maybeElementByJsNumIndex = stack => index =>
-    maybeElementWithCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
+    eitherElementOrCustomErrorMessage("invalid index")(getElementByJsnumIndex(stack)(index));
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
