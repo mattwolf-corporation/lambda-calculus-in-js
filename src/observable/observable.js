@@ -194,29 +194,61 @@ const logListenersToConsole = listeners => _ => {
  * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
  *
  * @function
- * @param {*} key
+ * @param  {*} key
  * @return {function(listenerFn:function) : listener} new listener with custom key for the observable
  * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
  *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
  */
 const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
 
 
 /**
  * Syntactic sugar for creating a pair of Key and Value for the new Listener.
- * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
+ * The key could be anything that can be comparable. The 'generateRandomKey' generate String with the length of six with random Letters (up-/lowercase) & Numbers.
  * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
  *
  * @function
- * @param {function} listenerFn
+ * @param  {function} listenerFn
  * @return {listener} new listener with generated key for the observable
  * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
  *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
  */
-const newListener = newListenerWithCustomKey(generateRandomKey())
+const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
 
-const setListenerKey = newKey => listener => pair(newKey)(listener(snd))
+/**
+ * Set a new Key for the listener.
+ * @param  {*} newKey
+ * @return {function(listener:function) : listener} listener with the key
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
+const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
+
+/**
+ * Get the key of a listener
+ * @param  {function} listener
+ * @return {*} key
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
 const getListenerKey = listener => listener(fst)
+
 /*
     Listener-Functions
  */

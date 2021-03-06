@@ -56,6 +56,10 @@ observableListMapSuite.add("Listeners key-set/get", assert => {
     const listenerTestKey2 = newListenerWithCustomKey(456)(nValue => oValue => "nix")
     assert.equals(getListenerKey(listenerTestKey2), 456)
 
+    // generate different key
+    let listenerKeyGenerate1 = newListener(nValue => oValue => "nix")
+    let listenerKeyGenerate2 = newListener(nValue => oValue => "nix")
+    assert.true(getListenerKey(listenerKeyGenerate1).toString() !== getListenerKey(listenerKeyGenerate2).toString())
 });
 
 
