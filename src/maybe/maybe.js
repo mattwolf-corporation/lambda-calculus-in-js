@@ -36,7 +36,7 @@ const getOrDefault = maybe => defaultVal =>
 /**
  *
  * @param  {number} dividend
- * @return {function(divisor:number): Just|Nothing} a Maybe (Just with the divided value or Nothing)
+ * @return {function(divisor:number): function(Just|Nothing)} a Maybe (Just with the divided value or Nothing)
  */
 const maybeDivision = dividend => divisor =>
     Number.isInteger(dividend) &&
@@ -77,6 +77,7 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
  */
 const eitherDomElement = elemId =>
     eitherElementOrCustomErrorMessage(`no element exist with id: ${elemId}`)(document.getElementById(elemId));
+
 
 const maybeDomElement = elemId =>
     eitherDomElement(elemId)
@@ -126,33 +127,34 @@ const eitherTryCatch = f => {
 }
 
 // Haskell: (a -> Maybe a) -> [a] -> Maybe [a]
-const maybeElementsByFunction = maybeProducerFn => (...elements) => {
-    const stackWithElements = convertArrayToStack(elements);
+const maybeElementsByFunction = maybeProducerFn => (...elements) =>
+    reduce
+        ((acc, curr) =>
+                        flatMapMaybe(acc)(listMap =>
+                                                mapMaybe( maybeProducerFn(curr) )(val => push(listMap)( pair(curr)(val) ))
+                                         )
+        )
+        ( Just(emptyListMap) )
+        ( convertArrayToStack(elements) );
 
-    return reduce
-    ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeProducerFn(curr))(val => push(listMap)( pair(curr)(val) ) ) ))
-    (Just(emptyListMap))
-    (stackWithElements)
-}
 
 // Beispiel: key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
-const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) => {
-    const stackWithElements = convertArrayToStack(elements);
+const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
+     reduce
+        ((acc, curr) => acc
+                                ( stack => Left( (eitherProducerFn(curr))
+                                                    (err => push(stack)(err))
+                                                    (_   => stack)
+                                                )
+                                )
+                                ( listMap => (eitherProducerFn(curr))
+                                                (err => Left(  push(emptyStack)(err) ) )
+                                                (val => Right( push(listMap)( pair(curr)(val) ) ) )
+                                )
+        )
+        ( Right(emptyListMap) )
+        ( convertArrayToStack(elements) );
 
-    return reduce
-    ((acc, curr) => acc
-        ( stack => Left( (eitherProducerFn(curr))
-            (err => push(stack)(err))
-            (_ => stack) )
-        )
-        ( listMap => (eitherProducerFn(curr))
-            (err => Left(push(emptyStack)(err)) )
-            (val => Right(push(listMap)( pair(curr)(val) )) )
-        )
-    )
-    (Right(emptyListMap))
-    (stackWithElements);
-}
 
 // eitherElements2(str => t2(str))("inputtText", "newVeeealue")
 // (stackOfErrors => logStackToConsole(stackOfErrors))
