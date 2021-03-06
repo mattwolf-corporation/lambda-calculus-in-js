@@ -29,15 +29,15 @@ const getRed    = firstOfTriple;
 const getGreen  = secondOfTriple;
 const getBlue   = thirdOfTriple;
 
-const listenerInputR       = newListener(1)(nVal => oVal => inputR.value                      = nVal( getRed   ));
-const listenerRangeR       = newListener(2)(nVal => oVal => rangeR.value                      = nVal( getRed   ));
-const listenerInputG       = newListener(3)(nVal => oVal => inputG.value                      = nVal( getGreen ));
-const listenerRangeG       = newListener(4)(nVal => oVal => rangeG.value                      = nVal( getGreen ));
-const listenerInputB       = newListener(5)(nVal => oVal => inputB.value                      = nVal( getBlue  ));
-const listenerRangeB       = newListener(6)(nVal => oVal => rangeB.value                      = nVal( getBlue  ));
-const listenerBgColorRGB   = newListener(7)(nVal => oVal => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const listenerRgbTextRGB   = newListener(8)(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const listenerHexTextRGB   = newListener(9)(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerInputR       = newListener(nVal => oVal => inputR.value                      = nVal( getRed   ));
+const listenerRangeR       = newListener(nVal => oVal => rangeR.value                      = nVal( getRed   ));
+const listenerInputG       = newListener(nVal => oVal => inputG.value                      = nVal( getGreen ));
+const listenerRangeG       = newListener(nVal => oVal => rangeG.value                      = nVal( getGreen ));
+const listenerInputB       = newListener(nVal => oVal => inputB.value                      = nVal( getBlue  ));
+const listenerRangeB       = newListener(nVal => oVal => rangeB.value                      = nVal( getBlue  ));
+const listenerBgColorRGB   = newListener(nVal => oVal => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerRgbTextRGB   = newListener(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerHexTextRGB   = newListener(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 
 let rgbObservable = Observable(triple(154)(211)(44))
                                 (addListener)( listenerInputR     )

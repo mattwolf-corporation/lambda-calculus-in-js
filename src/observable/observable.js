@@ -1,12 +1,12 @@
 import {emptyListMap, getElementByKey, removeByKey} from "../listMap/listMap.js";
 import {push, forEach, reduce} from "../stack/stack.js";
 import {pair, showPair, snd, fst, Else, If, Then, id} from "../lambda-calculus-library/lambda-calculus.js";
+import {generateRandomKey } from "./observableExamples/observableUtilities.js";
 
 export {
     Observable, addListener, setValue, getValue, removeListenerByKey, removeListener,
-    logListenersToConsole, listenerLogToConsole, newListener,
+    logListenersToConsole, listenerLogToConsole, newListener, setListenerKey, getListenerKey, newListenerWithCustomKey,
     listenerNewValueToDomElementTextContent, listenerOldValueToDomElementTextContent, listenerNewValueLengthToElementTextContent, listenerNewValueToElement
-
 }
 
 /**
@@ -187,6 +187,7 @@ const logListenersToConsole = listeners => _ => {
 
 // Observable Handler-Utilities
 
+
 /**
  * Syntactic sugar for creating a pair of Key and Value for the new Listener.
  * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
@@ -194,12 +195,28 @@ const logListenersToConsole = listeners => _ => {
  *
  * @function
  * @param {*} key
- * @return {function(listenerFn:function): listener} new listener for the observable
+ * @return {function(listenerFn:function) : listener} new listener with custom key for the observable
  * @example
  *
  */
-const  newListener = key => listenerFn => pair(key)(listenerFn);
+const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
 
+
+/**
+ * Syntactic sugar for creating a pair of Key and Value for the new Listener.
+ * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
+ * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
+ *
+ * @function
+ * @param {function} listenerFn
+ * @return {listener} new listener with generated key for the observable
+ * @example
+ *
+ */
+const newListener = newListenerWithCustomKey(generateRandomKey())
+
+const setListenerKey = newKey => listener => pair(newKey)(listener(snd))
+const getListenerKey = listener => listener(fst)
 /*
     Listener-Functions
  */

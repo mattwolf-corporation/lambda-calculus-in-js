@@ -3,7 +3,7 @@ import {
     addListener,
     listenerNewValueToElement,
     getValue,
-    newListener,
+    newListener, newListenerWithCustomKey, setListenerKey, getListenerKey,
     listenerLogToConsole,
     Observable,
     logListenersToConsole,
@@ -14,35 +14,56 @@ import {
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
 
-observableListMapSuite.add("InitObservable", assert => {
+observableListMapSuite.add("Observable", assert => {
 
     // first Listener
-    const valueHolder = {};
-    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
+    const observedObject = {};
+    const listenerValue = newListener(listenerNewValueToElement(observedObject))
 
-    assert.equals(valueHolder.value, undefined)
+
+    assert.equals(observedObject.value, undefined)
 
     let testObs = Observable(42)
-                (addListener)(valueHandler)
+                    (addListener)(listenerValue)
 
-    assert.equals(valueHolder.value, 42)
+    assert.equals(observedObject.value, 42)
 
 
     // second Listener
-    const valueHolder2 = {};
-    const valueHandler2 = newListener(867)(listenerNewValueToElement(valueHolder2))
+    const observedObject2 = {};
+    const listenerValue2 = newListener(listenerNewValueToElement(observedObject2))
 
-    testObs = testObs(addListener)(valueHandler2)
+    testObs = testObs(addListener)(listenerValue2)
 
-    assert.equals(valueHolder2.value, 42)
+    assert.equals(observedObject2.value, 42)
+});
+
+observableListMapSuite.add("Listeners key-set/get", assert => {
+
+    let listenerTest = newListener(nValue => oValue => "nix")
+
+    assert.true(getListenerKey(listenerTest).toString().length > 5)
+
+    listenerTest = setListenerKey(42)(listenerTest)
+
+    assert.equals(getListenerKey(listenerTest).toString().length, 2)
+    assert.equals(getListenerKey(listenerTest), 42)
+
+    const listenerTestKey = setListenerKey(123)(newListener(nValue => oValue => "nix"))
+    assert.equals(getListenerKey(listenerTestKey), 123)
+
+    // newListenerWithCustomKey
+    const listenerTestKey2 = newListenerWithCustomKey(456)(nValue => oValue => "nix")
+    assert.equals(getListenerKey(listenerTestKey2), 456)
 
 });
 
+
 observableListMapSuite.add("setValue", assert => {
-    const consoleHandler = newListener(42)(listenerLogToConsole)
+    const consoleHandler = newListener(listenerLogToConsole)
 
     const valueHolder = {};
-    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
+    const valueHandler = newListener(listenerNewValueToElement(valueHolder))
 
     let testObs;
     const methodeUnderTest1 = () => testObs = Observable(0)
@@ -78,10 +99,10 @@ observableListMapSuite.add("getValue", assert => {
 });
 
 observableListMapSuite.add("logListenersToConsole", assert => {
-    const consoleHandler = newListener(42)(listenerLogToConsole)
+    const consoleHandler = newListenerWithCustomKey(42)(listenerLogToConsole)
 
     const valueHolder = {};
-    const valueHandler = newListener(43)(listenerNewValueToElement(valueHolder))
+    const valueHandler = newListenerWithCustomKey(43)(listenerNewValueToElement(valueHolder))
 
 
     let testObs;
@@ -101,10 +122,10 @@ observableListMapSuite.add("logListenersToConsole", assert => {
 
 observableListMapSuite.add("removeListener", assert => {
     // given
-    const listenerConsoleLog = newListener(42)(listenerLogToConsole)
+    const listenerConsoleLog = newListener(listenerLogToConsole)
 
     const observedObject = {};
-    const listenerValue = newListener(43)(listenerNewValueToElement(observedObject))
+    const listenerValue = newListener(listenerNewValueToElement(observedObject))
 
     // when 1
     let testObs;
@@ -143,7 +164,7 @@ observableListMapSuite.add("benchmark test", assert => {
     // addListener
     for (let i = 0; i < 200; i++) { // limit to 6250
         const valueHolder = {};
-        const valueHandler = newListener(i)(listenerNewValueToElement(valueHolder))
+        const valueHandler = newListener(listenerNewValueToElement(valueHolder))
         listOfValuesHandlers.push(valueHolder)
         testObs = testObs(addListener)(valueHandler)
     }

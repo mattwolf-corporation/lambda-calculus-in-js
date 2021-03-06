@@ -15,10 +15,10 @@ import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.
 const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");
 
 // Create Listener
-const listenerNewValue      = newListener(1)( listenerNewValueToDomElementTextContent     (newValue) );
-const listenerOldValue      = newListener(2)( listenerOldValueToDomElementTextContent     (oldValue) );
-const listenerNewValueSize  = newListener(3)( listenerNewValueLengthToElementTextContent  (sizes)    );
-const listenerConsoleLog    = newListener(4)( listenerLogToConsole                                   );
+const listenerNewValue      = newListener( listenerNewValueToDomElementTextContent     (newValue) );
+const listenerOldValue      = newListener( listenerOldValueToDomElementTextContent     (oldValue) );
+const listenerNewValueSize  = newListener( listenerNewValueLengthToElementTextContent  (sizes)    );
+const listenerConsoleLog    = newListener( listenerLogToConsole                                   );
 
 // Create Observable-Object, define the Initial-Value and append the Listeners
 let textInputObservables = Observable("")

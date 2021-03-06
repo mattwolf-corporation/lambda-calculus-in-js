@@ -35,3 +35,4 @@ const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return re
 //         fold: f => f(x),
 //         inspect: () => `Box(${x})`
 //     })
+
