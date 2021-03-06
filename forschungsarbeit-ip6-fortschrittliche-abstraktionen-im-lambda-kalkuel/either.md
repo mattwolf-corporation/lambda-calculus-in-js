@@ -21,13 +21,31 @@ Beispiel Anwendung:
 
 ### eitherTruthy
 
-Die **eitherTruthy** Funktion erwartet einen Wert und überprüft ob dieser truthy ist. [Liste mit JavaScript falsy Werten](https://developer.mozilla.org/en-US/docs/Glossary/Falsy). Im Erfolgsfall wird ein Right mit dem Element zurückgegben und im Fehlerfall ein Left mit der entsprechenden Fehlermeldung
+Die **eitherTruthy** Funktion erwartet einen Wert und überprüft ob dieser truthy ist. [Liste mit JavaScript falsy Werten](https://developer.mozilla.org/en-US/docs/Glossary/Falsy). Im Erfolgsfall wird ein Right mit dem Element zurückgegben und im Fehlerfall ein Left mit der entsprechenden Fehlermeldung.
+
+Implementation & Beispiele:
 
 ```javascript
 const eitherTruthy = value =>
     value
         ? Right(value)
         : Left(`'${value}' is a falsy value`);
+        
+        
+eitherTruthy(null)
+    (error => doSomethingInErrorCase(error))
+    (value => doSomethingInSuccessCase(value))
+```
+
+### eitherNotNullAndUndefined
+
+Die **eitherNotNullAndUndefined** Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
+
+```javascript
+const eitherNotNullAndUndefined = value =>
+    value !== null && value !== undefined
+        ? Right(value)
+        : Left(`element is '${value}'`);
 ```
 
 
