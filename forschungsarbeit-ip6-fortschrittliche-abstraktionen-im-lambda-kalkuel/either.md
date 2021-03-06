@@ -13,5 +13,5 @@ const Left   = x => f => _ => f (x);
 const Right  = x => _ => g => g (x);
 ```
 
-Left und Right sind zwei Funktionen die jeweils einen Wert und 2 Funktionen entgegen nehmen. Der Unterschied ist, dass die Left Funktion die erste übergebene Funktion f, der zwei übergebenen, auf den Parameter x anwendet. Die Right Funktion wendet die zweite \(rechte\) Funktion g auf den Parameter x an. Somit ignoriert Left und Right immer eine Funktion. Left und Right sind die Basis für den [Maybe Type](maybe.md).
+Left und Right sind zwei Funktionen die jeweils einen Wert und 2 Funktionen entgegen nehmen. Beide Funktionen ignorieren eine der beiden übergebenen Funktionen. Die Left Funktion wendet die linke \(erste übergebene\) Funktion auf den Parameter x an und ignoriert die zweite Funktion. Die Right Funktion wendet die rechte \(zweite übergebene\) Funktion auf den Parameter x an und ignoriert die erste Funktion. Left und Right bilden die Basis für einen weiteren Typ, den [Maybe Type](maybe.md).
 
