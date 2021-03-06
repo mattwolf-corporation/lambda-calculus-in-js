@@ -11,5 +11,6 @@
   * [Benchmark Erfahrungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [ListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
   * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
+  * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
 
