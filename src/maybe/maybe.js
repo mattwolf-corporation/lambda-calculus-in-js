@@ -45,15 +45,15 @@ const maybeDivision = dividend => divisor =>
         ? Just(dividend / divisor)
         : Nothing;
 
-const eitherTruthy = element =>
-    element
-        ? Right(element)
-        : Left(`'${element}' is a falsy value`);
+const eitherTruthy = value =>
+    value
+        ? Right(value)
+        : Left(`'${value}' is a falsy value`);
 
-const eitherNotNullAndUndefined = element =>
-    element !== null && element !== undefined
-        ? Right(element)
-        : Left(`element is '${element}'`);
+const eitherNotNullAndUndefined = value =>
+    value !== null && value !== undefined
+        ? Right(value)
+        : Left(`element is '${value}'`);
 
 /**
  * Take the element as maybe value if the element is a truthy value inclusive number Zero
