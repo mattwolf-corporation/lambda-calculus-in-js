@@ -55,7 +55,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement,maybeIndexOfElement
+    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement
 }
 
 /**
@@ -350,8 +350,8 @@ const eitherElementByJsNumIndex = stack => index =>
  */
 const getElementByChurchNumberIndex = s => i =>
     If( leq(i)(size(s)))
-    (Then( head( ( churchSubtraction(size(s))(i) )(getPreStack)(s))))
-    (Else(undefined));
+        (Then( head( ( churchSubtraction(size(s))(i) )(getPreStack)(s))))
+        (Else(undefined));
 
 
 /**
@@ -439,13 +439,13 @@ const maybeIndexOfElement = s => element => {
  * Returns False (ChurchBoolean) when element does not exist in the stack.
  *
  * @function
- * @param {stack} s
- * @return { function(element:*) : churchBoolean } True or False
+ * @param  {stack} s
+ * @return {function(element:*) : churchBoolean } True or False
  */
 const containsElement = s => element =>
     maybeIndexOfElement(s)(element)
-    (() => False)
-    (() => True);
+        ( () => False )
+        ( () => True  );
 
 
 /**
@@ -512,25 +512,18 @@ const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? 
 const map = mapFunction => s => {
 
     const mapIteration = argsPair => {
-        const index = argsPair(snd);
-
-        if (convertToJsBool( eq(times)(index)) ) {
-            return argsPair;
-        }
-        const increasedIndex = succ(argsPair(snd));
-        const valueToMap     = getElementByIndex(s)(increasedIndex);
-        const mappedValue    = mapFunction(valueToMap);
-        const resultStack    = push(argsPair(fst))(mappedValue);
-
-        return pair(resultStack)(increasedIndex);
+        const _stack       = argsPair(snd);
+        const _mappedValue = mapFunction(head(_stack));
+        const _resultStack = push(argsPair(fst))(_mappedValue);
+        return pair(_resultStack)(getPreStack(_stack));
     };
 
     const times        = size(s);
-    const initArgsPair = pair(emptyStack)(n0);
+    const initArgsPair = pair(emptyStack)(reverseStack(s));
 
     return (times
-                (mapIteration)(initArgsPair)
-            )(fst);
+        (mapIteration)(initArgsPair)
+    )(fst);
 };
 
 /**
@@ -545,25 +538,23 @@ const map = mapFunction => s => {
  * filter(x => x < 20 && x > 5)(stackWithNumbers) === convertArrayToStack([7])
  */
 const filter = filterFunction => s => {
-    const times = size(s);
-    const initArgsPair = pair(emptyStack)(n0);
 
     const filterIteration = argsPair => {
-        const stack = argsPair(fst);
-        const index = argsPair(snd);
-        const increasedIndex = succ(index);
+        const _stackFilter    = argsPair(fst);
+        const _stack          = argsPair(snd);
+        const _nextValueStack = getPreStack(_stack)
+        const _stackCurrValue = head(_stack);
 
-        if (convertToJsBool(not(eq(times)(index)))) {
-            const value = getElementByChurchNumberIndex(s)(increasedIndex) //( console.error( new Error(`elementByIndex in Function Filter error ${typeof increasedIndex} -> ${increasedIndex}`)) )( id );
-
-            if (filterFunction(value)) {
-                const resultStack = push(stack)(value);
-                return pair(resultStack)(increasedIndex);
-            }
+        if (filterFunction(_stackCurrValue)) {
+            const resultStack = push(_stackFilter)(_stackCurrValue);
+            return pair(resultStack)(_nextValueStack);
         }
 
-        return pair(stack)(increasedIndex);
+        return pair(_stackFilter)(_nextValueStack);
     };
+
+    const times = size(s);
+    const initArgsPair = pair(emptyStack)(reverseStack(s));
 
     return (times
                 (filterIteration)(initArgsPair)
@@ -659,9 +650,9 @@ const forEach = stack => callbackFunc => {
     }
 
     const iteration = p =>
-        If(hasPre(p(fst)))
-            (Then(invokeCallback(p)))
-            (Else(p));
+        If( hasPre(p(fst)) )
+            (Then( invokeCallback(p) ))
+            (Else(                p  ));
 
     const times         = size(stack);
     const reversedStack = reverseStack(stack);
@@ -681,23 +672,22 @@ const removeByIndex = stack => index => {
     const reversedStack = reverseStack(stack);
 
     const iteration = argsTriple => {
-        const currentStack  = argsTriple(firstOfTriple)
-        const resultStack   = argsTriple(secondOfTriple)
-        const currentIndex  = argsTriple(thirdOfTriple)
+        const currentStack = argsTriple(firstOfTriple)
+        const resultStack  = argsTriple(secondOfTriple)
+        const currentIndex = argsTriple(thirdOfTriple)
 
-        return If( hasPre(currentStack))
-                    (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex)) )
-                    (Else( argsTriple))
+        return If(hasPre(currentStack))
+                    (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex) ))
+                    (Else( argsTriple                                                        ));
     }
 
-    return (times
-            (iteration)
-            (triple
-                (reversedStack)
-                (emptyStack)
-                (n1))
-            )
-            (secondOfTriple)
+    return times
+                (iteration)
+                    (triple
+                        ( reversedStack )
+                        ( emptyStack    )
+                        ( n1            )
+                    )(secondOfTriple)
 }
 
 
@@ -714,9 +704,9 @@ const removeByCondition = currentStack => resultStack => index => currentIndex =
                                 (Else( push( resultStack )( currentElement )));
 
     return triple
-            (getPreStack(currentStack))
-            (result)
-            (succ(currentIndex));
+            ( getPreStack(currentStack) )
+            ( result                    )
+            ( succ(currentIndex)        );
 }
 
 
@@ -822,7 +812,7 @@ const zipWith = f => s1 => s2 => {
             (Then(zipElements(t)))
             (Else(t));
 
-    const times =  min(size(s1))(size(s2));
+    const times = min(size(s1))(size(s2));
 
     return times
         (iteration)
@@ -899,7 +889,6 @@ const zipWithOneLiner = null;
  */
 const zip = zipWith(pair);
 //const zipListMap = zipWithListMap(pair);
-
 
 
 /**
