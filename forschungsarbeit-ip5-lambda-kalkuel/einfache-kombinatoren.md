@@ -246,16 +246,16 @@ Beispiele:
 
 ```javascript
 // getter functions of triple
-const firstOfTriple = x => y => z => x;
+const firstOfTriple  = x => y => z => x;
 const secondOfTriple = x => y => z => y;
-const thirdOfTriple = x => y => z => z;
+const thirdOfTriple  = x => y => z => z;
 
 // triple with 3 numbers
 const tripleOfNumbers = triple(1)(2)(3);
 
-tripleOfNumbers(firstOfTriple);         // 1
-tripleOfNumbers(secondOfTriple);        // 2
-tripleOfNumbers(thirdOfTriple);         // 3
+tripleOfNumbers( firstOfTriple  );    // 1
+tripleOfNumbers( secondOfTriple );    // 2
+tripleOfNumbers( thirdOfTriple  );    // 3
 ```
 
 ### 

@@ -8,14 +8,13 @@ description: >-
 
 #### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in den verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
 
-### _Ein kleines Beispiel_
+## _Ein kleines Beispiel_
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  nimmt. Die Parameter _newValue_ und _oldValue_  sind vom Observable so geben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.  
-
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahr nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.
 
 ```javascript
 let listenerVariable; // undefined
-const lisExample = newListener( newValue => oldValue  => listenerVariable = newValue );
+const listenerExample = newListener( newValue => oldValue  => listenerVariable = newValue );
 ```
 
 Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch ein 'Erzähler' \(Observable\).  
@@ -23,8 +22,8 @@ Dabei nutzt man die Funktion `Observable` und gibt als ersten Parameter immer de
 Für das Hinzufügen des Listener an einer Observable gibt es die Funktion `addListener` 
 
 ```javascript
-let obsExample = Observable(42)                 // new Observable with initValue 42
-                     (addListener)(lisExample); // add the Listener 'lisExampl' to the Observable
+let obsExample = Observable(42)                        // new Observable with initValue 42
+                     (addListener)( listenerExample ); // add the Listener 'lisExampl' to the Observable
 ```
 
 Nachdem der Listener mit der Observable verbunden ist, erhält der Listener den aktuellsten Stand vom Observable. In diesem Fall die Zahl '42'. Zusätzlich kann man mit der Funktion `getValue` den aktuellen Wert aus der Observable erhalten.
@@ -46,7 +45,7 @@ obsExample( getValue );  // 11
 Wenn man ein Listener wieder entfernen möchte, so dass er dem Observer nicht mehr zuhört, gibt es die Funktion `removeListener`. und gibt den zu entfernenten Listerner an.
 
 ```javascript
-obsExample = obsExample( removeListener )( lisExample ); 
+obsExample = obsExample( removeListener )( listenerExample ); 
 ```
 
 Von nun an hört der Listener nicht mehr auf den Observable und die Variable listenerVariable wird nicht überschrieben.
@@ -58,7 +57,7 @@ listenerVariable         // 11 <- variable getting no updates anymore
 obsExample( getValue );  // 66
 ```
 
-Alles zusammen:
+### Alles zusammen:
 
 ```javascript
 let listenerVariable; 
@@ -81,29 +80,42 @@ listenerVariable         // 11 <- variable getting no updates anymore
 obsExample( getValue );  // 66 
 ```
 
+## Observable Text-Input Example
 
+In diesem Beispiel-Projekt wird eine 'Observable', genannt _textInputObservable,_ welcher auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert und dabei alle 'Listeners' mit dem neuen und alten Wert informiert. 
 
-------
+![Screenshot Text-Input Example](../.gitbook/assets/image%20%282%29.png)
 
-### Text-Input Demo-Example
-
-In dieser Demo wird eine einem 'Observable', genannt _textInputObservable_ welcher auf die Wertänderungen eines Text-Input-Feldes im Html reagiert und dabei alle 'Listeners' mit dem neuen Wert informiert, welche an den Observable hinzugefügt wurden.
-
-
+{% hint style="info" %}
+Es gibt vorgefertigte _Listener-Funktionen_, welche im Beispiel auch benutzt werden.
 
 ```javascript
+/*
+    Listener-Functions
+ */
+const listenerLogToConsole                        =            nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
+const listenerNewValueToDomElementTextContent     = element => nVal => oVal => element.textContent = nVal
+const listenerOldValueToDomElementTextContent     = element => nVal => oVal => element.textContent = oVal
+const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => element.textContent = nVal.length                
+```
+{% endhint %}
+
+### Code-Beispiel für ein Obsverable Text-Input
+
+```javascript
+// Get the elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");
 
 // Create Listener
-const listenerNewValue      = newListener(1)( listenerNewValueToDomElementTextContent     (newValue) );
-const oldValueHandler       = newListener(2)( listenerOldValueToDomElementTextContent     (oldValue) );
-const listenerNewValueSize  = newListener(3)( listenerNewValueLengthToElementTextContent  (sizes)    );
-const listenerConsoleLog    = newListener(4)( listenerLogToConsole                                   );
+const listenerNewValue      = newListener( listenerNewValueToDomElementTextContent     (newValue) );
+const listenerOldValue      = newListener( listenerOldValueToDomElementTextContent     (oldValue) );
+const listenerNewValueSize  = newListener( listenerNewValueLengthToElementTextContent  (sizes)    );
+const listenerConsoleLog    = newListener( listenerLogToConsole                                   );
 
 // Create Observable-Object, define the Initial-Value and append the Listeners
-let textInputObservables = InitObservable("")
+let textInputObservables = Observable("")
                             (addListener)( listenerNewValue     )
-                            (addListener)( oldValueHandler      )
+                            (addListener)( listenerOldValue     )
                             (addListener)( listenerNewValueSize )
                             (addListener)( listenerConsoleLog   );
 
@@ -111,10 +123,96 @@ let textInputObservables = InitObservable("")
 // Every change in the Input-Field execute the 'setValue'-Function with the new value from Input-Field.
 inputText.oninput = _ =>
     textInputObservables = textInputObservables(setValue)(inputText.value);
-
 ```
 
+Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)\*\*\*\*
+
+### Demo
+
+{% hint style="info" %}
+In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und hinzufügen der Listeners da.
+{% endhint %}
+
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableTextInputExample/viewTextInputExample.html" %}
+
+
+
+## Observable Color-Picker Example
+
+In diesem Beispiel-Projekt wird gezeigt wie ein Color-Picker mit dem Observable gebaut werden kann.  
+Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\) hinzugefügt werden. Die Inputs \(Text-Inputs und Sliders\) sind dabei nicht nur Listeners sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Das heisst, das _'Input R'_ \(Text-Input\) und der _'Range R'_ \(Slider-Input\) sind bidirektional durch den Observer verbunden - solange keiner von beidem als Listener entfernt wird. Um das zu Demonstrieren wurde zusätzlich Buttons im UI hinzugefügt zum Un- und Subscribe des dazugehörigen Listener. 
+
+![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
+
+### Code-Beispiel des Obsverable Color-Picker
+
+{% hint style="info" %}
+Der Datentype des Observable ist ein [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple), weil die zu behandelte Werte `red, green, blue` sind. 
+{% endhint %}
+
+```javascript
+// Get the elements from the Dom
+const [resultColor, rgbValue, hex, hsl] = getDomElements("resultColor", "rgbValue", "hex", "hsl");
+const [inputR, inputG, inputB]          = getDomElements("inputR", "inputG", "inputB");
+const [rangeR, rangeG, rangeB]          = getDomElements("rangeR", "rangeG", "rangeB");
+
+// Getter methods for the RPG-Values (triple)
+const getRed    = firstOfTriple;
+const getGreen  = secondOfTriple;
+const getBlue   = thirdOfTriple;
+
+// Create Listeners for every color (red, green, blue) to Text- & Slider-Input
+const listenerInputR       = newListener( nVal => _ => inputR.value  =  nVal( getRed   ));
+const listenerRangeR       = newListener( nVal => _ => rangeR.value  =  nVal( getRed   ));
+const listenerInputG       = newListener( nVal => _ => inputG.value  =  nVal( getGreen ));
+const listenerRangeG       = newListener( nVal => _ => rangeG.value  =  nVal( getGreen ));
+const listenerInputB       = newListener( nVal => _ => inputB.value  =  nVal( getBlue  ));
+const listenerRangeB       = newListener( nVal => _ => rangeB.value  =  nVal( getBlue  ));
+
+// Create Listeners for the Background-Result, RGB- & Hex-Labels
+const listenerBgColorRGB   = newListener( nVal => _ => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerRgbTextRGB   = newListener( nVal => _ => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerHexTextRGB   = newListener( nVal => _ => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+
+// Create Observable-Object, define the three initial-Values RGB and append the Listeners
+let rgbObservable = Observable(triple(55)(215)(150))
+                                (addListener)( listenerInputR     )
+                                (addListener)( listenerRangeR     )
+                                (addListener)( listenerInputG     )
+                                (addListener)( listenerRangeG     )
+                                (addListener)( listenerInputB     )
+                                (addListener)( listenerRangeB     )
+                                (addListener)( listenerBgColorRGB )
+                                (addListener)( listenerRgbTextRGB )
+                                (addListener)( listenerHexTextRGB );
+                                
+// Connecting the Observables with every Input-Field (Range and Text).
+inputR.oninput = _ =>
+    rgbObservable = rgbObservable(setValue)(
+        triple
+            (inputR.value)
+            (rgbObservable(getValue)(getGreen))
+            (rgbObservable(getValue)(getBlue))
+    );
+
+rangeR.oninput = _ =>
+    rgbObservable = rgbObservable(setValue)(
+        triple
+            (rangeR.value)
+            (rgbObservable(getValue)(getGreen))
+            (rgbObservable(getValue)(getBlue))
+    );
+
+...
+```
+
+Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableColorPickerExample/observableColorPickerExample.js)\*\*\*\*
+
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
+
+
 
   
  
