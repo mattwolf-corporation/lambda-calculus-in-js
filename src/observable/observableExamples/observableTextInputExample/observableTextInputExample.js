@@ -11,7 +11,7 @@ import {
 }from "../../observable.js";
 import {getDomElements, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
 
-// Get some elements from the Dom
+// Get the elements from the Dom
 const [inputText, newValue, oldValue, sizes] = getDomElements("inputText", "newValue", "oldValue", "sizes");
 
 // Create Listener

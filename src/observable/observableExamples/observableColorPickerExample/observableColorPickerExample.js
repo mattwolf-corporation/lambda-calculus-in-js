@@ -20,25 +20,30 @@ import {
 } from "../observableUtilities.js";
 import {getDomElements} from "../../../maybe/maybe.js";
 
-
+// Get the elements from the Dom
 const [resultColor, rgbValue, hex, hsl] = getDomElements("resultColor", "rgbValue", "hex", "hsl");
 const [inputR, inputG, inputB]          = getDomElements("inputR", "inputG", "inputB");
 const [rangeR, rangeG, rangeB]          = getDomElements("rangeR", "rangeG", "rangeB");
 
+// Getter methods for the RPG-Values (triple)
 const getRed    = firstOfTriple;
 const getGreen  = secondOfTriple;
 const getBlue   = thirdOfTriple;
 
-const listenerInputR       = newListener(nVal => oVal => inputR.value                      = nVal( getRed   ));
-const listenerRangeR       = newListener(nVal => oVal => rangeR.value                      = nVal( getRed   ));
-const listenerInputG       = newListener(nVal => oVal => inputG.value                      = nVal( getGreen ));
-const listenerRangeG       = newListener(nVal => oVal => rangeG.value                      = nVal( getGreen ));
-const listenerInputB       = newListener(nVal => oVal => inputB.value                      = nVal( getBlue  ));
-const listenerRangeB       = newListener(nVal => oVal => rangeB.value                      = nVal( getBlue  ));
-const listenerBgColorRGB   = newListener(nVal => oVal => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const listenerRgbTextRGB   = newListener(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
-const listenerHexTextRGB   = newListener(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+// Create Listeners for every color (red, green, blue) to Text- & Slider-Input
+const listenerInputR       = newListener( nVal => _ => inputR.value  =  nVal( getRed   ));
+const listenerRangeR       = newListener( nVal => _ => rangeR.value  =  nVal( getRed   ));
+const listenerInputG       = newListener( nVal => _ => inputG.value  =  nVal( getGreen ));
+const listenerRangeG       = newListener( nVal => _ => rangeG.value  =  nVal( getGreen ));
+const listenerInputB       = newListener( nVal => _ => inputB.value  =  nVal( getBlue  ));
+const listenerRangeB       = newListener( nVal => _ => rangeB.value  =  nVal( getBlue  ));
 
+// Create Listeners for the Background-Result, RGB- & Hex-Labels
+const listenerBgColorRGB   = newListener( nVal => _ => resultColor.style.backgroundColor = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerRgbTextRGB   = newListener( nVal => _ => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+const listenerHexTextRGB   = newListener( nVal => _ => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
+
+// Create Observable-Object, define the three initial-Values RGB and append the Listeners
 let rgbObservable = Observable(triple(55)(215)(150))
                                 (addListener)( listenerInputR     )
                                 (addListener)( listenerRangeR     )
@@ -50,52 +55,53 @@ let rgbObservable = Observable(triple(55)(215)(150))
                                 (addListener)( listenerRgbTextRGB )
                                 (addListener)( listenerHexTextRGB );
 
+// Connecting the Observables with every Input-Field (Range and Text).
 inputR.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (inputR.value)
-        (rgbObservable(getValue)(getGreen))
-        (rgbObservable(getValue)(getBlue))
+            (inputR.value)
+            (rgbObservable(getValue)(getGreen))
+            (rgbObservable(getValue)(getBlue))
     );
 
 rangeR.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (rangeR.value)
-        (rgbObservable(getValue)(getGreen))
-        (rgbObservable(getValue)(getBlue))
+            (rangeR.value)
+            (rgbObservable(getValue)(getGreen))
+            (rgbObservable(getValue)(getBlue))
     );
 
 inputG.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (rgbObservable(getValue)(getRed))
-        (inputG.value)
-        (rgbObservable(getValue)(getBlue))
+            (rgbObservable(getValue)(getRed))
+            (inputG.value)
+            (rgbObservable(getValue)(getBlue))
     );
 
 rangeG.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (rgbObservable(getValue)(getRed))
-        (rangeG.value)
-        (rgbObservable(getValue)(getBlue))
+            (rgbObservable(getValue)(getRed))
+            (rangeG.value)
+            (rgbObservable(getValue)(getBlue))
     );
 
 inputB.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (rgbObservable(getValue)(getRed))
-        (rgbObservable(getValue)(getGreen))
-        (inputB.value)
+            (rgbObservable(getValue)(getRed))
+            (rgbObservable(getValue)(getGreen))
+            (inputB.value)
     );
 
 rangeB.oninput = _ =>
     rgbObservable = rgbObservable(setValue)(
         triple
-        (rgbObservable(getValue)(getRed))
-        (rgbObservable(getValue)(getGreen))
-        (rangeB.value)
+            (rgbObservable(getValue)(getRed))
+            (rgbObservable(getValue)(getGreen))
+            (rangeB.value)
     );
 
 
