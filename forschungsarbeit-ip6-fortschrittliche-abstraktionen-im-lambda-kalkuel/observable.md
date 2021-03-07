@@ -214,9 +214,9 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 
 
 
-## Dokumentation
+## Dokumentation & Implementation
 
-#### Observable
+### Observable
 
 {% tabs %}
 {% tab title="Observable " %}
@@ -235,7 +235,7 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
  *                          (addListener)( listenerLogToConsole );
  */
 const Observable = initialValue =>
-    observableBody(emptyListMap)(initialValue)(setValue)(initialValue)
+    observableBody(emptyListMap)(initialValue)(setValue)(initialValue);
     
 ```
 {% endtab %}
@@ -254,7 +254,7 @@ const Observable = initialValue =>
  * @return {function(value:*): function(obsFn:function): function(obsFn:function)} Observable-Function
  */
 const observableBody = listeners => value => obsFn =>
-    obsFn(listeners)(value)
+    obsFn(listeners)(value);
 ```
 {% endtab %}
 
@@ -374,7 +374,31 @@ const getValue = listeners => value => value;
 {% endtab %}
 {% endtabs %}
 
-#### Listener
+{% hint style="info" %}
+Nachdem eine Observable-Funktion `addListener`, `removeListener`, `removeListenerByKey` oder `setValue` verwendet worden ist, ist es empfehlenswert es zurück zuweisen auf die erstelle Observable-Variable, damit diese überschrieben und aktualisiert ist. 
+{% endhint %}
+
+{% hint style="warning" %}
+Die Observable kann immutable sein, wenn man die Observable-Variable mit `const` deklariert.  So können keine neue Listener hinzugefügt oder entfernt werden, wenn das gewünscht ist.
+
+```javascript
+const listenerLog = newListener( listenerLogToConsole  );
+
+// 'const' deklariert 'obsExampl' als eine Konstate.
+const obsExample = Observable(0)
+                     (addListener)( listenerLog )
+
+// Ein Konstanten kann nicht verändert werden durch Zuweisung oder Neudeklaration
+obsExample = obsExample( removeListener)( listenerLog ) // nicht möglich
+obsExample = obsExample( addListener   )( listenerLog ) // nicht möglich
+```
+{% endhint %}
+
+{% hint style="danger" %}
+Die Observable löst mit der Funktion `setValue`  Side-Effects aus.
+{% endhint %}
+
+### Listener
 
 {% tabs %}
 {% tab title="newListener" %}
