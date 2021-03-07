@@ -1,13 +1,10 @@
 {
-  "name": "ip5_lambda-calculus-in-js",
-  "version": "1.0.0",
-  "description": "ip5",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "name": "lambda-calculus-in-js",
+  "version": "2.0.0",
+  "description": "Science projekt: Lambda Calculus with JavaScript",
+  "main": "nix",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs": "jsdoc src/observable/observable.js src/stack/stack.js src/maybe/maybe.js src/listMap/listMap.js src/lambda-calculus-library/church-numerals.js src/lambda-calculus-library/lambda-calculus.js -d docs/"
   },
   "repository": {
     "type": "git",
@@ -16,9 +13,9 @@
   "author": "Pascal Andermatt, Benjamin Brodwolf",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js/issues"
+    "url": "https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/issues"
   },
-  "homepage": "https://github.com/mattwolf-corporation/ip5_lambda-calculus-in-js#readme",
+  "homepage": "https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js#readme",
   "devDependencies": {
     "jsdoc": "^3.6.6"
   }

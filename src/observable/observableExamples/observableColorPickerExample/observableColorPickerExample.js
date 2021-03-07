@@ -24,7 +24,7 @@ import {getDomElements} from "../../../maybe/maybe.js";
 const [resultColor, rgbValue, hex, hsl] = getDomElements("resultColor", "rgbValue", "hex", "hsl");
 const [inputR, inputG, inputB]          = getDomElements("inputR", "inputG", "inputB");
 const [rangeR, rangeG, rangeB]          = getDomElements("rangeR", "rangeG", "rangeB");
-;
+
 const getRed    = firstOfTriple;
 const getGreen  = secondOfTriple;
 const getBlue   = thirdOfTriple;
@@ -39,14 +39,14 @@ const listenerBgColorRGB   = newListener(nVal => oVal => resultColor.style.backg
 const listenerRgbTextRGB   = newListener(nVal => oVal => rgbValue.value                    = toRGBString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 const listenerHexTextRGB   = newListener(nVal => oVal => hex.textContent                   = toHexString( nVal(getRed), nVal(getGreen), nVal(getBlue) ));
 
-let rgbObservable = Observable(triple(154)(211)(44))
+let rgbObservable = Observable(triple(55)(215)(150))
                                 (addListener)( listenerInputR     )
                                 (addListener)( listenerRangeR     )
                                 (addListener)( listenerInputG     )
                                 (addListener)( listenerRangeG     )
                                 (addListener)( listenerInputB     )
                                 (addListener)( listenerRangeB     )
-                                (addListener)( listenerBgColorRGB   )
+                                (addListener)( listenerBgColorRGB )
                                 (addListener)( listenerRgbTextRGB )
                                 (addListener)( listenerHexTextRGB );
 

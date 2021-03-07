@@ -19,9 +19,9 @@ export {
 
 /**
  * listeners -> value -> observableFunction -> observableFunction
- * Observable - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
+ * observableBody - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
  *
- * @haskell InitObservable :: [a] -> b -> c -> c
+ * @haskell observableBody :: [a] -> b -> c -> c
  *
  * @function
  * @param  {listMap} listeners
@@ -34,7 +34,7 @@ const observableBody = listeners => value => obsFn =>
  * initialValue -> observableBody
  * Observable - create new Observable incl. the initial-value
  *
- * @haskell InitObservable :: a -> Observable
+ * @haskell Observable :: a -> Observable
  *
  * @function
  * @param {number|churchNumber|string} initialValue
@@ -120,21 +120,18 @@ const getValue = listeners => value => value;
  * @return {function(value:*): function(listenerKey:*)}
  * @example
  * let observedObject = {};
- * const listenerValue = newListener( 42 )( listenerNewValueToElement (valueHolder) );
+ * const listenerValue = newListenerWithCustomKey( 42 )( listenerNewValueToElement (valueHolder) );
  *
  * let obsExample = Observable(0)
  *                      (addListener)(listenerValue)
  *
  * observedObject.value === 0  // variable "observedObject" get updated from InitialValue
- *
  * obsExample = obsExample(setValue)(11)
- *
  * observedObject.value === 11  // variable "observedObject" get updated
  *
- * obsExample = obsExample(removeListenerByKey)(42)
+ * obsExample = obsExample(removeListenerByKey)(42) // 'listenerValue' is removed as listener
  *
  * obsExample = obsExample(setValue)(66)
- *
  * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
 const removeListenerByKey = listeners => value => listenerKey =>
@@ -153,7 +150,7 @@ const removeListenerByKey = listeners => value => listenerKey =>
  * @return {function(value:*): function(listenerKey:*)}
  * @example
  * let observedObject = {};
- * const listenerValue = newListener( 42 )( listenerNewValueToElement (valueHolder) );
+ * const listenerValue = newListener( listenerNewValueToElement (valueHolder) );
  *
  * let obsExample = Observable(0)
  *                      (addListener)(listenerValue)
@@ -184,10 +181,6 @@ const logListenersToConsole = listeners => _ => {
     reduce(logIteration)(0)(listeners);
 };
 
-
-// Observable Handler-Utilities
-
-
 /**
  * Syntactic sugar for creating a pair of Key and Value for the new Listener.
  * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
@@ -204,7 +197,6 @@ const logListenersToConsole = listeners => _ => {
  * getListenerKey(listenerTest) === 42)
  */
 const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
-
 
 /**
  * Syntactic sugar for creating a pair of Key and Value for the new Listener.

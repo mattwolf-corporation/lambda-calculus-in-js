@@ -30,12 +30,14 @@ observableListMapSuite.add("Observable", assert => {
 
 
     // second Listener
-    const observedObject2 = {};
-    const listenerValue2 = newListener(listenerNewValueToElement(observedObject2))
+    let listenerVariable;
+    assert.equals(listenerVariable, undefined)
+
+    const listenerValue2 = newListener(nVal => oVal => listenerVariable = nVal)
 
     testObs = testObs(addListener)(listenerValue2)
 
-    assert.equals(observedObject2.value, 42)
+    assert.equals(listenerVariable, 42)
 });
 
 observableListMapSuite.add("Listeners key-set/get", assert => {
