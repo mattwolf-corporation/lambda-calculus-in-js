@@ -8,7 +8,7 @@ export {
     maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     eitherDomElementOrConsoleError, maybeTruthy, eitherNumber, Left, Right, eitherFunction,
     eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement,
-    eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined
+    eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, eitherNaturalNumber
 }
 
 const Left   = x => f => _ => f (x);
@@ -125,6 +125,11 @@ const eitherTryCatch = f => {
         return Left(error);
     }
 }
+
+const eitherNaturalNumber = val =>
+    Number.isInteger(val) && val >= 0
+        ? Right(val)
+        : Left(`'${val}' is not a natural number`);
 
 // Haskell: (a -> Maybe a) -> [a] -> Maybe [a]
 const maybeElementsByFunction = maybeProducerFn => (...elements) =>

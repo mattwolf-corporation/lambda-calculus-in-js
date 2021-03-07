@@ -192,27 +192,28 @@ stackSuite.add("getElementByIndex with JsNumber", assert => {
 
 stackSuite.add("getElementByIndex with not existing Index", assert => {
 
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)(NaN),
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(NaN),
         "getElementByIndex - TypError: index value 'NaN' (number) is not allowed. Use Js- or Church-Numbers");
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)(Infinity),
+
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(Infinity),
         "getElementByIndex - TypError: index value 'Infinity' (number) is not allowed. Use Js- or Church-Numbers");
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)("1"),
+
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)("1"),
         "getElementByIndex - TypError: index value '1' (string) is not allowed. Use Js- or Church-Numbers");
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)("blabla"),
+
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)("blabla"),
         "getElementByIndex - TypError: index value 'blabla' (string) is not allowed. Use Js- or Church-Numbers");
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)({}),
+
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)({}),
         "getElementByIndex - TypError: index value '[object Object]' (object) is not allowed. Use Js- or Church-Numbers");
-    assert.consoleErrorEquals(
-        () => getElementByIndex(stackWithNumbers)([]),
+
+    assert.consoleErrorEquals(        () => getElementByIndex(stackWithNumbers)([]),
         "getElementByIndex - TypError: index value '' (object) is not allowed. Use Js- or Church-Numbers");
 
+    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(-1),
+        "getElementByIndex - TypError: index value '-1' (number) is not allowed. Use Js- or Church-Numbers");
+
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(9999), "invalid index");
-    assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(-1), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(7), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(n7), "invalid index");
     assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), "invalid index");

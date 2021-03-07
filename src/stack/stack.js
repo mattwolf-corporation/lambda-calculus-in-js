@@ -27,7 +27,7 @@ import {
     Right,
     Just,
     Nothing,
-    eitherElementOrCustomErrorMessage, eitherTryCatch, eitherNotNullAndUndefined
+    eitherElementOrCustomErrorMessage, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber
 } from "../maybe/maybe.js";
 
 import {
@@ -247,8 +247,8 @@ const reduce = reduceFn => initialValue => s => {
         }
 
         return If( hasPre(stack) )
-                (Then( getTriple(argsTriple)) )
-                (Else( argsTriple) );
+                (Then( getTriple(argsTriple) ))
+                (Else(           argsTriple  ));
     };
 
     const times = size(s);
@@ -260,14 +260,12 @@ const reduce = reduceFn => initialValue => s => {
                                     (emptyStack)
                                 )(thirdOfTriple);
 
-    const argsTriple    = triple
-                            (reversedStack)
-                            (reduceFn)
-                            (initialValue);
-
-    return (times
-                (reduceIteration)
-                (argsTriple)
+    return times
+            (reduceIteration)
+                (triple
+                    (reversedStack)
+                    (reduceFn)
+                    (initialValue)
             )(thirdOfTriple);
 };
 
@@ -324,7 +322,7 @@ const eitherElementByIndex = stack => index =>
     eitherTryCatch(
         () => eitherFunction(stack) // stack value is NOT a stack aka function
             (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
-            (_ => eitherNumber(index)
+            (_ => eitherNaturalNumber(index)
                 (_ => eitherElementByChurchIndex(stack)(index))
                 (_ => eitherElementByJsNumIndex (stack)(index))
             ))
@@ -334,12 +332,14 @@ const eitherElementByIndex = stack => index =>
 const eitherElementByChurchIndex = stack => index =>
     eitherFunction(index)
         (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
-        (_ => eitherNotNullAndUndefined(getElementByChurchNumberIndex(stack)(index))(_ => Left("invalid index"))(e => Right(e)));
+        (_ => eitherNotNullAndUndefined( getElementByChurchNumberIndex(stack)(index) )
+                (_ => Left("invalid index"))
+                (e => Right(e))                 );
 
 const eitherElementByJsNumIndex = stack => index =>
-    eitherNotNullAndUndefined(getElementByJsnumIndex(stack)(index))
+    eitherNotNullAndUndefined( getElementByJsnumIndex(stack)(index) )
         (_ => Left("invalid index"))
-        (element => Right(element));
+        (e => Right(e)                  );
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
@@ -362,6 +362,8 @@ const getElementByChurchNumberIndex = s => i =>
  * @return { function(i:Number) : * } stack-value
  */
 const getElementByJsnumIndex = s => i => {
+    if (i < 0){ return; } // negativ index are not allowed
+
     const times = succ(size(s));
     const initArgsPair = pair(s)(undefined); // Nothing or undefined
 
@@ -374,6 +376,7 @@ const getElementByJsnumIndex = s => i => {
             return result(head(stack));
         }
         return result(argsPair(snd));
+
     };
     return (times
                 (getElement)(initArgsPair)
