@@ -948,138 +948,6 @@ const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
 
 const pushToStack = stackOpBuilder(push);
 
-
-const readyDomElements = (...neededDomElements) => leftCallback =>  rightCallback => {
-    const eitherStack = eitherMapStack(x => document.getElementById(x))(...neededDomElements);
-    const times       = size(eitherStack);
-
-                             // Left / Right / Index
-    const initTriple = triple(emptyStack)(emptyStack)(eitherStack);
-
-    const leftRight = times(argsTriple => {
-        const valueStack = argsTriple(thirdOfTriple);
-        const leftStack  = argsTriple(firstOfTriple);
-        const rightStack = argsTriple(secondOfTriple);
-
-        const eitherElement = head(valueStack) //getElementByChurchNumberIndex(eitherStack)(index);
-
-        return eitherElement
-        (e => triple
-            (push(leftStack)(e))
-            (rightStack)
-            (getPreStack(valueStack))
-        )
-        (e => triple
-            (leftStack)
-            (push(rightStack)(e))
-            (getPreStack(valueStack))
-        );
-
-    })(initTriple)
-
-    console.log("Left size: "+ jsNum(size(leftRight(firstOfTriple))))
-    logStackToConsole(leftRight(firstOfTriple))
-    console.log("---")
-    console.log("Right size: "+ jsNum(size(leftRight(secondOfTriple))))
-    logStackToConsole(leftRight(secondOfTriple))
-
-    leftCallback(  leftRight(firstOfTriple)  )
-    rightCallback( leftRight(secondOfTriple) )
-
-
-    // return [leftRight(firstOfTriple), leftRight(secondOfTriple)]
-}
-
-const eitherAllRight = stackWithEithers => {
-    const times = size(stackWithEithers);
-
-}
-
-const eitherMapStack = mapFn => (...elements) => {
-
-    const elementStack = reverseStack(convertArrayToStack(elements));
-    const times        = size(elementStack);
-    const initPair     = pair(emptyStack)(elementStack);
-
-    return times(argsPair => {
-            const newStack   = argsPair(fst);
-            const eleStack   = argsPair(snd);
-
-            const value  = mapFn( head(eleStack) );
-
-            // console.log(value)
-            // console.log(jsNum(indexT))
-
-            const leftOrRight = value ? Right(value) : Left(value);
-            const nextStack   = push(newStack)(leftOrRight);
-
-            return pair
-                (nextStack)
-                (getPreStack(eleStack));
-        }
-    )(initPair)
-    (fst);
-}
-
-const maybes = (...ms) => fn => {
-    const elementStack = convertArrayToStack(ms)
-    const times = size(elementStack);
-
-    const initPair = pair(emptyStack)(n1);
-
-    return times(argsPair => {
-            const indexT = argsPair(snd);
-            const stackT = argsPair(fst);
-
-            const value = fn(getElementByIndex(elementStack)(indexT))
-
-            console.log(value)
-            console.log(jsNum(indexT))
-
-            if (!value) {
-                console.log(getElementByIndex(elementStack)(indexT) + " is not valid")
-                const newMissingStack = push(stackT)(getElementByIndex(elementStack)(indexT) + " is not valid")
-                return pair(newMissingStack)(succ(indexT))
-            }
-
-            const newWithValueStack = push(stackT)(value)
-            return pair(newWithValueStack)(succ(indexT))
-        }
-    )(initPair)
-    (fst);
-}
-
-
-// const maybes = (...ms) => fn => {
-//     const elementStack = convertArrayToStack(ms)
-//     const mappedStacks = map(fn)(elementStack);
-//     const times        = size(mappedStacks);
-//
-//     const initTriple  = triple
-//                             (mappedStacks)
-//                             (n1)
-//                             (emptyStack);
-//
-//     times(argsTriple => {
-//         const indexT = argsPair(snd);
-//         const stackT = argsPair(fst);
-//
-//         const value = getElementByIndex(mappedStacks)(indexT)
-//
-//         console.log(value)
-//         console.log(jsNum(indexT))
-//
-//         if(value === undefined ){
-//             console.log(getElementByIndex(elementStack)(indexT) + " is not valid")
-//         }
-//
-//         return triple
-//             (mappedStacks)
-//             (succ(indexT))
-//             ()
-//     })(initTriple);
-// }
-
 const forEach = stack => callbackFunc => {
     const times = size(stack);
     const reversedStack = reverseStack(stack);
@@ -1237,36 +1105,64 @@ const stackEquals = s1 => s2 => {
 }
 
 
-const Left = x => f => _ => f(x);
-const Right = x => _ => g => g(x);
+const Left   = x => f => _ => f (x);
+const Right  = x => _ => g => g (x);
 const either = id;
 
-const Nothing = Left();
-const Just = Right;
+const Nothing  = Left();
+const Just     = Right ;
 
 
-const getOrDefault = maybeObject => defaultVal =>
-    maybeObject(() => defaultVal)
-    (id)
+/**
+ * unpacks the Maybe element if it is there, otherwise it returns the default value
+ *
+ * @param maybe
+ * @return {function(defaultVal:function): *} maybe value or given default value
+ * @example
+ * getOrDefault( maybeDiv(6)(2) )( "Can't divide by zero" ) === 3
+ * getOrDefault( maybeDiv(6)(0) )( "Can't divide by zero" ) === "Can't divide by zero"
+ */
+const getOrDefault = maybe => defaultVal =>
+    maybe
+    (() => defaultVal)
+    (id);
 
-
-const maybeDiv = num => divisor =>
-    Number.isInteger(num) &&
+/**
+ *
+ * @param  {number} dividend
+ * @return {function(divisor:number): function(Just|Nothing)} a Maybe (Just with the divided value or Nothing)
+ */
+const maybeDivision = dividend => divisor =>
+    Number.isInteger(dividend) &&
     Number.isInteger(divisor) &&
     divisor !== 0
-        ? Just(num / divisor)
-        : Nothing
+        ? Just(dividend / divisor)
+        : Nothing;
 
+const eitherTruthy = value =>
+    value
+        ? Right(value)
+        : Left(`'${value}' is a falsy value`);
 
-const maybeElement = element =>
-    element || element === 0
-        ? Just(element)
-        : Nothing
+const eitherNotNullAndUndefined = value =>
+    value !== null && value !== undefined
+        ? Right(value)
+        : Left(`element is '${value}'`);
 
-const maybeElementWithCustomErrorMessage = errorMessage => element =>
-    element || element === 0
-        ? Right(element)
-        : Left(errorMessage)
+/**
+ * Take the element as maybe value if the element is a truthy value inclusive number Zero
+ * @param  {*} element
+ * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
+ */
+const maybeTruthy = element =>
+    eitherTruthy(element)
+    (_ => Nothing)
+    (_ => Just(element));
+
+const eitherElementOrCustomErrorMessage = errorMessage => element =>
+    eitherTruthy(element)
+    (_ => Left(errorMessage))
+    (_ => Right(element));
 
 /**
  *
@@ -1274,18 +1170,16 @@ const maybeElementWithCustomErrorMessage = errorMessage => element =>
  * @return {Left|Right} either Right with HTMLElement or Left with Error
  */
 const eitherDomElement = elemId =>
-    document.getElementById(elemId)
-        ? Right(document.getElementById(elemId))
-        : Left(new Error(`no element exist with id: ${elemId}`))
+    eitherElementOrCustomErrorMessage(`no element exist with id: ${elemId}`)(document.getElementById(elemId));
+
 
 const maybeDomElement = elemId =>
-    eitherDomElement(elemId)(Nothing)(Just)
-
-const getDomElementAbstraction = elemId => elementFunction =>
     eitherDomElement(elemId)
-    (console.error)
-    (elementFunction)
+    (_ => Nothing)
+    (e => Just(e));
 
+const eitherDomElementOrConsoleError = elemId =>
+    eitherDomElement(elemId)(console.error);
 
 /**
  *
@@ -1293,42 +1187,74 @@ const getDomElementAbstraction = elemId => elementFunction =>
  * @return {HTMLElement|undefined} HTMLElement when exist, else undefined
  */
 const getDomElement = elemId =>
-    getDomElementAbstraction(elemId)(id)
+    eitherDomElementOrConsoleError(elemId)(id);
 
 const getDomElements = (...elemIds) =>
-    elemIds.map(getDomElement)
-
-const getDomElementsAsMaybe = (...elemIds) =>
-    elemIds.map(eitherDomElement)
-
+    elemIds.map(getDomElement);
 
 const maybeNumber = val =>
-    eitherJsNumOrOther(val)
-    (() => Nothing)
-    (() => Just(val))
+    eitherNumber(val)
+    (_ => Nothing)
+    (_ => Just(val));
 
-const maybeFunction = val =>
-    eitherFunctionOrOther(val)
-    (() => Nothing)
-    (() => Just(val))
-
-const eitherJsNumOrOther = val =>
+const eitherNumber = val =>
     Number.isInteger(val)
         ? Right(val)
-        : Left(`${val}, is not a integer`);
+        : Left(`'${val}' is not a integer`);
 
-const eitherFunctionOrOther = val =>
+const maybeFunction = val =>
+    eitherFunction(val)
+    (_ => Nothing)
+    (_ => Just(val))
+
+const eitherFunction = val =>
     typeof val === "function"
         ? Right(val)
-        : Left(`${val}, is not a function`);
+        : Left(`'${val}' is not a function`);
 
-const eitherAnyOrError = f => {
+const eitherTryCatch = f => {
     try {
         return Right(f());
     } catch (error) {
         return Left(error);
     }
 }
+
+const eitherNaturalNumber = val =>
+    Number.isInteger(val) && val >= 0
+        ? Right(val)
+        : Left(`'${val}' is not a natural number`);
+
+// Haskell: (a -> Maybe a) -> [a] -> Maybe [a]
+const maybeElementsByFunction = maybeProducerFn => (...elements) =>
+    reduce
+    ((acc, curr) =>
+        flatMapMaybe(acc)(listMap =>
+            mapMaybe( maybeProducerFn(curr) )(val => push(listMap)( pair(curr)(val) ))
+        )
+    )
+    ( Just(emptyListMap) )
+    ( convertArrayToStack(elements) );
+
+
+// Beispiel: key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
+const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
+    reduce
+    ((acc, curr) => acc
+        ( stack => Left( (eitherProducerFn(curr))
+            (err => push(stack)(err))
+            (_   => stack)
+            )
+        )
+        ( listMap => (eitherProducerFn(curr))
+            (err => Left(  push(emptyStack)(err) ) )
+            (val => Right( push(listMap)( pair(curr)(val) ) ) )
+        )
+    )
+    ( Right(emptyListMap) )
+    ( convertArrayToStack(elements) );
+
+
 
 
 const listMap = stack

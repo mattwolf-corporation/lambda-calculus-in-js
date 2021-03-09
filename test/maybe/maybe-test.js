@@ -22,13 +22,12 @@ import {
     getOrDefault,
     getDomElement,
     getDomElements,
-    eitherDomElementOrConsoleError,
     maybeTruthy, maybeDomElement,
     eitherNumber,
     eitherElementsOrErrorsByFunction,
     maybeElementsByFunction
 } from "../../src/maybe/maybe.js";
-import {getElementByIndex, size, logStackToConsole} from "../../src/stack/stack.js";
+import {getElementByIndex, size} from "../../src/stack/stack.js";
 import {getElementByKey} from "../../src/listMap/listMap.js"
 
 const maybeSuite = TestSuite("Maybe");
@@ -89,17 +88,6 @@ maybeSuite.add("maybeDomElement", assert => {
     setup()
     assert.equals( eitherDomElement("test")(_ => "Nothing")(_ => "Just"), "Just");
     assert.equals( eitherDomElement("Not a Number")(_ => "Nothing")(_ => "Just"), "Nothing");
-    tearDown()
-});
-
-maybeSuite.add("getDomElementAbstraction", assert => {
-    setup();
-    assert.equals(eitherDomElementOrConsoleError('test')(id), dummyDomElem);
-
-    const elementNotExistName = "elementNotExist"
-    const methodUnderTest = () => eitherDomElementOrConsoleError(elementNotExistName)(id)
-    assert.consoleErrorEquals(methodUnderTest, `no element exist with id: ${elementNotExistName}`)
-
     tearDown()
 });
 

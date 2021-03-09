@@ -6,7 +6,7 @@ import {emptyListMap} from "../listMap/listMap.js";
 export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements,
-    eitherDomElementOrConsoleError, maybeTruthy, eitherNumber, Left, Right, eitherFunction,
+    maybeTruthy, eitherNumber, Left, Right, eitherFunction,
     eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement,
     eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, eitherNaturalNumber
 }
@@ -84,16 +84,13 @@ const maybeDomElement = elemId =>
         (_ => Nothing)
         (e => Just(e));
 
-const eitherDomElementOrConsoleError = elemId =>
-    eitherDomElement(elemId)(console.error);
-
 /**
  *
  * @param  {string} elemId
  * @return {HTMLElement|undefined} HTMLElement when exist, else undefined
  */
 const getDomElement = elemId =>
-    eitherDomElementOrConsoleError(elemId)(id);
+    eitherDomElement(elemId)(console.error);
 
 const getDomElements = (...elemIds) =>
     elemIds.map(getDomElement);
