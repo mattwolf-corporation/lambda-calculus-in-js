@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Observable Text-Input</title>
+    <meta name="description" content="A Text-Input example with the Observable in pure function (lambda calculus),">
+    <meta name="keywords" content="Lambda Calculus, JavaScript">
+    <meta charset="UTF-8">
+</head>
+<style>
+    html {
+        background-color: lightgrey;
+    }
+
+    body {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -100px;
+        font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
+
+    }
+
+    input, button {
+        cursor: pointer;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .buttons{
+        background-color: whitesmoke;
+        padding: 2rem;
+        border-width: 1px;
+        border-radius: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
+    }
+    .buttonsRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+    }
+
+    .jokeListenersRow {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+</style>
+<body>
+<div class="buttons">
+    <div class="buttonsRow">
+        <button id="norrisBtn">Get a Chuck Norris-Joke</button>
+        <button id="nerdyBtn">Get a Nerdy-Joke</button>
+        <button id="trumpBtn">Get a Trump Tweet-Joke</button>
+
+    </div>
+    <div class="buttonsRow">
+        <button id="norrisDelayBtn">Get a Chuck Norris-Joke delayed</button>
+        <button id="nerdyDelayBtn">Get a Nerdy-Joke delayed</button>
+        <button id="trumpDelayBtn">Get a Trump Tweet-Joke delayed</button>
+    </div>
+</div>
+
+
+Add a Joke-Listener
+<div class="jokeListenersRow" id="listenersDiv">
+    <div class="jokeListener">
+        <h4>Joke Listener Nr. 1</h4>
+        <p class="jokeText"></p>
+    </div>
+
+    <div class="jokeListener">
+        <h4>Joke Listener Nr. 2</h4>
+        <p class="jokeText"></p>
+    </div>
+</div>
+
+<script src="observableHttpGetJokeExample.js" type="module"></script>
+</body>
+</html>
