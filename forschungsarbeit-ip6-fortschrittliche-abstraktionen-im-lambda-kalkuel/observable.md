@@ -1,24 +1,24 @@
 ---
 description: >-
-  Wie lässt sich ein Wert nach dessen Änderung z. B. auf mehreren Textfeldern
+  Wie lässt sich ein Wert nach dessen Änderung z.B. auf mehreren Textfeldern
   synchronisiert darstellen?
 ---
 
 # Observable
 
-#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in den verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: Ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
+#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in den verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
 
 ## _Ein kleines Beispiel_
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahr nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas Neues mitgeteilt bekommt.
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahr nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.
 
 ```javascript
 let listenerVariable; // undefined
 const listenerExample = newListener( newValue => oldValue  => listenerVariable = newValue );
 ```
 
-Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch ein 'Erzähler' \(Observable\). 
-Dabei nutzt man die Funktion `Observable` und gibt als ersten Parameter immer den initialen Wert an. 
+Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch ein 'Erzähler' \(Observable\).  
+Dabei nutzt man die Funktion `Observable` und gibt als ersten Parameter immer den initialen Wert an.  
 Für das Hinzufügen des Listener an einer Observable gibt es die Funktion `addListener` 
 
 ```javascript
@@ -33,7 +33,7 @@ listenerVariable         // 42 <- variable "listenerVariable" get the value from
 obsExample( getValue );  // 42
 ```
 
-Mit der Funktion `setValue` wird der Observable ein neuer Wert gesetzt - welcher er anschliessend alle angehängte Listeners benachrichtigt und den neuen Wert als _newValue_ mitteilt und der vorherige Wert als _oldValue_ \(darum ist es notwendig, ein Listener immer mit den Parametern _new_- und _oldValue_ zu bauen\).
+Mit der Funktion `setValue` wird der Observable ein neuer Wert gesetzt - welcher er anschliessend alle angehängte Listeners benachrichtig und den neuen Wert als _newValue_ mitteilt und der vorherige Wert als _oldValue_ \(darum ist es notwendig, ein Listener immer mit den Parametern _new_- und _oldValue_ zu bauen\).
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -42,7 +42,7 @@ listenerVariable         // 11
 obsExample( getValue );  // 11
 ```
 
-Wenn man ein Listener wieder entfernen möchte, sodass er dem Observer nicht mehr zuhört, gibt es die Funktion `removeListener`. und gibt den zu entfernenten Listerner an.
+Wenn man ein Listener wieder entfernen möchte, so dass er dem Observer nicht mehr zuhört, gibt es die Funktion `removeListener`. und gibt den zu entfernenten Listerner an.
 
 ```javascript
 obsExample = obsExample( removeListener )( listenerExample ); 
@@ -140,7 +140,7 @@ Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mat
 ## Observable Color-Picker Example
 
 In diesem Beispiel-Projekt wird gezeigt wie ein Color-Picker mit dem Observable gebaut werden kann.  
-Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\) hinzugefügt werden. Die Inputs \(Text-Inputs und Sliders\) sind dabei nicht nur Listeners, sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Das heist, das _'Input R'_ \(Text-Input\) und der _'Range R'_ \(Slider-Input\) sind bidirektional durch den Observer verbunden – solange keiner von beidem als Listener entfernt wird. Um das zu Demonstrieren wurde zusätzlich Buttons im UI hinzugefügt zum Un- und Subscribe des dazugehörigen Listener. 
+Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\) hinzugefügt werden. Die Inputs \(Text-Inputs und Sliders\) sind dabei nicht nur Listeners sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Das heisst, das _'Input R'_ \(Text-Input\) und der _'Range R'_ \(Slider-Input\) sind bidirektional durch den Observer verbunden - solange keiner von beidem als Listener entfernt wird. Um das zu Demonstrieren wurde zusätzlich Buttons im UI hinzugefügt zum Un- und Subscribe des dazugehörigen Listener. 
 
 ![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
 
@@ -489,7 +489,7 @@ Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-Li
 {% endhint %}
 
 {% hint style="info" %}
-Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listener mit einem gewünschten Key erstellen oder ändern. Ansonsten wird mit einem Key automatisch generiert. 
+Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listenern mit einem gewünschten Key erstellen oder ändern. Ansonsten wird mit eine Key automatisch generiert.  
 {% endhint %}
 
   

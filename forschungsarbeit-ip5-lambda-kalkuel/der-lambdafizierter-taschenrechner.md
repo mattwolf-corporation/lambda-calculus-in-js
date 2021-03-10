@@ -66,7 +66,7 @@ T(5)(multi)(4)(add)(2)(id)           //  22
 T(5)(div)(5)(multi)(100)(add)(1)(id) // 101
 ```
 
-Um die Leserlichkeit des Code zu verbessern, wird für die _Trush_- und _id_-Funktion ein passender Variablenname gewählt.
+Um die Leserlichkeit des Code zu verbessern, wird für die _Trush_- und _id_-Funktion ein passender Variablename gewählt.
 
 Implementation \(Umbenennung\):
 
@@ -116,7 +116,7 @@ calc(n1)(churchSub)(n7)(result) // 0 bzw. n0
 
 #### Division
 
-Gleiches Problem wie mit den negativen Zahlen können die Church-Zahlen keine Rationale-Zahlen repräsentiere. Deswegen gibt es keinen lambdafizierten Division-Operator.
+Gleiches Problem wie mit den negativen Zahlen, können die Church-Zahlen keine Rationale-Zahlen repräsentiere. Deswegen gibt es keinen lambdafizierten Division-Operator.
 
 #### Maximum call stack size exceeded
 
