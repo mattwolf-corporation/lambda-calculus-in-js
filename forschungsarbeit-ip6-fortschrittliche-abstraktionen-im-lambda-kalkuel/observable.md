@@ -60,7 +60,7 @@ obsExample( getValue );  // 66
 ### Alles zusammen:
 
 ```javascript
-let listenerVariable; 
+let listenerVariable; // undefined
 const lisExample = newListener( nVal => oVal => listenerVariable = nVal );
 
 let obsExample = Observable(42)
@@ -83,6 +83,10 @@ obsExample( getValue );  // 66
 ## Observable Text-Input Example
 
 In diesem Beispiel-Projekt wird eine 'Observable', genannt _textInputObservable,_ welcher auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert und dabei alle 'Listeners' mit dem neuen und alten Wert informiert. 
+
+{% hint style="info" %}
+In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und hinzufügen der Listeners da.
+{% endhint %}
 
 ![Screenshot Text-Input Example](../.gitbook/assets/image%20%282%29.png)
 
@@ -128,10 +132,6 @@ inputText.oninput = _ =>
 Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)\*\*\*\*
 
 ### Demo
-
-{% hint style="info" %}
-In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und hinzufügen der Listeners da.
-{% endhint %}
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableTextInputExample/viewTextInputExample.html" %}
 
@@ -213,6 +213,284 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
 
 
+
+## Dokumentation & Implementation
+
+### Observable
+
+{% tabs %}
+{% tab title="Observable " %}
+```javascript
+/**
+ * initialValue -> observableBody
+ * Observable - create observableBody with the initial-value
+ *
+ * @haskell Observable :: a -> Observable
+ *
+ * @function
+ * @param {number|churchNumber|string} initialValue
+ * @return {observable} - a Observable with an emptyListMap & the InitialValue
+ * @example
+ * const obsExample = Observable(0)
+ *                          (addListener)( listenerLogToConsole );
+ */
+const Observable = initialValue =>
+    observableBody(emptyListMap)(initialValue)(setValue)(initialValue);
+    
+```
+{% endtab %}
+
+{% tab title="observableBody " %}
+```javascript
+/**
+ * listeners -> value -> observableFunction -> observableFunction
+ * observableBody - the Body-Observable-Construct who for the observableFunctions.
+ * observableFunctions are: addListener, removeListener, removeListenerByKey), setValue
+ *
+ * @haskell observableBody :: [a] -> b -> c -> c
+ *
+ * @function
+ * @param  {listMap} listeners
+ * @return {function(value:*): function(obsFn:function): function(obsFn:function)} Observable-Function
+ */
+const observableBody = listeners => value => obsFn =>
+    obsFn(listeners)(value);
+```
+{% endtab %}
+
+{% tab title="addListener" %}
+```javascript
+/**
+ * listeners -> value -> newListener -> Observable ; addListener
+ * add new Listener to the Observable and pass the current Observable-Value e.g. the initValue
+ *
+ * @haskell addListener :: [a] -> b -> [a] -> Observable
+ *
+ * @function
+ * @param  {listMap} listeners
+ * @return {function(value:*): function(newListener:listMap): function(Function) : observableBody}
+ */
+const addListener = listeners => value => newListener => {
+    newListener(snd)(value)(value)
+    return observableBody(push(listeners)(newListener))(value)
+    
+```
+{% endtab %}
+
+{% tab title="removeListener" %}
+```javascript
+/**
+ * listeners -> value -> listenerKey ; removeListenerByKey
+ * Remove a Listener by his key
+ *
+ * @haskell removeListenerByKey :: [a] -> b -> c
+ *
+ * @function
+ * @param {listMap} listeners
+ * @return {function(value:*): function(listenerKey:*)}
+ * @example
+ * const listenerLog = newListener( listenerLogToConsole  );
+ *
+ * let obsExample = Observable(0)
+ *                      (addListener)( listenerLog )
+ *
+ * obsExample = obsExample(removeListener)( listenerLog )
+ */
+const removeListener = listeners => value => handler =>
+    observableBody(removeByKey(listeners)(handler(fst)))(value)
+```
+{% endtab %}
+
+{% tab title="removeListenerByKey" %}
+```javascript
+/**
+ * listeners -> value -> listenerKey ; removeListenerByKey
+ * Remove a Listener by his key
+ *
+ * @haskell removeListenerByKey :: [a] -> b -> c
+ *
+ * @function
+ * @param  {listMap} listeners
+ * @return {function(value:*): function(listenerKey:*)}
+ * @example
+ * const listenerLog = newListener( listenerLogToConsole  );
+ *
+ * let obsExample = Observable(0)
+ *                      (addListener)( listenerLog )
+ *
+ * obsExample = obsExample(removeListenerByKey)(42)
+ */
+const removeListenerByKey = listeners => value => listenerKey =>
+    observableBody(removeByKey(listeners)(listenerKey))(value)
+```
+{% endtab %}
+
+{% tab title="setValue" %}
+```javascript
+/**
+ * listeners -> oldValue -> newValue -> Observable ; setValue
+ * set the new value and notify all listenersg
+ *
+ * @haskell setValue :: [a] -> b -> b -> Observable
+ *
+ * @sideeffects
+ * @function
+ * @param {listMap} listeners
+ * @return {function(oldValue:*): function(newValue:*): function(Function) : observableBody}
+ * @example
+ * let obsExample = Observable(0)
+ * testObs(getValue) === 0
+ * testObs = testObs(setValue)(42)
+ * testObs(getValue) === 42
+ */
+const setValue = listeners => oldValue => newValue => {
+    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
+    return observableBody(listeners)(newValue)
+}
+```
+{% endtab %}
+
+{% tab title="getValue" %}
+```javascript
+/**
+ * listeners -> value -> value ; getValue
+ * get the value of Observable
+ *
+ * @haskell getValue :: [a] -> b -> b
+ *
+ * @function
+ * @param {listMap} listeners
+ * @return {function(value:*): function(value:*)}
+ * @example
+ * let obsExample = Observable(0)
+ * testObs(getValue) === 0
+ *
+ * testObs = testObs(setValue)(42)
+ * testObs(getValue) === 42
+ */
+const getValue = listeners => value => value;
+
+```
+{% endtab %}
+{% endtabs %}
+
+{% hint style="info" %}
+Nachdem eine Observable-Funktion `addListener`, `removeListener`, `removeListenerByKey` oder `setValue` verwendet worden ist, ist es empfehlenswert es zurück zuweisen auf die erstelle Observable-Variable, damit diese überschrieben und aktualisiert ist. 
+{% endhint %}
+
+{% hint style="warning" %}
+Die Observable kann immutable sein, wenn man die Observable-Variable mit `const` deklariert.  So können keine neue Listener hinzugefügt oder entfernt werden, wenn das gewünscht ist.
+
+```javascript
+const listenerLog = newListener( listenerLogToConsole  );
+
+// 'const' deklariert 'obsExampl' als eine Konstate.
+const obsExample = Observable(0)
+                     (addListener)( listenerLog )
+
+// Ein Konstanten kann nicht verändert werden durch Zuweisung oder Neudeklaration
+obsExample = obsExample( removeListener)( listenerLog ) // nicht möglich
+obsExample = obsExample( addListener   )( listenerLog ) // nicht möglich
+```
+{% endhint %}
+
+{% hint style="danger" %}
+Die Observable löst mit der Funktion `setValue`  Side-Effects aus.
+{% endhint %}
+
+### Listener
+
+{% tabs %}
+{% tab title="newListener" %}
+```javascript
+/**
+ * Syntactic sugar for creating a pair of Key and Value for the new Listener.
+ * The key could be anything that can be comparable. The 'generateRandomKey' generate String with the length of six with random Letters (up-/lowercase) & Numbers.
+ * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
+ *
+ * @function
+ * @param  {function} listenerFn
+ * @return {listener} new listener with generated key for the observable
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
+const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
+
+```
+{% endtab %}
+
+{% tab title="newListenerWithCustomKey" %}
+```javascript
+/**
+ * Syntactic sugar for creating a pair of Key and Value for the new Listener.
+ * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
+ * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
+ *
+ * @function
+ * @param  {*} key
+ * @return {function(listenerFn:function) : listener} new listener with custom key for the observable
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
+const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
+
+```
+{% endtab %}
+
+{% tab title="setListenerKey" %}
+```javascript
+/**
+ * Set a new Key for the listener
+ *
+ * @param  {*} newKey
+ * @return {function(listener:function) : listener} listener with the key
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
+const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
+
+```
+{% endtab %}
+
+{% tab title="getListenerKey" %}
+```javascript
+/**
+ * Get the key of listener
+ *
+ * @param  {function} listener
+ * @return {*} key
+ * @example
+ * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ *
+ * listenerTest = setListenerKey(42)(listenerTest)
+ *
+ * getListenerKey(listenerTest) === 42)
+ */
+const getListenerKey = listener => listener(fst)
+
+```
+{% endtab %}
+{% endtabs %}
+
+{% hint style="info" %}
+Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-Liste im Observable gefunden und entfernt werden kann.
+{% endhint %}
+
+{% hint style="info" %}
+Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listenern mit einem gewünschten Key erstellen oder ändern. Ansonsten wird mit eine Key automatisch generiert.  
+{% endhint %}
 
   
  

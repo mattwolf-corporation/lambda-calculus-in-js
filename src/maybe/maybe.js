@@ -6,7 +6,7 @@ import {emptyListMap} from "../listMap/listMap.js";
 export {
     Nothing, Just, maybeNumber, maybeFunction,
     maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements,
-    eitherDomElementOrConsoleError, maybeTruthy, eitherNumber, Left, Right, eitherFunction,
+    maybeTruthy, eitherNumber, Left, Right, eitherFunction,
     eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement,
     eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, eitherNaturalNumber
 }
@@ -76,7 +76,9 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
  * @return {Left|Right} either Right with HTMLElement or Left with Error
  */
 const eitherDomElement = elemId =>
-    eitherElementOrCustomErrorMessage(`no element exist with id: ${elemId}`)(document.getElementById(elemId));
+    eitherElementOrCustomErrorMessage
+        (`no element exist with id: ${elemId}`)
+        (document.getElementById(elemId));
 
 
 const maybeDomElement = elemId =>
@@ -84,16 +86,15 @@ const maybeDomElement = elemId =>
         (_ => Nothing)
         (e => Just(e));
 
-const eitherDomElementOrConsoleError = elemId =>
-    eitherDomElement(elemId)(console.error);
-
 /**
  *
  * @param  {string} elemId
  * @return {HTMLElement|undefined} HTMLElement when exist, else undefined
  */
 const getDomElement = elemId =>
-    eitherDomElementOrConsoleError(elemId)(id);
+    eitherDomElement(elemId)
+        (console.error)
+        (id);
 
 const getDomElements = (...elemIds) =>
     elemIds.map(getDomElement);
@@ -153,7 +154,7 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
                                                 )
                                 )
                                 ( listMap => (eitherProducerFn(curr))
-                                                (err => Left(  push(emptyStack)(err) ) )
+                                                (err => Left(  push(emptyStack)(err)            ) )
                                                 (val => Right( push(listMap)( pair(curr)(val) ) ) )
                                 )
         )

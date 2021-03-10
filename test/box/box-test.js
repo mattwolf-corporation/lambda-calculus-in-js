@@ -8,7 +8,7 @@ import {
 import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
-import {HttpGetSync, HttpGet, jokeUrl, DataFlowVariable} from "../../src/IO/http.js";
+import {HttpGetSync, HttpGet} from "../../src/IO/http.js";
 
 
 const boxSuite = TestSuite("Box");
@@ -490,8 +490,10 @@ boxSuite.add("box with stack", assert => {
 });
 
 boxSuite.add("box with Http", async assert => {
+    const jokeNorrisUrl = "https://api.chucknorris.io/jokes/random"; //value
 
-    const result = Box( HttpGetSync(jokeUrl) )
+
+    const result = Box( HttpGetSync(jokeNorrisUrl) )
                      (mapf)( JSON.parse   )
                      (fold)( x => x.value )
 
@@ -499,19 +501,9 @@ boxSuite.add("box with Http", async assert => {
 
 
     // asynchronous cant be test now - need async test -> checkout console for value
-    HttpGet(jokeUrl)(resp => Box(resp)
+    HttpGet(jokeNorrisUrl)(resp => Box(resp)
                                           (mapf)(JSON.parse)
                                           (fold)(x => console.log( x.value)))
-
-
-    // const xhr = DataFlowVariable(async () => await HttpGet(jokeUrl))
-    // console.log(xhr().response)
-    //
-    // const xhr = DataFlowVariable(async () => await HttpGetAsync(jokeUrl))
-    // xhr().then(x => console.log(x.response))
-    // console.log(result2)
-    // await assert.equalsAsync(result2, true);
-
 
 });
 

@@ -1,11 +1,7 @@
-import {maybeDivision, getOrDefault, getDomElement, eitherDomElementOrConsoleError} from "../maybe.js";
+import {maybeDivision, getOrDefault, getDomElement, getDomElements} from "../maybe.js";
 
 const calcDiv = () => {
-    const fstNum = eitherDomElementOrConsoleError('firstNumInput')(elem => Number(elem.value))
-
-    const sndNum = eitherDomElementOrConsoleError('secondNumInput')(elem => Number(elem.value))
-
+    const [fstNum, sndNum] = getDomElements('firstNumInput', 'secondNumInput').map(e => Number(e.value))
     getDomElement('result').textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
 }
-
-eitherDomElementOrConsoleError('divisionBtn')(btn => btn.onclick = calcDiv)
+getDomElement('divisionBtn').onclick = calcDiv;

@@ -171,8 +171,29 @@ listMapSuite.add("convert Object to ListMap", assert => {
     const result = convertObjToListMap(obj);
 
     assert.churchNumberEquals( size(result), n2);
-    assert.pairEquals(getElementByIndex(result)(n1), pair('a')("HelloWorld"));
-    assert.pairEquals(getElementByIndex(result)(n2), pair('b')("Lambda"));
+    assert.pairEquals( getElementByIndex(result)(n1), pair('a')("HelloWorld"));
+    assert.pairEquals( getElementByIndex(result)(n2), pair('b')("Lambda"));
+
+
+
+    const objWithObject = {
+        a: {
+            txt: 'HelloWorld',
+            short: 'HW'
+        },
+        b: {
+            txt: 'Lambda',
+            short: 'λ'
+        }
+    }
+
+    const result2 = convertObjToListMap(objWithObject);
+
+    assert.churchNumberEquals( size(result2), n2);
+    assert.equals( getElementByIndex(result2)(n1)(fst), "a")
+    assert.equals( JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld',short: 'HW' }) )
+    assert.equals( getElementByIndex(result2)(n2)(fst), "b")
+    assert.equals( JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda',short: 'λ' }) )
 });
 
 listMapSuite.report();
