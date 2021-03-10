@@ -8,11 +8,9 @@
 
 ### Was ist Lambda Kalkül?
 
-**Lambda Kalkül** ist ein formales System, in der mathematische Logik zur Berechnung und Untersuchung von Funktionen gilt.  Es ist ein universelles Berechnungsmodel , mit dem jede Turing-Maschine simuliert werden kann. Es wurde von dem Mathematiker [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church) in den 1930er Jahren als Teil seiner Forschung zu den Grundlagen der Mathematik eingeführt.
+Lambda Kalkül ****ist ein formales System, in der mathematische Logik zur Berechnung und Untersuchung von Funktionen gilt.  Es ist ein universelles Berechnungsmodel , mit dem jede Turing-Maschine simuliert werden kann. Es wurde von dem Mathematiker [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church) in den 1930er Jahren als Teil seiner Forschung zu den Grundlagen der Mathematik eingeführt.
 
-{% hint style="info" %}
-Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablen, einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
-{% endhint %}
+> Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablenbindung, einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
 
 ### Was ist JavaScript?
 
