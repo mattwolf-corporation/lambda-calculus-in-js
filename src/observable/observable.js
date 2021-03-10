@@ -19,7 +19,8 @@ export {
 
 /**
  * listeners -> value -> observableFunction -> observableFunction
- * observableBody - the Body-Observable-Construct. Add Listeners with the Value & append the next Observable-Functions
+ * observableBody - the Body-Observable-Construct who for the observableFunctions.
+ * observableFunctions are: addListener, removeListener, removeListenerByKey), setValue
  *
  * @haskell observableBody :: [a] -> b -> c -> c
  *
@@ -45,19 +46,16 @@ const observableBody = listeners => value => obsFn =>
  *                          (addListener)( listenerNewValueToElement )
  */
 const Observable = initialValue =>
-    observableBody(emptyListMap)(initialValue)(setValue)(initialValue)
-
+    observableBody(emptyListMap)(initialValue)(setValue)(initialValue);
 
 /**
  * listeners -> oldValue -> newValue -> Observable ; setValue
  * set the new value and notify all listeners
  *
  * @extends observableBody
- *
  * @haskell setValue :: [a] -> b -> b -> Observable
  *
  * @sideeffects
- *
  * @function
  * @param {listMap} listeners
  * @return {function(oldValue:*): function(newValue:*): function(Function) : observableBody}
@@ -69,24 +67,8 @@ const Observable = initialValue =>
  */
 const setValue = listeners => oldValue => newValue => {
     forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
-    return observableBody(listeners)(newValue)
+    return observableBody(listeners)(newValue);
 }
-
-/**
- * listeners -> value -> newListener -> Observable ; addListener
- * add new Listener to the Observable and pass the current Observable-Value e.g. the initValue
- *
- * @haskell addListener :: [a] -> b -> [a] -> Observable
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(newListener:listMap): function(Function) : observableBody}
- */
-const addListener = listeners => value => newListener => {
-    newListener(snd)(value)(value)
-    return observableBody(push(listeners)(newListener))(value)
-}
-
 
 /**
  * listeners -> value -> value ; getValue
@@ -107,6 +89,21 @@ const addListener = listeners => value => newListener => {
  * testObs(getValue) === 42
  */
 const getValue = listeners => value => value;
+
+/**
+ * listeners -> value -> newListener -> Observable ; addListener
+ * add new Listener to the Observable and pass the current Observable-Value e.g. the initValue
+ *
+ * @haskell addListener :: [a] -> b -> [a] -> Observable
+ *
+ * @function
+ * @param {listMap} listeners
+ * @return {function(value:*): function(newListener:listMap): function(Function) : observableBody}
+ */
+const addListener = listeners => value => newListener => {
+    newListener(snd)(value)(value)
+    return observableBody(push(listeners)(newListener))(value);
+}
 
 /**
  * listeners -> value -> listenerKey ; removeListenerByKey
@@ -135,7 +132,7 @@ const getValue = listeners => value => value;
  * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
 const removeListenerByKey = listeners => value => listenerKey =>
-    observableBody(removeByKey(listeners)(listenerKey))(value)
+    observableBody(removeByKey(listeners)(listenerKey))(value);
 
 
 /**
@@ -150,7 +147,7 @@ const removeListenerByKey = listeners => value => listenerKey =>
  * @return {function(value:*): function(listenerKey:*)}
  * @example
  * let observedObject = {};
- * const listenerValue = newListener( listenerNewValueToElement (valueHolder) );
+ * const listenerValue = newListener( listenerNewValueToElement (observedObject) );
  *
  * let obsExample = Observable(0)
  *                      (addListener)(listenerValue)
@@ -168,7 +165,7 @@ const removeListenerByKey = listeners => value => listenerKey =>
  * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
 const removeListener = listeners => value => handler =>
-    observableBody(removeByKey(listeners)(handler(fst)))(value)
+    observableBody(removeByKey(listeners)(handler(fst)))(value);
 
 // Observable Tools
 const logListenersToConsole = listeners => _ => {
