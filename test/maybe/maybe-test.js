@@ -185,10 +185,10 @@ maybeSuite.add("eitherElementsOrErrors - bad case", assert => {
 });
 
 
-maybeSuite.add("maybeElements", assert => {
+maybeSuite.add("maybeElementsByFunction", assert => {
     setup();
 
-    const result = maybeElementsByFunction(maybeDomElement)("test", "test2")
+    const result = maybeElementsByFunction( maybeDomElement )("test", "test2")
                     (id)
                     (id);
 
@@ -202,10 +202,10 @@ maybeSuite.add("maybeElements", assert => {
     assert.equals( getElementByKey(result)("test2"), dummyDomElem2);
 
     const failedResult = maybeElementsByFunction( maybeDomElement )("random1", "random2")
-                                (_ => "failed")
-                                (_ => "success");
+                                (id)
+                                (id);
 
-    assert.equals(failedResult, "failed");
+    assert.equals(failedResult, undefined);
 
     tearDown();
 });

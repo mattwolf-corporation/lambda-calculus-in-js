@@ -150,7 +150,7 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
                                                 )
                                 )
                                 ( listMap => (eitherProducerFn(curr))
-                                                (err => Left(  push(emptyStack)(err) ) )
+                                                (err => Left(  push(emptyStack)(err)            ) )
                                                 (val => Right( push(listMap)( pair(curr)(val) ) ) )
                                 )
         )

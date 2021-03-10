@@ -15,11 +15,11 @@ import {
     convertArrayToStack,
     map,
     filter,
-    reduce
+    reduce, forEach
 } from "../stack/stack.js";
 export {
     listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
-    filterListMap, reduceListMap, convertObjToListMap
+    filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole
 }
 
 /**
@@ -151,4 +151,7 @@ const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 const filterListMap = f => filter(p => f(p(snd)) );
 
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+
+const logListMapToConsole = listMap =>
+    forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
 
