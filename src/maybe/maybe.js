@@ -76,7 +76,9 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
  * @return {Left|Right} either Right with HTMLElement or Left with Error
  */
 const eitherDomElement = elemId =>
-    eitherElementOrCustomErrorMessage(`no element exist with id: ${elemId}`)(document.getElementById(elemId));
+    eitherElementOrCustomErrorMessage
+        (`no element exist with id: ${elemId}`)
+        (document.getElementById(elemId));
 
 
 const maybeDomElement = elemId =>
@@ -90,7 +92,9 @@ const maybeDomElement = elemId =>
  * @return {HTMLElement|undefined} HTMLElement when exist, else undefined
  */
 const getDomElement = elemId =>
-    eitherDomElement(elemId)(console.error);
+    eitherDomElement(elemId)
+        (console.error)
+        (id);
 
 const getDomElements = (...elemIds) =>
     elemIds.map(getDomElement);
