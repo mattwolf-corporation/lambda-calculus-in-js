@@ -369,33 +369,42 @@ const setValue = listeners => oldValue => newValue => {
  * testObs(getValue) === 42
  */
 const getValue = listeners => value => value;
-
 ```
 {% endtab %}
 {% endtabs %}
 
 {% hint style="info" %}
-Nachdem eine Observable-Funktion `addListener`, `removeListener`, `removeListenerByKey` oder `setValue` verwendet worden ist, ist es empfehlenswert es zurück zuweisen auf die erstelle Observable-Variable, damit diese überschrieben und aktualisiert ist. 
+Nachdem verwenden eines der Observable-Funktion `addListener`, `removeListener`, `removeListenerByKey` oder `setValue`  erhält man den aktuellen Observable zurück. Es ist dabei "best-practice" eine Zuweisung auf dieselbe Observable wieder zu setzen und damit die alte überschreibt. Ansonsten wird das hinzufügen oder entfernen eines Listeners nicht übernommen.
+
+```javascript
+let obsExample = Observable(0)
+
+obsExample = obsExample( addListener    )( /* dein Listener   */ )
+obsExample = obsExample( removeListener )( /* dein Listener   */ )
+obsExample = obsExample( setValue       )( /* dein neuer Wert */ )
+```
 {% endhint %}
 
-{% hint style="warning" %}
-Die Observable kann immutable sein, wenn man die Observable-Variable mit `const` deklariert.  So können keine neue Listener hinzugefügt oder entfernt werden, wenn das gewünscht ist.
+
+
+{% hint style="info" %}
+Die Observable kann _immutable_ sein, wenn man die Observable-Variable mit `const` deklariert.  So kann man die Überschreibung des Observable unterbinden und nachhinein keine Listener mehr hinzufügen oder entfernen.  
 
 ```javascript
 const listenerLog = newListener( listenerLogToConsole  );
 
-// 'const' deklariert 'obsExampl' als eine Konstate.
+// 'const' deklariert die Observable als eine Konstante (immutable)
 const obsExample = Observable(0)
                      (addListener)( listenerLog )
 
-// Ein Konstanten kann nicht verändert werden durch Zuweisung oder Neudeklaration
-obsExample = obsExample( removeListener)( listenerLog ) // nicht möglich
-obsExample = obsExample( addListener   )( listenerLog ) // nicht möglich
+// Die Observable kann nicht mehr verändert werden
+obsExample = obsExample( removeListener)( listenerLog ) // entfernen nicht möglich
+obsExample = obsExample( addListener   )( listenerLog ) // hinzufügen nicht möglich
 ```
 {% endhint %}
 
 {% hint style="danger" %}
-Die Observable löst mit der Funktion `setValue`  Side-Effects aus.
+Die Observable-Funktion `setValue` löst Side-Effects aus.
 {% endhint %}
 
 ### Listener
@@ -485,11 +494,11 @@ const getListenerKey = listener => listener(fst)
 {% endtabs %}
 
 {% hint style="info" %}
-Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-Liste im Observable gefunden und entfernt werden kann.
+Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
 {% endhint %}
 
 {% hint style="info" %}
-Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listenern mit einem gewünschten Key erstellen oder ändern. Ansonsten wird mit eine Key automatisch generiert.  
+Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listenern mit einem gewünschten Key erstellt und verändert werden. Ansonsten wird der Key automatisch generiert \([generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/02e0429fe3807548f0f73429d56d5fc891a90541/src/observable/observableExamples/observableUtilities.js#L5)\). 
 {% endhint %}
 
   
