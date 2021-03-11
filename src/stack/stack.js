@@ -53,7 +53,7 @@ export {
     hasPre, push, pop, head, size, reduce, filter, map,
     getElementByIndex, logStackToConsole,
     startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, forEach,
+    mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
     zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement
 }
@@ -470,6 +470,17 @@ const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
  * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
 const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
+
+/**
+ *  A function that takes an some Element and converts into a stack. The function returns a stack
+ *
+ * @param  {Array} elements
+ * @return {stack} stack
+ * const stackWithValues = convertElementsToStack( 1,2,3 )
+ *
+ * convertArrayToStack( stackWithValues ) === [1,2,3]
+ */
+const convertElementsToStack = (...elements) => elements.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
  *  A function that accepts a stack. The function returns the reversed stack.

@@ -2,7 +2,13 @@ import {getDomElement} from "../../maybe/maybe.js";
 import {addListener, getValue, removeListener, setValue} from "../observable.js";
 export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle, generateRandomKey}
 
-const generateRandomKey = (length= 6) => Math.random().toString(36).substr(2, length).split('').map(s => Math.round(Math.random()) ? s.toUpperCase() : s.toLowerCase()).join('');
+
+/**
+ * Generate a random string with the length of six (by default) with numbers and letters (random up- & lowercase)
+ * @param  {number} length (optional, default = 6)
+ * @return {string} random string
+ */
+const generateRandomKey = (length = 6) => Math.random().toString(36).substr(2, length).split('').map(s => Math.round(Math.random()) ? s.toUpperCase() : s.toLowerCase()).join('');
 
 const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'
 const toHexString = (r, g, b) => "#" + toHex(r) + toHex(g) + toHex(b)
