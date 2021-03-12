@@ -109,10 +109,20 @@ const hans = getElementByKey(mappedListMap)("name2");  // "HANS"
 
 ### filterListMap
 
-Mit der ...
+Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine listMap entgegen. Die Funktion gibt die gefilterte listMap zurück. Wenn keine Elemente dem Filter entsprechen wird die leere listMap zurückgegeben.
 
 ```javascript
+// Implementation
 const filterListMap = f => filter(p => f(p(snd)) );
+
+// Beispiel
+const startsWithP = str => str.startsWith('P');
+
+const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
+const filteredListMap = filterListMap(startsWithP)(listMapWithNames); // listMap: [ ("name1", "Peter"), ("name3","Paul") ]
+
+const peter = getElementByKey(filteredListMap)("name1"); // "Peter"
+const paul = getElementByKey(filteredListMap)("name3");  // "Paul"
 ```
 
 ### reduceListMap
