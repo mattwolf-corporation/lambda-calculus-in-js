@@ -480,7 +480,7 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  *
  * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
-const convertElementsToStack = (...elements) => convertStackToArray(elements);
+const convertElementsToStack = (...elements) => convertArrayToStack(elements);
 
 /**
  *  A function that accepts a stack. The function returns the reversed stack.
