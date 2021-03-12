@@ -4,7 +4,7 @@
 
 ### Either Type
 
-Der Either Type wird häufig in funktionalen Programmiersprachen wie zum Beispiel Haskell oder Scala eingesetzt für das Error Handling. Der Either Type ist ein polymorpher Typ, der zwei Zustände anehmen kann. Für diese 2 Zustände gibt es die Wert- Konstruktoren **Left** und **Right**. Somit ist ein Either entweder ein Left oder ein Right. Left und Right tragen beide einen Wert mit sich. Left wird verwendet um im Fehlerfall die Fehlermeldung zu kapseln. Right wird verwendet um im Erfolgsfall den korrekten Wert zu kapseln. Durch den Either Type kann so elegant auf Fehler reagiert werden, dies in einer rein funktionalen Sprache,  d.h ohne Seiteneffekte und nur mit reinen Funktionen.
+Der Either Type wird häufig in funktionalen Programmiersprachen wie zum Beispiel Haskell oder Scala eingesetzt für das Error Handling. Der Either Type ist ein polymorpher Typ, der zwei Zustände anehmen kann. Für diese 2 Zustände gibt es die Wert- Konstruktoren **Left** und **Right**. Somit ist ein Either entweder ein Left oder ein Right. Left und Right tragen beide einen Wert mit sich. Left wird verwendet um im Fehlerfall die Fehlermeldung zu kapseln. Right wird verwendet um im Erfolgsfall den korrekten Wert zu kapseln. Durch den Either Type kann so elegant auf Fehler reagiert werden, dies in einer rein funktionalen Sprache,  d.h ohne Seiteneffekte \(wie zum Bespiel mit `throw` in Java\) und nur mit reinen Funktionen.
 
 Either Type Implementation:
 
