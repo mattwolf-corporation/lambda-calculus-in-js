@@ -97,11 +97,10 @@ const toUpperCase = str => str.toUpperCase();
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
 
-const mappedListMap = mapListMap(toUpperCase)(listMapWithNames);
+const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // listMap: [ ("name1", "PETER"), ("name2","HANS") ]
 
 const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
 const hans = getElementByKey(mappedListMap)("name2");  // "HANS"
-
 ```
 
 ### filterListMap
