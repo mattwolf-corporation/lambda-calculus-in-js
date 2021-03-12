@@ -25,14 +25,24 @@ const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusäzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
 
 {% hint style="danger" %}
-Bei Verwendung von Funktionen des Stacks mit der ListMap muss beachtet werden das die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
+Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
 {% endhint %}
 
 ### getElementByKey
 
-Die getElementByKey Funktion...
+Mit der getElementByKey Funktion kann anhand eines Schlüssel auf den dazugehörigen Wert zugegriffen werden.
 
 ```javascript
-const getElementByKey
+const p1 = pair(1)("Michael")
+const p2 = pair(2)("Peter")
+const p3 = pair(3)("Hans")
+
+const testListMap = convertArrayToStack([p1, p2, p3])
+
+const michael = getElementByKey (testListMap) (1); // "Michael"
+const peter   = getElementByKey (testListMap) (2); // "Peter"
+const hans    = getElementByKey (testListMap) (3); // "Hans"
 ```
+
+
 
