@@ -26,3 +26,19 @@ const Just     = Right ;
 
 Anhand der Implementation von `Just` und `Nothing` ist erkenbar, dass der Maybe Type auf dem Either Type basiert. Just ist der Fall bei dem ein Wert vorhanden ist. Dem Just "Konstruktor" kann ein Wert übergeben werden. Nothing ist der Fall bei dem kein Wert vorhanden ist.
 
+## Verwendung
+
+### getOrDefault
+
+Die getOrDefault Funktion erwartet ein Maybe und einen default Wert. Der default Wert wird zurückgegeben falls maybe von Typ Nothing ist.
+
+```javascript
+const getOrDefault = maybe => defaultVal =>
+    maybe
+        (() => defaultVal)
+        (id);
+        
+const result1 = getOrDefault ( Just(10) )(20) // 10
+const result2 = getOrDefault ( Nothing  )(20) // 20
+```
+
