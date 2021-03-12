@@ -65,6 +65,17 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
 eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert ist null")
 ```
 
+### eitherDomElement
+
+Die eitherDomElement Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das Dom Element zurückgegeben sonst eine Fehlermeldung das ein solches Element nicht existiert.
+
+```javascript
+const eitherDomElement = elemId =>
+    eitherElementOrCustomErrorMessage
+        (`no element exist with id: ${elemId}`)
+        (document.getElementById(elemId));
+```
+
 ### eitherNumber
 
 Die eitherNumber Funktion überprüft ob ein Wert vom Typ Integer ist.
@@ -78,7 +89,7 @@ const eitherNumber = val =>
 
 ### eitherNaturalNumber
 
-Die eitherNaturalNumber...
+Die eitherNaturalNumber Funktion überprüft ob der übergebene Wert eine natürliche Zahl ist.
 
 ```javascript
 const eitherNaturalNumber = val =>
@@ -100,7 +111,11 @@ const eitherFunction = val =>
 
 ### eitherTryCatch
 
-Die eitherTryCatch Funktion...
+Die eitherTryCatch Funktion nimmt eine Funktion f entgegen, die schief gehen könnte. Diese Funktion wird in einem try-catch Block ausgeführt. Wenn ein Fehler auftritt während der Funktionsausführung wird dieser gefangen und es wird ein Left mit der Fehlermeldung zurückgegeben, ansonsten ein Right mit dem Resultat.
+
+{% hint style="info" %}
+Diese Funktion hat den Zweck bestehende JavaScript Funktionen die noch auf die nicht Funktionale Art Fehler mit `throw`werfen abzufangen und diese in die Welt der funktionalen Programmierung einzubetten. Somit fungiert diese Funktion als Brücke von der JavaScript Welt in die Welt der funktionalen Programmiersprachen.
+{% endhint %}
 
 ```javascript
 const eitherTryCatch = f => {
