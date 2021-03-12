@@ -20,3 +20,19 @@ Die emptyList repräsentiert die leere ListMap. Anhand dieser Konstruktion ist z
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 ```
 
+## Verwendung
+
+Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusäzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
+
+{% hint style="danger" %}
+Bei Verwendung von Funktionen des Stacks mit der ListMap muss beachtet werden das die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
+{% endhint %}
+
+### getElementByKey
+
+Die getElementByKey Funktion...
+
+```javascript
+const getElementByKey
+```
+
