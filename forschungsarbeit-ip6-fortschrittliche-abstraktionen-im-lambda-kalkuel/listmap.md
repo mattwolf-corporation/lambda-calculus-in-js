@@ -29,7 +29,7 @@ Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werd
 {% endhint %}
 
 {% hint style="info" %}
-In den folgenden Beispielen wird zur besseren Übersicht, die listMap Datenstruktur wie folgt dargestellt: `[ (key1, value1), (key2, value2), (key3, value3), ... ]`
+In den folgenden Beispielen wird zur besseren Übersicht, die listMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
 {% endhint %}
 
 ### getElementByKey
