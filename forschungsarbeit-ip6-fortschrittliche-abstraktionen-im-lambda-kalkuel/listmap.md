@@ -74,13 +74,17 @@ const firstName   = getElementByKey (result) ("firstName"); // "George"
 const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
 ```
 
-### Higher Order Functions speziell für ListMap
+## Higher Order Functions speziell für ListMap
 
 Für die HOF's map, filter und reduce wurde noch eine spezifischere Variante für die ListMap Datenstruktur implementiert, dies um die Anwendung nochmals zu vereinfachen. Die HOF's vom Stack können auch benutzt werden, da muss aber immer mit einem pair\(key\)\(value\) gearbeitet werden obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf \(sollte\). darum wird in den spezifischen HOF's der Key weg abstrahiert und der Anwender kann sich voll und ganz auf das eigentliche Element zu konzentrieren.
 
 ### mapListMap
 
-Mit der Funktion mapListMap wird das mapping mit einer ListMap vereinfacht. Diese Funktion erwartet die eigentliche map-Funktion **`f`** und die `listMap`.
+Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und eine listMap entgegen. Zurück gibt die Funktion eine neue listMap mit den "gemappten" Werten.
+
+{% hint style="info" %}
+Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
+{% endhint %}
 
 Implementation & Beispiel:
 
