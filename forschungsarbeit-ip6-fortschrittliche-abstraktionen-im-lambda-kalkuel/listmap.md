@@ -61,3 +61,29 @@ const hans    = getElementByKey (resultListMap) (3); // "Hans"
 
 ```
 
+### mapListMap
+
+Mit der Funktion mapListMap wird das mapping mit einer ListMap vereinfacht. 
+
+```javascript
+const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
+```
+
+### filterListMap
+
+Mit der ...
+
+```javascript
+const filterListMap = f => filter(p => f(p(snd)) );
+```
+
+### reduceListMap
+
+Mit der ...
+
+```javascript
+const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+```
+
+
+
