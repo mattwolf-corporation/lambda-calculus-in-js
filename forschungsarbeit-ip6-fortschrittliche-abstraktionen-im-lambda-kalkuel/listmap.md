@@ -28,6 +28,10 @@ Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier fo
 Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
 {% endhint %}
 
+{% hint style="info" %}
+In den folgenden Beispielen wird zur besseren Übersicht, die listMap Datenstruktur wie folgt dargestellt: `[ (key1, value1), (key2, value2), (key3, value3), ... ]`
+{% endhint %}
+
 ### getElementByKey
 
 Mit der getElementByKey Funktion kann anhand eines Schlüssel auf den dazugehörigen Wert zugegriffen werden.
