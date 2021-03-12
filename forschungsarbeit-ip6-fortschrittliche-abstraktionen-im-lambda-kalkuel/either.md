@@ -63,6 +63,17 @@ const eitherNumber = val =>
         : Left(`'${val}' is not a integer`);
 ```
 
+### eitherNaturalNumber
+
+Die eitherNaturalNumber...
+
+```javascript
+const eitherNaturalNumber = val =>
+    Number.isInteger(val) && val >= 0
+        ? Right(val)
+        : Left(`'${val}' is not a natural number`);
+```
+
 ### eitherFunction
 
 Die eitherFunction Funktion überprüft ob ein Wert vom Typ function ist.
@@ -72,6 +83,26 @@ const eitherFunction = val =>
     typeof val === "function"
         ? Right(val)
         : Left(`'${val}' is not a function`);
+```
+
+### eitherTryCatch
+
+Die eitherTryCatch Funktion...
+
+```javascript
+const eitherTryCatch = f => {
+    try {
+        return Right(f());
+    } catch (error) {
+        return Left(error);
+    }
+}
+```
+
+### eitherElementsOrErrorsByFunction
+
+```javascript
+const eitherElementsOrErrorsByFunction
 ```
 
 
