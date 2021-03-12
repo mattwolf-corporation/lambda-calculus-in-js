@@ -55,5 +55,16 @@ const maybeDivision = dividend => divisor =>
         : Nothing;
 ```
 
+### maybeTruthy
+
+Die Funktion ..
+
+```javascript
+const maybeTruthy = element =>
+    eitherTruthy(element)
+        (_ => Nothing)
+        (_ => Just(element));
+```
+
 
 
