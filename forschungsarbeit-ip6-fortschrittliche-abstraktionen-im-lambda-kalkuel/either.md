@@ -19,6 +19,8 @@ Beispiel Anwendung:
 
 ## Verwendung
 
+Die folgenden Funktion geben alle ein Either zurück und unterstüzen so eine saubere Fehlerbehandhlung mit pure Functions ohne Seiteneffekte. Somit können typische Fehler die zum Beispiel auftreten wenn Werte `null` oder `undefined` sind vermieden werden. Eine Funktion die ein Either zurückliefert hilft dem Anwender an den Fehlerfall zu denken und diesen zu behandeln.
+
 ### eitherTruthy
 
 Die **eitherTruthy** Funktion erwartet einen Wert und überprüft ob dieser truthy ist. [Liste mit JavaScript falsy Werten](https://developer.mozilla.org/en-US/docs/Glossary/Falsy). Im Erfolgsfall wird ein Right mit dem Element zurückgegben und im Fehlerfall ein Left mit der entsprechenden Fehlermeldung.
