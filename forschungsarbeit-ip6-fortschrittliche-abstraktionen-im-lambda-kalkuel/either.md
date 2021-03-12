@@ -61,6 +61,8 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
     eitherNotNullAndUndefined(element)
         (_ => Left(errorMessage))
         (_ => Right(element));
+        
+eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert ist null")
 ```
 
 ### eitherNumber
