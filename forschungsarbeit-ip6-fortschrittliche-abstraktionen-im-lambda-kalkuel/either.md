@@ -67,7 +67,7 @@ eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert
 
 ### eitherDomElement
 
-Die eitherDomElement Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das Dom Element zurückgegeben sonst eine Fehlermeldung das ein solches Element nicht existiert.
+Die eitherDomElement Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das Dom-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
 
 ```javascript
 const eitherDomElement = elemId =>
@@ -114,7 +114,7 @@ const eitherFunction = val =>
 Die eitherTryCatch Funktion nimmt eine Funktion f entgegen, die schief gehen könnte. Diese Funktion wird in einem try-catch Block ausgeführt. Wenn ein Fehler auftritt während der Funktionsausführung wird dieser gefangen und es wird ein Left mit der Fehlermeldung zurückgegeben, ansonsten ein Right mit dem Resultat.
 
 {% hint style="info" %}
-Diese Funktion hat den Zweck bestehende JavaScript Funktionen die noch auf die nicht Funktionale Art Fehler mit `throw`werfen abzufangen und diese in die Welt der funktionalen Programmierung einzubetten. Somit fungiert diese Funktion als Brücke von der JavaScript Welt in die Welt der funktionalen Programmiersprachen.
+Diese Funktion hat den Zweck bestehende JavaScript Funktionen die noch auf die nicht funktionale Art Fehler mit `throw` werfen abzufangen und diese in die Welt der funktionalen Programmierung einzubetten. Somit fungiert diese Funktion als Brücke von der JavaScript Welt in die Welt der funktionalen Programmiersprachen.
 {% endhint %}
 
 ```javascript
