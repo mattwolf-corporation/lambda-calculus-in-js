@@ -42,3 +42,18 @@ const result1 = getOrDefault ( Just(10) )(20) // 10
 const result2 = getOrDefault ( Nothing  )(20) // 20
 ```
 
+### maybeDivision
+
+Die Funktion maybeDivision führt "villeicht" eine Division mit 2 übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 ist wird die Division durchgeführt und es wird Just mit dem Resultat zurückgegeben.
+
+```javascript
+const maybeDivision = dividend => divisor =>
+    Number.isInteger(dividend) &&
+    Number.isInteger(divisor) &&
+    divisor !== 0
+        ? Just(dividend / divisor)
+        : Nothing;
+```
+
+
+
