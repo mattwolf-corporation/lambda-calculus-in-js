@@ -44,5 +44,20 @@ const peter   = getElementByKey (testListMap) (2); // "Peter"
 const hans    = getElementByKey (testListMap) (3); // "Hans"
 ```
 
+### removeByKey
 
+Mit der Funktion removeByKey kann ein Wert anhand des Schlüssel entfernt werden.
+
+```javascript
+const p1 = pair(1)("Michael")
+const p2 = pair(2)("Peter")
+const p3 = pair(3)("Hans")
+
+const testListMap = convertArrayToStack([p1, p2, p3])
+const resultListMap = removeByKey(testListMap)(2); // "Hans" wird entfernt
+
+const michael = getElementByKey (resultListMap) (1); // "Michael"
+const hans    = getElementByKey (resultListMap) (3); // "Hans"
+
+```
 
