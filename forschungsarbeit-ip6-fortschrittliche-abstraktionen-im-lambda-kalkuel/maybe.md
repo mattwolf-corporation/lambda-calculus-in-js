@@ -77,5 +77,16 @@ const maybeDomElement = elemId =>
         (e => Just(e));
 ```
 
+### maybeNumber
+
+
+
+```javascript
+const maybeNumber = val =>
+    eitherNumber(val)
+        (_ => Nothing)
+        (_ => Just(val));
+```
+
 
 
