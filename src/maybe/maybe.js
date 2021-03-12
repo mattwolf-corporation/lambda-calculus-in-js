@@ -66,7 +66,7 @@ const maybeTruthy = element =>
         (_ => Just(element));
 
 const eitherElementOrCustomErrorMessage = errorMessage => element =>
-    eitherTruthy(element)
+    eitherNotNullAndUndefined(element)
         (_ => Left(errorMessage))
         (_ => Right(element));
 

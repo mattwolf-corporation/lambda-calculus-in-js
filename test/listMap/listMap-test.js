@@ -69,7 +69,9 @@ listMapSuite.add("removeByKey", assert => {
     assert.pairEquals(getElementByIndex(testListMap)(n4), p3);
     assert.pairEquals(getElementByIndex(testListMap)(n5), p4);
 
-    const listMapUnderTest = removeByKey(testListMap)(17)
+    const listMapUnderTest = removeByKey(testListMap)(17);
+    const listMapUnderTest2 = removeByKey(testListMap)("dhfhdfh");
+    assert.churchNumberEquals( size(listMapUnderTest2), n5);
 
     assert.churchNumberEquals( size(listMapUnderTest), n4);
 
