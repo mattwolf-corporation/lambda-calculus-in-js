@@ -50,6 +50,30 @@ const eitherNotNullAndUndefined = value =>
         : Left(`element is '${value}'`);
 ```
 
+### eitherNumber
+
+Die eitherNumber Funktion überprüft ob ein Wert vom Typ Integer ist.
+
+```javascript
+const eitherNumber = val =>
+    Number.isInteger(val)
+        ? Right(val)
+        : Left(`'${val}' is not a integer`);
+```
+
+### eitherFunction
+
+Die eitherFunction Funktion überprüft ob ein Wert vom Typ function ist.
+
+```javascript
+const eitherFunction = val =>
+    typeof val === "function"
+        ? Right(val)
+        : Left(`'${val}' is not a function`);
+```
+
+
+
 
 
 
