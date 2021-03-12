@@ -50,3 +50,11 @@ const zip
 const stackEquals
 ```
 
+### getIndexOfElement
+
+....
+
+```javascript
+const ...
+```
+
