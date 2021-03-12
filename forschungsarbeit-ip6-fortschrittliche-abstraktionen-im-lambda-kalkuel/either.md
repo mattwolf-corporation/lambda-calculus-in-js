@@ -37,6 +37,8 @@ eitherTruthy(null)
     (value => doSomethingInSuccessCase(value))
 ```
 
+In diesem Beispiel tritt der Fehlerfall ein und die Funktion `doSomethingInErrorCase(error)` wird aufegrufen. Der Erfolgsfall bzw. die Funktion `doSomethingInSuccessCase(value)` wird ignoriert.
+
 ### eitherNotNullAndUndefined
 
 Die **eitherNotNullAndUndefined** Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
