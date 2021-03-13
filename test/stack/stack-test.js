@@ -282,6 +282,9 @@ stackSuite.add("map", assert => {
     assert.equals(head(pop(mappedStackWithChurchNumbers)(fst)), 4);
     assert.equals(head(pop(pop(mappedStackWithChurchNumbers)(fst))(fst)), 2);
     assert.equals(head(pop(pop(pop(mappedStackWithChurchNumbers)(fst))(fst))(fst)), id);
+
+    // map with emptystack
+    assert.equals( map(id)(emptyStack), emptyStack )
 });
 
 stackSuite.add("filter", assert => {

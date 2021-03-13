@@ -44,42 +44,38 @@
 
     }
 
-    .jokeListenersRow {
+    #jokeHistory {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        /*justify-content: space-around;*/
+    }
+    .joke{
+
     }
 
 </style>
 <body>
 <div class="buttons">
     <div class="buttonsRow">
-        <button id="norrisBtn">Get a Chuck Norris-Joke</button>
-        <button id="nerdyBtn">Get a Nerdy-Joke</button>
-        <button id="trumpBtn">Get a Trump Tweet-Joke</button>
+        <button id="norrisBtn">Chuck Norris-Joke</button>
+        <button id="nerdyBtn">Nerdy-Joke</button>
+        <button id="trumpBtn">Trump Tweet</button>
 
     </div>
     <div class="buttonsRow">
-        <button id="norrisDelayBtn">Get a Chuck Norris-Joke delayed</button>
-        <button id="nerdyDelayBtn">Get a Nerdy-Joke delayed</button>
-        <button id="trumpDelayBtn">Get a Trump Tweet-Joke delayed</button>
+        <button id="norrisDelayBtn">Chuck Norris-Joke delayed</button>
+        <button id="nerdyDelayBtn"> Nerdy-Joke delayed</button>
+        <button id="trumpDelayBtn"> Trump Tweet delayed</button>
     </div>
 </div>
 
 
-Add a Joke-Listener
-<div class="jokeListenersRow" id="listenersDiv">
-    <div class="jokeListener">
-        <h4>Joke Listener Nr. 1</h4>
-        <p class="jokeText"></p>
-    </div>
+<div id="jokeHistory">
 
-    <div class="jokeListener">
-        <h4>Joke Listener Nr. 2</h4>
-        <p class="jokeText"></p>
-    </div>
 </div>
+
 
 <script src="observableHttpGetJokeExample.js" type="module"></script>
 </body>
