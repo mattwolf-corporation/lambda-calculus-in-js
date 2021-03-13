@@ -47,7 +47,11 @@ const result = flatten(stackWithStacks); // [ 1, 2, 3, 4, 5, 6]
 
 ### zipWith
 
-Die zipWith Funktion nimmt eine Verknüpfungsfunktion und 2 Stacks entgegen. Anhand der Verknüpfungsfunktion werden die Elemente der beiden übergebenen Stacks paarweise miteinander verknüpft zu einem neuen Stack. Wenn ein Stack kürzer ist wird nur bis zum letzten Element des kürzeren Stacks verknüpft.
+Die zipWith Funktion nimmt eine Verknüpfungsfunktion und 2 Stacks entgegen. Anhand der Verknüpfungsfunktion werden die Elemente der beiden übergebenen Stacks paarweise miteinander verknüpft zu einem neuen Stack.
+
+{% hint style="info" %}
+Wenn einer der beiden übergebenen Stacks kürzer ist wird nur bis zum letzten Element des kürzeren Stacks verknüpft.
+{% endhint %}
 
 ```javascript
 const add = x => y => x + y;
@@ -60,10 +64,13 @@ const zippedStack = zipWith(add)(s1)(s2); // [ 5, 7 ]
 
 ### zip
 
-....
+Die zip Funktion nimmt zwei Stacks entgegen und verknüpft die beiden Stacks mit der Funktion `pair`.
 
 ```javascript
-const zip
+const s1 = convertArrayToStack([1, 2]);
+const s2 = convertArrayToStack([3, 4]);
+
+const zippedStack = zip(s1)(s2); // [ (1, 3), (2, 4) ]
 ```
 
 ### stackEquals
