@@ -130,10 +130,21 @@ const paul  = getElementByKey(filteredListMap)("name3");  // "Paul"
 
 ### reduceListMap
 
-Mit der ...
+Diese Funktion nimmt als erstes eine reduce-Funktion entgegen, als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
 
 ```javascript
+// Implementation
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+
+// Beispiel
+const reduceFunc = (acc, curr) => acc + curr.income;
+
+const listMapWithPersons = convertObjToListMap({
+              p1: {firstName: 'Peter', income: 1000},
+              p2: {firstName: 'Michael', income: 500}
+        });
+    
+const incomeSum = reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 ```
 
 
