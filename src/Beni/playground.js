@@ -40,29 +40,14 @@ const Tuple = n =>
     n < 1
     ?  new Error("Tuple must have first argument n > 0")
     : [
-        TupleCtor (n) ([]), // ctor curries all values and then waits for the selector
-        // every selector is a function that picks the value from the curried ctor at the same position
-        ...Array.from( {length:n}, (it, idx) => {
-            console.log(it, idx)
-
-
-            return values => {
-                console.log(values)
-                console.log(idx)
-                console.log(values[idx])
-                return values[idx]
-            }
-        } )
-    ];
+        TupleCtor (n) ([]),
+        ...Array.from( {length:n}, (it, idx) =>  values => values[idx])
+    ]
 
 const TupleCtor = n => values =>
-    n === 0                                              // we have curried all ctor args, now
-        ? selector => selector(values)        // return a function that waits for the selector
-        : value => {
-    console.log(value)
-    console.log([...values, value])
-    return TupleCtor (n - 1) ([...values, value])
-        }           // return the ctor for the remaining args
+    n === 0
+        ? selector => selector(values)
+        : value => TupleCtor (n - 1) ([...values, value])
 
 
 
