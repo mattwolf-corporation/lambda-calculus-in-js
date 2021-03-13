@@ -17,6 +17,9 @@ import {convertElementsToStack, logStackToConsole, forEach, map,push, emptyStack
 import {convertObjToListMap, getElementByKey, logListMapToConsole, listMap, mapListMap} from "../../../listMap/listMap.js";
 
 const speak = txt => {
+    if (speechSynthesis.speaking){
+        speechSynthesis.cancel()
+    }
     const msg = new SpeechSynthesisUtterance(txt);
     msg.lang = "en-US";
     msg.volume = 1; // From 0   to 1    (1)
@@ -25,94 +28,46 @@ const speak = txt => {
     speechSynthesis.speak(msg);
 }
 
-const Tuple = n =>
-    n < 1
-        ?  new Error("Tuple must have first argument n > 0")
-        : [
-            TupleCtor (n) ([]),
-            ...Array.from( {length:n}, (it, idx) =>  values => values[idx])
-        ]
-
-const TupleCtor = n => values =>
-    n === 0
-        ? selector => selector(values)
-        : value => TupleCtor (n - 1) ([...values, value])
-
-
-
-// create Observable
 
 const jokesHistoryDiv = getDomElement("jokeHistory");
+// Get the elements from the Dom
+const [norrisBtn, nerdyBtn, trumpBtn] = getDomElements("norrisBtn", "nerdyBtn", "trumpBtn");
 
-let historyOfJokes = emptyStack;
 
-
-
-const listenerLog              = newListener( nValue => oValue => console.log( showPair(nValue) ))
 const listenerSpeak            = newListener( nValue => oValue => speak(nValue(snd))  );
-const listenerJokeToDom        = newListener( nValue => oValue => {  historyOfJokes = push(historyOfJokes)(nValue)
-                                                                             forEach(historyOfJokes)((joke, index) => {
-                                                                                 const template = document.createElement('div');
+const listenerJokeToDom        = newListener( nValue => oValue => {
+                                                                                 const template = document.createElement('fieldset');
                                                                                  template.className = "joke"
-                                                                                 template.innerHTML = `<h5>Joke Nr. ${index}</h5>
-                                                                                                       <h4>${joke(fst)}</h4>
-                                                                                                       <p class="jokeText">${joke(snd)}</p>`
-
+                                                                                 template.innerHTML = `<legend>${nValue(fst)}</legend>
+                                                                                                       <p class="jokeText">${nValue(snd)}</p>`
                                                                                  jokesHistoryDiv.insertAdjacentElement('afterbegin', template)
-                                                                             })
                                                                             });
 
 
-let jokePairObserver = Observable(pair("no joke yet")("tell me one"))
-                            (addListener)( listenerLog      )
+let jokePairObserver = Observable(pair("nobody")("tell me a joke"))
                             (addListener)( listenerSpeak    )
                             (addListener)( listenerJokeToDom)
 
 
-const jokeNorrisUrl = "https://api.chucknorris.io/jokes/random"; //value
-const jokeNerdUrl = "https://v2.jokeapi.dev/joke/Programming?type=single" // joke
-const trumpTweetUrl = "https://www.tronalddump.io/random/quote"; // value
-const delayUrl = (url, delaySeconds = 2) => `http://slowwly.robertomurray.co.uk/delay/${delaySeconds}000/url/${url}`; // delay 2 seconds by default
+const jokeNorrisUrl = "https://api.chucknorris.io/jokes/random";            // jsonKey: value
+const jokeNerdUrl   = "https://v2.jokeapi.dev/joke/Programming?type=single" // jsonKey: joke
+const trumpTweetUrl = "https://www.tronalddump.io/random/quote";            // jsonKey: value
 
-// Get the elements from the Dom
-const [norrisBtn, nerdyBtn, trumpBtn] = getDomElements("norrisBtn", "nerdyBtn", "trumpBtn");
-const [norrisDelayBtn, nerdyDelayBtn, trumpDelayBtn] = getDomElements("norrisDelayBtn", "nerdyDelayBtn", "trumpDelayBtn");
 
-// const [Joke, name, btn, url, jsonValue] = Tuple(4)
-// const norrisJoke = Joke("Chuck Norris")(norrisBtn)(jokeNorrisUrl)("value")
-// const nerdJoke   = Joke("For Nerdy")(nerdyBtn )(jokeNerdUrl)("joke")
-//
-// const jokesStack = convertElementsToStack(norrisJoke, nerdJoke);
-//
-// forEach(jokesStack)((joke, _) => {
-//     joke(btn).onclick = _ =>
-//         HttpGet( joke(url) )(resp =>
-//             jokeObserver(setValue)( Box(resp)(mapf)(JSON.parse)(fold)(x => pair( joke(name) )( x[joke(jsonValue)] ))));
-// })
 
-const jokeCtor = name => jsonValue => btn => url =>
-    convertObjToListMap( {name, jsonValue, btn, url} )
+const jokeCtor = name =>  btn => url => jsonKey =>
+    convertObjToListMap( {name,  btn, url, jsonKey } );
 
-const norrisJoke        = jokeCtor("Chuck Norris")("value")
-const nerdJoke          = jokeCtor("Nerd")        ("joke")
-const trumpTweet        = jokeCtor("Trump")       ("value")
-const norrisJokeNorm    = norrisJoke (norrisBtn)      (jokeNorrisUrl);
-const nerdJokeNorm      = nerdJoke   (nerdyBtn)       (jokeNerdUrl);
-const trumpTweetNorm    = trumpTweet (trumpBtn)       (trumpTweetUrl);
-const norrisJokeDelay   = norrisJoke (norrisDelayBtn) (delayUrl(jokeNorrisUrl));
-const nerdJokeDelay     = nerdJoke   (nerdyDelayBtn)  (delayUrl(jokeNerdUrl));
-const trumpTweetDelay   = trumpTweet (trumpDelayBtn)  (delayUrl(trumpTweetUrl));
+const norrisJoke   = jokeCtor("Chuck Norris - Joke ")(norrisBtn) (jokeNorrisUrl) ("value");
+const nerdJoke     = jokeCtor("Nerd - Joke ")        (nerdyBtn)  (jokeNerdUrl)   ("joke") ;
+const trumpTweet   = jokeCtor("Trump Tweet")       (trumpBtn)  (trumpTweetUrl) ("value");
 
-const jokes = convertElementsToStack(
-    norrisJokeNorm
-    , nerdJokeNorm
-    , trumpTweetNorm
-    , norrisJokeDelay
-    , nerdJokeDelay
-    , trumpTweetDelay);
+const jokes = convertElementsToStack(norrisJoke, nerdJoke, trumpTweet);
 
-forEach(jokes)((joke, _) => {
+// add the Joke-Buttons the on-click event listener for request the Jokes and update the Observable
+forEach(jokes)((joke, _) =>
     getElementByKey(joke)("btn").onclick = _ =>
-        HttpGet( getElementByKey(joke)("url"))(resp =>
-            jokePairObserver(setValue)( Box(resp)(mapf)(JSON.parse)(fold)(x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonValue")] ))));
-})
+        HttpGet( getElementByKey(joke)("url") )(resp =>
+            jokePairObserver(setValue)( Box(resp)
+                                            (mapf)(JSON.parse)
+                                            (fold)(x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
