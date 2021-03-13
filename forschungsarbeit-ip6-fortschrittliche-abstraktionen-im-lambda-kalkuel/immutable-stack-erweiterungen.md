@@ -79,15 +79,18 @@ const zippedStack = zip(s1)(s2); // [ (1, 3), (2, 4) ]
 
 ### stackEquals
 
-
+Die Funktion stackEquals nimmt zwei Stacks entegen und vergleicht alle Elemente mit dem JavaScript `===` Operator auf gleicheit. Wenn alle Vergleiche `true` ergeben, gibt die Funktion ein Church-Boolean `True` zurück ansonsten ein Church-Boolean `False`.
 
 ```javascript
-const stackEquals
+const s1 = convertArrayToStack([1, 2]);
+const s2 = convertArrayToStack([1, 2]);
+
+const r1 = stackEquals(s1)(s2); // True (Church Boolean)
 ```
 
 ### getIndexOfElement
 
-....
+Die Funktion getIndexOfElement ..
 
 ```javascript
 const ...
