@@ -58,7 +58,6 @@ const eitherTruthy = value =>
 Die **eitherNotNullAndUndefined** Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
 
 ```javascript
-// Implementation
 const eitherNotNullAndUndefined = value =>
     value !== null && value !== undefined
         ? Right(value)
@@ -70,11 +69,13 @@ const eitherNotNullAndUndefined = value =>
 Die eitherElementOrCustomErrorMessage Funktion erwartet eine Fehlermeldung und ein Element. Die Funktion überprüft das Element auf `null` oder `undefined` und gibt entweder ein `Right` mit dem Wert oder ein `Left` mit der übergebenen Fehlermeldung zurück.
 
 ```javascript
+// Implementation
 const eitherElementOrCustomErrorMessage = errorMessage => element =>
     eitherNotNullAndUndefined(element)
         (_ => Left(errorMessage))
         (_ => Right(element));
-        
+ 
+// Anwendung       
 eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert ist null")
 ```
 
