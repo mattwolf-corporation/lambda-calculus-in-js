@@ -28,6 +28,10 @@ Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier fo
 Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
 {% endhint %}
 
+{% hint style="info" %}
+In den folgenden Beispielen wird zur besseren Übersicht, die listMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
+{% endhint %}
+
 ### getElementByKey
 
 Mit der getElementByKey Funktion kann anhand eines Schlüssel auf den dazugehörigen Wert zugegriffen werden.
@@ -74,20 +78,51 @@ const firstName   = getElementByKey (result) ("firstName"); // "George"
 const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
 ```
 
+## Higher Order Functions \(HOF's\) speziell für ListMap
+
+Für die HOF's map, filter und reduce wurde noch eine spezifischere Variante für die ListMap Datenstruktur implementiert, dies um die Anwendung nochmals zu vereinfachen. Die HOF's vom Stack können auch benutzt werden, da muss aber immer mit einem pair\(key\)\(value\) gearbeitet werden obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf \(sollte\). darum wird in den spezifischen HOF's der Key weg abstrahiert und der Anwender kann sich voll und ganz auf das eigentliche Element zu konzentrieren.
+
 ### mapListMap
 
-Mit der Funktion mapListMap wird das mapping mit einer ListMap vereinfacht. 
+Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und eine listMap entgegen. Zurück gibt die Funktion eine neue listMap mit den "gemappten" Werten.
+
+{% hint style="info" %}
+Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
+{% endhint %}
+
+Implementation & Beispiel:
 
 ```javascript
+// Implementation
 const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
+
+// Anwendung
+const toUpperCase = str => str.toUpperCase();
+
+const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
+
+const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // listMap: [ ("name1", "PETER"), ("name2","HANS") ]
+
+const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
+const hans = getElementByKey(mappedListMap)("name2");  // "HANS"
 ```
 
 ### filterListMap
 
-Mit der ...
+Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine listMap entgegen. Die Funktion gibt die gefilterte listMap zurück. Wenn keine Elemente dem Filter entsprechen wird die leere listMap zurückgegeben.
 
 ```javascript
+// Implementation
 const filterListMap = f => filter(p => f(p(snd)) );
+
+// Beispiel
+const startsWithP = str => str.startsWith('P');
+
+const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
+const filteredListMap = filterListMap(startsWithP)(listMapWithNames); // listMap: [ ("name1", "Peter"), ("name3","Paul") ]
+
+const peter = getElementByKey(filteredListMap)("name1"); // "Peter"
+const paul = getElementByKey(filteredListMap)("name3");  // "Paul"
 ```
 
 ### reduceListMap

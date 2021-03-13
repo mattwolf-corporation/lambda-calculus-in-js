@@ -13,4 +13,5 @@
   * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
   * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
+  * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
 
