@@ -66,6 +66,10 @@ const zippedStack = zipWith(add)(s1)(s2); // [ 5, 7 ]
 
 Die zip Funktion nimmt zwei Stacks entgegen und verknüpft die beiden Stacks mit der Funktion `pair`.
 
+{% hint style="info" %}
+Wenn einer der beiden übergebenen Stacks kürzer ist wird nur bis zum letzten Element des kürzeren Stacks verknüpft.
+{% endhint %}
+
 ```javascript
 const s1 = convertArrayToStack([1, 2]);
 const s2 = convertArrayToStack([3, 4]);
@@ -75,7 +79,7 @@ const zippedStack = zip(s1)(s2); // [ (1, 3), (2, 4) ]
 
 ### stackEquals
 
-...
+
 
 ```javascript
 const stackEquals
