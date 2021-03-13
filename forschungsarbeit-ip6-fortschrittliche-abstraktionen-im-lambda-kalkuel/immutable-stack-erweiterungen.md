@@ -90,9 +90,14 @@ const r1 = stackEquals(s1)(s2); // True (Church Boolean)
 
 ### getIndexOfElement
 
-Die Funktion getIndexOfElement ..
+Die Funktion getIndexOfElement nimmt einen Stack und einen Element entgegen und gibt den Index von diesem Element zurück. Wenn das Element nicht existiert wird `undefined` zurückgegeben.
 
 ```javascript
-const ...
+const stackWithNumbers = convertArrayToStack([7, 34, 10]);
+
+const result1 = getIndexOfElement(stackWithNumbers)(7)    // 1
+const result2 = getIndexOfElement(stackWithNumbers)(34)   // 2
+const result3 = getIndexOfElement(stackWithNumbers)(10)   // 3
+const result4 = getIndexOfElement(stackWithNumbers)(100)  // undefined
 ```
 
