@@ -2,7 +2,7 @@
 
 ## forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
 
-Die Performance der **`forEach`**-Methode war nicht optimiert und konnte mehr als das 2-Fache verbessert werden. Anstelle den Index jedes mal aus dem Stack via **`jsnum`** zu berechnen, wurde der Index in jeder Iteration nur aufgezählt.  
+ Die Performance der **`forEach`**-Methode war nicht optimiert und konnte mehr als das 2-Fache verbessert werden. Anstelle den Index jedes mal aus dem Stack via **`jsnum`** zu berechnen, wurde der Index in jeder Iteration nur aufgezählt.  
 Das Problem liegt an den [_Churchzahlen_ ](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#church-zahlen)welche im Kern aus rekursiven Funktionen bestehen und bei zu vielen Anwendungen und Verknüpfungen den Stack-Call stark wachsen lässt.
 
 Code: **`forEach`** \(nicht optimiert\) mit hoher Komplexität:
