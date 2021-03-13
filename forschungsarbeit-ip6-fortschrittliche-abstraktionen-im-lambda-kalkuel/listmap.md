@@ -41,7 +41,9 @@ const p1 = pair(1)("Michael")
 const p2 = pair(2)("Peter")
 const p3 = pair(3)("Hans")
 
-const testListMap = convertArrayToStack([p1, p2, p3])
+const testListMap = convertArrayToStack([p1, p2, p3]) // [ ("1", "Michael"), ("2", "Peter"),("3", "Hans") ]
+
+
 
 const michael = getElementByKey (testListMap) (1); // "Michael"
 const peter   = getElementByKey (testListMap) (2); // "Peter"
@@ -58,7 +60,8 @@ const p2 = pair(2)("Peter")
 const p3 = pair(3)("Hans")
 
 const testListMap   = convertArrayToStack( [p1, p2, p3] )
-const resultListMap = removeByKey(testListMap)(2); // "Hans" wird entfernt
+const resultListMap = removeByKey(testListMap)(2); // [ ("1", "Michael"), ("3", "Hans") ]
+
 
 const michael = getElementByKey (resultListMap) (1); // "Michael"
 const hans    = getElementByKey (resultListMap) (3); // "Hans"
@@ -72,7 +75,7 @@ Mit der Funktion convertObjToListMap kann ein JavaScript Objekt zu einer ListMap
 ```javascript
 const personObject = {firstName: 'George', lastName: "Lucas"}
 
-const result = convertObjToListMap(personObject);
+const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
 const firstName   = getElementByKey (result) ("firstName"); // "George"
 const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
@@ -101,7 +104,7 @@ const toUpperCase = str => str.toUpperCase();
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
 
-const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // listMap: [ ("name1", "PETER"), ("name2","HANS") ]
+const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // [ ("name1", "PETER"), ("name2", "HANS") ]
 
 const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
 const hans = getElementByKey(mappedListMap)("name2");  // "HANS"
@@ -113,16 +116,16 @@ Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) 
 
 ```javascript
 // Implementation
-const filterListMap = f => filter(p => f(p(snd)) );
+const filterListMap    = f => filter(p => f(p(snd)) );
 
 // Beispiel
-const startsWithP = str => str.startsWith('P');
+const startsWithP      = str => str.startsWith('P');
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
-const filteredListMap = filterListMap(startsWithP)(listMapWithNames); // listMap: [ ("name1", "Peter"), ("name3","Paul") ]
+const filteredListMap  = filterListMap(startsWithP)(listMapWithNames); // [ ("name1", "Peter"), ("name3", "Paul") ]
 
-const peter = getElementByKey(filteredListMap)("name1"); // "Peter"
-const paul = getElementByKey(filteredListMap)("name3");  // "Paul"
+const peter = getElementByKey(filteredListMap)("name1");  // "Peter"
+const paul  = getElementByKey(filteredListMap)("name3");  // "Paul"
 ```
 
 ### reduceListMap
