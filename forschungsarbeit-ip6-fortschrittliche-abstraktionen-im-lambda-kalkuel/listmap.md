@@ -73,6 +73,11 @@ const hans    = getElementByKey (resultListMap) (3); // "Hans"
 Mit der Funktion convertObjToListMap kann ein JavaScript Objekt zu einer ListMap konvertiert werden. JavaScript-Objekte sind Container für benannte Werte, die Properties oder Methoden genannt werden. In der Konvertierungsfunktion werden die Namen als String-Schlüssel verwendet.
 
 ```javascript
+// Implementation
+const convertObjToListMap = obj => 
+    Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
+
+// Anwendung
 const personObject = {firstName: 'George', lastName: "Lucas"}
 
 const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
@@ -92,8 +97,6 @@ Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und e
 {% hint style="info" %}
 Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
 {% endhint %}
-
-Implementation & Beispiel:
 
 ```javascript
 // Implementation
@@ -118,7 +121,7 @@ Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) 
 // Implementation
 const filterListMap    = f => filter(p => f(p(snd)) );
 
-// Beispiel
+// Anwendung
 const startsWithP      = str => str.startsWith('P');
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
@@ -136,7 +139,7 @@ Diese Funktion nimmt als erstes eine reduce-Funktion entgegen, als zweites einen
 // Implementation
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
 
-// Beispiel
+// Anwendung
 const reduceFunc = (acc, curr) => acc + curr.income;
 
 const listMapWithPersons = convertObjToListMap({
