@@ -4,10 +4,11 @@ Folgende Funktionen sind neu zum Immutable Stack hinzugekommen.
 
 ### removeByIndex
 
-....
+Die Funktion removeByIndex nimmt einen Stack entgegen und einen Index. Die Funktion löscht das Element am übergebenen Index.
 
 ```javascript
-const removeByIndex
+const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
+const result = removeByIndex(stackWithStrings)(2) // [ "Hello", "you", "Rock", "the", "World" ]
 ```
 
 ### concat
