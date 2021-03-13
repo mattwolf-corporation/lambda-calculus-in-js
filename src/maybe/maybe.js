@@ -57,13 +57,13 @@ const eitherNotNullAndUndefined = value =>
 
 /**
  * Take the element as maybe value if the element is a truthy value inclusive number Zero
- * @param  {*} element
+ * @param  {*} value
  * @return {Just|Nothing} a Maybe (Just with the element or Nothing)
  */
-const maybeTruthy = element =>
-    eitherTruthy(element)
+const maybeTruthy = value =>
+    eitherTruthy(value)
         (_ => Nothing)
-        (_ => Just(element));
+        (_ => Just(value));
 
 const eitherElementOrCustomErrorMessage = errorMessage => element =>
     eitherNotNullAndUndefined(element)

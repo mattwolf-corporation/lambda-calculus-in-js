@@ -144,6 +144,18 @@ listMapSuite.add("mapListMap", assert => {
     assert.pairEquals(getElementByIndex(result2)(n1), pair(15)(10));
     assert.pairEquals(getElementByIndex(result2)(n2), pair(16)(20));
     assert.pairEquals(getElementByIndex(result2)(n3), pair(17)(30));
+
+    const startsWithP = str => str.startsWith('P');
+    const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
+    const filteredListMap = filterListMap(startsWithP)(listMapWithNames);
+
+    const peter = getElementByKey(filteredListMap)("name1");
+    const paul = getElementByKey(filteredListMap)("name3");
+
+
+    assert.churchNumberEquals( size(filteredListMap), n2);
+    console.log(peter);
+    console.log(paul);
 });
 
 listMapSuite.add("filterListMap", assert => {
@@ -196,6 +208,18 @@ listMapSuite.add("convert Object to ListMap", assert => {
     assert.equals( JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld',short: 'HW' }) )
     assert.equals( getElementByIndex(result2)(n2)(fst), "b")
     assert.equals( JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda',short: 'λ' }) )
+});
+
+listMapSuite.add("playground", assert => {
+    const personObject = {firstName: 'George', lastName: "Lucas"}
+
+    const result = convertObjToListMap(personObject);
+
+    const firstName   = getElementByKey (result) ("firstName"); // "George"
+    const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
+
+    console.log('f ' + firstName);
+    console.log('l ' + lastName);
 });
 
 listMapSuite.report();
