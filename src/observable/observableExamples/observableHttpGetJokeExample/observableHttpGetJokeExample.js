@@ -1,33 +1,27 @@
+import {Observable, addListener, newListener, setValue }from "../../observable.js";
 import {
-    Observable,
-    addListener,
-    removeListener,
-    listenerLogToConsole,
-    listenerNewValueToDomElementTextContent,
-    listenerOldValueToDomElementTextContent,
-    newListener,
-    listenerNewValueLengthToElementTextContent,
-    setValue, getValue
-}from "../../observable.js";
-import {getDomElements, getDomElement, Just, Nothing, Right, Left } from "../../../maybe/maybe.js";
+    getDomElements,
+    getDomElement,
+    Just,
+    Nothing,
+    Right,
+    Left,
+    eitherElementsOrErrorsByFunction,
+    eitherDomElement
+} from "../../../maybe/maybe.js";
 import {HttpGet} from "../../../IO/http.js";
 import {Box, mapf, fold} from "../../../box/box.js";
 import {pair, fst, snd, showPair, triple, firstOfTriple, secondOfTriple, thirdOfTriple} from "../../../lambda-calculus-library/lambda-calculus.js";
 import {convertElementsToStack, logStackToConsole, forEach, map,push, emptyStack, reverseStack} from "../../../stack/stack.js";
 import {convertObjToListMap, getElementByKey, logListMapToConsole, listMap, mapListMap} from "../../../listMap/listMap.js";
+import { speak } from "../observableUtilities.js";
 
-const speak = txt => {
-    if (speechSynthesis.speaking){
-        speechSynthesis.cancel()
-    }
-    const msg = new SpeechSynthesisUtterance(txt);
-    msg.lang = "en-US";
-    msg.volume = 1; // From 0   to 1    (1)
-    msg.rate = 1;   // From 0.1 to 10   (1)
-    msg.pitch = 1;  // From 0   to 2    (1)
-    speechSynthesis.speak(msg);
-}
-
+eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHisstory", "norrisBtn", "nerdyBtn", "trumpBtn")
+(mis => {
+    logStackToConsole(mis)
+    document.getElementsByTagName("body")[0].innerHTML = " ERROR "
+})
+(e => {
 
 const jokesHistoryDiv = getDomElement("jokeHistory");
 // Get the elements from the Dom
@@ -44,7 +38,7 @@ const listenerJokeToDom        = newListener( nValue => oValue => {
                                                                             });
 
 
-let jokePairObserver = Observable(pair("nobody")("tell me a joke"))
+const jokePairObserver = Observable(pair("nobody")("tell me a joke"))
                             (addListener)( listenerSpeak    )
                             (addListener)( listenerJokeToDom)
 
@@ -71,3 +65,5 @@ forEach(jokes)((joke, _) =>
             jokePairObserver(setValue)( Box(resp)
                                             (mapf)(JSON.parse)
                                             (fold)(x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
+
+})

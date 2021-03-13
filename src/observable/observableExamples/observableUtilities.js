@@ -1,6 +1,6 @@
 import {getDomElement} from "../../maybe/maybe.js";
 import {addListener, getValue, removeListener, setValue} from "../observable.js";
-export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle, generateRandomKey}
+export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberToggle, generateRandomKey, speak}
 
 
 /**
@@ -9,6 +9,21 @@ export {toHexString, toRGBString, creatHtmlUnsubscribeToggle, addUnSubscriberTog
  * @return {string} random string
  */
 const generateRandomKey = (length = 6) => Math.random().toString(36).substr(2, length).split('').map(s => Math.round(Math.random()) ? s.toUpperCase() : s.toLowerCase()).join('');
+
+/**
+ * Text-To-Speech Function
+ * If an Text is currently being spoken, speaking will stop immediately and start the new one.
+ * @param {string} txt
+ */
+const speak = txt => {
+    if (speechSynthesis.speaking){  speechSynthesis.cancel()  }
+    const msg = new SpeechSynthesisUtterance(txt);
+    msg.lang = "en-US";
+    msg.volume = 1; // From 0   to 1    (1)
+    msg.rate = 1;   // From 0.1 to 10   (1)
+    msg.pitch = 1;  // From 0   to 2    (1)
+    speechSynthesis.speak(msg);
+}
 
 const toRGBString = (r, g, b) => 'rgb(' + r + ',' + g + ',' + b + ')'
 const toHexString = (r, g, b) => "#" + toHex(r) + toHex(g) + toHex(b)

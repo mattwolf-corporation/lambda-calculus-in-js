@@ -7,26 +7,21 @@
     <meta charset="UTF-8">
 </head>
 <style>
-    html {
-        background-color: lightgrey;
-    }
     body {
+        background-color: lightgrey;
         font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
-    input, button {
+    button {
         cursor: pointer;
         padding: 5px;
         margin: 5px;
     }
-    label {
-        font-weight: bold;
-    }
     .buttons {
-        background-color: whitesmoke;
+        background-color: #A0F6F6;
         padding: 1rem;
         border-width: 1px;
         border-radius: 1rem;
@@ -58,30 +53,28 @@
         margin-top: 5px;
     }
     fieldset:first-child {
-        border-color: cadetblue;
-        box-shadow: 0 12px 18px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.39);
+        background-color: #fff;
+        box-shadow: 0 0 20px 8px #fff, /* inner white */ 0 0 10px 10px #0ff;
     }
     p {
         margin: 0;
     }
+    h3{
+        margin: 5px;
+    }
 </style>
 <body>
 <div class="buttons">
-    <h3>Click Button for new Joke</h3>
+    <h3>Wanna get a joke? Click a Button</h3>
+    <p style="font-size: small; font-style: italic; color: #7a7e7e; padding-bottom: 10px;">We take no responsibility for the content of the generated Jokes. Use at own risk.</p>
     <div class="buttonsRow">
         <button id="norrisBtn">Chuck Norris-Joke</button>
         <button id="nerdyBtn">Nerdy-Joke</button>
         <button id="trumpBtn">Trump Tweet</button>
-
     </div>
 </div>
 
-
-<div id="jokeHistory">
-
-</div>
-
+<div id="jokeHistory"></div>
 
 <script src="observableHttpGetJokeExample.js" type="module"></script>
 </body>
