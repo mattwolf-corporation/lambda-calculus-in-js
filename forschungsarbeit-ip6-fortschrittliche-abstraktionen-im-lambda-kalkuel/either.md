@@ -23,7 +23,11 @@ Die folgenden Funktion geben alle ein Either zurück und unterstüzen so eine sa
 
 ### Allgemeine Anwendung für Funktionen, die ein `either` zurückgeben
 
+Bei Funktionen, die ein either zurückgeben können an den Funktionsaufruf 2 weitere Parameter übergeben werden. Der erste Parameter ist eine Funktion die eine Fehlermeldung entgegen nimmt und dann eine Fehlerbehandlung durchführt. Der zweite Parameter ist eine Funktion für den Erfolgsfall, die das Resultat entgegen nimmt.
 
+Allgemeines Schema:
+
+Eine either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am Schluss vom Funktionsaufruf werden 2 Funktionen übergeben. Eine Funktion für den Fehlerfall \(Left Case\) und eine für den Erfolgsfall \(Right Case\).
 
 ```javascript
 // Anwendung        
