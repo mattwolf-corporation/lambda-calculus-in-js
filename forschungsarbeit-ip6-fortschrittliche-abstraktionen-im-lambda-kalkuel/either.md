@@ -32,8 +32,8 @@ Eine either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am 
 ```javascript
 // Anwendung        
 eitherXYZ(someParam)
-    (error => doSomethingInErrorCase(error))    // Left Case
-    (value => doSomethingInSuccessCase(value))  // Right Case
+    (error => doSomethingInErrorCase(error))      // Left Case
+    (result => doSomethingInSuccessCase(result))  // Right Case
 ```
 
 In diesem Beispiel tritt der Fehlerfall ein und die Funktion `doSomethingInErrorCase(error)` wird aufegrufen. Der Erfolgsfall bzw. die Funktion `doSomethingInSuccessCase(value)` wird ignoriert.
