@@ -1,16 +1,29 @@
 import {TestSuite} from "../test.js";
 
-import {id, beq, True, False, showBoolean as show, convertToJsBool, showPair, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, pred, succ, jsNum, is0, churchAddition} from '../../src/lambda-calculus-library/church-numerals.js';
+import {convertToJsBool, fst, id, pair, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {n0, n1, n2, n3, n4, n5} from '../../src/lambda-calculus-library/church-numerals.js';
 import {
-    hasPre, push, pop, head, size, startStack, stack,
-    pushToStack, convertArrayToStack, getElementByIndex, map
+    convertArrayToStack,
+    getElementByIndex,
+    hasPre,
+    head,
+    map,
+    pop,
+    pushToStack,
+    size
 } from "../../src/stack/stack.js";
 
 import {
-    listMap, startListMap, emptyListMap, removeByKey, getElementByKey, mapListMap,
-    filterListMap, reduceListMap, convertObjToListMap
-}from "../../src/listMap/listMap.js";
+    convertListMapToArray,
+    convertObjToListMap,
+    emptyListMap,
+    filterListMap,
+    getElementByKey,
+    mapListMap,
+    reduceListMap,
+    removeByKey,
+    startListMap
+} from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
 
@@ -70,7 +83,7 @@ listMapSuite.add("removeByKey", assert => {
     assert.pairEquals(getElementByIndex(testListMap)(n5), p4);
 
     const listMapUnderTest = removeByKey(testListMap)(17);
-    const listMapUnderTest2 = removeByKey(testListMap)("dhfhdfh");
+    const listMapUnderTest2 = removeByKey(testListMap)("noExistKeys");
     assert.churchNumberEquals( size(listMapUnderTest2), n5);
 
     assert.churchNumberEquals( size(listMapUnderTest), n4);
@@ -179,35 +192,21 @@ listMapSuite.add("reduceListMap", assert => {
     assert.equals(result2, 30)
 });
 
-listMapSuite.add("convert Object to ListMap", assert => {
-    const obj = {a: 'HelloWorld', b: "Lambda"}
 
-    const result = convertObjToListMap(obj);
+listMapSuite.add("convert ListMap to Array", assert => {
+    const personObject = {firstName: 'George', lastName: "Lucas", age: 42}
 
-    assert.churchNumberEquals( size(result), n2);
-    assert.pairEquals( getElementByIndex(result)(n1), pair('a')("HelloWorld"));
-    assert.pairEquals( getElementByIndex(result)(n2), pair('b')("Lambda"));
+    const lm = convertObjToListMap(personObject);
 
+    const result = convertListMapToArray(lm);
+    assert.equals(result.length, 3);
+    assert.equals(result[0], 'George');
+    assert.equals(result[1], 'Lucas');
+    assert.equals(result[2], 42);
 
+    const result2 = convertListMapToArray(emptyListMap);
+    assert.equals(result2.length, 0);
 
-    const objWithObject = {
-        a: {
-            txt: 'HelloWorld',
-            short: 'HW'
-        },
-        b: {
-            txt: 'Lambda',
-            short: 'λ'
-        }
-    }
-
-    const result2 = convertObjToListMap(objWithObject);
-
-    assert.churchNumberEquals( size(result2), n2);
-    assert.equals( getElementByIndex(result2)(n1)(fst), "a")
-    assert.equals( JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld',short: 'HW' }) )
-    assert.equals( getElementByIndex(result2)(n2)(fst), "b")
-    assert.equals( JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda',short: 'λ' }) )
 });
 
 listMapSuite.add("playground", assert => {

@@ -19,7 +19,7 @@ import {
 } from "../stack/stack.js";
 export {
     listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
-    filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole
+    filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray
 }
 
 /**
@@ -72,6 +72,8 @@ const startListMap = f => f(emptyListMap);
  * @return {*}
  */
 const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
+
+
 
 /**
  * Get the element in the ListMap by the key (Js-Number)
@@ -155,3 +157,14 @@ const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
 const logListMapToConsole = listMap =>
     forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
 
+/**
+ *  A function that takes an ListMap, takes the values and converts it into an array. The function returns an array
+ *
+ * @param  {listMap} listMap
+ * @return {Array} Array
+ * @example
+ *
+ *
+ *
+ */
+const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
