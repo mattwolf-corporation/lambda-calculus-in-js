@@ -20,8 +20,7 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
     const listenerJokeToDom = newListener(nValue => oValue => {
         const template = document.createElement('fieldset');
         template.className = "joke"
-        template.innerHTML = `<legend>${nValue(fst)}</legend>
-            <p class="jokeText">${nValue(snd)}</p>`
+        template.innerHTML = `<legend>${nValue(fst)}</legend><p class="jokeText">${nValue(snd)}</p>`
         jokeHistory.insertAdjacentElement('afterbegin', template)
     });
 

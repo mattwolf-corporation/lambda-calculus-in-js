@@ -200,7 +200,7 @@ const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
  * @param  {function} listenerFn
  * @return {listener} new listener with generated key for the observable
  * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ * let listenerLogTest = newListener(listenerLogToConsole);
  *
  * listenerTest = setListenerKey(42)(listenerTest)
  *
@@ -213,7 +213,7 @@ const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
  * @param  {*} newKey
  * @return {function(listener:function) : listener} listener with the key
  * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ * let listenerLogTest = newListener(listenerLogToConsole);
  *
  * listenerTest = setListenerKey(42)(listenerTest)
  *
@@ -226,7 +226,7 @@ const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
  * @param  {function} listener
  * @return {*} key
  * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
+ * let listenerLogTest = newListener(listenerLogToConsole);
  *
  * listenerTest = setListenerKey(42)(listenerTest)
  *
