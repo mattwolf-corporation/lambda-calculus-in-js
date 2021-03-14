@@ -4,23 +4,14 @@ import {HttpGet} from "../../../IO/http.js";
 import {Box, fold, mapf} from "../../../box/box.js";
 import {fst, pair, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
 import {convertElementsToStack, convertStackToArray, forEach, logStackToConsole} from "../../../stack/stack.js";
-import {convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
+import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
 import {speak} from "../observableUtilities.js";
 
 eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
-(mis => {
-    logStackToConsole(mis)
-    document.getElementsByTagName("body")[0].innerHTML = "ERROR"
-})
-(e => {
+(err => document.body.innerHTML = Box(err)(mapf)(convertStackToArray)(mapf)(s => s.join(", <br>"))(fold)(txt => `<div style="background: orangered"> <br> ${txt}</div>`))
+(result => {
 
-    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertStackToArray(e)
-
-    console.log(jokeHistory)
-
-// const jokesHistoryDiv = getDomElement("jokeHistory");
-// // Get the elements from the Dom
-// const [norrisBtn, nerdyBtn, trumpBtn] = getDomElements("norrisBtn", "nerdyBtn", "trumpBtn");
+    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(result)
 
 
     const listenerSpeak = newListener(nValue => oValue => speak(nValue(snd)));

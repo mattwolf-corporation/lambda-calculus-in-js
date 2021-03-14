@@ -167,8 +167,9 @@ listMapSuite.add("mapListMap", assert => {
 
 
     assert.churchNumberEquals( size(filteredListMap), n2);
-    console.log(peter);
-    console.log(paul);
+    assert.equals( peter, "Peter");
+    assert.equals( paul, "Paul");
+
 });
 
 listMapSuite.add("filterListMap", assert => {
