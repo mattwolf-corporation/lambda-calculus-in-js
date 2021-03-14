@@ -41,7 +41,9 @@ const p1 = pair(1)("Michael")
 const p2 = pair(2)("Peter")
 const p3 = pair(3)("Hans")
 
-const testListMap = convertArrayToStack([p1, p2, p3])
+const testListMap = convertArrayToStack([p1, p2, p3]) // [ ("1", "Michael"), ("2", "Peter"),("3", "Hans") ]
+
+
 
 const michael = getElementByKey (testListMap) (1); // "Michael"
 const peter   = getElementByKey (testListMap) (2); // "Peter"
@@ -57,8 +59,9 @@ const p1 = pair(1)("Michael")
 const p2 = pair(2)("Peter")
 const p3 = pair(3)("Hans")
 
-const testListMap = convertArrayToStack([p1, p2, p3])
-const resultListMap = removeByKey(testListMap)(2); // "Hans" wird entfernt
+const testListMap   = convertArrayToStack( [p1, p2, p3] )
+const resultListMap = removeByKey(testListMap)(2); // [ ("1", "Michael"), ("3", "Hans") ]
+
 
 const michael = getElementByKey (resultListMap) (1); // "Michael"
 const hans    = getElementByKey (resultListMap) (3); // "Hans"
@@ -70,9 +73,14 @@ const hans    = getElementByKey (resultListMap) (3); // "Hans"
 Mit der Funktion convertObjToListMap kann ein JavaScript Objekt zu einer ListMap konvertiert werden. JavaScript-Objekte sind Container für benannte Werte, die Properties oder Methoden genannt werden. In der Konvertierungsfunktion werden die Namen als String-Schlüssel verwendet.
 
 ```javascript
+// Implementation
+const convertObjToListMap = obj => 
+    Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
+
+// Anwendung
 const personObject = {firstName: 'George', lastName: "Lucas"}
 
-const result = convertObjToListMap(personObject);
+const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
 const firstName   = getElementByKey (result) ("firstName"); // "George"
 const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
@@ -90,8 +98,6 @@ Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und e
 Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
 {% endhint %}
 
-Implementation & Beispiel:
-
 ```javascript
 // Implementation
 const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
@@ -101,7 +107,7 @@ const toUpperCase = str => str.toUpperCase();
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
 
-const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // listMap: [ ("name1", "PETER"), ("name2","HANS") ]
+const mappedListMap = mapListMap(toUpperCase)(listMapWithNames); // [ ("name1", "PETER"), ("name2", "HANS") ]
 
 const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
 const hans = getElementByKey(mappedListMap)("name2");  // "HANS"
@@ -113,24 +119,35 @@ Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) 
 
 ```javascript
 // Implementation
-const filterListMap = f => filter(p => f(p(snd)) );
+const filterListMap    = f => filter(p => f(p(snd)) );
 
-// Beispiel
-const startsWithP = str => str.startsWith('P');
+// Anwendung
+const startsWithP      = str => str.startsWith('P');
 
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
-const filteredListMap = filterListMap(startsWithP)(listMapWithNames); // listMap: [ ("name1", "Peter"), ("name3","Paul") ]
+const filteredListMap  = filterListMap(startsWithP)(listMapWithNames); // [ ("name1", "Peter"), ("name3", "Paul") ]
 
-const peter = getElementByKey(filteredListMap)("name1"); // "Peter"
-const paul = getElementByKey(filteredListMap)("name3");  // "Paul"
+const peter = getElementByKey(filteredListMap)("name1");  // "Peter"
+const paul  = getElementByKey(filteredListMap)("name3");  // "Paul"
 ```
 
 ### reduceListMap
 
-Mit der ...
+Diese Funktion nimmt als erstes eine reduce-Funktion entgegen, als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
 
 ```javascript
+// Implementation
 const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+
+// Anwendung
+const reduceFunc = (acc, curr) => acc + curr.income;
+
+const listMapWithPersons = convertObjToListMap({
+              p1: {firstName: 'Peter', income: 1000},
+              p2: {firstName: 'Michael', income: 500}
+        });
+    
+const incomeSum = reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 ```
 
 
