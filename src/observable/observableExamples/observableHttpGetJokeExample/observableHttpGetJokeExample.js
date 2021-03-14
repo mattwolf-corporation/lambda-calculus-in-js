@@ -44,7 +44,7 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 
 // add the Joke-Buttons a on-click event listener for request the Jokes and update the Observable
     forEach(jokes)((joke, _) =>
-        getElementByKey(joke)("btn").onclick = _ =>
+        getElementByKey(joke)("btn").trigger = _ =>
             HttpGet( getElementByKey(joke)("url") )(resp =>
                 jokePairObserver(setValue)(Box(resp)
                                             (mapf)(JSON.parse)
