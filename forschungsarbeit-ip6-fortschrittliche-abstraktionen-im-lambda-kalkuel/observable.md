@@ -222,163 +222,38 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 
 ### Observable
 
-{% tabs %}
-{% tab title="Observable " %}
+Der Konstruktor zum erstellen eines Observable mit dem initialen Startwert.
+
 ```javascript
-/**
- * initialValue -> observableBody
- * Observable - create observableBody with the initial-value
- *
- * @haskell Observable :: a -> Observable
- *
- * @function
- * @param {number|churchNumber|string} initialValue
- * @return {observable} - a Observable with an emptyListMap & the InitialValue
- * @example
- * const obsExample = Observable(0)
- *                          (addListener)( listenerLogToConsole );
- */
+// Implementation
 const Observable = initialValue =>
     observableBody(emptyListMap)(initialValue)(setValue)(initialValue);
     
+// Anwendung
+const obsExample = Observable(0)
 ```
-{% endtab %}
 
-{% tab title="observableBody " %}
+### **Observable-Functions**
+
+#### observableBody
+
+Das Observable-Konstrukt, für das rekursiven Anwenden der **Observable-Functions**
+
+> **Observable-Functions:**
+
+> * [addListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#addlistener)
+> * [removeListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistener)
+> * [removeListenerByKey](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistenerbykey)
+> * [setValue](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#setvalue)
+
 ```javascript
-/**
- * listeners -> value -> observableFunction -> observableFunction
- * observableBody - the Body-Observable-Construct who for the observableFunctions.
- * observableFunctions are: addListener, removeListener, removeListenerByKey), setValue
- *
- * @haskell observableBody :: [a] -> b -> c -> c
- *
- * @function
- * @param  {listMap} listeners
- * @return {function(value:*): function(obsFn:function): function(obsFn:function)} Observable-Function
- */
-const observableBody = listeners => value => obsFn =>
-    obsFn(listeners)(value);
+// Implementation
+const observableBody = listeners => value => observableFn =>
+    observableFn(listeners)(value);
 ```
-{% endtab %}
 
-{% tab title="addListener" %}
-```javascript
-/**
- * listeners -> value -> newListener -> Observable ; addListener
- * add new Listener to the Observable and pass the current Observable-Value e.g. the initValue
- *
- * @haskell addListener :: [a] -> b -> [a] -> Observable
- *
- * @function
- * @param  {listMap} listeners
- * @return {function(value:*): function(newListener:listMap): function(Function) : observableBody}
- */
-const addListener = listeners => value => newListener => {
-    newListener(snd)(value)(value)
-    return observableBody(push(listeners)(newListener))(value)
-    
-```
-{% endtab %}
-
-{% tab title="removeListener" %}
-```javascript
-/**
- * listeners -> value -> listenerKey ; removeListenerByKey
- * Remove a Listener by his key
- *
- * @haskell removeListenerByKey :: [a] -> b -> c
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
- * @example
- * const listenerLog = newListener( listenerLogToConsole  );
- *
- * let obsExample = Observable(0)
- *                      (addListener)( listenerLog )
- *
- * obsExample = obsExample(removeListener)( listenerLog )
- */
-const removeListener = listeners => value => handler =>
-    observableBody(removeByKey(listeners)(handler(fst)))(value)
-```
-{% endtab %}
-
-{% tab title="removeListenerByKey" %}
-```javascript
-/**
- * listeners -> value -> listenerKey ; removeListenerByKey
- * Remove a Listener by his key
- *
- * @haskell removeListenerByKey :: [a] -> b -> c
- *
- * @function
- * @param  {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
- * @example
- * const listenerLog = newListener( listenerLogToConsole  );
- *
- * let obsExample = Observable(0)
- *                      (addListener)( listenerLog )
- *
- * obsExample = obsExample(removeListenerByKey)(42)
- */
-const removeListenerByKey = listeners => value => listenerKey =>
-    observableBody(removeByKey(listeners)(listenerKey))(value)
-```
-{% endtab %}
-
-{% tab title="setValue" %}
-```javascript
-/**
- * listeners -> oldValue -> newValue -> Observable ; setValue
- * set the new value and notify all listenersg
- *
- * @haskell setValue :: [a] -> b -> b -> Observable
- *
- * @sideeffects
- * @function
- * @param {listMap} listeners
- * @return {function(oldValue:*): function(newValue:*): function(Function) : observableBody}
- * @example
- * let obsExample = Observable(0)
- * testObs(getValue) === 0
- * testObs = testObs(setValue)(42)
- * testObs(getValue) === 42
- */
-const setValue = listeners => oldValue => newValue => {
-    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
-    return observableBody(listeners)(newValue)
-}
-```
-{% endtab %}
-
-{% tab title="getValue" %}
-```javascript
-/**
- * listeners -> value -> value ; getValue
- * get the value of Observable
- *
- * @haskell getValue :: [a] -> b -> b
- *
- * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(value:*)}
- * @example
- * let obsExample = Observable(0)
- * testObs(getValue) === 0
- *
- * testObs = testObs(setValue)(42)
- * testObs(getValue) === 42
- */
-const getValue = listeners => value => value;
-```
-{% endtab %}
-{% endtabs %}
-
-{% hint style="info" %}
-Nachdem verwenden eines der Observable-Funktion `addListener`, `removeListener`, `removeListenerByKey` oder `setValue`  erhält man den aktuellen Observable zurück. Es ist dabei "best-practice" eine Zuweisung auf dieselbe Observable wieder zu setzen und damit die alte überschreibt. Ansonsten wird das hinzufügen oder entfernen eines Listeners nicht übernommen.
+{% hint style="warning" %}
+Nachdem anwenden eines der **Observable-Functions** erhält man den aktuellen Observable zurück. Es ist dabei "best-practices" eine Zuweisung auf dieselbe Observable wieder zu setzen, damit diese die Alte überschreibt. Ansonsten wird das hinzufügen oder entfernen eines Listeners nicht abgeschlossen.
 
 ```javascript
 let obsExample = Observable(0)
@@ -387,12 +262,12 @@ obsExample = obsExample( addListener    )( /* dein Listener   */ )
 obsExample = obsExample( removeListener )( /* dein Listener   */ )
 obsExample = obsExample( setValue       )( /* dein neuer Wert */ )
 ```
+
+#### Mit dieser Ausnahme wird gegen die[ Regel der unveränderbaren Datenstruktur](../#forschungsarbeit) verstossen!
 {% endhint %}
 
-
-
 {% hint style="info" %}
-Die Observable kann _immutable_ sein, wenn man die Observable-Variable mit `const` deklariert.  So kann man die Überschreibung des Observable unterbinden und nachhinein keine Listener mehr hinzufügen oder entfernen.  
+Ein Observable kann _immutable_ sein, wenn man die Observable-Variable mit `const` deklariert.  So kann man die Überschreibung des Observable unterbinden und nachhinein keine Listener mehr hinzufügen oder entfernen.  
 
 ```javascript
 const listenerLog = newListener( listenerLogToConsole  );
@@ -407,9 +282,133 @@ obsExample = obsExample( addListener   )( listenerLog ) // hinzufügen nicht mö
 ```
 {% endhint %}
 
+### **addListener**
+
+Neuen Listener zum Observable hinzufügen und den aktuellen Observable-Wert mitteilen
+
+```javascript
+// Implementation
+const addListener = listeners => value => newListener => {
+    newListener(snd)(value)(value)
+    return observableBody( push(listeners)(newListener) )(value)
+```
+
+### removeListener
+
+Entfernt ein Listener aus dem Observable. Braucht dazu den **Listener** als Parameter
+
+```javascript
+// Implementation
+const removeListener = listeners => value => givenListener =>
+    observableBody( removeByKey(listeners)(givenListener(fst)) )(value)
+
+  
+// Anwendung
+const listenerLog = newListener(listenerLogToConsole);
+
+let obsExample = Observable(0)
+                     (addListener)( listenerLog );
+                     
+obsExample = obsExample(removeListener)( listenerLog );    
+```
+
+### removeListenerByKey
+
+Entfernt ein Listener aus dem Observable. Braucht dazu den **Key** des Listener ****als Parameter
+
+```javascript
+// Implementation
+const removeListenerByKey = listeners => value => listenerKey =>
+    observableBody(removeByKey(listeners)(listenerKey))(value)
+
+  
+// Anwendung
+const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
+
+let obsExample = Observable(0)
+                     (addListener)( listenerLog );
+                     
+obsExample = obsExample(removeListenerByKey)(42)   
+```
+
+### **setValue**
+
+Neuen Wert setzen und alle Listeners benachrichtigen
+
+```javascript
+// Implementation
+const setValue = listeners => oldValue => newValue => {
+    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
+    return observableBody(listeners)(newValue)
+}
+
+  
+// Anwendung
+let obsExample = Observable(0)
+testObs(getValue)                // 0
+testObs = testObs(setValue)(42)
+testObs(getValue)                // 42
+```
+
 {% hint style="danger" %}
 Die Observable-Funktion `setValue` löst Side-Effects aus.
 {% endhint %}
+
+### **getValue**
+
+Erhalte den aktuellen Wert des Observable
+
+```javascript
+// Implementation
+const getValue = listeners => value => value;
+
+  
+// Anwendung
+let obsExample = Observable(0)
+testObs(getValue)                // 0
+testObs = testObs(setValue)(42)
+testObs(getValue)                // 42
+```
+
+\*\*\*\*
+
+### newListenerWithCustomKey
+
+Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
+
+{% hint style="info" %}
+Funktionen sind nicht vergleichbar,  ausser sie haben eine Notation wie n1, n2, id, pair ... 
+{% endhint %}
+
+```javascript
+// Implementation
+const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
+
+  
+// Anwendung
+const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
+```
+
+
+
+### **newListener**
+
+Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key muss im vergleich zu `newListenerWithCustomKey` nicht angeben werden.
+
+```javascript
+// Implementation
+const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
+
+  
+// Anwendung
+const listenerLog = newListener(listenerLogToConsole);
+```
+
+{% hint style="info" %}
+Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Buchstaben \(Gross-/Kleinschreibung\) & Zahlen.  Siehe implementation: [generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/02e0429fe3807548f0f73429d56d5fc891a90541/src/observable/observableExamples/observableUtilities.js#L5)  
+{% endhint %}
+
+
 
 ### Listener
 
@@ -499,10 +498,6 @@ const getListenerKey = listener => listener(fst)
 
 {% hint style="info" %}
 Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
-{% endhint %}
-
-{% hint style="info" %}
-Mit den Funktionen `newListenerWithCustomKey` und `setListenerKey` kann ein Listenern mit einem gewünschten Key erstellt und verändert werden. Ansonsten wird der Key automatisch generiert \([generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/02e0429fe3807548f0f73429d56d5fc891a90541/src/observable/observableExamples/observableUtilities.js#L5)\). 
 {% endhint %}
 
   
