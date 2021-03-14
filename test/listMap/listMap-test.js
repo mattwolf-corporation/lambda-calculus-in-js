@@ -209,16 +209,35 @@ listMapSuite.add("convert ListMap to Array", assert => {
 
 });
 
-listMapSuite.add("playground", assert => {
-    const personObject = {firstName: 'George', lastName: "Lucas"}
+listMapSuite.add("convert Object to ListMap", assert => {
+    const obj = {a: 'HelloWorld', b: "Lambda"}
 
-    const result = convertObjToListMap(personObject);
+    const result = convertObjToListMap(obj);
 
-    const firstName   = getElementByKey (result) ("firstName"); // "George"
-    const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
+    assert.churchNumberEquals(size(result), n2);
+    assert.pairEquals(getElementByIndex(result)(n1), pair('a')("HelloWorld"));
+    assert.pairEquals(getElementByIndex(result)(n2), pair('b')("Lambda"));
 
-    console.log('f ' + firstName);
-    console.log('l ' + lastName);
+
+    const objWithObject = {
+        a: {
+            txt: 'HelloWorld',
+            short: 'HW'
+        },
+        b: {
+            txt: 'Lambda',
+            short: 'λ'
+        }
+    }
+
+    const result2 = convertObjToListMap(objWithObject);
+
+    assert.churchNumberEquals(size(result2), n2);
+    assert.equals(getElementByIndex(result2)(n1)(fst), "a")
+    assert.equals(JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld', short: 'HW'}))
+    assert.equals(getElementByIndex(result2)(n2)(fst), "b")
+    assert.equals(JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda', short: 'λ'}))
 });
+
 
 listMapSuite.report();

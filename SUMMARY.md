@@ -14,4 +14,5 @@
   * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
   * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
+  * [Box / MaybeBox](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
 
