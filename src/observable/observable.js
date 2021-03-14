@@ -136,15 +136,15 @@ const removeListenerByKey = listeners => value => listenerKey =>
 
 
 /**
- * listeners -> value -> listenerKey ; removeListenerByKey
- * Remove a Listener by his key
+ * listeners -> value -> givenListener  ; removeListener
+ * Remove a Listener by Listener
  * @extends observableBody
  *
  * @haskell removeListenerByKey :: [a] -> b -> c
  *
  * @function
  * @param {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
+ * @return {function(value:*): function(givenListener:listener)}
  * @example
  * let observedObject = {};
  * const listenerValue = newListener( listenerNewValueToElement (observedObject) );
@@ -164,8 +164,8 @@ const removeListenerByKey = listeners => value => listenerKey =>
  *
  * observedObject.value === 11  // variable "observedObject" getting no updates anymore
  */
-const removeListener = listeners => value => handler =>
-    observableBody(removeByKey(listeners)(handler(fst)))(value);
+const removeListener = listeners => value => givenListener =>
+    observableBody(removeByKey(listeners)(givenListener(fst)))(value);
 
 // Observable Tools
 const logListenersToConsole = listeners => _ => {
@@ -187,11 +187,7 @@ const logListenersToConsole = listeners => _ => {
  * @param  {*} key
  * @return {function(listenerFn:function) : listener} new listener with custom key for the observable
  * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
- *
- * listenerTest = setListenerKey(42)(listenerTest)
- *
- * getListenerKey(listenerTest) === 42)
+ * const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
  */
 const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
 
