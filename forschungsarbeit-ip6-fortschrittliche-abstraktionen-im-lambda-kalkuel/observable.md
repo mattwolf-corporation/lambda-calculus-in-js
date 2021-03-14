@@ -6,11 +6,11 @@ description: >-
 
 # Observable
 
-#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in den verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
+#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
 
 ## _Ein kleines Beispiel_
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahr nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahrnimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.
 
 ```javascript
 let listenerVariable; // undefined
@@ -18,22 +18,27 @@ const listenerExample = newListener( newValue => oldValue  => listenerVariable =
 ```
 
 Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch ein 'Erzähler' \(Observable\).  
-Dabei nutzt man die Funktion `Observable` und gibt als ersten Parameter immer den initialen Wert an.  
-Für das Hinzufügen des Listener an einer Observable gibt es die Funktion `addListener` 
+Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert erhält.  
+Für das Hinzufügen der Listeners an ein Observable gibt es die Funktion `addListener` 
 
 ```javascript
-let obsExample = Observable(42)                        // new Observable with initValue 42
-                     (addListener)( listenerExample ); // add the Listener 'lisExampl' to the Observable
+let obsExample = Observable(42)                     // new Observable with initValue 42
+                  (addListener)( listenerExample ); // append Listener to the Observable
 ```
 
-Nachdem der Listener mit der Observable verbunden ist, erhält der Listener den aktuellsten Stand vom Observable. In diesem Fall die Zahl '42'. Zusätzlich kann man mit der Funktion `getValue` den aktuellen Wert aus der Observable erhalten.
+Nachdem der Listener mit der Observable verknüpft ist, erhält jeder Listener den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Fall die Zahl '42'. 
 
 ```javascript
-listenerVariable         // 42 <- variable "listenerVariable" get the value from InitialValue
+listenerVariable   // 42
+```
+
+Die Funktion `getValue`  gibt den Wert aus den Observable.
+
+```javascript
 obsExample( getValue );  // 42
 ```
 
-Mit der Funktion `setValue` wird der Observable ein neuer Wert gesetzt - welcher er anschliessend alle angehängte Listeners benachrichtig und den neuen Wert als _newValue_ mitteilt und der vorherige Wert als _oldValue_ \(darum ist es notwendig, ein Listener immer mit den Parametern _new_- und _oldValue_ zu bauen\).
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listeners werden benachrichtig und der neuen Wert als _newValue_ mitgegeben. Der vorherige Wert als _oldValue._ 
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -42,7 +47,7 @@ listenerVariable         // 11
 obsExample( getValue );  // 11
 ```
 
-Wenn man ein Listener wieder entfernen möchte, so dass er dem Observer nicht mehr zuhört, gibt es die Funktion `removeListener`. und gibt den zu entfernenten Listerner an.
+Wenn man ein Listener wieder entfernen möchte von einem Observable, so dass er dem Erzähler nicht mehr zuhört, gibt es die Funktion `removeListener`. 
 
 ```javascript
 obsExample = obsExample( removeListener )( listenerExample ); 
@@ -64,20 +69,19 @@ let listenerVariable; // undefined
 const lisExample = newListener( nVal => oVal => listenerVariable = nVal );
 
 let obsExample = Observable(42)
-                     (addListener)(lisExample);
+                    (addListener)(lisExample); // add listener
 
-listenerVariable // 0 <- get the value from InitialValue
+listenerVariable // 42 <- get the value from InitialValue
 
-obsExample = obsExample(setValue)(11) // set new value and update all listeners
+obsExample = obsExample(setValue)(11) // set new value and update listeners
 
-listenerVariable // 0 <- get the value from Observable
+listenerVariable // 11 <- recieve the update
 
-obsExample = obsExample(removeListener)(lisExample); 
+obsExample = obsExample(removeListener)(lisExample);  // remove listener
 
-obsExample = obsExample(setValue)(66);
+obsExample = obsExample(setValue)(67); 
 
-listenerVariable         // 11 <- variable getting no updates anymore 
-obsExample( getValue );  // 66 
+listenerVariable // 11  <- is still 11. Recieve no updates anymore 
 ```
 
 ## Observable Text-Input Example

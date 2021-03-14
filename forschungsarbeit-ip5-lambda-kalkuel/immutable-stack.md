@@ -104,28 +104,28 @@ const result = hasPre(stackWithOneValue); // false (as church-boolean)
 
 ### getElementByIndex
 
-Die Funktion `getElementByIndex` nimmt einen Stack und eine [Church-](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) oder JS-Zahl, die den Index des Elements repräsentiert, entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben ansonsten wird auf der Console einer Error-Hinweis erscheinen.
+Die Funktion getElementByIndex nimmt einen Stack und eine [Church-Zahl](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen), die den Index des Elements, repräsentiert entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
 
 Beispiel:
 
 ```javascript
 const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
+const element = getElementByIndex(stackWithTwoElements)(n2); // "World"
+```
 
-getElementByIndex(stackWithTwoElements)(n1); // "Hello"
-getElementByIndex(stackWithTwoElements)(n2); // "World"
+### getElementByJsnumIndex
 
-getElementByIndex(stackWithTwoElements)(1); // "Hello"
-getElementByIndex(stackWithTwoElements)(2); // "World"
+Die Funktion getElementByJsnumIndex nimmt einen Stack und einen Index \(normale Zahl\) entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben.
 
-getElementByIndex(stackWithTwoElements)(999); // Error "invalid index"
-
+```javascript
+const element = getElementByJsnumIndex(stackWithTwoElements)(1); // "Hello"
 ```
 
 ## Stack zu einem Array konvertieren und umgekehrt
 
 ### convertStackToArray
 
-Die Funktion `convertStackToArray` nimmt einen Stack entgegen und gibt einen Array mit denselben Elementen zurück.
+Die Funktion convertStackToArray nimmt einen Stack entgegen und gibt einen Array mit denselben Elementen zurück.
 
 Beispiel:
 
@@ -136,7 +136,7 @@ const arrayWithTwoElements = convertStackToArray(stackWithTwoElements); // [1, 2
 
 ### convertArrayToStack
 
-Die Funktion `convertArrayToStack` nimmt einen Array entgegen und gibt einen neuen Stack mit den Elementenn vom übergebenen Array zurück.
+Die Funktion convertArrayToStack nimmt einen Array entgegen und gibt einen neuen Stack mit den Elementenn vom übergebenen Array zurück.
 
 Beispiel:
 
@@ -149,7 +149,7 @@ const stack = convertArrayToStack(array); // stack: 1, 2, 3
 
 ### reverseStack
 
-Die Funktion `reverseStack` nimmt einen Stack entgegen und gibt einen neuen Stack zurück, bei diesem die Elemente in umgekehrter Reihenfolge sind.
+Die Funktion reverseStack nimmt einen Stack entgegen und gibt einen neuen Stack zurück, bei diesem die Elemente in umgekehrter Reihenfolge sind.
 
 Beispiel:
 
@@ -160,7 +160,7 @@ const reversedStack = reverseStack(stackWithTwoElements); // stack: 2, 1
 
 ## Stack - Reduce, Map und Filter
 
-Die JavaScript Funktionen `reduce`, `map` und `filter` wurden auch für den Stack implementiert.
+Die JavaScript Funktionen reduce, map und filter wurden auch für den Stack implementiert.
 
 ### Reduce
 
@@ -169,16 +169,10 @@ Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.
 Beispiel:
 
 ```javascript
-const stackWithNumbers  = convertArrayToStack([0,1,2]);
-
+const stackWithTwoElements = push(push(emptyStack)(1))(2);
 const reduceFunctionSum = (acc, curr) => acc + curr;
-reduce( reduceFunctionSum )( 0 )( stackWithNumbers )          // returns  3
-reduce( reduceFunctionSum )( 0 )( push(stackWithNumbers)(3) ) // returns  5
-reduce( reduceFunctionSum )( 5 )( stackWithNumbers )          // returns  8
-reduce( reduceFunctionSum )( 5 )( push(stackWithNumbers)(3) ) // returns 10
 
-const reduceToArray = (acc, curr) => [...acc, curr];
-reduce( reduceToArray )( [] )( stackWithNumbers )              // returns [0, 1, 2]
+const sumOfTheStack = reduce(stackWithTwoElements)(pair(reduceFunctionSum)(0); // 3
 ```
 
 ### Map

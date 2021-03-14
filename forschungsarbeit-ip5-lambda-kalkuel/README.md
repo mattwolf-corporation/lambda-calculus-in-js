@@ -1,8 +1,14 @@
----
-description: Wie alles begann
----
-
 # Forschungsarbeit IP5 - Lambda Kalkül
+
+## Einleitung
+
+Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der funktionalen Programmierung:
+
+* **Purity** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Immutabilty** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
+* **Iteration** : Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
+
+Wir verwenden dabei keine Objektorientierte- oder sonstige nicht funktionale Konzepte.
 
 ## Ausgangslage
 
