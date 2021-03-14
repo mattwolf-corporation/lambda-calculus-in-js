@@ -108,7 +108,7 @@ const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => e
 ```
 {% endhint %}
 
-### Code-Beispiel für ein Obsverable Text-Input
+### Code-Beispiel für ein Observable Text-Input
 
 ```javascript
 // Get the elements from the Dom
@@ -148,7 +148,7 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 
 ![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
 
-### Code-Beispiel des Obsverable Color-Picker
+### Implementation des Observable Color-Picker
 
 {% hint style="info" %}
 Der Datentype des Observable ist ein [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple), weil die zu behandelte Werte `red, green, blue` sind. 
@@ -215,6 +215,71 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 ### Demo
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
+
+
+
+## Observable HttpGet-Joke Example
+
+In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, asynchron aus dem Internet geladen, mitgeteilt wird. Mit dabei gibt es zwei Listener wissen mit den Inhalten des Observable umzugehen. Dabei rendert ein Listener die Jokes auf dem UI und der andere löst ein Text-To-Speech-Skript aus. 
+
+![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
+
+### Code des Observable HttpGet-Joke Example
+
+```javascript
+// Either all the necessary Dom-Element exist and or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
+(err => document.body.innerHTML = Box(err)(mapf)(convertStackToArray)(mapf)(s => s.join(", <br>"))(fold)(txt => `<div style="background: orangered"> <br> ${txt}</div>`))
+(result => {
+
+    // receive founded the elements
+    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(result)
+
+    // create the Listeners (text-to-speech & display to view)
+    const listenerSpeak = newListener(nValue => oValue => speak(nValue(snd)));
+    const listenerJokeToDom = newListener(nValue => oValue => {
+        const template = document.createElement('fieldset');
+        template.className = "joke"
+        template.innerHTML = `<legend>${nValue(fst)}</legend><p class="jokeText">${nValue(snd)}</p>`
+        jokeHistory.insertAdjacentElement('afterbegin', template)
+    });
+
+    // create the Observable with pair data structure ("Title")("Joke")
+    const jokePairObserver = Observable( pair("nobody")("tell me a joke") )
+                                    (addListener)( listenerSpeak )
+                                    (addListener)( listenerJokeToDom )
+
+
+    // Jokes-API-URLs
+    const jokeNorrisUrl = "https://api.chucknorris.io/jokes/random";            // jsonKey: value
+    const jokeNerdUrl   = "https://v2.jokeapi.dev/joke/Programming?type=single" // jsonKey: joke
+    const trumpTweetUrl = "https://www.tronalddump.io/random/quote";            // jsonKey: value
+
+
+    // Constructor for a Joke-Object
+    const jokeCtor = name => btn => url => jsonKey => convertObjToListMap({name, btn, url, jsonKey});
+
+    // creat Joke-Object
+    const norrisJoke = jokeCtor("Chuck Norris - Joke ")(norrisBtn)(jokeNorrisUrl)("value");
+    const nerdJoke   = jokeCtor("Nerd - Joke ")(nerdyBtn)(jokeNerdUrl)("joke");
+    const trumpTweet = jokeCtor("Trump Tweet")(trumpBtn)(trumpTweetUrl)("value");
+
+    // combine the Joke-Objects into a stack
+    const jokes = convertElementsToStack(norrisJoke, nerdJoke, trumpTweet);
+
+    // add the Joke-Buttons a on-click event listener for request the Jokes and update the Observable
+    forEach(jokes)((joke, _) =>
+        getElementByKey(joke)("btn").onclick = _ =>
+            HttpGet( getElementByKey(joke)("url") )(resp =>
+                jokePairObserver(setValue)(Box(resp)
+                                            (mapf)(JSON.parse)
+                                            (fold)(x => pair( getElementByKey(joke )( "name"))( x[getElementByKey(joke)("jsonKey")] )))));
+})
+```
+
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
 
 
 
