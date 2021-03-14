@@ -370,14 +370,16 @@ testObs = testObs(setValue)(42)
 testObs(getValue)                // 42
 ```
 
-\*\*\*\*
-
 ### newListenerWithCustomKey
 
 Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
 
 {% hint style="info" %}
 Funktionen sind nicht vergleichbar,  ausser sie haben eine Notation wie n1, n2, id, pair ... 
+{% endhint %}
+
+{% hint style="info" %}
+Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
 {% endhint %}
 
 ```javascript
@@ -388,8 +390,6 @@ const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
 // Anwendung
 const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
 ```
-
-
 
 ### **newListener**
 
@@ -405,100 +405,40 @@ const listenerLog = newListener(listenerLogToConsole);
 ```
 
 {% hint style="info" %}
-Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Buchstaben \(Gross-/Kleinschreibung\) & Zahlen.  Siehe implementation: [generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/02e0429fe3807548f0f73429d56d5fc891a90541/src/observable/observableExamples/observableUtilities.js#L5)  
+Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Buchstaben \(Gross-/Kleinschreibung\) & Zahlen.  Siehe implementation: [generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/2f832eda3d66603b5901aaa060baf4e96a514512/src/observable/observableExamples/observableUtilities.js#L11)  
 {% endhint %}
 
+### setListenerKey
 
+Geben dem Listener eine neue Key und erhalte den neuen Listener zurück.
 
-### Listener
-
-{% tabs %}
-{% tab title="newListener" %}
 ```javascript
-/**
- * Syntactic sugar for creating a pair of Key and Value for the new Listener.
- * The key could be anything that can be comparable. The 'generateRandomKey' generate String with the length of six with random Letters (up-/lowercase) & Numbers.
- * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
- *
- * @function
- * @param  {function} listenerFn
- * @return {listener} new listener with generated key for the observable
- * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
- *
- * listenerTest = setListenerKey(42)(listenerTest)
- *
- * getListenerKey(listenerTest) === 42)
- */
-const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
-
-```
-{% endtab %}
-
-{% tab title="newListenerWithCustomKey" %}
-```javascript
-/**
- * Syntactic sugar for creating a pair of Key and Value for the new Listener.
- * The key could be anything that can be comparable. (Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
- * The listenerFn takes two arguments "newValue" and "oldValue" from the the observable. Some Listener-Function are available and ready to use.
- *
- * @function
- * @param  {*} key
- * @return {function(listenerFn:function) : listener} new listener with custom key for the observable
- * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
- *
- * listenerTest = setListenerKey(42)(listenerTest)
- *
- * getListenerKey(listenerTest) === 42)
- */
-const newListenerWithCustomKey = key => listenerFn => pair(key)(listenerFn);
-
-```
-{% endtab %}
-
-{% tab title="setListenerKey" %}
-```javascript
-/**
- * Set a new Key for the listener
- *
- * @param  {*} newKey
- * @return {function(listener:function) : listener} listener with the key
- * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
- *
- * listenerTest = setListenerKey(42)(listenerTest)
- *
- * getListenerKey(listenerTest) === 42)
- */
+// Implementation
 const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
 
+  
+// Anwendung
+let listenerLog = newListener(listenerLogToConsole);
+listenerLog = setListenerKey( listenerLog  )(42)
 ```
-{% endtab %}
 
-{% tab title="getListenerKey" %}
+### getListenerKey
+
+Erhalte den Key des Listener.
+
 ```javascript
-/**
- * Get the key of listener
- *
- * @param  {function} listener
- * @return {*} key
- * @example
- * let listenerLogTest = newListener(nValue => oValue => console.log(nValue, oValue);
- *
- * listenerTest = setListenerKey(42)(listenerTest)
- *
- * getListenerKey(listenerTest) === 42)
- */
-const getListenerKey = listener => listener(fst)
+// Implementation
+const getListenerKey = listener => listener(fst);
 
+  
+// Anwendung
+const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
+getListenerKey( listenerLog )  // 42
 ```
-{% endtab %}
-{% endtabs %}
 
-{% hint style="info" %}
-Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
-{% endhint %}
+
+
+
 
   
  
