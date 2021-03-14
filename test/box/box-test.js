@@ -500,7 +500,7 @@ boxSuite.add("box with Http", async assert => {
     assert.true(result.length > 0);
 
 
-    // asynchronous cant be test now - need async test -> checkout console for value
+    // asynchronous can't be tested now - need async test -> checkout console for a joke
     HttpGet(jokeNorrisUrl)(resp => Box(resp)
                                           (mapf)(JSON.parse)
                                           (fold)(x => console.log( x.value)))

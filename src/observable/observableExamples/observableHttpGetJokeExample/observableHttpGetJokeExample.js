@@ -3,7 +3,7 @@ import {eitherDomElement, eitherElementsOrErrorsByFunction} from "../../../maybe
 import {HttpGet} from "../../../IO/http.js";
 import {Box, fold, mapf} from "../../../box/box.js";
 import {fst, pair, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-import {convertElementsToStack, convertStackToArray, forEach, logStackToConsole} from "../../../stack/stack.js";
+import {convertElementsToStack, convertStackToArray, forEach} from "../../../stack/stack.js";
 import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
 import {speak} from "../observableUtilities.js";
 

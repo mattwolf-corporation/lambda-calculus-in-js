@@ -210,12 +210,10 @@ const getStackIndex = s => s(stackIndex);
 const size = getStackIndex;
 
 /**
- * A function that takes argument pair and  a stack.
- * The first argument of the pair must be a reducer function.
- * The second argument of the pair must be a start value.
+ * A function that takes a reduce-function, the initial reduce value and a stack.
  * The function reduces the stack using the passed reduce function and the passed start value
  *
- * @haskell reduce :: pair -> stack -> a
+ * @haskell reduce :: reduceFn ->initialValue -> stack -> a
  * @function
  * @param  {function} reduceFn
  * @return {function(initialValue:*): function(s:stack): function(stack)} reduced value

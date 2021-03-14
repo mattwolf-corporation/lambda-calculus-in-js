@@ -1,17 +1,6 @@
 export {HttpGet, HttpGetSync}
 
 
-
-// const HttpGet = url => callback => {
-//     const xmlHttp = new XMLHttpRequest();
-//     xmlHttp.onreadystatechange = () =>
-//         (xmlHttp.readyState === XMLHttpRequest.DONE && xmlHttp.status === 200)
-//             ? callback(xmlHttp.responseText)
-//             : new Error()
-//     xmlHttp.open("GET", url, true); // true for asynchronous
-//     xmlHttp.send();
-// }
-
 const HttpGet = url => callback => {
     const xmlHttp = new XMLHttpRequest();
 
