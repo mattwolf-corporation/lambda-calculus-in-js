@@ -165,14 +165,20 @@ Box( x => y => x + y)
 
 ### liftA2
 
-Die Funktion `liftA2` wird 
+Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte anzuwenden.
 
 ```javascript
+// Implementation
 const liftA2 = f => fx => fy =>
         fx(mapf)(f)(apply)(fy)
+
+// Anwendung
+const result1 = liftA2(fName => lName => fName + " " + lName)
+                        (Box("Tyrion"))
+                        (Box("Lannister")); // { "Tyrion Lannister" }
 ```
 
-### debug
+### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
 
 Die Funktion `debug` wird verwendet
 
