@@ -133,7 +133,7 @@ inputText.oninput = _ =>
     textInputObservables = textInputObservables(setValue)(inputText.value);
 ```
 
-Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)\*\*\*\*
+Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)
 
 ### Demo
 
