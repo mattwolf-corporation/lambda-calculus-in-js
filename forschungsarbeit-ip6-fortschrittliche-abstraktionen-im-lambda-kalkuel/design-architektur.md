@@ -10,18 +10,26 @@ Warum ...
 
 ## **Code Conventions**
 
-### **maybe**
+Bei Abfragefunktionen, mit welcher  der Anwendern ein Wert anfordert, gibt der jeweilige Präfix des Funktionsnamen Aufschluss, von welchem Typ der Rückgabewert sein wird.
 
-### **either** 
+### Functional Ebene 
 
-**In der JS-Paradigma**
+#### maybe
 
-**getElementXY : value oder undefined + zusätzlich console.error**     
+maybeElementXY: Just\(value\) oder NothingeitherElementXY
 
+#### either 
 
-**Functional Ebene**
+ Left\(error\) oder Right\(value\)
 
-**maybeElementXY: Just\(value\) oder NothingeitherElementXY:   Left\(error\) oder Right\(value\)**
+### In der JS-Paradigma
+
+getElementXY : value oder undefined + zusätzlich console.error     
+****
+
+\*\*\*\*
+
+**:**  
 
 
 

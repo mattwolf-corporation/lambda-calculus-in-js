@@ -89,7 +89,7 @@ const maybeTruthy = value =>
 
 ### maybeDomElement
 
-Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem Element zurückgegeben anstonsten Nothing.
+Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem Element zurückgegeben ansonsten Nothing.
 
 ```javascript
 const maybeDomElement = elemId =>
