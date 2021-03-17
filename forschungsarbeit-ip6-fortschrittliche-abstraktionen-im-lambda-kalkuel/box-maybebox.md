@@ -142,5 +142,35 @@ getContent(mapped1)   // "Tyrion"
 getContent(mapped2)   // "TYRION"
 ```
 
+### app
 
+Die Funktion `app` wird verwendet um
+
+
+
+```javascript
+const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
+
+
+```
+
+### liftA2
+
+Die Funktion `liftA2` wird 
+
+```javascript
+const liftA2 = f => fx => fy =>
+        fx(mapf)(f)(apply)(fy)
+```
+
+### debug
+
+Die Funktion `debug` wird verwendet
+
+```javascript
+const debug = x => {
+    console.log(x);
+    return x;
+}
+```
 
