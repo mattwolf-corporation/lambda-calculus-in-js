@@ -1,7 +1,7 @@
 ---
 description: >-
   Stack neue Funktionen: concat, flatten, zipWith, zip, stackEquals,
-  getElementByIndey, removeByIndex, getIndexOfElement
+  getElementByIndey, removeByIndex, getIndexOfElement, maybeIndexOfElement
 ---
 
 # Immutable Stack Erweiterungen
