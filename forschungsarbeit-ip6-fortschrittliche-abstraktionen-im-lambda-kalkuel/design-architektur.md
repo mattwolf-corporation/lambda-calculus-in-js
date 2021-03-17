@@ -39,23 +39,9 @@ Funktionen die mit einem **either** beginnen, geben wenn möglich den gewünscht
 > Funktionen: **either**XY   
 > Ergebnis:     **Left\(Fehlerbehandlung\)** oder **Right\(Wert\)**
 
-Beispiele: [eitherTruhty](either.md#eithertruthy), eitherNotNullAndUndefined, eitherDomElement, eitherNumber, eitherFunction
+Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](https://mattwolf-corporation.gitbook.io/ip6-lambda-calculus/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either#eithernotnullandundefined), [eitherDomElement](https://mattwolf-corporation.gitbook.io/ip6-lambda-calculus/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either#eitherdomelement), [eitherNumber](https://mattwolf-corporation.gitbook.io/ip6-lambda-calculus/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either#eithernumber), [eitherFunction](https://mattwolf-corporation.gitbook.io/ip6-lambda-calculus/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either#eitherfunction)
 
 
-
-maybeElementXY: Just\(value\) oder NothingeitherElementXY
-
-#### either 
-
- Left\(error\) oder Right\(value\)
-
-### In der JS-Paradigma
-
-
-
-\*\*\*\*
-
-**:**  
 
 
 
