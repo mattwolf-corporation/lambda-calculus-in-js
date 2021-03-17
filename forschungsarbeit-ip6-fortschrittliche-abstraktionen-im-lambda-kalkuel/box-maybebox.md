@@ -144,25 +144,23 @@ getContent(mapped2)   // "TYRION"
 
 ### app \(TODO: Funktionsname ändern\)
 
-Die Funktion `apply` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden.
+Die Funktion `apply` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
 
 {% hint style="info" %}
-Dieses "Design Pattern" oder diese Funktion zusammen mit der Box Funktion bilden eine Applikative.
+Dieses "Design Pattern" oder diese apply-Funktion zusammen mit der Box-Funktion bilden eine [Applikative](https://github.com/madnight/monad-in-pictures-german#applikative).
 {% endhint %}
 
 ```javascript
 // Implementation
-const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
+const apply = x => f => g => g(f(mapf)(x)(id));
 
 // Anwendung
-const result1 = Box(x => x + 5)
-                        (apply)(Box(10)); // { 15 }
+Box(x => x + 5)
+       (apply)(Box(10)); // { 15 }
 
-const result2 = Box( x => y => x + y)
-                        (apply)(Box(10))
-                        (apply)(Box(14));
-
-assert.equals(getContent(result2), 24);
+Box( x => y => x + y)
+              (apply)(Box(10))  // { y => 10 + y }
+              (apply)(Box(14)); // { 24 }
 ```
 
 ### liftA2
