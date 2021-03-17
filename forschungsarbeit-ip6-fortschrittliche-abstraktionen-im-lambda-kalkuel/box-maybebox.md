@@ -208,7 +208,7 @@ Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funk
 
 ### mapfMaybe
 
-Die Funktion `mapfMaybe` nimmt
+Die Funktion `mapfMaybe` entspricht der Funktion [`mapf`](box-maybebox.md#mapf) für einen [Maybe Type](maybe.md#maybe-type).
 
 ```javascript
 // Implementation
@@ -220,7 +220,7 @@ const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
 
 ### foldMaybe
 
-Die Funktion `foldMaybe` wird verwendet ...
+Die Funktion `foldMaybe` entspricht der Funktion [`fold`](box-maybebox.md#fold) für einen [Maybe Type](maybe.md#maybe-type)
 
 {% hint style="info" %}
 foldMaybe entspricht der Funktion [`mapMaybe`](maybe.md#mapmaybe)\`\`
@@ -236,7 +236,7 @@ const foldMaybe = mapMaybe;
 
 ### chainMaybe
 
-Die Funktion `chainMaybe` wird verwendet
+Die Funktion `chainMaybe` entspricht der Funktion [`chain`](box-maybebox.md#chain-flatmap) für einen [Maybe Type](maybe.md#maybe-type).
 
 {% hint style="info" %}
 Die Funktion `chainMaybe` verwendet die Funktion [`flatMapMaybe`](maybe.md#flatmapmaybe)\`\`
