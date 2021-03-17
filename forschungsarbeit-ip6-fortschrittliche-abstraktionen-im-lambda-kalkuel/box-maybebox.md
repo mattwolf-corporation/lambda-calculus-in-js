@@ -202,9 +202,11 @@ Box(10)
 
 ## Verwendung der Box mit dem Maybe Type
 
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert.
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert. Somit wird das porzessieren mit dem Maybe type vereinfacht und die maybe types können verknüpft werden. 
 
-
+{% hint style="info" %}
+Wennirgendwo ein Nothing zurückgelifert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
+{% endhint %}
 
 ### mapfMaybe
 
@@ -215,7 +217,11 @@ Die Funktion `mapfMaybe` entspricht der Funktion [`mapf`](box-maybebox.md#mapf) 
 const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
 
 // Anwendung
+const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
 
+Box(maybePerson()) // Just( {firstName: "Tyrion", lastName: "Lannister"} )
+        (mapfMaybe)(p => p.firstName)                     // Just ( "Tyrion" )
+        (mapfMaybe)(firstName => firstName.toUpperCase()) // Just ( "TYRION" )
 ```
 
 ### foldMaybe
