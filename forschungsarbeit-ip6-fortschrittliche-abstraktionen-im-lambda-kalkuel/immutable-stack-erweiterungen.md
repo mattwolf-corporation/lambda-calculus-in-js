@@ -105,7 +105,7 @@ getElementByIndex(stackWithTwoElements)(n1) // "Hello"
 getElementByIndex(stackWithTwoElements)(n2) // "World"
 
 getElementByIndex(stackWithTwoElements)( 1)  // "Hello"
-getElementByIndex(stackWithTwoElements)(2)  // "World"
+getElementByIndex(stackWithTwoElements)( 2)  // "World"
 
 getElementByIndex(stackWithTwoElements)(999) // Error "invalid index"
 
@@ -118,7 +118,14 @@ Die Funktion `getElementByIndex`wurde erweitert, dass der Index auf den Typ kont
 -&gt; [**siehe Implementation** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/aa5fce355f2e5786ee8b8948339a0b9706839253/src/stack/stack.js#L293)\*\*\*\*
 {% endhint %}
 
-### 
+{% hint style="info" %}
+Die spezifischeren Funktionen um ein Element zu erhalten sind weiterhin vorhanden:
+
+* **`eitherElementByJsNumIndex`**
+* **`eitherElementByChurchIndex`**
+* **`getElementByChurchNumberIndex`**
+* **`getElementByJsnumIndex`**
+{% endhint %}
 
 ### removeByIndex
 
@@ -131,8 +138,6 @@ const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "World"]);
 removeByIndex(stackWithStrings)( 2) // [ "Hello", "World" ]
 removeByIndex(stackWithStrings)(n2) // [ "Hello", "World" ]
 ```
-
-### 
 
 ### getIndexOfElement
 
