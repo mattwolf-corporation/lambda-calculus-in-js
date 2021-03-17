@@ -89,7 +89,7 @@ const maybeTruthy = value =>
 
 ### maybeDomElement
 
-Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem Element zurückgegeben anstonsten Nothing.
+Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem Element zurückgegeben ansonsten Nothing.
 
 ```javascript
 const maybeDomElement = elemId =>
@@ -109,5 +109,27 @@ const maybeNumber = val =>
         (_ => Just(val));
 ```
 
+### mapMaybe
 
+Die Funktion `mapMaybe` ist 
+
+```javascript
+// Implementation
+const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x)));
+
+// Anwendung
+
+```
+
+### flatMapMaybe
+
+Die Funktion `flatMapMaybe` ist
+
+```javascript
+// Implementation
+const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));
+
+// Anwendung
+
+```
 

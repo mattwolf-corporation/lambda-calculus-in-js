@@ -1,5 +1,5 @@
 ---
-description: 'Wert -> Einpacken -> [Verarbeiten] -> Auspacken -> Ergebnis'
+description: 'Wert -> Einpacken -> [Verarbeiten] -> Auspacken -> Resultat'
 ---
 
 # Box / MaybeBox
@@ -142,106 +142,35 @@ getContent(mapped1)   // "Tyrion"
 getContent(mapped2)   // "TYRION"
 ```
 
-### app \(TODO: Funktionsname ändern\)
+### app
 
-Die Funktion `apply` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
+Die Funktion `app` wird verwendet um
 
-{% hint style="info" %}
-Dieses "Design Pattern" oder diese apply-Funktion zusammen mit der Box-Funktion bilden eine [Applikative](https://github.com/madnight/monad-in-pictures-german#applikative).
-{% endhint %}
+
 
 ```javascript
-// Implementation
-const apply = x => f => g => g(f(mapf)(x)(id));
+const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
 
-// Anwendung
-Box(x => x + 5)
-       (apply)(Box(10)); // { 15 }
 
-Box( x => y => x + y)
-              (apply)(Box(10))  // { y => 10 + y }
-              (apply)(Box(14)); // { 24 }
 ```
 
 ### liftA2
 
-Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte anzuwenden.
+Die Funktion `liftA2` wird 
 
 ```javascript
-// Implementation
 const liftA2 = f => fx => fy =>
         fx(mapf)(f)(apply)(fy)
-
-// Anwendung
-const result1 = liftA2(fName => lName => fName + " " + lName)
-                        (Box("Tyrion"))
-                        (Box("Lannister")); // { "Tyrion Lannister" }
 ```
 
-### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
+### debug
 
-Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelen ZwischenResultate zu untersuchen in einer Pipeline.
-
-{% hint style="info" %}
-Wichtig bei der `debug` Funktion ist, das die Funktion `fold` am Schluss zwingend verwendet werden muss, um das letzte debug Statement auch auszuführen.
-{% endhint %}
+Die Funktion `debug` wird verwendet
 
 ```javascript
-// Implementation
 const debug = x => {
     console.log(x);
     return x;
 }
-
-// Anwendung
-Box(10)
-    (mapf)(debug)        // Ausgabe auf der Konsole: 10
-    (mapf)(n => n + 2)   
-    (fold)(debug);       // Ausgabe auf der Konsole: 12
-```
-
-## Verwendung der Box mit dem Maybe Type
-
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert.
-
-
-
-### mapfMaybe
-
-Die Funktion `mapfMaybe` nimmt
-
-```javascript
-// Implementation
-const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
-
-// Anwendung
-
-```
-
-### foldMaybe
-
-Die Funktion `foldMaybe` wird verwendet ...
-
-```javascript
-// Implementation
-const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x)));
- 
-const foldMaybe = mapMaybe;
-
-// Anwendung
-
-```
-
-### chainMaybe
-
-Die Funktion `chainMaybe` wird verwendet 
-
-```javascript
-// Implementation
-const flatMapMaybe  = maybe => f => maybe (() => maybe) (x => f(x));
-const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));
-
-// Anwendung
-
 ```
 
