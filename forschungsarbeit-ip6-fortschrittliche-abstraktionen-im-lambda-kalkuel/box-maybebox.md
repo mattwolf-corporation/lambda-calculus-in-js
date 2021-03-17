@@ -1,3 +1,7 @@
+---
+description: 'Wert -> Einpacken -> [Verarbeiten] -> Auspacken -> Resultat'
+---
+
 # Box / MaybeBox
 
 ## Beschreibung

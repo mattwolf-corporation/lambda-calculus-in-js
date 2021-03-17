@@ -1,3 +1,7 @@
+---
+description: Stack mit Key-Value Paare
+---
+
 # Immutable ListMap
 
 ## Beschreibung
