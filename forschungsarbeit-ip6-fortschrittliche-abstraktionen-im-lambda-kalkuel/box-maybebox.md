@@ -101,9 +101,24 @@ boxWithNumber
         (mapf)(n => n * 10)                   // { 50 }
         (mapf)(n => n + 15)                   // { 65 }
         (fold)(n => String.fromCharCode(n));  // 'A'
-
-
 ```
 
-ffhrt
+### chain \(flatMap\)
+
+Die Funktion `chain` wird verwendet um ein flatMap durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `mapf` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode chain. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
+
+```javascript
+// Implementation
+const chain = x => f => g => g((f(x)(id)));
+
+// Anwendung
+const box1 = Box(5)                                         // { 5 }
+                (mapf)(num => num + 5)
+                (chain)(num => Box(num * 2)
+                                    (mapf)(num => num + 1)) // { 11 }
+                (chain)(num => Box(num * 3)
+                                    (mapf)(num => num + 1)) // { 34 }
+```
+
+
 
