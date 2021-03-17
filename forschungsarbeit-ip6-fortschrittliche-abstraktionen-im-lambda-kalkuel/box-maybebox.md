@@ -180,12 +180,25 @@ const result1 = liftA2(fName => lName => fName + " " + lName)
 
 ### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
 
-Die Funktion `debug` wird verwendet
+Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelen ZwischenResultate zu untersuchen in einer Pipeline.
+
+{% hint style="info" %}
+Wichtig bei der `debug` Funktion ist, das die Funktion `fold` am Schluss zwingend verwendet werden muss, um das letzte debug Statement auch auszuführen.
+{% endhint %}
 
 ```javascript
+// Implementation
 const debug = x => {
     console.log(x);
     return x;
 }
+
+// Anwendung
+Box(10)
+    (mapf)(debug)        // Ausgabe auf der Konsole: 10
+    (mapf)(n => n + 2)   
+    (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
+
+
 
