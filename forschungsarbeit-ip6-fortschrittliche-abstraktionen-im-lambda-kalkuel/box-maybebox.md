@@ -129,12 +129,17 @@ Die Funktion `getContent` wird verwendet um den Inhalt einer "Box" zu entpacken.
 const getContent = b => b(id);
 
 // Anwendung
-const p = {firstName: "Tyrion", lastName: "Lannister"};
+const p = { firstName: "Tyrion", lastName: "Lannister" };
 
 const box1 = Box(p);
 
 const mapped1 = box1(mapf)(p => p.firstName);
 const mapped2 = mapped1(mapf)(firstName => firstName.toUpperCase());
 
+getContent(box1);     // { firstName: "Tyrion", lastName: "Lannister" } 
+getContent(mapped1)   // "Tyrion"
+getContent(mapped2)   // "TYRION"
 ```
+
+
 
