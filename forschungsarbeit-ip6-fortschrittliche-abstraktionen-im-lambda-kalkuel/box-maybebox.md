@@ -134,6 +134,7 @@ const p = { firstName: "Tyrion", lastName: "Lannister" };
 const box1 = Box(p);
 
 const mapped1 = box1(mapf)(p => p.firstName);
+
 const mapped2 = mapped1(mapf)(firstName => firstName.toUpperCase());
 
 getContent(box1);     // { firstName: "Tyrion", lastName: "Lannister" } 
