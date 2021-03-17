@@ -6,7 +6,7 @@ Das Box Konstrukt erleichtert das Mapping von beliebigen Werten. Mit dem Box Kon
 
 
 
-Das Box Konstrukt ist eine Art pipeline bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `mapf` wird der Wert weiter prozessiert. Um am Schluss an den Wert zu kommen wird die letzte Prozzesierung mit `fold` durchgeführt.
+Das Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `mapf` wird der Wert weiter prozessiert. Um am Schluss an den verarbeitetetn Wert zu kommen wird die letzte Prozzesierung nicht mit `mapf` sondern mit `fold` durchgeführt.
 
 
 
