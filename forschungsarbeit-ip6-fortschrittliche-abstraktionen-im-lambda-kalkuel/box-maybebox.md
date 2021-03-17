@@ -200,5 +200,7 @@ Box(10)
     (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
 
+## MaybeBox
+
 
 
