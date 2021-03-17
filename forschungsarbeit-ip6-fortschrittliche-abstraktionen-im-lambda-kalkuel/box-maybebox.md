@@ -2,9 +2,9 @@
 
 ## Beschreibung
 
-Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Es können beliebige Werte in eine "Box eingepackt" werden und danach gemapped \(weiterverarbeitet\) werden. Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet werden.
+Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Es können beliebige Werte in eine "Box eingepackt" werden und danach gemapped \(weiterverarbeitet\) werden. Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
 
-Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `mapf` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozzesierung nicht mit `mapf` sondern mit `fold` durchgeführt.
+Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `mapf` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozessierung nicht mit `mapf` sondern mit `fold` durchgeführt.
 
 ### Beispiel Anwendung
 
@@ -32,6 +32,53 @@ const nameWithSalutation = Box(p)
                              (mapf)(fullName => fullName.toUpperCase())
                              (fold)(fullNameUpperCase => addSalutation(fullNameUpperCase)(true)); // Mr. LUKAS MUELLER
 ```
+
+## Verwendung
+
+{% hint style="info" %}
+In den folgenden Beispielen wird die Box zur besseren Übersicht wie folgt dargestellt:
+
+`{ content }`
+{% endhint %}
+
+### Box
+
+Die Funktion `Box` wird verwendet um einen beliebigen Wert in eine "Box" zu verpacken. 
+
+{% hint style="info" %}
+In anderen Programmiersprachen kann diese Methode verglichen werden mit dem `.of` Konstruktor. Die Funktion ist also eine Art `Box.of()` Methode.
+{% endhint %}
+
+```javascript
+// Implementation
+const mapf  = x => f => g => g(f(x));  
+
+const Box   = x => mapf(x)(id);                     // Box.of
+
+// Anwendung
+Box(10);                 // { 10 }
+Box("Hello World");      // { "Hello World" }
+Box(p);                  // { p }
+```
+
+### mapf
+
+Die Funktion `mapf` wird verwendet um den Inhalt einer Box zu verarbeiten \(mappen\). Diese mapf Funktionsaufrufe können beliebig oft hinteinander angewendet werden \(chainning von Funktionen\). Durch das "chainning" wird eine Art Pipeline aufgebaut.
+
+```javascript
+// Implementation
+const mapf  = x => f => g => g(f(x));
+
+// Anwendung
+const boxWithNumber = Box(5);                 // { 5 }
+
+boxWithNumber
+        (mapf)(n => n * 10)                   // { 50 }
+        (mapf)(n => n + 15)                   // { 65 }
+        (mapf)(n => String.fromCharCode(n));  // { 'A' }
+```
+
+
 
 
 
