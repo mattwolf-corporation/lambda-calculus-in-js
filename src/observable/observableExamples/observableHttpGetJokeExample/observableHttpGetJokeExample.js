@@ -3,20 +3,22 @@ import {eitherDomElement, eitherElementsOrErrorsByFunction} from "../../../maybe
 import {HttpGet} from "../../../IO/http.js";
 import {Box, fold, mapf} from "../../../box/box.js";
 import {fst, pair, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-import {convertElementsToStack, convertStackToArray, forEach} from "../../../stack/stack.js";
+import {convertElementsToStack, convertStackToArray, forEach, map, reduce} from "../../../stack/stack.js";
 import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
 import {speak} from "../observableUtilities.js";
 
 // Either all the necessary Dom-Element exist and or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
-(err => document.body.innerHTML = Box(err)(mapf)(convertStackToArray)(mapf)(s => s.join(", <br>"))(fold)(txt => `<div style="background: orangered"> <br> ${txt}</div>`))
+(err => document.body.innerHTML = Box(err)
+                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fold)(txt => `<div style="background: orangered; padding: 10px"> ${txt}</div>`))
 (result => {
 
     // receive founded the elements
-    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(result)
+    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(result);
 
     // create the Listeners (text-to-speech & display to view)
-    const listenerSpeak = newListener(nValue => oValue => speak(nValue(snd)));
+    const listenerSpeak     = newListener(nValue => oValue => speak(nValue(snd)));
     const listenerJokeToDom = newListener(nValue => oValue => {
         const template = document.createElement('fieldset');
         template.className = "joke"

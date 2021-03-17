@@ -158,7 +158,7 @@ const logListMapToConsole = listMap =>
     forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
 
 /**
- *  A function that takes an ListMap, takes the values and converts it into an array. The function returns an array
+ *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array. The function returns an array
  *
  * @param  {listMap} listMap
  * @return {Array} Array
