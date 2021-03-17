@@ -111,25 +111,28 @@ const maybeNumber = val =>
 
 ### mapMaybe
 
-Die Funktion `mapMaybe` ist 
+Die Funktion `mapMaybe` wird verwendet um ein Maybe Type zu mappen. Die Funktion nimmt ein Maybe und eine mapping Funktion f entgegen. Die Funktion liefert das gemappte Maybe zurück.
 
 ```javascript
 // Implementation
 const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x)));
 
 // Anwendung
-
+mapMaybe( Just(10) ) (x => x * 4) // Just (40)
+mapMaybe( Nothing )  (x => x * 4) // Nothing
 ```
 
 ### flatMapMaybe
 
-Die Funktion `flatMapMaybe` ist
+Die Funktion `flatMapMaybe` wird verwendet um eine maybe Type zu mappen und anschliessen das Resultat abzuflachen.
 
 ```javascript
 // Implementation
 const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));
 
 // Anwendung
-
+flatMapMaybe( Just(10) ) (num => Just(num * 2));    // Just (20)
+flatMapMaybe( Just(10) ) (num => Nothing);          // Nothing
+flatMapMaybe( Nothing )  (num => Just(num * 2));    // Nothing
 ```
 
