@@ -136,14 +136,27 @@ removeByIndex(stackWithStrings)(n2) // [ "Hello", "World" ]
 
 ### getIndexOfElement
 
-Die Funktion getIndexOfElement nimmt einen Stack und einen Element entgegen und gibt den Index als JavasScript-Zahl von diesem Element zurück. Wenn das Element nicht existiert wird `undefined` zurückgegeben.
+Die Funktion `getIndexOfElement` nimmt einen Stack und einen Element entgegen und gibt den Index als JavasScript-Zahl von diesem Element zurück. Wenn das Element nicht existiert wird `undefined` zurückgegeben.
 
 ```javascript
 const stackWithNumbers = convertArrayToStack([7, 34, 10]);
 
-const result1 = getIndexOfElement(stackWithNumbers)(7)    // 1
-const result2 = getIndexOfElement(stackWithNumbers)(34)   // 2
-const result3 = getIndexOfElement(stackWithNumbers)(10)   // 3
-const result4 = getIndexOfElement(stackWithNumbers)(100)  // undefined
+getIndexOfElement(stackWithNumbers)(7)    // 1
+getIndexOfElement(stackWithNumbers)(34)   // 2
+getIndexOfElement(stackWithNumbers)(10)   // 3
+getIndexOfElement(stackWithNumbers)(100)  // undefined
+```
+
+### maybeIndexOfElement
+
+Die Funktion `maybeIndexOfElement` ist analog zur Funktion [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement). Nur der Rückgabetyp ist ein [Maybe](maybe.md).
+
+```javascript
+const stackWithNumbers = convertArrayToStack([7, 34, 10]);
+
+maybeIndexOfElement(stackWithNumbers)(7)    // Just(1)
+maybeIndexOfElement(stackWithNumbers)(34)   // Just(2)
+maybeIndexOfElement(stackWithNumbers)(10)   // Just(3)
+maybeIndexOfElement(stackWithNumbers)(100)  // Nothing
 ```
 
