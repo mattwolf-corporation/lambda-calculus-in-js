@@ -98,7 +98,7 @@ const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
 getElementByIndex(stackWithTwoElements)(n1) // "Hello"
 getElementByIndex(stackWithTwoElements)(n2) // "World"
 
-getElementByIndex(stackWithTwoElements)(1)  // "Hello"
+getElementByIndex(stackWithTwoElements)( 1)  // "Hello"
 getElementByIndex(stackWithTwoElements)(2)  // "World"
 
 getElementByIndex(stackWithTwoElements)(999) // Error "invalid index"
@@ -107,10 +107,12 @@ getElementByIndex(stackWithTwoElements)(999) // Error "invalid index"
 
 {% hint style="info" %}
 Der Anwender muss nicht mehr entscheiden, welche Funktionen er braucht:  `getElementByChurchNumberIndex` oder `getElementByJsNumIndex`.   
-Die Funktion `getElementByIndex`wurde erweitert, dass der Index auf den Typ kontrolliert wird mittels `eitherFunction` und `eitherNaturalNumber`. So kann der Anwender eine Church- oder JavaScript-Zahl angeben, die Funktion findet selber heraus, welche Methode er braucht. Bei ungültigen Parametern werden die passende Fehler-Meldungen geloggt.
+Die Funktion `getElementByIndex`wurde erweitert, dass der Index auf den Typ kontrolliert wird mittels `eitherFunction` und `eitherNaturalNumber`. So kann der Anwender eine Church- oder JavaScript-Zahl angeben, die Funktion findet selber heraus, welche Methode er braucht. Bei ungültigen Parametern werden die passende Fehler-Meldungen geloggt
 
-### [-&gt; getElementById implementation ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/aa5fce355f2e5786ee8b8948339a0b9706839253/src/stack/stack.js#L293)
+-&gt; [**siehe Implementation** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/aa5fce355f2e5786ee8b8948339a0b9706839253/src/stack/stack.js#L293)\*\*\*\*
 {% endhint %}
+
+### 
 
 ### removeByIndex
 
