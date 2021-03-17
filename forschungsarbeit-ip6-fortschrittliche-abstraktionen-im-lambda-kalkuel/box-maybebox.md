@@ -200,7 +200,48 @@ Box(10)
     (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
 
-## MaybeBox
+## Verwendung der Box mit dem Maybe Type
+
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert.
 
 
+
+### mapfMaybe
+
+Die Funktion `mapfMaybe` nimmt
+
+```javascript
+// Implementation
+const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
+
+// Anwendung
+
+```
+
+### foldMaybe
+
+Die Funktion `foldMaybe` wird verwendet ...
+
+```javascript
+// Implementation
+const mapMaybe = maybe => f => maybe (() => maybe) (x => Just(f(x)));
+ 
+const foldMaybe = mapMaybe;
+
+// Anwendung
+
+```
+
+### chainMaybe
+
+Die Funktion `chainMaybe` wird verwendet 
+
+```javascript
+// Implementation
+const flatMapMaybe  = maybe => f => maybe (() => maybe) (x => f(x));
+const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));
+
+// Anwendung
+
+```
 
