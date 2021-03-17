@@ -113,12 +113,22 @@ const chain = x => f => g => g((f(x)(id)));
 
 // Anwendung
 const box1 = Box(5)                                         // { 5 }
-                (mapf)(num => num + 5)
+                (mapf)(num => num + 5)                      // { 10 }                  
                 (chain)(num => Box(num * 2)
-                                    (mapf)(num => num + 1)) // { 11 }
+                                    (mapf)(num => num + 1)) // { 21 }
                 (chain)(num => Box(num * 3)
-                                    (mapf)(num => num + 1)) // { 34 }
+                                    (mapf)(num => num + 1)) // { 64 }
 ```
 
+### getContent
 
+Die Funktion `getContent` wird verwendet um
+
+```javascript
+// Implementation
+const getContent = b => b(id);
+
+// Anwendung
+
+```
 
