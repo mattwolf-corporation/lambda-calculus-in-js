@@ -82,7 +82,28 @@ boxWithNumber
         (mapf)(n => String.fromCharCode(n));  // { 'A' }
 ```
 
+### fold
+
+Die Funktion `fold` wird verwendet um einen Wert in der "Box" zu mappen und anschliessend zu extrahieren \(den Inhalt aus der Box auspacken\).
+
+{% hint style="info" %}
+Diese Funktion wird meistens am Schluss in einer Box Pipeline verwendet, um den Wert nach dem letzten Verarbeitungsschritt zu entpacken.
+{% endhint %}
+
+```javascript
+// Implementation
+const fold  = x => f => f(x);
+
+// Anwendung
+const boxWithNumber = Box(5);                 // { 5 }
+
+boxWithNumber
+        (mapf)(n => n * 10)                   // { 50 }
+        (mapf)(n => n + 15)                   // { 65 }
+        (fold)(n => String.fromCharCode(n));  // 'A'
 
 
+```
 
+ffhrt
 
