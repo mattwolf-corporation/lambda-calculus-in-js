@@ -78,12 +78,29 @@ const convertObjToListMap = obj =>
     Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
 
 // Anwendung
-const personObject = {firstName: 'George', lastName: "Lucas"}
+const personObject = {firstName: "George", lastName: "Lucas"}
 
 const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
 const firstName   = getElementByKey (result) ("firstName"); // "George"
 const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
+```
+
+### convertListMapToArray
+
+Mit der Funktion `convertListMapToArray` kann eine ListMap in ein JavaScript-Array konvertiert werden. Dabei werden nur die Werte in der ListMap erfasst.
+
+```javascript
+// Implementation
+const convertListMapToArray = listMap => 
+    reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
+
+// Anwendung
+const personObject  = {firstName: "George", lastName: "Lucas"}
+
+const personListmap = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
+
+convertListMapToArray(personListmap) // [ "George", "Lucas" ]
 ```
 
 ## Higher Order Functions \(HOF's\) speziell für ListMap

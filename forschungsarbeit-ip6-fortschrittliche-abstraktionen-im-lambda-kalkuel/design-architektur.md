@@ -28,20 +28,25 @@ Funktionen die mit einem **maybe** beginnen, geben wenn möglich den gewünschte
 > Funktionen: **maybe**XY   
 > Ergebnis:     **Just\(Wert\)** oder **Nothing**
 
-Beispiele: [maybeDivision](maybe.md#maybedivision), [maybeTruthy](maybe.md#maybetruthy), [maybeDomElement](maybe.md#maybedomelement), [maybeNumber](maybe.md#maybenumber)
-
-### either-Funktionen
-
-Funktionen die mit einem **either** beginnen, geben wenn möglich den gewünschten Wert im [E](maybe.md#maybe-type)ither-Type `Right(value)` oder ein `Right(error-handling)`  verpackt zurück.
-
-> Funktionen: **either**XY   
-> Ergebnis:     **Left\(Fehlerbehandlung\)** oder **Right\(Wert\)**
-
-Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](either.md#eithernotnullandundefined), [eitherDomElement](either.md#eitherdomelement), [eitherNumber](either.md#eithernumber), [eitherFunction](either.md#eitherfunction)
+Beispiele: maybeDivision, maybeTruthy, maybeDomElement, maybeNumber
 
 
 
 
+
+maybeElementXY: Just\(value\) oder NothingeitherElementXY
+
+#### either 
+
+ Left\(error\) oder Right\(value\)
+
+### In der JS-Paradigma
+
+
+
+\*\*\*\*
+
+**:**  
 
 
 
