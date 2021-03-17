@@ -119,7 +119,7 @@ const eitherElementByIndex = stack => index =>
                 (_ => eitherElementByChurchIndex(stack)(index))
                 (_ => eitherElementByJsNumIndex (stack)(index))
             ))
-    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
+    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack or index value '${index}' (${typeof index}) is not Church- or JS-Number`))
     (id) // return value
         
 const eitherElementByChurchIndex = stack => index =>
@@ -138,13 +138,14 @@ const eitherElementByJsNumIndex = stack => index =>
 
 ### removeByIndex
 
-Die Funktion `removeByIndex` nimmt einen Stack und einen Index \(JavasScript-Zahl\) entgegen. Die Funktion löscht das Element am übergebenen Index und gibt den neuen Stack zurück.  
+Die Funktion `removeByIndex` nimmt einen Stack und eine [Church-](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) oder JS-Zahl als Index entgegen. Die Funktion löscht das Element am übergebenen Index und gibt den neuen Stack zurück.  
 Bei einem nicht existierenden Index erhält man denselben Stack zurück.
 
 ```javascript
-const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "you", "Rock", "the", "World"]);
+const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "World"]);
 
-const result = removeByIndex(stackWithStrings)(2) // [ "Hello", "you", "Rock", "the", "World" ]
+removeByIndex(stackWithStrings)( 2) // [ "Hello", "World" ]
+removeByIndex(stackWithStrings)(n2) // [ "Hello", "World" ]
 ```
 
 ### 
