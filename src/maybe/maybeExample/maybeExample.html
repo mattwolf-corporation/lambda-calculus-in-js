@@ -6,13 +6,12 @@
     <style>
         html {
             background-color: lightgrey;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         body {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-top: -50px;
-            margin-left: -100px;
             font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
             background-color: whitesmoke;
             padding: 2rem;
@@ -28,19 +27,19 @@
 <body>
 
 
-<label>number</label>
+<label for="firstNumInput">number</label>
 <input id="firstNumInput" type="number">
 
 <br><br>
 
-<label>divisor</label>
+<label for="secondNumInput">divisor</label>
 <input id="secondNumInput" type="number">
 
 <br><br>
 
 <button id="divisionBtn">divide</button>
 
-<p>result = <span id="result">-</span></p>
+<p>result = <span id="resultDivision">-</span></p>
 
 <script src="maybeExample.js" type="module"></script>
 </body>

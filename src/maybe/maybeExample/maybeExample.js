@@ -1,7 +1,27 @@
-import {maybeDivision, getOrDefault, getDomElement, getDomElements} from "../maybe.js";
+import {
+    maybeDivision,
+    getOrDefault,
+    getDomElement,
+    getDomElements,
+    eitherElementsOrErrorsByFunction, eitherDomElement
+} from "../maybe.js";
+import {Box, fold, mapf} from "../../box/box.js";
+import {reduce} from "../../stack/stack.js";
+import {convertListMapToArray} from "../../listMap/listMap.js";
 
-const calcDiv = () => {
-    const [fstNum, sndNum] = getDomElements('firstNumInput', 'secondNumInput').map(e => Number(e.value))
-    getDomElement('result').textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
-}
-getDomElement('divisionBtn').onclick = calcDiv;
+
+// Either all the necessary Dom-Element exist or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
+(err => document.body.innerHTML = Box(err)
+                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
+(result => {
+
+    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result)
+
+    divisionBtn.onclick = () => {
+        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
+        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
+    }
+
+});

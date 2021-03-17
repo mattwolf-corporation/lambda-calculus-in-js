@@ -304,7 +304,7 @@ const convertJsBoolToChurchBool = b => b ? True : False;
  * x -> y -> f -> f(x)(y) ; Pair
  *
  * @function
- * @param {*} x:  firstOfPair argument of the pair
+ * @param   {*} x:  firstOfPair argument of the pair
  * @returns { function(y:*): function(f:function): {f: {x y} } } - returns a function, that store two value
  */
 const pair = V;

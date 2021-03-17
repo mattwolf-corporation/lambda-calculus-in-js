@@ -360,7 +360,7 @@ const getElementByChurchNumberIndex = s => i =>
  * @return { function(i:Number) : * } stack-value
  */
 const getElementByJsnumIndex = s => i => {
-    if (i < 0){ return; } // negativ index are not allowed
+    if (i < 0){ return undefined; } // negativ index are not allowed
 
     const times = succ(size(s));
     const initArgsPair = pair(s)(undefined); // Nothing or undefined
@@ -571,7 +571,7 @@ const filter = filterFunction => s => {
 };
 
 /**
- *  A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
+ * A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
  *
  * @param {stack} stack
  */

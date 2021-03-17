@@ -32,11 +32,10 @@ const toHex = n => {
     return hex.length === 1 ? "0" + hex : hex
 }
 
-const creatHtmlUnsubscribeToggle = ( parentElementId, title, appendAsSibling = false) => {
-    const parentElement = getDomElement(parentElementId)
+const creatHtmlUnsubscribeToggle = ( parentElement, title, appendAsSibling = false) => {
     const template      = document.createElement('div');
-    template.innerHTML = `<input type = "checkbox" id = "unSub${parentElementId}" name = "unSub${parentElementId}" style = "visibility: hidden">
-                          <label for = "unSub${parentElementId}" id="unSub${parentElementId}Label" class="unsubLabel" title="${title}">Unsubscribe ${title}</label>`
+    template.innerHTML = `<input type = "checkbox" id = "unSub${title}" name = "unSub${title}" style = "visibility: hidden">
+                          <label for = "unSub${title}" id="unSub${title}Label" class="unsubLabel" title="${title}">Unsubscribe ${title}</label>`
 
     appendAsSibling
         ? parentElement.parentNode.insertBefore( template, parentElement.nextSibling )
