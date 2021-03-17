@@ -324,7 +324,7 @@ const eitherElementByIndex = stack => index =>
                 (_ => eitherElementByChurchIndex(stack)(index))
                 (_ => eitherElementByJsNumIndex (stack)(index))
             ))
-    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack.`)) // catch
+    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack or index value '${index}' (${typeof index}) is not Church- or JS-Number`)) // catch
     (id) // return value
 
 const eitherElementByChurchIndex = stack => index =>
@@ -332,12 +332,12 @@ const eitherElementByChurchIndex = stack => index =>
         (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
         (_ => eitherNotNullAndUndefined( getElementByChurchNumberIndex(stack)(index) )
                 (_ => Left("invalid index"))
-                (e => Right(e))                 );
+                (e => Right(e))               );
 
 const eitherElementByJsNumIndex = stack => index =>
     eitherNotNullAndUndefined( getElementByJsnumIndex(stack)(index) )
         (_ => Left("invalid index"))
-        (e => Right(e)                  );
+        (e => Right(e)                );
 
 /**
  *  A function that takes a stack and an index as churchNumber. The function returns the element at the passed index
@@ -677,26 +677,51 @@ const forEach = stack => callbackFunc => {
  * @example
  */
 const removeByIndex = stack => index => {
-    const times         = size(stack);
-    const reversedStack = reverseStack(stack);
 
-    const iteration = argsTriple => {
-        const currentStack = argsTriple(firstOfTriple)
-        const resultStack  = argsTriple(secondOfTriple)
-        const currentIndex = argsTriple(thirdOfTriple)
+    const removeByCondition = currentStack => resultStack => index => currentIndex => {
+        const currentElement    = head(currentStack);
+        const result            = If( eq(index)(currentIndex) )
+                                    (Then( resultStack ))
+                                    (Else( push( resultStack )( currentElement )));
 
-        return If(hasPre(currentStack))
-                    (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex) ))
-                    (Else( argsTriple                                                        ));
+        return triple
+                ( getPreStack(currentStack) )
+                ( result                    )
+                ( succ(currentIndex)        );
     }
 
-    return times
-                (iteration)
-                    (triple
-                        ( reversedStack )
-                        ( emptyStack    )
-                        ( n1            )
-                    )(secondOfTriple)
+    const removeElementFn = stack => index => {
+        const times         = size(stack);
+        const reversedStack = reverseStack(stack);
+
+        const iteration = argsTriple => {
+            const currentStack = argsTriple(firstOfTriple)
+            const resultStack  = argsTriple(secondOfTriple)
+            const currentIndex = argsTriple(thirdOfTriple)
+
+            return If(hasPre(currentStack))
+                      (Then( removeByCondition(currentStack)(resultStack)(index)(currentIndex) ))
+                      (Else( argsTriple                                                        ));
+        }
+
+        return times
+        (iteration)
+        (triple
+            ( reversedStack )
+            ( emptyStack    )
+            ( n1            )
+        )(secondOfTriple)
+    }
+
+    return eitherTryCatch(
+        () => eitherFunction(stack) // stack value is NOT a stack aka function
+            (_ => Left(`removeByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
+            (_ => eitherNaturalNumber(index)
+                (_ => removeElementFn(stack)(index))
+                (_ => removeElementFn(stack)(toChurchNum(index)))
+            ))
+    (_ => Left(`removeByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack`)) // catch
+    (id) // return value
 }
 
 
@@ -705,18 +730,7 @@ const removeByIndex = stack => index => {
  * @param  {stack} currentStack
  * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
  */
-const removeByCondition = currentStack => resultStack => index => currentIndex => {
-    const currentElement    = head(currentStack);
-    const indexNumber       = typeof index === "number" ? toChurchNum(index) : index;
-    const result            = If( eq(indexNumber)(currentIndex) )
-                                (Then( resultStack ))
-                                (Else( push( resultStack )( currentElement )));
 
-    return triple
-            ( getPreStack(currentStack) )
-            ( result                    )
-            ( succ(currentIndex)        );
-}
 
 
 /**

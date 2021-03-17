@@ -237,13 +237,7 @@ stackSuite.add("getElementByIndex with wrong stack value", assert => {
 
     assert.consoleErrorEquals(
         () => getElementByIndex(True)(0),
-        "getElementByIndex - TypError: stack value 'x => y => x' (function) is not a stack.");
-
-    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(9999), "invalid index");
-    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(-1), "invalid index");
-    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(7), "invalid index");
-    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(n7), "invalid index");
-    // assert.consoleErrorEquals(() => getElementByIndex(stackWithNumbers)(churchMultiplication(n7)(n7)), "invalid index");
+        "getElementByIndex - TypError: stack value 'x => y => x' (function) is not a stack");
 });
 
 stackSuite.add("reduce", assert => {
@@ -442,6 +436,26 @@ stackSuite.add("removeByIndex", assert => {
     assert.arrayEquals(convertStackToArray(resultNotAvailableIndex), ["Hello", "Haskell", "you", "Rock", "the", "World"]);
     assert.churchNumberEquals(size(resultNotAvailableIndex), n6);
 
+    // same with ChurchNumbers
+    const resultEndIndexCN = removeByIndex(result)(n5) // "World"
+    assert.arrayEquals(convertStackToArray(resultEndIndexCN), ["Hello", "you", "Rock", "the"]);
+    assert.churchNumberEquals(size(resultEndIndexCN), n4);
+
+    const resultStartIndexCN = removeByIndex(resultEndIndexCN)(n1) // "Hello"
+    assert.arrayEquals(convertStackToArray(resultStartIndexCN), ["you", "Rock", "the"]);
+    assert.churchNumberEquals(size(resultStartIndexCN), n3);
+
+    const resultToEmptyStackCN = removeByIndex(removeByIndex(removeByIndex(resultStartIndex)(n1))(n1))(n1)
+    assert.arrayEquals(convertStackToArray(resultToEmptyStackCN), []);
+    assert.churchNumberEquals(size(resultToEmptyStackCN), n0);
+
+    const resultEmptyCN = removeByIndex(emptyStack)(n4)
+    assert.arrayEquals(convertStackToArray(resultEmptyCN), []);
+    assert.churchNumberEquals(size(resultEmptyCN), n0);
+
+    const resultNotAvailableIndexCN = removeByIndex(elements)(n9) // not existing Index
+    assert.arrayEquals(convertStackToArray(resultNotAvailableIndexCN), ["Hello", "Haskell", "you", "Rock", "the", "World"]);
+    assert.churchNumberEquals(size(resultNotAvailableIndexCN), n6);
 });
 
 stackSuite.add("concat", assert => {
