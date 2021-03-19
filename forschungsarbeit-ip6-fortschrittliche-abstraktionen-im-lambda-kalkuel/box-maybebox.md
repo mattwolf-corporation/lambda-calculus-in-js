@@ -219,9 +219,9 @@ const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
 // Anwendung
 const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
 
-Box(maybePerson()) // Just( {firstName: "Tyrion", lastName: "Lannister"} )
-        (mapfMaybe)(p => p.firstName)                     // Just ( "Tyrion" )
-        (mapfMaybe)(firstName => firstName.toUpperCase()) // Just ( "TYRION" )
+Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
+        (mapfMaybe)(p => p.firstName)                     // { Just("Tyrion") }
+        (mapfMaybe)(firstName => firstName.toUpperCase()) // { Just("TYRION") }
 ```
 
 ### foldMaybe
@@ -237,7 +237,9 @@ foldMaybe entspricht der Funktion [`mapMaybe`](maybe.md#mapmaybe)\`\`
 const foldMaybe = mapMaybe;
 
 // Anwendung
-
+Box(Just(10))                                // { Just(10) }
+        (mapfMaybe)(x => x + 10)             // { Just(20) }
+        (foldMaybe)(num => num + '$')        // Just("20$")
 ```
 
 ### chainMaybe
@@ -253,7 +255,17 @@ Die Funktion `chainMaybe` verwendet die Funktion [`flatMapMaybe`](maybe.md#flatm
 const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));
 
 // Anwendung
+const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
 
+const maybeFirstName = obj =>
+        obj && obj.hasOwnProperty('firstName')
+            ? Just(obj.firstName)
+            : Nothing;
+
+
+const maybeTyrion = Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
+                        (chainMaybe)(maybeFirstName)                      // { Just("Tyrion") }
+                        (foldMaybe)(firstName => firstName.toUpperCase()) //   Just("TYRION")
 ```
 
 ### apMaybe
