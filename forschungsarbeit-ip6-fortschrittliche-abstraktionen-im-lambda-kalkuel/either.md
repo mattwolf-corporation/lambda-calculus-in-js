@@ -145,7 +145,7 @@ const eitherTryCatch = f => {
 
 ### eitherElementsOrErrorsByFunction
 
-Die Funktion eitherElementsOrErrorsByFunction nimmt als ersten Parameter eine Funktion und als zweiten Parameter können beliebig viele Werte mitgegeben werden \(JavaScript Rest Parameter\). 
+Die Funktion eitherElementsOrErrorsByFunction nimmt als ersten Parameter eine Funktion und als zweiten Parameter können beliebig viele Werte mitgegeben werden \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\). 
 
 ```javascript
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
