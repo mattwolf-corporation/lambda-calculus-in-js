@@ -282,6 +282,10 @@ Box(Just(x => x + 5))                // { Just(x => x + 5) }
 
 Die Funktion `liftA2Maybe` entpsricht der Funktion [`liftA2`](box-maybebox.md#lifta2) für einen Maybe Type.
 
+{% hint style="info" %}
+Falls ein Parameter \(fx, fy oder beide\) Nothing sind, ist das Gesamtergebnis der Funktion Nothing.
+{% endhint %}
+
 ```javascript
 // Implementation
 const liftA2Maybe = f => fx => fy =>
