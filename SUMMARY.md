@@ -8,12 +8,12 @@
   * [Immutable Stack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
   * [Test-Framework](forschungsarbeit-ip5-lambda-kalkuel/test-framework.md)
 * [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/README.md)
-  * [Benchmark Erfahrungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [Immutable ListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
   * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
   * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
   * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
   * [Box / MaybeBox](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
+  * [Benchmark Erfahrungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [Code Convention](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-architektur.md)
 
