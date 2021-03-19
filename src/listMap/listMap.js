@@ -1,25 +1,7 @@
 import {id, pair, fst, snd, If, Else, Then, triple} from "../lambda-calculus-library/lambda-calculus.js";
 import {n0} from "../lambda-calculus-library/church-numerals.js";
-import {
-    stack,
-    size,
-    stackPredecessor,
-    head,
-    reverseStack,
-    hasPre,
-    getPreStack,
-    push,
-    pushToStack,
-    startStack,
-    emptyStack,
-    convertArrayToStack,
-    map,
-    filter,
-    reduce, forEach
-} from "../stack/stack.js";
-export {
-    listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap,
-    filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray
+import {stack, size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, pushToStack, startStack, emptyStack, convertArrayToStack, map, filter, reduce, forEach} from "../stack/stack.js";
+export {listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap, filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray, convertListMapToStack
 }
 
 /**
@@ -168,3 +150,5 @@ const logListMapToConsole = listMap =>
  *
  */
 const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
+
+const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(curr))(emptyStack)(listMap);

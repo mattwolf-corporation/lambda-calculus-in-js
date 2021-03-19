@@ -1,22 +1,9 @@
-import {
-    Observable,
-    addListener,
-    removeListener,
-    listenerLogToConsole,
-    listenerNewValueToDomElementTextContent,
-    listenerOldValueToDomElementTextContent,
-    newListener,
-    listenerNewValueLengthToElementTextContent,
-    setValue
-}from "../../observable.js";
-import {
-    getDomElements,
-    eitherElementsOrErrorsByFunction,
-    eitherDomElement
-} from "../../../maybe/maybe.js";
+import {Observable, addListener, removeListener, listenerLogToConsole, listenerNewValueToDomElementTextContent, listenerOldValueToDomElementTextContent, newListener, listenerNewValueLengthToElementTextContent, setValue}from "../../observable.js";
+import {eitherElementsOrErrorsByFunction, eitherDomElement} from "../../../maybe/maybe.js";
 import {Box, fold, mapf} from "../../../box/box.js";
-import {reduce} from "../../../stack/stack.js";
-import {convertListMapToArray} from "../../../listMap/listMap.js";
+import {reduce, forEach, zip, convertElementsToStack} from "../../../stack/stack.js";
+import {convertListMapToArray, convertListMapToStack} from "../../../listMap/listMap.js";
+import {snd, fst} from "../../../lambda-calculus-library/lambda-calculus.js";
 
 // Either all the necessary Dom-Element exist or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
@@ -48,24 +35,19 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "old
 
 
     //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
-    const [unsubNewValue, unsubOldValue, unsubSize] = getDomElements("unsubNewValue", "unsubOldValue", "unsubSize");
-
-    unsubNewValue.onclick = _ =>
-        textInputObservables =
-            unsubNewValue.checked
-                ? textInputObservables(addListener)(listenerNewValue)
-                : textInputObservables(removeListener)(listenerNewValue);
-
-    unsubOldValue.onclick = _ =>
-        textInputObservables =
-            unsubOldValue.checked
-                ? textInputObservables(addListener)(listenerOldValue)
-                : textInputObservables(removeListener)(listenerOldValue);
-
-    unsubSize.onclick = _ =>
-        textInputObservables =
-            unsubSize.checked
-                ? textInputObservables(addListener)(listenerNewValueSize)
-                : textInputObservables(removeListener)(listenerNewValueSize);
+    eitherElementsOrErrorsByFunction(eitherDomElement)("unsubNewValue", "unsubOldValue", "unsubSize" )
+    (err => document.body.appendChild( Box(err)
+                                        (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Warn</h1>"))
+                                        (mapf)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`)
+                                        (fold)(tag => document.createRange().createContextualFragment(tag)))
+    )
+    (result =>
+        forEach( zip(convertListMapToStack(result) )( convertElementsToStack(listenerNewValue,listenerOldValue,listenerNewValueSize)) )((pairEle, _) =>
+            pairEle(fst).onclick = _ =>
+                textInputObservables =
+                    pairEle(fst).checked
+                        ? textInputObservables(addListener)(pairEle(snd))
+                        : textInputObservables(removeListener)(pairEle(snd)))
+    )
 
 })
