@@ -45,7 +45,7 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 > **Abgrenzung von imperativer Programmierung:**   
 > Es werden keine Objektorientierte Konzepte wie Klassen oder Veerbung usw. verwendet.
 
-Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer und sicherer zu gestalten. Ausserdem sollten weniger Fehler auftauchen die typischerweise mit JavaScript auftauchen.
+Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Ausserdem sollten weniger Fehler auftauchen die typischerweise bei Entwickeln mit JavaScript auftauchen.
 
 
 
