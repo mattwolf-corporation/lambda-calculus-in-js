@@ -145,17 +145,30 @@ const eitherTryCatch = f => {
 
 ### eitherElementsOrErrorsByFunction
 
-Die Funktion eitherElementsOrErrorsByFunction nimmt als ersten Parameter eine Funktion und als zweiten Parameter können beliebig viele Werte mitgegeben werden \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\). 
+Die Funktion `eitherElementsOrErrorsByFunction` nimmt als ersten Parameter eine Funktion und als zweiten Parameter können einen Rest Parameter \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\). Die Funktion die übergeben wird sollte einen Wert entgegen nehmen und ein Either Type zurückgeben. Die Funktion `eitherElementsOrErrorsByFunction` wendet dann die übergebene Funktion auf jeden Wert an der durch den Rest Parameter übergeben wurde. Zurück kommt ein Either. Im Erfolgsfall \(Right\) bekommt der Anwender eine ListMap mit allen "Erfolgs" -Werten. Im Fehlerfall bekommt der Anwender ein Stack mit allen Fehlermeldungen die aufgetreten sind.
+
+{% hint style="info" %}
+Sobald ein Funktionsaufruf schief geht, wird ein Left mit den Fehlermeldungen zurückgegeben.
+{% endhint %}
+
+{% hint style="info" %}
+In Haskell hätte diese Funktion folgenden Typ:
+
+```text
+// Haskell: (a -> Either a) -> [a] -> Either [a]
+```
+
+D.h Eine Funktion die einen generischen Parameter a erwartet und einen Either von Typ a zurück gibt.
+{% endhint %}
 
 ```javascript
-eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
-(err => document.body.innerHTML = Box(err)
-                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
-(result => {
+eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue")
+(err => doSomethingWithErrorMessages) // err === nstack mit Fehlermeldungen
+(result => { // result === listMap mit den Resultaten
 
     // Get the elements
-   const [inputText, newValue, oldValue, sizes] = convertListMapToArray(result);
+   const [inputText, newValue] = convertListMapToArray(result);
+   doSomethingWithResult(inputText, newValue);
 ```
 
 
