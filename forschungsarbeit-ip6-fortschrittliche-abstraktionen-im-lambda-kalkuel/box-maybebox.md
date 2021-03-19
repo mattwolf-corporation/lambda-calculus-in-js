@@ -1,5 +1,5 @@
 ---
-description: 'Wert -> Einpacken -> [Verarbeiten] -> Auspacken -> Ergebnis'
+description: Verpacken -> Verarbeiten -> Auspacken
 ---
 
 # Box / MaybeBox
