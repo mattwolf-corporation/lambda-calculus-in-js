@@ -277,6 +277,9 @@ Die Funktion `apMaybe` entspricht der Funktion ..
 const apMaybe = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
 
 // Anwendung
+// TODO:  sollte Just(10) hier nicht auch in einer Box sein ???
+Box(Just(x => x + 5))                // { Just(x => x + 5) }
+        (apMaybe)(Just(10));         // { Just(15) }
 
 ```
 
@@ -291,6 +294,7 @@ const liftA2Maybe = f => fx => fy =>
         (mapfMaybe)(f)
         (apMaybe)(fy)
         
+
 // Anwendung
 
 ```
