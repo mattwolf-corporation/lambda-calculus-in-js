@@ -16,4 +16,5 @@
   * [Box / MaybeBox](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
   * [Benchmark Erfahrungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [Code Convention](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-architektur.md)
+  * [Design Entscheidungen und Begründungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-entscheidungen-und-begruendungen.md)
 

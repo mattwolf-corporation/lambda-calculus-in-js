@@ -47,6 +47,8 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 
 Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Somit sollten weniger Fehler auftauchen die typischerweise bei Entwickeln mit JavaScript auftauchen.
 
+## Classic JS vs Lambda JS
+
 
 
 ### Ausgangslage
