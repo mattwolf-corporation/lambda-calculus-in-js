@@ -265,7 +265,7 @@ Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
 
 ### apMaybe
 
-Die Funktion `apMaybe` entspricht der Funktion ..
+Die Funktion `apMaybe` entspricht der Funktion [`app`](box-maybebox.md#app-todo-funktionsname-aendern) für einen Maybe Type.
 
 ```javascript
 // Implementation
@@ -280,7 +280,7 @@ Box(Just(x => x + 5))                // { Just(x => x + 5) }
 
 ### liftA2Maybe
 
-Die Funktion `liftA2Maybe` entpsricht der Funktion ..
+Die Funktion `liftA2Maybe` entpsricht der Funktion [`liftA2`](box-maybebox.md#lifta2) für einen Maybe Type.
 
 ```javascript
 // Implementation
@@ -289,7 +289,6 @@ const liftA2Maybe = f => fx => fy =>
         (mapfMaybe)(f)
         (apMaybe)(fy)
         
-
 // Anwendung
 
 ```
