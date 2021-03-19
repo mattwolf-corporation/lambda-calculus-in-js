@@ -5,15 +5,10 @@ import {reduce, forEach, zip, convertElementsToStack} from "../../../stack/stack
 import {convertListMapToArray, convertListMapToStack} from "../../../listMap/listMap.js";
 import {snd, fst} from "../../../lambda-calculus-library/lambda-calculus.js";
 
-// Either all the necessary Dom-Element exist or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
-(err => document.body.innerHTML = Box(err)
-                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
-(result => {
 
+const startProgram = domElements => {
     // Get the elements
-   const [inputText, newValue, oldValue, sizes] = convertListMapToArray(result);
+   const [inputText, newValue, oldValue, sizes] = convertListMapToArray(domElements);
 
     // Create Listener
     const listenerNewValue      = newListener( listenerNewValueToDomElementTextContent     (newValue) );
@@ -34,15 +29,16 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "old
         textInputObservables = textInputObservables(setValue)(inputText.value);
 
 
+
     //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
     eitherElementsOrErrorsByFunction(eitherDomElement)("unsubNewValue", "unsubOldValue", "unsubSize" )
     (err => document.body.appendChild( Box(err)
-                                        (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Warn</h1>"))
+                                        (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Warn Un- & Subscribe</h1>"))
                                         (mapf)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`)
                                         (fold)(tag => document.createRange().createContextualFragment(tag)))
     )
     (result =>
-        forEach( zip(convertListMapToStack(result) )( convertElementsToStack(listenerNewValue,listenerOldValue,listenerNewValueSize)) )((pairEle, _) =>
+        forEach( zip( convertListMapToStack(result) )( convertElementsToStack(listenerNewValue,listenerOldValue,listenerNewValueSize)) )((pairEle, _) =>
             pairEle(fst).onclick = _ =>
                 textInputObservables =
                     pairEle(fst).checked
@@ -50,4 +46,11 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "old
                         : textInputObservables(removeListener)(pairEle(snd)))
     )
 
-})
+}
+
+// Either all the necessary Dom-Element exist or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
+(err => document.body.innerHTML = Box(err)
+                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
+(startProgram)
