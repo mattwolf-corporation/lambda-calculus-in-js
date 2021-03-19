@@ -290,7 +290,9 @@ const liftA2Maybe = f => fx => fy =>
         (apMaybe)(fy)
         
 // Anwendung
-
+liftA2Maybe( x => y => x + y)
+                (Just(10))
+                (Just(5)); // Just(15)
 ```
 
 
