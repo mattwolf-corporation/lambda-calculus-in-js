@@ -19,11 +19,11 @@ JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber
 * JsDoc Ergänzungen
 * Dokumentation und Anwendungsbeispiele der Konstruktionen
 
+Bei all unseren Konstruktionen haben wir da
+
 ### Ausgangslage
 
 IP5 & Lambda Kalkül
-
-Unsicherer JS hacky, w'rgi, grusig , pfui hau ab nach abu dabi
 
 ### Was wurde erreicht
 
