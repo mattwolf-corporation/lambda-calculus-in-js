@@ -1,15 +1,5 @@
 import {TestSuite, BenchmarkTest} from "../test.js";
-import {
-    addListener,
-    listenerNewValueToElement,
-    getValue,
-    newListener, newListenerWithCustomKey, setListenerKey, getListenerKey,
-    listenerLogToConsole,
-    Observable,
-    logListenersToConsole,
-    removeListener,
-    setValue
-} from "../../src/observable/observable.js";
+import {addListener, listenerNewValueToElement, getValue, newListener, newListenerWithCustomKey, setListenerKey, getListenerKey, listenerLogToConsole, Observable, logListenersToConsole, removeListener, setValue} from "../../src/observable/observable.js";
 
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
@@ -18,7 +8,7 @@ observableListMapSuite.add("Observable", assert => {
 
     // first Listener
     const observedObject = {};
-    const listenerValue = newListener(listenerNewValueToElement(observedObject))
+    const listenerValue = newListener( listenerNewValueToElement(observedObject) )
 
 
     assert.equals(observedObject.value, undefined)
@@ -163,12 +153,12 @@ observableListMapSuite.add("removeListener", assert => {
 
 observableListMapSuite.add("benchmark test", assert => {
 
-    let testObs = Observable(0)
+    let testObs = Observable(1)
 
     let listOfValuesHandlers = []
 
     // addListener
-    for (let i = 0; i < 200; i++) { // limit to 6250
+    for (let i = 0; i < 100; i++) { // limit to 6250
         const valueHolder = {};
         const valueHandler = newListener(listenerNewValueToElement(valueHolder))
         listOfValuesHandlers.push(valueHolder)
@@ -176,7 +166,15 @@ observableListMapSuite.add("benchmark test", assert => {
     }
 
     // set Value
-    const result = BenchmarkTest('observable set value method')(() => testObs = testObs(setValue)(66));
+    BenchmarkTest('observable set value method')(() => testObs = testObs(setValue)(66));
+
+    // BenchmarkTest('observable set value method 1000 times')(() => {
+    //     for (let i = 0; i < 10000; i++) {
+    //         testObs = testObs(setValue)(i)
+    //     }
+    // });
+
+    console.log(testObs(getValue))
 
     assert.equals(listOfValuesHandlers.every(v => v.value === 66), true);
 });

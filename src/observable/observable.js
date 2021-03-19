@@ -66,7 +66,7 @@ const Observable = initialValue =>
  * testObs(getValue) === 42
  */
 const setValue = listeners => oldValue => newValue => {
-    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue))
+    forEach(listeners)((listener, _) => (listener(snd))(newValue)(oldValue));
     return observableBody(listeners)(newValue);
 }
 
@@ -223,7 +223,7 @@ const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
 
 /**
  * Get the key of a listener
- * @param  {function} listener
+ * @param  {BaseAudioContext.listener} listener
  * @return {*} key
  * @example
  * let listenerLogTest = newListener(listenerLogToConsole);

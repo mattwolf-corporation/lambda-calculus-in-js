@@ -26,8 +26,7 @@ import {
     Left,
     Right,
     Just,
-    Nothing,
-    eitherElementOrCustomErrorMessage, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber
+    Nothing, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber
 } from "../maybe/maybe.js";
 
 import {
@@ -55,7 +54,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement
+    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex
 }
 
 /**
@@ -324,7 +323,7 @@ const eitherElementByIndex = stack => index =>
                 (_ => eitherElementByChurchIndex(stack)(index))
                 (_ => eitherElementByJsNumIndex (stack)(index))
             ))
-    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack or index value '${index}' (${typeof index}) is not Church- or JS-Number`)) // catch
+    (_ => Left(`getElementByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack`)) // catch
     (id) // return value
 
 const eitherElementByChurchIndex = stack => index =>
@@ -705,11 +704,11 @@ const removeByIndex = stack => index => {
         }
 
         return times
-        (iteration)
-        (triple
-            ( reversedStack )
-            ( emptyStack    )
-            ( n1            )
+                (iteration)
+                (triple
+                    ( reversedStack )
+                    ( emptyStack    )
+                    ( n1            )
         )(secondOfTriple)
     }
 
@@ -723,15 +722,6 @@ const removeByIndex = stack => index => {
     (_ => Left(`removeByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack`)) // catch
     (id) // return value
 }
-
-
-/**
- *
- * @param  {stack} currentStack
- * @return {function(resultStack:stack): function(index:churchNumber|number): function(currentIndex:churchNumber): triple}
- */
-
-
 
 /**
  * Takes two stacks and concate it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]

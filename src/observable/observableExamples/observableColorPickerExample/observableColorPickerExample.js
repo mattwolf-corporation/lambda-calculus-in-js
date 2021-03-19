@@ -13,7 +13,6 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("resultColor", "rgbValue", "h
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (result => {
 
-
     const [resultColor, rgbValue, hex, hsl, inputR, inputG, inputB, rangeR, rangeG, rangeB] = convertListMapToArray(result);
 
     // Getter methods for the RPG-Values (triple)
