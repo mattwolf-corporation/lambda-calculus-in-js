@@ -192,7 +192,33 @@ n0(x => x + '!')('λ')  // 'λ'
 `n0` nimmt zwei Parameter und gibt den zweiten zurück. Gleich wie die Funktion: [Kite](einfache-kombinatoren.md#kite) \(`n0 === KI`\). 
 {% endhint %}
 
+### jsNum
 
+Um eine Church-Zahl in eine JavaScript-Zahl zu transferiere, evaluiert die Funktion `jsNum` die Church-Zahl n-Mal den Funktionsaufruf und zählt dabei die Aufrufe.
+
+```javascript
+// Implementaion
+const jsNum = n => n(x => x + 1)(0);
+
+// Anwendung
+jsNum(n0)     // 0
+jsNum(n1)     // 1
+jsNum(n2)     // 2
+```
+
+### churchNum
+
+Um aus einer JavaScript-Zahl eine Church-Zahl zu kreieren, wird mit der Funktion `churchNum` rekursiv n-Mal mit der Nachfolger-Funktion [`successor`](church-encodings-zahlen-und-boolesche-werte.md#successor-nachfolger)  eine Church-Zahl gebaut.
+
+```javascript
+// Implementaion
+const churchNum = n => n === 0 ? n0 : successor(churchNum(n - 1));
+
+// Anwendung
+jsNum(0)     // n0
+jsNum(1)     // n1
+jsNum(2)     // n2
+```
 
 ## Mathematische Operationen  mit Church-Zahlen
 
