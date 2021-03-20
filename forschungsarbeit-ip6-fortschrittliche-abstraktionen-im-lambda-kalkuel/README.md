@@ -105,7 +105,7 @@ const streetName = user =>
     (id)
 ```
 
-Vergleiche
+### Vergleich
 
 | Eigesnchaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
