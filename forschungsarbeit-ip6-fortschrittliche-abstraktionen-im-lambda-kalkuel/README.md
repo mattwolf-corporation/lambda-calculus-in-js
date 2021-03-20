@@ -19,7 +19,7 @@ Wie wurde es gemacht/untersucht/getestet ?
 
 
 
-## Einleitung
+### Einleitung
 
 JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere, belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "Lambda Kalkül für praktisches JavaScript" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
 
@@ -43,18 +43,9 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
 > **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> Es werden keine Objektorientierte Konzepte wie Klassen oder Veerbung usw. verwendet.
 
-Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
-
-Durch den Einsatz von diesem Werzeugkasten sollten weniger Fehler auftauchen, die sonst typischerweise beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten auftauchen.
-
-### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
-
-| Fehlermeldung | Grund |
-| :--- | :--- |
-| Uncaught TypeError: Cannot Read Property | Zugriff auf Objekt das null oder undefined ist |
-| ... |  |
+Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Somit sollten weniger Fehler auftauchen die typischerweise bei Entwickeln mit JavaScript auftauchen.
 
 ## Classic JS vs Lambda JS
 
@@ -116,64 +107,18 @@ const streetName = user =>
 
 ### Vergleich
 
-| Eigenschaften | Classic JS | Lambda JS |
+| Eigesnchaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
 | Variablen für Zwischenstände | wird benötigt | keine |
 | Verschachtelung von If Statements | wird benötigt | keine |
-| Leserlichkeit/Lesefluss | erschwert | klarer |
+| Leserlichkeit/Lesefluss | erschwert | gut |
 | Wartbarkeit | schlecht | gut |
 
 ### 
 
 ### 
 
-```javascript
-const checkElementByFunction = f => (...elems) =>
-    elems.reduce((acc, curr) => {
-        const result = f(curr);
-        if (acc.isFailed) {
-            if (!result) {
-                 acc.values.push('element with id: ' + curr + 'not found');
-                return acc;
-            }
-            return acc;
-        } else {
-            if (result) {
-                acc.values.push(result);
-                return acc;
-            }
-            acc.values = [] // clear elements
-            acc.values.push('element with id: ' + curr + 'not found');
-            acc.isFailed = true;
-            return acc;
-
-        }
-    }, {values: [], isFailed: false});
-    
-    if
-```
-
-
-
-```javascript
-const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-     reduce((acc, curr) => acc
-                                ( stack => Left( eitherProducerFn(curr)
-                                            (err => push(stack)(err))
-                                            (_   => stack))
-                                )
-                                ( listMap => eitherProducerFn(curr)
-                                                (err => Left(  push(emptyStack)(err)           ))
-                                                (val => Right( push(listMap)( pair(curr)(val) )))
-                                )
-        )
-        ( Right( emptyListMap) )
-        ( convertArrayToStack(elements) );
-```
-
-
-
-
+### 
 
 ### Ausgangslage
 
