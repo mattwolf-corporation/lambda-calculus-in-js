@@ -8,7 +8,7 @@ export {
     maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements,
     maybeTruthy, eitherNumber, Left, Right, eitherFunction,
     eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement,
-    eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, eitherNaturalNumber
+    eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, maybeNotNullAndUndefined, eitherNaturalNumber
 }
 
 const Left   = x => f => _ => f (x);
@@ -54,6 +54,13 @@ const eitherNotNullAndUndefined = value =>
     value !== null && value !== undefined
         ? Right(value)
         : Left(`element is '${value}'`);
+
+const maybeNotNullAndUndefined = value =>
+    eitherNotNullAndUndefined(value)
+    (_ => Nothing)
+    (_ => Just(value))
+
+
 
 /**
  * Take the element as maybe value if the element is a truthy value inclusive number Zero
@@ -146,19 +153,17 @@ const maybeElementsByFunction = maybeProducerFn => (...elements) =>
 
 // Beispiel: key => maybeFunc(key) ||  [Just(elem1), Just(Elem2), Nothing, Just(Elem3)] => Just([elem1, elem2, Elem3])
 const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-     reduce
-        ((acc, curr) => acc
-                                ( stack => Left( (eitherProducerFn(curr))
-                                                    (err => push(stack)(err))
-                                                    (_   => stack)
-                                                )
+     reduce((acc, curr) => acc
+                                ( stack => Left( eitherProducerFn(curr)
+                                            (err => push(stack)(err))
+                                            (_   => stack))
                                 )
-                                ( listMap => (eitherProducerFn(curr))
-                                                (err => Left(  push(emptyStack)(err)            ) )
-                                                (val => Right( push(listMap)( pair(curr)(val) ) ) )
+                                ( listMap => eitherProducerFn(curr)
+                                                (err => Left(  push(emptyStack)(err)           ))
+                                                (val => Right( push(listMap)( pair(curr)(val) )))
                                 )
         )
-        ( Right(emptyListMap) )
+        ( Right( emptyListMap) )
         ( convertArrayToStack(elements) );
 
 

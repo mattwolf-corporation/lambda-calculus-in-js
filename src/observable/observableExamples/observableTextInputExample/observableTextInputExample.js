@@ -54,3 +54,42 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "old
                                     (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (startProgram)
+
+function preProgramm(...elementIds){
+    console.log(elementIds)
+
+   const domElements = elementIds.map(document.getElementById)
+
+   if(domElements.includes(undefined)){
+
+       return elementIds.map(element => {
+           if(!document.getElementById(element)){
+               return 'element with id: ' + element + 'not found'
+           }
+       })
+
+   }
+ return domElements;
+}
+
+const checkElementByFunction = f => (...elems) =>
+    elems.reduce((acc, curr) => {
+        const result = f(curr);
+        if (acc.isFailed) {
+            if (!result) {
+                return acc.values.push('element with id: ' + result + 'not found');
+            }
+        } else {
+            if (result) {
+                return acc.values.push(result);
+            } else {
+                acc.values = [] // clear elements
+                acc.values.push('element with id: ' + result + 'not found');
+                acc.isFailed = true;
+                return acc;
+            }
+        }
+    }, {values: [], isFailed: false});
+
+
+
