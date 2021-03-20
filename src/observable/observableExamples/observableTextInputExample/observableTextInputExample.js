@@ -11,10 +11,10 @@ const startProgram = domElements => {
    const [inputText, newValue, oldValue, sizes] = convertListMapToArray(domElements);
 
     // Create Listener
-    const listenerNewValue      = newListener( listenerNewValueToDomElementTextContent     (newValue) );
-    const listenerOldValue      = newListener( listenerOldValueToDomElementTextContent     (oldValue) );
-    const listenerNewValueSize  = newListener( listenerNewValueLengthToElementTextContent  (sizes)    );
-    const listenerConsoleLog    = newListener( listenerLogToConsole                                   );
+    const listenerNewValue      = newListener( listenerNewValueToDomElementTextContent    (newValue) );
+    const listenerOldValue      = newListener( listenerOldValueToDomElementTextContent    (oldValue) );
+    const listenerNewValueSize  = newListener( listenerNewValueLengthToElementTextContent (sizes)    );
+    const listenerConsoleLog    = newListener( listenerLogToConsole                                  );
 
     // Create Observable-Object, define the Initial-Value and append the Listeners
     let textInputObservables = Observable("")

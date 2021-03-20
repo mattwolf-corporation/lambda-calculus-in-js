@@ -44,7 +44,7 @@ import {
     succ,
     jsNum,
     is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
-    toChurchNum, min, max
+    churchNum, min, max
 } from '../lambda-calculus-library/church-numerals.js'
 
 export {
@@ -330,8 +330,8 @@ const eitherElementByChurchIndex = stack => index =>
     eitherFunction(index)
         (_ => Left(`getElementByIndex - TypError: index value '${index}' (${typeof index}) is not allowed. Use Js- or Church-Numbers`))
         (_ => eitherNotNullAndUndefined( getElementByChurchNumberIndex(stack)(index) )
-                (_ => Left("invalid index"))
-                (e => Right(e))               );
+            (_ => Left("invalid index"))
+            (e => Right(e))               );
 
 const eitherElementByJsNumIndex = stack => index =>
     eitherNotNullAndUndefined( getElementByJsnumIndex(stack)(index) )
@@ -466,7 +466,8 @@ const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
  *
  * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
-const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr), emptyStack);
+const convertArrayToStack = array =>
+    array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
  *  A function that takes an some Element and converts into a stack. The function returns a stack
@@ -477,7 +478,8 @@ const convertArrayToStack = array => array.reduce((acc, curr) => push(acc)(curr)
  *
  * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
-const convertElementsToStack = (...elements) => convertArrayToStack(elements);
+const convertElementsToStack = (...elements) =>
+    convertArrayToStack(elements);
 
 /**
  *  A function that accepts a stack. The function returns the reversed stack.
@@ -485,7 +487,8 @@ const convertElementsToStack = (...elements) => convertArrayToStack(elements);
  * @param  {stack} s
  * @return {stack} stack (reversed)
  */
-const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s))(snd);
+const reverseStack = s =>
+    reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s)(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -493,7 +496,8 @@ const reverseStack = s => (reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(a
  * @param  {function} mapFunc
  * @return {function(reduce:stack): function(stack)} stack
  */
-const mapWithReduce = mapFunc => reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
+const mapWithReduce = mapFunc =>
+    reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
 
 /**
  *  A function that accepts a stack and a filter function. The function returns the filtered stack.
@@ -501,7 +505,8 @@ const mapWithReduce = mapFunc => reduce((acc, curr) => push(acc)(mapFunc(curr)))
  * @param  {function} filterFunc
  * @return {function(reduce:stack): function(stack)} stack
  */
-const filterWithReduce = filterFunc => reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
+const filterWithReduce = filterFunc =>
+    reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
 
 /**
  *  A function that takes a map function and a stack. The function returns the mapped stack
@@ -585,7 +590,8 @@ const logStackToConsole = stack =>
  * @param   {stackOp} stackOp
  * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
  */
-const stackOpBuilder = stackOp => s => x => f => f(stackOp(s)(x));
+const stackOpBuilder = stackOp => s => x => f =>
+    f(stackOp(s)(x));
 
 /**
  * pushToStack is a Stack-Builder-Command to push new values to the current stack
@@ -717,7 +723,7 @@ const removeByIndex = stack => index => {
             (_ => Left(`removeByIndex - TypError: stack value '${stack}' (${typeof stack}) is not allowed. Use a Stack (type of function)`))
             (_ => eitherNaturalNumber(index)
                 (_ => removeElementFn(stack)(index))
-                (_ => removeElementFn(stack)(toChurchNum(index)))
+                (_ => removeElementFn(stack)(churchNum(index)))
             ))
     (_ => Left(`removeByIndex - TypError: stack value '${stack}' (${typeof stack}) is not a stack`)) // catch
     (id) // return value

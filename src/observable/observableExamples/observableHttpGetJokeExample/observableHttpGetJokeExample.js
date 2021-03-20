@@ -7,15 +7,11 @@ import {convertElementsToStack, convertStackToArray, forEach, map, reduce} from 
 import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
 import {speak} from "../observableUtilities.js";
 
-// Either all the necessary Dom-Element exist and or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nersdyBtn", "trumpBtn")
-(err => document.body.innerHTML = Box(err)
-                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`))
-(result => {
 
-    // receive founded the elements
-    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(result);
+const startProgram = domElements => {
+
+    // receive founded elements
+    const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(domElements);
 
     // create the Listeners (text-to-speech & display to view)
     const listenerSpeak     = newListener(nValue => oValue => speak(nValue(snd)));
@@ -50,10 +46,17 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
     const jokes = convertElementsToStack(norrisJoke, nerdJoke, trumpTweet);
 
     // add the Joke-Buttons a on-click event listener for request the Jokes and update the Observable
-    forEach(jokes)((joke, _) =>
+    forEach(jokes)( (joke, _) =>
         getElementByKey(joke)("btn").onclick = _ =>
-            HttpGet( getElementByKey(joke)("url") )(resp =>
-                jokePairObserver(setValue)(Box(resp)
-                                            (mapf)(JSON.parse)
-                                            (fold)(x => pair( getElementByKey(joke )( "name"))( x[getElementByKey(joke)("jsonKey")] )))));
-})
+            HttpGet( getElementByKey(joke)("url") )( resp =>
+                jokePairObserver(setValue)( Box(resp)
+                                             (mapf)( JSON.parse )
+                                             (fold)( x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
+}
+
+// Either all the necessary Dom-Element exist and or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nersdyBtn", "trumpBtn")
+(err => document.body.innerHTML = Box(err)
+                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`));
+(startProgram)

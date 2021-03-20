@@ -35,15 +35,15 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("resultColor", "rgbValue", "h
 
     // Create Observable-Object, define the three initial-Values RGB and append the Listeners
      let rgbObservable = Observable(triple(55)(215)(150))
-                                        (addListener)(listenerInputR)
-                                        (addListener)(listenerRangeR)
-                                        (addListener)(listenerInputG)
-                                        (addListener)(listenerRangeG)
-                                        (addListener)(listenerInputB)
-                                        (addListener)(listenerRangeB)
-                                        (addListener)(listenerBgColorRGB)
-                                        (addListener)(listenerRgbTextRGB)
-                                        (addListener)(listenerHexTextRGB);
+                                        (addListener)( listenerInputR     )
+                                        (addListener)( listenerRangeR     )
+                                        (addListener)( listenerInputG     )
+                                        (addListener)( listenerRangeG     )
+                                        (addListener)( listenerInputB     )
+                                        (addListener)( listenerRangeB     )
+                                        (addListener)( listenerBgColorRGB )
+                                        (addListener)( listenerRgbTextRGB )
+                                        (addListener)( listenerHexTextRGB );
 
     // Connecting the Observables with every Input-Field (Range and Text).
      inputR.oninput = _ =>
