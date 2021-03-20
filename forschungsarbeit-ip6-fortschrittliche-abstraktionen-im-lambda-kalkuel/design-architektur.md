@@ -52,9 +52,7 @@ Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](.
 
 ## Formatierung
 
-Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig. Denn gut ausgerichteter Code fördert die Leserlichkeit immens.
-
-
+Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig und JavaScript ist dabei ziemlich unempfindlich.  So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
 
 ### Workflow-Beispiel
 
@@ -66,7 +64,7 @@ const textInputObservables = Observable("")(addListener)(listenerNewValue)(addLi
 
 #### Schritt 1: Zeilenumbrüche 
 
-> Wir sind gewohnt das Codes auf jeder Zeile immer linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert. Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
+> Wir sind gewohnt das Codes auf jeder Zeile immer linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert.  Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -101,6 +99,16 @@ const textInputObservables = Observable("")
 ```
 
 #### Schritt 4: Semikolon
+
+Es ist nicht
+
+```javascript
+const textInputObservables = Observable("")
+                              (addListener)( listenerNewValue     )
+                              (addListener)( listenerOldValue     )
+                              (addListener)( listenerNewValueSize )
+                              (addListener)( listenerConsoleLog   )
+```
 
 
 
