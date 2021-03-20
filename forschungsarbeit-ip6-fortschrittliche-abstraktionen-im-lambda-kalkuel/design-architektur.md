@@ -52,11 +52,11 @@ Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](.
 
 ## Formatierung
 
-Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig und JavaScript ist dabei ziemlich unempfindlich.  So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
+Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
 
 ### Workflow-Beispiel
 
-Gegeben ist ein nicht formatierter Code. Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel es sind und welche Listener.
+Gegeben ist ein nicht formatierter Code. Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind.
 
 ```javascript
 const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
@@ -100,15 +100,37 @@ const textInputObservables = Observable("")
 
 #### Schritt 4: Semikolon
 
-Es ist nicht
+> JavaScript versucht zwar selber eine Semikolon am Ende einer Anweisung einzufügen, wenn der Programmierer keine gesetzt hat. Hier ist aber nicht klar, ob die Anweisung für JavaScript fertig ist, denn es wäre mittel Funktionskomposition möglich immer weitere Funktionen anzufügen. Es ist darum besser immer ein Semikolon zu setzen, nicht nur um JavaScript zu signalisieren, dass es hier zu ende ist, sondern auch für die Leserlichkeit.
 
 ```javascript
 const textInputObservables = Observable("")
                               (addListener)( listenerNewValue     )
                               (addListener)( listenerOldValue     )
                               (addListener)( listenerNewValueSize )
-                              (addListener)( listenerConsoleLog   )
+                              (addListener)( listenerConsoleLog   );
 ```
+
+
+
+### Beispiele: Schlecht - Gut
+
+#### Listeners-Deklaration:
+
+```javascript
+// unformatiert
+const listenerNewValue = newListener(listenerNewValueToDomElementTextContent(newValue));
+const listenerOldValue = newListener(listenerOldValueToDomElementTextContent(oldValue));
+const listenerNewValueSize = newListener(listenerNewValueLengthToElementTextContent(sizes));
+const listenerConsoleLog = newListener(listenerLogToConsole);
+
+// formatiert
+const listenerNewValue     = newListener( listenerNewValueToDomElementTextContent    (newValue) );
+const listenerOldValue     = newListener( listenerOldValueToDomElementTextContent    (oldValue) );
+const listenerNewValueSize = newListener( listenerNewValueLengthToElementTextContent (sizes)    );
+const listenerConsoleLog   = newListener( listenerLogToConsole                                  );
+```
+
+
 
 
 
