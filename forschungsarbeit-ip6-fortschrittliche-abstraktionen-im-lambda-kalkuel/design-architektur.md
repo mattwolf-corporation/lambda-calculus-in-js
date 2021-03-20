@@ -35,6 +35,18 @@ Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](e
 
 
 
+## Variablen Deklaration
+
+Alle Konstruktionen sind mit dem Keyword `const` definiert. Somit können diese Variablen nicht überschrieben/verändert werden.
+
+Bei den Konstruktionen wurde darauf geachtet das diese pure sind.
+
+Objekte und  Arrays werden nicht verwendet. Aussnahme: Funktionen die als Brücke von der einten Welt in die andere dienen. \(convertArrayToStack\).
+
+
+
+
+
 
 
 
