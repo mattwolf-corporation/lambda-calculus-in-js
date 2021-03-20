@@ -39,14 +39,68 @@ Alle Konstruktionen sind mit dem Keyword `const` definiert. Somit können diese 
 
 ## Konstruktionen
 
-Bei Konstruktionen soll darauf geachtet werden, dass diese aus reinen Funktionen bestehen..
+### Konstante Konstrukte
+
+Bei Konstruktionen soll darauf geachtet werden, dass diese aus reinen Funktionen bestehen.
+
+### Die Brücken zwischen λ und JS
 
 Objekte und Arrays werden nicht verwendet. Ausnahme sind Funktionen die als Brücke zwischen den Welten Lambda Kalkül und JavaScript dienen.   
 Beispiel sind die _Convert_-Funktionen: [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack), [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray), converElementsToStack, [converObjectToListMap](listmap.md#convertobjtolistmap), [convertListMapToArray ](listmap.md#convertlistmaptoarray)etc.
 
 Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum), [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
 
-## Einrückung & Formatierung
+## Formatierung
+
+Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig. Denn gut ausgerichteter Code fördert die Leserlichkeit immens.
+
+
+
+### Workflow-Beispiel
+
+Gegeben ist ein nicht formatierter Code. Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel es sind und welche Listener.
+
+```javascript
+const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
+```
+
+#### Schritt 1: Zeilenumbrüche 
+
+> Wir sind gewohnt das Codes auf jeder Zeile immer linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert. Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
+
+```javascript
+const textInputObservables = Observable("")
+(addListener)(listenerNewValue)
+(addListener)(listenerOldValue)
+(addListener)(listenerNewValueSize)
+(addListener)(listenerConsoleLog)
+```
+
+#### Schritt 2: Einrücken
+
+> Einrücken der Funktion unterhalb der Haupt-Funktion in einer Linie plus einem Leerschlag, mach es erkennbarer, dass sie zueinander gehören und darauf aufbauen.
+
+```javascript
+const textInputObservables = Observable("")
+                              (addListener)(listenerNewValue)
+                              (addListener)(listenerOldValue)
+                              (addListener)(listenerNewValueSize)
+                              (addListener)(listenerConsoleLog)
+```
+
+#### Schritt 3: Leerzeichen \(Padding\)
+
+> Es ist schöner und lesbarer, wenn es zwischen den Werten in den Klammern mindestens ein Leerzeichen gibt. Um allen Werten dieselbe Präsenz zu geben, ist es dabei empfehlenswert die Klammern auf einer Linie untereinander zu bringen.
+
+```javascript
+const textInputObservables = Observable("")
+                              (addListener)( listenerNewValue     )
+                              (addListener)( listenerOldValue     )
+                              (addListener)( listenerNewValueSize )
+                              (addListener)( listenerConsoleLog   )
+```
+
+#### Schritt 4: Semikolon
 
 
 
