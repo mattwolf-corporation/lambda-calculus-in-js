@@ -49,7 +49,76 @@ Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten
 
 ## Classic JS vs Lambda JS
 
+### Property Value aus Objekt extrahieren \(null-safe\)
 
+**Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
+**Ziel:**           Strassenname extrahieren
+
+```javascript
+// User-Object
+const user = {
+    firstName: "Donald",
+    lastName: "Duck",
+    address: {
+        city: "Entenhausen",
+        street: {
+            name: "WaltStreet",
+            nr: 10
+        }
+    }
+}
+
+// Anwendung
+streetName(user) // "WALTSTREET"
+```
+
+Eine mögliche Implementierung im klassischen JavaScript wäre:
+
+```javascript
+const streetName = user => {
+    if (user){
+        const address = user.address;
+        if(address){
+            const street = address.street;
+            if(street){
+                const name = street.name;
+                if (name){
+                    return name.toUpperCase();
+                }
+            }
+        }
+    }
+    return "no street"
+}
+```
+
+Eine gleichwertige Implementierung im Stil der funnktionalen Programmierung.
+
+```javascript
+const streetName = user =>
+    Box(maybeNotNullAndUndefined(user))
+        (chainMaybe)(u => maybeNotNullAndUndefined(u.address))
+        (chainMaybe)(a => maybeNotNullAndUndefined(a.street))
+        (chainMaybe)(s => maybeNotNullAndUndefined(s.name))
+        (foldMaybe)(n => n.toUpperCase())
+    (_ => "no street")
+    (id)
+```
+
+### Vergleich
+
+| Eigesnchaften | Classic JS | Lambda JS |
+| :--- | :--- | :--- |
+| Variablen für Zwischenstände | wird benötigt | keine |
+| Verschachtelung von If Statements | wird benötigt | keine |
+| Leserlichkeit/Lesefluss | erschwert | gut |
+| Wartbarkeit | schlecht | gut |
+
+### 
+
+### 
+
+### 
 
 ### Ausgangslage
 
