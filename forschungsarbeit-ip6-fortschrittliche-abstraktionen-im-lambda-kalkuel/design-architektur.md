@@ -114,7 +114,7 @@ const textInputObservables = Observable("")
 
 ### Vergleichsbeispiele
 
-#### Listeners-Deklaration:
+#### Listeners-Deklaration
 
 ```javascript
 // unformatiert
@@ -130,7 +130,7 @@ const listenerNewValueSize = newListener( listenerNewValueLengthToElementTextCon
 const listenerConsoleLog   = newListener( listenerLogToConsole                                  );
 ```
 
-ForEach
+#### ForEach
 
 ```javascript
 // unformatiert
@@ -145,7 +145,7 @@ forEach(jokes)( (joke, _) =>
                                          (fold)( x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
 ```
 
-Box
+#### Box
 
 ```javascript
 const nextCharForNumberString = str =>Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
