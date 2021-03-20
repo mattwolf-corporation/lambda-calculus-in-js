@@ -45,6 +45,14 @@ Objekte und  Arrays werden nicht verwendet. Aussnahme: Funktionen die als Brück
 
 
 
+## Einrückung & Formatierung
+
+
+
+## JS Doc
+
+
+
 
 
 
