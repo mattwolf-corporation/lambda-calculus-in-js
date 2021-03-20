@@ -51,6 +51,70 @@ Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten
 
 
 
+### Property Value aus Objekt extrahieren \(null-safe\)
+
+**Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
+**Ziel:**           Strassenname extrahieren
+
+```javascript
+// User-Object
+const user = {
+    firstName: "Donald",
+    lastName: "Duck",
+    address: {
+        city: "Entenhausen",
+        street: {
+            name: "WaltStreet",
+            nr: 10
+        }
+    }
+}
+
+// Anwendung
+streetName(user) // "WALTSTREET"
+```
+
+Im klassischen JavaScript wären folgende Implementierung ein Beispiel diese diese Aufgabe auf sicheren Weg die Strasse des User zu holen und zu mappen:
+
+```javascript
+const streetName = user => {
+    if (user){
+        const address = user.address;
+        if(address){
+            const street = address.street;
+            if(street){
+                const name = street.name;
+                if (name){
+                    return name.toUpperCase();
+                }
+            }
+        }
+    }
+    return "no street"
+}
+```
+
+
+
+```javascript
+const streetName = user =>
+    Box(maybeNotNullAndUndefined(user))
+        (chainMaybe)(u => maybeNotNullAndUndefined(u.address))
+        (chainMaybe)(a => maybeNotNullAndUndefined(a.street))
+        (chainMaybe)(s => maybeNotNullAndUndefined(s.name))
+        (foldMaybe)(n => n.toUpperCase())
+    (_ => "no street")
+    (id)
+```
+
+Bei Anwendung:
+
+### 
+
+### 
+
+### 
+
 ### Ausgangslage
 
 IP5 & Lambda Kalkül
