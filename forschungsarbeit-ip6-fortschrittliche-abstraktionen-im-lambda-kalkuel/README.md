@@ -107,11 +107,11 @@ const streetName = user =>
 
 ### Vergleich
 
-| Eigesnchaften | Classic JS | Lambda JS |
+| Eigenschaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
 | Variablen für Zwischenstände | wird benötigt | keine |
 | Verschachtelung von If Statements | wird benötigt | keine |
-| Leserlichkeit/Lesefluss | erschwert | gut |
+| Leserlichkeit/Lesefluss | erschwert | klarer |
 | Wartbarkeit | schlecht | gut |
 
 ### 
