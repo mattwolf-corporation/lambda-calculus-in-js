@@ -2,6 +2,8 @@
 
 ## Naming
 
+Im allgemeinen setzen wir auf sprechende Namen, sodass die Funktionen selbsterklärend sind.
+
 Bei Abfragefunktionen, mit welcher der Anwender einen Wert anfordert, gibt der jeweilige Präfix des Funktionsnamens Aufschluss, von welchem Typ der Rückgabewert sein wird.
 
 ### get-Präfix
