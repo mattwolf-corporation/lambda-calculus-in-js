@@ -56,7 +56,7 @@ Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, 
 
 ### Workflow-Beispiel
 
-Gegeben ist ein nicht formatierter Code. Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind.
+Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind.
 
 ```javascript
 const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
@@ -112,7 +112,7 @@ const textInputObservables = Observable("")
 
 
 
-### Beispiele: Schlecht - Gut
+### Vergleichsbeispiele
 
 #### Listeners-Deklaration:
 
@@ -130,7 +130,35 @@ const listenerNewValueSize = newListener( listenerNewValueLengthToElementTextCon
 const listenerConsoleLog   = newListener( listenerLogToConsole                                  );
 ```
 
+ForEach
 
+```javascript
+// unformatiert
+forEach(jokes)((joke, _) => getElementByKey(joke)("btn").onclick = _ => HttpGet(getElementByKey(joke)("url"))(resp => jokePairObserver(setValue)(Box(resp)(mapf)(JSON.parse)(fold)(x => pair(getElementByKey(joke)("name"))(x[getElementByKey(joke)("jsonKey")])))));
+
+// formatiert
+forEach(jokes)( (joke, _) =>
+    getElementByKey(joke)("btn").onclick = _ =>
+        HttpGet( getElementByKey(joke)("url") )( resp =>
+            jokePairObserver(setValue)( Box(resp)
+                                         (mapf)( JSON.parse )
+                                         (fold)( x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
+```
+
+Box
+
+```javascript
+const nextCharForNumberString = str =>Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
+
+const nextCharForNumberString = str =>
+    Box(str)
+     (chain)(s => Box(s)
+                   (mapf)(s => s.trim()))
+     (mapf)(r => parseInt(r))
+     (mapf)(i => i + 1)
+     (mapf)(i => String.fromCharCode(i))
+     (fold)(c => c.toLowerCase());
+```
 
 
 
