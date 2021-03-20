@@ -49,8 +49,6 @@ Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten
 
 ## Classic JS vs Lambda JS
 
-
-
 ### Property Value aus Objekt extrahieren \(null-safe\)
 
 **Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
@@ -74,7 +72,7 @@ const user = {
 streetName(user) // "WALTSTREET"
 ```
 
-Im klassischen JavaScript wären folgende Implementierung ein Beispiel diese diese Aufgabe auf sicheren Weg die Strasse des User zu holen und zu mappen:
+Eine mögliche Implementierung im klassischen JavaScript wäre:
 
 ```javascript
 const streetName = user => {
@@ -94,7 +92,7 @@ const streetName = user => {
 }
 ```
 
-
+Eine gleichwertige Implementierung im Stil der funnktionalen Programmierung.
 
 ```javascript
 const streetName = user =>
@@ -107,7 +105,16 @@ const streetName = user =>
     (id)
 ```
 
-Bei Anwendung:
+Vergleiche
+
+
+
+|  | Classic | Lambda |
+| :--- | :--- | :--- |
+| Variablen für Zwischenstände | wird benötigt | keine |
+| Verschachtelung von If Statements | wird benötigt | keine |
+| Leserlichkeit/Lesefluss | erschwert | gut |
+| Wartbarkeit | schlecht | gut |
 
 ### 
 
