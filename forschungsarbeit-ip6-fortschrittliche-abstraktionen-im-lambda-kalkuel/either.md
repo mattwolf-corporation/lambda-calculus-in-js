@@ -163,14 +163,16 @@ Somit hat eine Funktion die einen generischen Parameter `a` erwartet und einen E
 
 ```javascript
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue")
-(err => doSomethingWithErrorMessages) // err === nstack mit Fehlermeldungen
+(err =>      doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
 (result => { // result === listMap mit den Resultaten
 
-    // Get the elements
+   // Get the elements
    const [inputText, newValue] = convertListMapToArray(result);
+   
    doSomethingWithResult(inputText, newValue);
+   
    }
- )
+)
 ```
 
 

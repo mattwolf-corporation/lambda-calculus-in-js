@@ -43,7 +43,7 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
 > **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> Es werden keine Objektorientierte Konzepte wie Klassen oder Veerbung usw. verwendet.
 
 Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Somit sollten weniger Fehler auftauchen die typischerweise bei Entwickeln mit JavaScript auftauchen.
 
@@ -107,64 +107,18 @@ const streetName = user =>
 
 ### Vergleich
 
-| Eigenschaften | Classic JS | Lambda JS |
+| Eigesnchaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
 | Variablen für Zwischenstände | wird benötigt | keine |
 | Verschachtelung von If Statements | wird benötigt | keine |
-| Leserlichkeit/Lesefluss | erschwert | klarer |
+| Leserlichkeit/Lesefluss | erschwert | gut |
 | Wartbarkeit | schlecht | gut |
 
 ### 
 
 ### 
 
-```javascript
-const checkElementByFunction = f => (...elems) =>
-    elems.reduce((acc, curr) => {
-        const result = f(curr);
-        if (acc.isFailed) {
-            if (!result) {
-                 acc.values.push('element with id: ' + curr + 'not found');
-                return acc;
-            }
-            return acc;
-        } else {
-            if (result) {
-                acc.values.push(result);
-                return acc;
-            }
-            acc.values = [] // clear elements
-            acc.values.push('element with id: ' + curr + 'not found');
-            acc.isFailed = true;
-            return acc;
-
-        }
-    }, {values: [], isFailed: false});
-    
-    if
-```
-
-
-
-```javascript
-const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-     reduce((acc, curr) => acc
-                                ( stack => Left( eitherProducerFn(curr)
-                                            (err => push(stack)(err))
-                                            (_   => stack))
-                                )
-                                ( listMap => eitherProducerFn(curr)
-                                                (err => Left(  push(emptyStack)(err)           ))
-                                                (val => Right( push(listMap)( pair(curr)(val) )))
-                                )
-        )
-        ( Right( emptyListMap) )
-        ( convertArrayToStack(elements) );
-```
-
-
-
-
+### 
 
 ### Ausgangslage
 
