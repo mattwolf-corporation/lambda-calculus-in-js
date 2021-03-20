@@ -62,5 +62,5 @@ const forEach = stack => callbackFunc => {
 ```
 
   
-
+Bild Benchmark Methode im Testframework & wie funktioniert diese ????
 
