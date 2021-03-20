@@ -1,52 +1,62 @@
-# Design-Architektur
+# Code Convention
 
-Warum haben wir was gemacht
+## Naming
 
-Warum ...
+Im allgemeinen setzen man auf sprechende Namen, sodass die Funktionen selbsterklärend sind.
 
-* Listmap
-* Maybe
-* Verbesserung ForEach
+Bei Abfragefunktionen, mit welcher der Anwender einen Wert anfordert, gibt der jeweilige Präfix des Funktionsnamens Aufschluss, von welchem Typ der Rückgabewert sein wird.
 
-## **Code Convention**
+### get-Präfix
 
-Bei Abfragefunktionen, mit welcher der Anwendern ein Wert anfordert, gibt der jeweilige Präfix des Funktionsnamen Aufschluss, von welchem Typ der Rückgabewert sein wird.
+Funktionen die mit einem **get** beginnen, geben wenn möglich den gewünschten Wert ansonsten ein _undefined_ zurück mit einem Error-Log auf der Konsole. 
 
-### get-Funktionen
-
-Funktionen die mit einem **get** beginnen, geben wenn möglich den gewünschten Wert oder ein _undefined_ zurück mit einem Error-Log auf der Konsole. Gleich wie man es von JavaScript gewohnt ist. 
-
-> Funktionen: **get**XY  
+> Funktion:     **get**XYZ  
 > Ergebnis:     **Wert** oder _**undefined**_  ****\(inkl. console.error  \)
 
 Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), getDomElement, 
 
-### maybe-Funktionen
+### maybe-Präfix
 
-Funktionen die mit einem **maybe** beginnen, geben wenn möglich den gewünschten Wert im [Maybe-Typ](maybe.md#maybe-type) `Just` verpackt oder ein `Nothing` zurück.
+Funktionen die mit einem **maybe** beginnen, geben im Erfolgsfall ein [`Just`](maybe.md#maybe-type) mit den gewünschten Wert, ansonsten ein [`Nothing`](maybe.md#maybe-type) zurück.
 
-> Funktionen: **maybe**XY   
+> Funktion:      **maybe**XYZ  
 > Ergebnis:     **Just\(Wert\)** oder **Nothing**
 
-Beispiele: maybeDivision, maybeTruthy, maybeDomElement, maybeNumber
+Beispiele: [maybeDivision](maybe.md#maybedivision), [maybeTruthy](maybe.md#maybetruthy), [maybeDomElement](maybe.md#maybedomelement), [maybeNumber](maybe.md#maybenumber)
+
+### either-Präfix
+
+Funktionen die mit einem **either** beginnen, geben im Erfolgsfall ein [`Right`](either.md#either-type) mit dem Resultat, ansonsten ein [`Left`](either.md#either-type) mit einer Fehlermeldung zurück.
+
+> Funktionen: **either**XY   
+> Ergebnis:     **Left\(Fehlerbehandlung\)** oder **Right\(Wert\)**
+
+Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](either.md#eithernotnullandundefined), [eitherDomElement](either.md#eitherdomelement), [eitherNumber](either.md#eithernumber), [eitherFunction](either.md#eitherfunction)
+
+## Variablen Deklaration
+
+Alle Konstruktionen sind mit dem Keyword `const` definiert. Somit können diese Variablen nicht überschrieben/verändert werden.
+
+## Konstruktionen
+
+Bei Konstruktionen soll darauf geachtet werden, dass diese aus reinen Funktionen bestehen..
+
+Objekte und Arrays werden nicht verwendet. Ausnahme sind Funktionen die als Brücke zwischen den Welten Lambda Kalkül und JavaScript dienen.   
+Beispiel sind die _Convert_-Funktionen: [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack), [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray), converElementsToStack, [converObjectToListMap](listmap.md#convertobjtolistmap), [convertListMapToArray ](listmap.md#convertlistmaptoarray)etc.
+
+Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum), [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
+
+## Einrückung & Formatierung
+
+
+
+## JS Doc
 
 
 
 
 
-maybeElementXY: Just\(value\) oder NothingeitherElementXY
 
-#### either 
-
- Left\(error\) oder Right\(value\)
-
-### In der JS-Paradigma
-
-
-
-\*\*\*\*
-
-**:**  
 
 
 
