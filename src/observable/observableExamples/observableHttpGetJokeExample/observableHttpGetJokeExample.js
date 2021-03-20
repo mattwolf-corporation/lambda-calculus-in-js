@@ -8,7 +8,7 @@ import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../..
 import {speak} from "../observableUtilities.js";
 
 // Either all the necessary Dom-Element exist and or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nersdyBtn", "trumpBtn")
+eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
 (err => document.body.innerHTML = Box(err)
                                     (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`))

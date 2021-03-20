@@ -1210,6 +1210,13 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
     (_ => Left(errorMessage))
     (_ => Right(element));
 
+const maybeNotNullAndUndefined = value =>
+    eitherNotNullAndUndefined(value)
+    (_ => Nothing)
+    (_ => Just(value))
+
+
+
 /**
  *
  * @param  {string} elemId

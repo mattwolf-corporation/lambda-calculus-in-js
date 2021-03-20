@@ -505,6 +505,10 @@ boxSuite.add("box with Http", async assert => {
                                           (mapf)(JSON.parse)
                                           (fold)(x => console.log( x.value)))
 
+    // fetch(jokeNorrisUrl).then(res => {
+    //     console.log(res)
+    //     return JSON.parse(res)
+    // }).then(x => console.log(x.value)).catch(e => console.error(e))
 });
 
 

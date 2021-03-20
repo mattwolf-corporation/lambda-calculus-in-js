@@ -27,7 +27,10 @@ const Monad = value => ({
 // const logs = [console.log, console.log]
 const logged = x => logs.reduce((_, fn) => fn(x), x)
 
-const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return returnValue}
+const execute = (...fns) => returnValue => {
+    fns.reduce((_, fn) => fn);
+    return returnValue
+}
 
 // const Box = x =>
 //     ({
@@ -38,17 +41,16 @@ const execute = (...fns) => returnValue => {fns.reduce((_, fn) => fn); return re
 
 const Tuple = n =>
     n < 1
-    ?  new Error("Tuple must have first argument n > 0")
-    : [
-        TupleCtor (n) ([]),
-        ...Array.from( {length:n}, (it, idx) =>  values => values[idx])
-    ]
+        ? new Error("Tuple must have first argument n > 0")
+        : [
+            TupleCtor(n)([]),
+            ...Array.from({length: n}, (it, idx) => values => values[idx])
+        ]
 
 const TupleCtor = n => values =>
     n === 0
         ? selector => selector(values)
-        : value => TupleCtor (n - 1) ([...values, value])
-
+        : value => TupleCtor(n - 1)([...values, value])
 
 
 const tupCtor = n => values =>
@@ -60,14 +62,14 @@ const Creator = n => {
 }
 // https://stackoverflow.com/questions/29257442/is-it-possible-to-implement-a-function-that-returns-an-n-tuple-on-the-lambda-cal
 // nTup = (λ n . (n (λ f t k . (f (λ e . (t (e k) )  ))) (λ x . x) (λ x . x)))
-const nTup = n => n( f => t => k => f( e => t(e)(k) ) )
+const nTup = n => n(f => t => k => f(e => t(e)(k)))
 
 // const foldargs = t => n => f => z => (is0(n))(t(z))(a => foldargs(t)(pred(n))(f(f(a)(z))));
 //
 // const listofargs = n => foldargs(id)(n)(pair)(n0)
 
 const Y = f => (x => f(x)(x))(x => f(x)(x));
-const foldargs = Y(c => t => n => f => z => is0(n)( t(z) )( a => c(t)( pred(n) )( f(f(a)(z)) )) );
+const foldargs = Y(c => t => n => f => z => is0(n)(t(z))(a => c(t)(pred(n))(f(f(a)(z)))));
 // const apply = Y(c => f => l)
 
 const prepend = item => list => pair(False)(pair(item)(list))
@@ -78,3 +80,27 @@ const isEmpty = getLeft;
 
 const headL = list => getLeft(getRight(list))
 const tailL = list => getRight(getRight(list))
+
+const checkElementByFunction = f => (...elems) =>
+    elems.reduce((acc, curr) => {
+        const result = f(curr);
+        console.log(result)
+        if (acc.isFailed) {
+            if (!result) {
+                 acc.values.push('element with id: ' + curr + 'not found');
+                return acc;
+            }
+            return acc;
+        } else {
+            if (result) {
+                acc.values.push(result);
+                return acc;
+            }
+
+            acc.values = [] // clear elements
+            acc.values.push('element with id: ' + curr + 'not found');
+            acc.isFailed = true;
+            return acc;
+
+        }
+    }, {values: [], isFailed: false});
