@@ -148,10 +148,8 @@ forEach(jokes)( (joke, _) =>
 #### Box
 
 ```javascript
-// unformatiert
 const nextCharForNumberString = str =>Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
 
-// formatiert
 const nextCharForNumberString = str =>
     Box(str)
      (chain)(s => Box(s)
@@ -161,6 +159,8 @@ const nextCharForNumberString = str =>
      (mapf)(i => String.fromCharCode(i))
      (fold)(c => c.toLowerCase());
 ```
+
+
 
 ## JS Doc
 
