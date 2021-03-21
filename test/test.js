@@ -1,4 +1,4 @@
-import {convertToJsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
+import {jsBool, fst, snd} from "../src/lambda-calculus-library/lambda-calculus.js";
 import {emptyStack, filter, forEach, push, size} from "../src/stack/stack.js";
 import {jsNum} from '../src/lambda-calculus-library/church-numerals.js';
 
@@ -21,7 +21,7 @@ const Assert = () => {
     };
 
     const churchBooleanEquals = (actual, expected) => {
-        const result = (convertToJsBool(actual) === convertToJsBool(expected));
+        const result = (jsBool(actual) === jsBool(expected));
         addTest(actual, expected, result);
     };
 

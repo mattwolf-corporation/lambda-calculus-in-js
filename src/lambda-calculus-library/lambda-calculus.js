@@ -23,12 +23,12 @@ export {
     or,
     beq,
     showBoolean,
-    convertToJsBool,
+    jsBool,
     pair,
     triple,
     mapPair,
     showPair,
-    convertJsBoolToChurchBool,
+    churchBool,
     LazyIf
 }
 
@@ -202,8 +202,7 @@ const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
 
 /**
  * Syntactic sugar for creating a If-Then-Else-Construct for lazy Evaluation - it avoid that JavaScript eagerly evaluate both cases (then and else)
- * Important: Use in 'Then' and 'Else' as function without param: () => "your function"
- *
+ * Important: Add in 'Then' and 'Else' a anonym function: () => "your function"
  *
  * @param condition
  * @return {function(truthy:churchBoolean): function(falsy:churchBoolean): *}
@@ -213,7 +212,7 @@ const If     = condition => truthy => falsy =>  condition(truthy)(falsy);
  *      (Then( () => "same"     ))
  *      (Else( () => "not same" ))
  */
-const LazyIf = condition => truthy => falsy => (condition(truthy)(falsy)) ();
+const LazyIf = condition => truthy => falsy => ( condition(truthy)(falsy) )();
 
 /**
  * Syntactic sugar for If-Construct
@@ -228,9 +227,9 @@ const Else = I;
  * @param   {churchBoolean} Church-Boolean
  * @returns {churchBoolean} negation of the insert Church-Boolean
  * @example
- * not(True )    ("a")("b")  === "b"
- * not(False)    ("a")("b")  === "a"
- * not(not(True))("a")("b")  === "a"
+ * not( True      )("a")("b")  === "b"
+ * not( False     )("a")("b")  === "a"
+ * not( not(True) )("a")("b")  === "a"
  */
 const not = C;
 
@@ -277,28 +276,28 @@ const beq = p => q => p(q)(not(q));
 const showBoolean = b => b("True")("False");
 
 /**
- * b -> b(true)(false) ; convertToJsBool
+ * b -> b(true)(false) ; jsBool
  *
  * @function
  * @param   {churchBoolean} b
  * @return  {boolean} - true or false
  * @example
- * convertToJsBool(True)  === true;
- * convertToJsBool(False) === false;
+ * jsBool(True)  === true;
+ * jsBool(False) === false;
  */
-const convertToJsBool = b => b(true)(false);
+const jsBool = b => b(true)(false);
 
 /**
- * b => b ? True : False ; convertJsBoolToChurchBool
+ * b => b ? True : False ; churchBool
  *
  * @function
  * @param   {boolean} b
  * @return  {churchBoolean} - True or False
  * @example
- * convertJsBoolToChurchBool(true)  === True;
- * convertJsBoolToChurchBool(false) === False;
+ * churchBool(true)  === True;
+ * churchBool(false) === False;
  */
-const convertJsBoolToChurchBool = b => b ? True : False;
+const churchBool = b => b ? True : False;
 
 /**
  * x -> y -> f -> f(x)(y) ; Pair

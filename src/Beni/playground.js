@@ -39,10 +39,8 @@ const execute = (...fns) => returnValue => {
 //         inspect: () => `Box(${x})`
 //     })
 
-const Tuple = n =>
-    n < 1
-        ? new Error("Tuple must have first argument n > 0")
-        : [
+const nTuple = n =>
+        [
             TupleCtor(n)([]),
             ...Array.from({length: n}, (it, idx) => values => values[idx])
         ]

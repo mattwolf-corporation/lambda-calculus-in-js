@@ -2,7 +2,7 @@ import {BenchmarkTest, TestSuite} from "../test.js";
 
 import {
     beq,
-    convertToJsBool,
+    jsBool,
     False,
     fst,
     id,
@@ -87,7 +87,7 @@ const createTestStackWithNElements = n => {
 stackSuite.add("emptyStack", assert => {
     const s1 = push(emptyStack)(12)
 
-    assert.equals(convertToJsBool(hasPre(emptyStack)), false);
+    assert.equals(jsBool(hasPre(emptyStack)), false);
     assert.equals((pop(emptyStack))(fst), id);
     assert.equals((pop(emptyStack))(snd), id);
     assert.equals(size(emptyStack), n0);
@@ -97,13 +97,13 @@ stackSuite.add("emptyStack", assert => {
 });
 
 stackSuite.add("hasPre", assert => {
-    assert.equals(convertToJsBool(hasPre(emptyStack)), false);
-    assert.equals(convertToJsBool(hasPre(nonEmptyStack)), true);
-    assert.equals(convertToJsBool(hasPre(pop(push(emptyStack)(0))(fst))), false);
+    assert.equals(jsBool(hasPre(emptyStack)), false);
+    assert.equals(jsBool(hasPre(nonEmptyStack)), true);
+    assert.equals(jsBool(hasPre(pop(push(emptyStack)(0))(fst))), false);
 });
 
 stackSuite.add("push", assert => {
-    assert.equals(convertToJsBool(hasPre(push(emptyStack)(5))), true);
+    assert.equals(jsBool(hasPre(push(emptyStack)(5))), true);
     assert.equals(head(nonEmptyStack), 2);
     assert.equals(jsNum(size(nonEmptyStack)), 3);
     assert.equals(pop(push(emptyStack)(42))(snd), 42);
@@ -135,21 +135,21 @@ stackSuite.add("size", assert => {
 
 stackSuite.add("random", assert => {
     // has empty stack no predecessor
-    assert.equals(convertToJsBool
+    assert.equals(jsBool
     (beq
         (hasPre(emptyStack))
         (False)
     ), true);
 
     // has non-empty stack a predecessor
-    assert.equals(convertToJsBool
+    assert.equals(jsBool
     (beq
         (hasPre(push(emptyStack)(id)))
         (True)
     ), true);
 
     // pop returns the pushed value
-    assert.equals(convertToJsBool
+    assert.equals(jsBool
     (beq
         ((pop(push(emptyStack)(id)))(snd)(True))
         (True)
@@ -159,7 +159,7 @@ stackSuite.add("random", assert => {
     assert.equals(pop(push(emptyStack)(id))(fst) === emptyStack, true);
 
     // returns head
-    assert.equals(convertToJsBool
+    assert.equals(jsBool
     (beq
         ((head(push(emptyStack)(id)))(True))
         (True)

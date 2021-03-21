@@ -1,6 +1,6 @@
 import {TestSuite} from "../test.js";
 
-import {convertToJsBool, fst, id, pair, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {jsBool, fst, id, pair, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n0, n1, n2, n3, n4, n5} from '../../src/lambda-calculus-library/church-numerals.js';
 import {
     convertArrayToStack,
@@ -50,7 +50,7 @@ const z3 = pair(17)(15)
 const listMapWithNumbers = convertArrayToStack([z1,z2,z3])
 
 listMapSuite.add("emptyListMap", assert => {
-    assert.equals(convertToJsBool(hasPre(emptyListMap)), false);
+    assert.equals(jsBool(hasPre(emptyListMap)), false);
     assert.equals((pop(emptyListMap))(fst), id);
     assert.pairEquals((pop(emptyListMap))(snd), pair(id)(id));
     assert.equals(size(emptyListMap), n0);

@@ -1,7 +1,7 @@
 import {TestSuite} from "../test.js";
 
 import {id, K, KI, M, C, B, T, V, Blackbird, fst, beq, snd, and, or, not, True, False, If, pair, triple, showPair, mapPair,
-    convertToJsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple, convertJsBoolToChurchBool, LazyIf, Then, Else} from "../../src/lambda-calculus-library/lambda-calculus.js";
+    jsBool, showBoolean, firstOfTriple, secondOfTriple, thirdOfTriple, churchBool, LazyIf, Then, Else} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n1, n2, n3, n4, n5, n6, n7, n8, n9, jsNum, churchAddition, churchSubtraction} from "../../src/lambda-calculus-library/church-numerals.js";
 
 const lambdaCTest = TestSuite("Lambda Calculus");
@@ -105,8 +105,13 @@ lambdaCTest.add("blackbird", assert => {
 });
 
 lambdaCTest.add("convert to js-bool", assert => {
-    assert.equals( convertToJsBool(True),    true    );
-    assert.equals( convertToJsBool(False),   false   );
+    assert.equals( jsBool(True),    true    );
+    assert.equals( jsBool(False),   false   );
+});
+
+lambdaCTest.add("convert to church-bool", assert => {
+    assert.equals( churchBool(true),    True    );
+    assert.equals( churchBool(false),   False   );
 });
 
 lambdaCTest.add("if", assert => {
@@ -199,41 +204,34 @@ lambdaCTest.add("first of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 
-    assert.equals(firstOfTriple(0)(1)(2), 0);
-    assert.equals(firstOfTriple(2)(1)(0), 2);
-    assert.equals(firstOfTriple(id)(1)(2), id);
-    assert.equals(firstOfTriple(id(testObject))(1)(2), testObject);
-    assert.equals(firstOfTriple(testArray)(1)(2), testArray);
+    assert.equals( firstOfTriple(0)(1)(2), 0);
+    assert.equals( firstOfTriple(2)(1)(0), 2);
+    assert.equals( firstOfTriple(id)(1)(2), id);
+    assert.equals( firstOfTriple(id(testObject))(1)(2), testObject);
+    assert.equals( firstOfTriple(testArray)(1)(2), testArray);
 });
 
 lambdaCTest.add("second of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 
-    assert.equals(secondOfTriple(0)(1)(2), 1);
-    assert.equals(secondOfTriple(2)(1)(0), 1);
-    assert.equals(secondOfTriple(5)(id)(4), id);
-    assert.equals(secondOfTriple(2)(id(testArray))(1), testArray);
-    assert.equals(secondOfTriple(2)(testObject)(1), testObject);
+    assert.equals( secondOfTriple(0)(1)(2), 1);
+    assert.equals( secondOfTriple(2)(1)(0), 1);
+    assert.equals( secondOfTriple(5)(id)(4), id);
+    assert.equals( secondOfTriple(2)(id(testArray))(1), testArray);
+    assert.equals( secondOfTriple(2)(testObject)(1), testObject);
 });
 
 lambdaCTest.add("third of triple", assert => {
     const testArray = [1, 2];
     const testObject = {name: "test"};
 
-    assert.equals(thirdOfTriple(0)(1)(2), 2);
-    assert.equals(thirdOfTriple(2)(1)(0), 0);
-    assert.equals(thirdOfTriple(5)(4)(id), id);
-    assert.equals(thirdOfTriple(2)(1)(id(testObject)), testObject);
-    assert.equals(thirdOfTriple(2)({name: "test"})(testArray), testArray);
+    assert.equals( thirdOfTriple(0)(1)(2), 2);
+    assert.equals( thirdOfTriple(2)(1)(0), 0);
+    assert.equals( thirdOfTriple(5)(4)(id), id);
+    assert.equals( thirdOfTriple(2)(1)(id(testObject)), testObject);
+    assert.equals( thirdOfTriple(2)({name: "test"})(testArray), testArray);
 });
 
-lambdaCTest.add("convertJsBoolToChurchBool", assert => {
-    const r1 = convertJsBoolToChurchBool(true);
-    const r2 = convertJsBoolToChurchBool(false);
-
-    assert.churchBooleanEquals(r1, True);
-    assert.churchBooleanEquals(r2, False);
-});
 
 lambdaCTest.report();
