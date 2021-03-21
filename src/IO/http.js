@@ -2,6 +2,7 @@ export {HttpGet, HttpGetSync}
 
 /**
  * HttpGet function can be used to request asynchronous data from a web server.
+ * The request being automatically terminated after 30 seconds.
  *
  * @param  {string} url
  * @return {function(callback:function): void}
