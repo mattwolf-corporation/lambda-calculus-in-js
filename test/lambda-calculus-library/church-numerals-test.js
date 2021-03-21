@@ -87,7 +87,7 @@ churchTest.add("isZero", assert => {
     assert.equals( is0(n9), False );
 });
 
-churchTest.add("toChurchNumber", assert =>{
+churchTest.add("churchNum", assert =>{
    assert.churchNumberEquals( churchNum( 0),  n0);
    assert.churchNumberEquals( churchNum( 1),  n1);
    assert.churchNumberEquals( churchNum( 5),  n5);

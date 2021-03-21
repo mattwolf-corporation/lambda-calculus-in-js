@@ -3,7 +3,7 @@ import { calc, calculatorHandler, result, plus, subtraction, multiplication, add
 import {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, jsNum, churchAddition, churchSubtraction, churchMultiplication} from "../../src/lambda-calculus-library/church-numerals.js";
 
 
-const calculatorOperatorTest = TestSuite("Calculator-Handler ");
+const calculatorOperatorTest = TestSuite("λ Calculation");
 
 calculatorOperatorTest.add("JS-Arithmetic-Operator", assert => {
     assert.equals( calculatorHandler(plus)(1)(2)(result), 3);

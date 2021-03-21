@@ -1,5 +1,14 @@
 export {HttpGet, HttpGetSync}
 
+/**
+ * HttpGet function can be used to request asynchronous data from a web server.
+ *
+ * @param  {string} url
+ * @return {function(callback:function): void}
+ * @example
+ * HttpGet(jokeUrl)
+ * (response => document.getElementById("joke").innerText = JSON.parse(response).value)
+ */
 const HttpGet = url => callback => {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () =>
@@ -13,6 +22,16 @@ const HttpGet = url => callback => {
     xmlHttp.send();
 }
 
+/**
+ * HttpGet function can be used to request synchronous data from a web server.
+ *
+ * @param  {string} url
+ * @return {void}
+ * @example
+ * Box( HttpGet(jokeUrl) )
+ *  (mapf)( JSON.parse )
+ *  (fold)( x => document.getElementById("joke").innerText = x.value) )
+ */
 const HttpGetSync = url => {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", url, false ); // false for synchronous request
