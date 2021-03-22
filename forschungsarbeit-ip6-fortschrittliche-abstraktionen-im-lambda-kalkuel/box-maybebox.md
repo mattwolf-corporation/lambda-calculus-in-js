@@ -1,5 +1,5 @@
 ---
-description: 'Wert -> Einpacken -> [Verarbeiten] -> Auspacken -> Resultat'
+description: Verpacken -> Verarbeiten -> Auspacken
 ---
 
 # Box / MaybeBox
@@ -57,7 +57,7 @@ In anderen Programmiersprachen kann diese Methode verglichen werden mit dem `.of
 // Implementation
 const mapf  = x => f => g => g(f(x));  
 
-const Box   = x => mapf(x)(id);                     // Box.of
+const Box   = x => mapf(x)(id);        // Box.of
 
 // Anwendung
 Box(10);                 // { 10 }
@@ -74,12 +74,10 @@ Die Funktion `mapf` wird verwendet um den Inhalt einer Box zu verarbeiten \(mapp
 const mapf  = x => f => g => g(f(x));
 
 // Anwendung
-const boxWithNumber = Box(5);                 // { 5 }
-
-boxWithNumber
-        (mapf)(n => n * 10)                   // { 50 }
-        (mapf)(n => n + 15)                   // { 65 }
-        (mapf)(n => String.fromCharCode(n));  // { 'A' }
+Box(5)                                   // { 5 }
+   (mapf)(n => n * 10)                   // { 50 }
+   (mapf)(n => n + 15)                   // { 65 }
+   (mapf)(n => String.fromCharCode(n));  // { 'A' }
 ```
 
 ### fold
@@ -95,12 +93,10 @@ Diese Funktion wird meistens am Schluss in einer Box Pipeline verwendet, um den 
 const fold  = x => f => f(x);
 
 // Anwendung
-const boxWithNumber = Box(5);                 // { 5 }
-
-boxWithNumber
-        (mapf)(n => n * 10)                   // { 50 }
-        (mapf)(n => n + 15)                   // { 65 }
-        (fold)(n => String.fromCharCode(n));  // 'A'
+Box(5)                                   // { 5 }
+   (mapf)(n => n * 10)                   // { 50 }
+   (mapf)(n => n + 15)                   // { 65 }
+   (fold)(n => String.fromCharCode(n));  // 'A'
 ```
 
 ### chain \(flatMap\)
@@ -112,12 +108,12 @@ Die Funktion `chain` wird verwendet um ein flatMap durchzuführen. Wenn eine Map
 const chain = x => f => g => g((f(x)(id)));
 
 // Anwendung
-const box1 = Box(5)                                         // { 5 }
-                (mapf)(num => num + 5)                      // { 10 }                  
-                (chain)(num => Box(num * 2)
-                                    (mapf)(num => num + 1)) // { 21 }
-                (chain)(num => Box(num * 3)
-                                    (mapf)(num => num + 1)) // { 64 }
+Box(5)                                       // { 5 }
+  (mapf)(num => num + 5)                     // { 10 }                  
+  (chain)(num => Box(num * 2)
+                     (mapf)(num => num + 1)) // { 21 }
+  (chain)(num => Box(num * 3)
+                     (mapf)(num => num + 1)) // { 64 }
 ```
 
 ### getContent
@@ -142,35 +138,166 @@ getContent(mapped1)   // "Tyrion"
 getContent(mapped2)   // "TYRION"
 ```
 
-### app
+### app \(TODO: Funktionsname ändern\)
 
-Die Funktion `app` wird verwendet um
+Die Funktion `apply` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
 
-
+{% hint style="info" %}
+Dieses "Design Pattern" oder diese apply-Funktion zusammen mit der Box-Funktion bilden eine [Applikative](https://github.com/madnight/monad-in-pictures-german#applikative).
+{% endhint %}
 
 ```javascript
-const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
+// Implementation
+const apply = x => f => g => g(f(mapf)(x)(id));
 
+// Anwendung
+Box(x => x + 5)
+       (apply)(Box(10)); // { 15 }
 
+Box( x => y => x + y)
+              (apply)(Box(10))  // { y => 10 + y }
+              (apply)(Box(14)); // { 24 }
 ```
 
 ### liftA2
 
-Die Funktion `liftA2` wird 
+Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte anzuwenden.
 
 ```javascript
+// Implementation
 const liftA2 = f => fx => fy =>
         fx(mapf)(f)(apply)(fy)
+
+// Anwendung
+liftA2(fName => lName => fName + " " + lName)
+                (Box("Tyrion"))
+                (Box("Lannister")); // { "Tyrion Lannister" }
 ```
 
-### debug
+### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
 
-Die Funktion `debug` wird verwendet
+Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelen ZwischenResultate zu untersuchen in einer Pipeline.
+
+{% hint style="info" %}
+Wichtig bei der `debug` Funktion ist, das die Funktion `fold` am Schluss zwingend verwendet werden muss, um das letzte debug Statement auch auszuführen.
+{% endhint %}
 
 ```javascript
+// Implementation
 const debug = x => {
     console.log(x);
     return x;
 }
+
+// Anwendung
+Box(10)
+    (mapf)(debug)        // Ausgabe auf der Konsole: 10
+    (mapf)(n => n + 2)   
+    (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
+
+## Verwendung der Box mit dem Maybe Type
+
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert. Somit wird das porzessieren mit dem Maybe type vereinfacht und die maybe types können verknüpft werden. 
+
+{% hint style="info" %}
+Wenn irgendwo ein Nothing zurückgelifert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
+{% endhint %}
+
+### mapfMaybe
+
+Die Funktion `mapfMaybe` entspricht der Funktion [`mapf`](box-maybebox.md#mapf) für einen [Maybe Type](maybe.md#maybe-type).
+
+```javascript
+// Implementation
+const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
+
+// Anwendung
+const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
+
+Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
+        (mapfMaybe)(p => p.firstName)                     // { Just("Tyrion") }
+        (mapfMaybe)(firstName => firstName.toUpperCase()) // { Just("TYRION") }
+```
+
+### foldMaybe
+
+Die Funktion `foldMaybe` entspricht der Funktion [`fold`](box-maybebox.md#fold) für einen [Maybe Type](maybe.md#maybe-type)
+
+{% hint style="info" %}
+foldMaybe entspricht der Funktion [`mapMaybe`](maybe.md#mapmaybe)\`\`
+{% endhint %}
+
+```javascript
+// Implementation
+const foldMaybe = mapMaybe;
+
+// Anwendung
+Box(Just(10))                                // { Just(10) }
+        (mapfMaybe)(x => x + 10)             // { Just(20) }
+        (foldMaybe)(num => num + '$')        // Just("20$")
+```
+
+### chainMaybe
+
+Die Funktion `chainMaybe` entspricht der Funktion [`chain`](box-maybebox.md#chain-flatmap) für einen [Maybe Type](maybe.md#maybe-type).
+
+{% hint style="info" %}
+Die Funktion `chainMaybe` verwendet die Funktion [`flatMapMaybe`](maybe.md#flatmapmaybe)\`\`
+{% endhint %}
+
+```javascript
+// Implementation
+const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));
+
+// Anwendung
+const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
+
+const maybeFirstName = obj =>
+        obj && obj.hasOwnProperty('firstName')
+            ? Just(obj.firstName)
+            : Nothing;
+
+Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
+        (chainMaybe)(maybeFirstName)                      // { Just("Tyrion") }
+        (foldMaybe)(firstName => firstName.toUpperCase()) //   Just("TYRION")
+```
+
+### apMaybe
+
+Die Funktion `apMaybe` entspricht der Funktion [`app`](box-maybebox.md#app-todo-funktionsname-aendern) für einen Maybe Type.
+
+```javascript
+// Implementation
+const apMaybe = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
+
+// Anwendung
+// TODO:  sollte Just(10) hier nicht auch in einer Box sein ???
+Box(Just(x => x + 5))                // { Just(x => x + 5) }
+        (apMaybe)(Just(10));         // { Just(15) }
+
+```
+
+### liftA2Maybe
+
+Die Funktion `liftA2Maybe` entpsricht der Funktion [`liftA2`](box-maybebox.md#lifta2) für einen Maybe Type.
+
+{% hint style="info" %}
+Falls ein Parameter \(fx, fy oder beide\) Nothing sind, ist das Gesamtergebnis der Funktion Nothing.
+{% endhint %}
+
+```javascript
+// Implementation
+const liftA2Maybe = f => fx => fy =>
+    Box(fx)
+        (mapfMaybe)(f)
+        (apMaybe)(fy)
+        
+// Anwendung
+liftA2Maybe( x => y => x + y)
+                (Just(10))
+                (Just(5)); // Just(15)
+```
+
+
 

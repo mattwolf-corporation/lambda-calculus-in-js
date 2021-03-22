@@ -99,15 +99,15 @@ Die Funktion `getElementByIndex` nimmt einen Stack und eine [Church-](../forschu
 Beispiel:
 
 ```javascript
-const stackWithTwoElements = push(push(emptyStack)("Hello"))("World");
+const s = convertArrayToStack(["Hello", "World"]);
 
-getElementByIndex(stackWithTwoElements)(n1) // "Hello"
-getElementByIndex(stackWithTwoElements)(n2) // "World"
+getElementByIndex(s)(n1) // "Hello"
+getElementByIndex(s)(n2) // "World"
 
-getElementByIndex(stackWithTwoElements)( 1)  // "Hello"
-getElementByIndex(stackWithTwoElements)( 2)  // "World"
+getElementByIndex(s)( 1)  // "Hello"
+getElementByIndex(s)( 2)  // "World"
 
-getElementByIndex(stackWithTwoElements)(999) // Error "invalid index"
+getElementByIndex(s)(999) // Error "invalid index"
 
 ```
 
