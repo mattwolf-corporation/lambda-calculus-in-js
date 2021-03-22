@@ -415,10 +415,6 @@ testObs = testObs(setValue)(42)
 testObs(getValue)                // 42
 ```
 
-{% hint style="danger" %}
-Die Observable-Funktion `setValue` löst Side-Effects aus.
-{% endhint %}
-
 ### **getValue**
 
 Erhalte den aktuellen Wert des Observable
@@ -505,7 +501,11 @@ getListenerKey( listenerLog )  // 42
 
 ## Eigenschaften  
 
-Wieviele Listener
+Das Observable sollte nicht mit mehr als 5'000 Listeners verbunden werden, weil ansonsten ein "Uncaught RangeError: Maximum call stack size exceeded" __auftritt. 
+
+Mit zehn Listerners und vielen Wertänderungen \(zb. 100'000\) hat der Observable kein Problem.
+
+
 
 
 

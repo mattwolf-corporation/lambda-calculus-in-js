@@ -148,8 +148,10 @@ forEach(jokes)( (joke, _) =>
 #### Box
 
 ```javascript
+// unformatiert
 const nextCharForNumberString = str =>Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
 
+// formatiert
 const nextCharForNumberString = str =>
     Box(str)
      (chain)(s => Box(s)
@@ -160,17 +162,59 @@ const nextCharForNumberString = str =>
      (fold)(c => c.toLowerCase());
 ```
 
-
-
 ## JS Doc
 
+Das Dokumentieren der Funktionen mit dem [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen kann ein Text stehen, der erklärt was die Funktion für Parameter erwartet und im nachinein ausführt. Anschliessend kann mittels den JSDoc-Tags die Dokumentation mit Hinweisen erweitert werden:
+
+* **@haskell** eine Haskell Notation
+* **@sideffect** wenn die Funktion einen Side-Effekt auslöst wie zum Beispiel ein Log auf die Konsole
+* **@function** markiert es explizit als eine Funktion. Optional: Kann man der Funktion einen zweiten Name geben
+* **@param** für das erste Argument
+* **@return** wenn die Funktion mehr als ein Argument erwartet
+* **@example** Beispiele wie die Funktion angewendet wird
+
+ Beispiel JS-Dokumentation an der Funktion `getElementByIndex`
+
+```javascript
+/**
+ * A function that takes a stack and an index (as Church- or JS-Number).
+ * The function returns the element at the passed index or undefined incl. a Error-Log to the Console
+ *
+ * @haskell getElementByIndex :: stack -> number -> a
+ * @sideeffect Logs a error if index is no Church- or JS-Number or valid number
+ * @function
+ * @param  {stack} stack
+ * @return {function(index:churchNumber|number) : * } stack-value or undefined when not exist or invalid
+ * @example
+ * const stackWithNumbers  = convertArrayToStack([0,1,2]);
+ *
+ * getElementByIndex( stackWithNumbers )( n0 ) === id
+ * getElementByIndex( stackWithNumbers )( n1 ) ===  0
+ * getElementByIndex( stackWithNumbers )( n2 ) ===  1
+ * getElementByIndex( stackWithNumbers )( n3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( 0 ) === id
+ * getElementByIndex( stackWithNumbers )( 1 ) ===  0
+ * getElementByIndex( stackWithNumbers )( 2 ) ===  1
+ * getElementByIndex( stackWithNumbers )( 3 ) ===  2
+ *
+ * getElementByIndex( stackWithNumbers )( "im a string" ) === undefined // strings not allowed, throws a Console-Warning
+ */
+const getElementByIndex = stack => index =>
+    eitherElementByIndex(stack)(index)
+    (console.error)
+    (id);
+```
 
 
 
 
 
+In der IDEA \(hier Intellij\) kann man sich die Dokumentation anzeige lassen.
 
+![Dokumentation in der IDEA](../.gitbook/assets/image%20%287%29.png)
 
+Ein weiterer sehr praktischer Nutzen, nebst der Dokumentation, die dem Anwender helfen Informationen über eine Funktion Nachzuschlagen, ist die Pop-Up Box welche dem Anwender hinweist, welcher Parameter nächstes erwartet wird.
 
-
+![Argument-Typ Hinweis](../.gitbook/assets/image%20%286%29.png)
 
