@@ -206,15 +206,13 @@ const getElementByIndex = stack => index =>
     (id);
 ```
 
-
-
-
-
 In der IDEA \(hier Intellij\) kann man sich die Dokumentation anzeige lassen.
 
-![Dokumentation in der IDEA](../.gitbook/assets/image%20%287%29.png)
+![Dokumentation in der IDEA](../.gitbook/assets/image%20%288%29.png)
 
-Ein weiterer sehr praktischer Nutzen, nebst der Dokumentation, die dem Anwender helfen Informationen über eine Funktion Nachzuschlagen, ist die Pop-Up Box welche dem Anwender hinweist, welcher Parameter nächstes erwartet wird.
+Ein weiterer sehr praktischer Hinweist, nebst der Dokumentation, die dem Anwender helfen Informationen über eine Funktion Nachzuschlagen, ist die Pop-Up welche dem Anwender informiert, welcher Parameter als nächstes erwartet wird.
 
-![Argument-Typ Hinweis](../.gitbook/assets/image%20%286%29.png)
+![Erste Parameter-Info](../.gitbook/assets/image%20%286%29.png)
+
+![Zweite Parameter-Info](../.gitbook/assets/image%20%287%29.png)
 
