@@ -54,7 +54,7 @@ export {
     startStack, pushToStack, reverseStack, filterWithReduce,
     mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach,
     forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex
+    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByIndex, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex
 }
 
 /**
@@ -303,28 +303,27 @@ const getElementByIndex = stack => index =>
     (console.error)
     (id);
 
-// TODO: not maybe its either
 /**
  * A function that takes a stack and an index (as Church- or JS-Number).
  * The function returns a maybe with the value or Nothing if not exist or illegal index argument
- * @haskell eitherElementByIndex :: stack -> number -> maybe
+ * @haskell eitherElementByIndex :: stack -> number -> either
  * @function
- * @param {stack} stack
- * @return {function(index:churchNumber|number) : maybe } a maybe with element or Nothing
+ * @param  {stack} stack
+ * @return {function(index:churchNumber|number) : either } a either with Right(value) or Lef("Element Error msg")
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
- * eitherElementByIndex( stackWithNumbers )( n0 ) === Just (id)
- * eitherElementByIndex( stackWithNumbers )( n1 ) ===  Just(0)
- * eitherElementByIndex( stackWithNumbers )( n2 ) ===  Just(1)
- * eitherElementByIndex( stackWithNumbers )( n3 ) ===  Just(2)
+ * eitherElementByIndex( stackWithNumbers )( n0 )(id)(id) ===  id
+ * eitherElementByIndex( stackWithNumbers )( n1 )(id)(id) ===   0
+ * eitherElementByIndex( stackWithNumbers )( n2 )(id)(id) ===   1
+ * eitherElementByIndex( stackWithNumbers )( n3 )(id)(id) ===   2
  *
- * eitherElementByIndex( stackWithNumbers )( 0 ) === Just(id)
- * eitherElementByIndex( stackWithNumbers )( 1 ) ===  Just(0)
- * eitherElementByIndex( stackWithNumbers )( 2 ) ===  Just(1)
- * eitherElementByIndex( stackWithNumbers )( 3 ) ===  Just(2)
+ * eitherElementByIndex( stackWithNumbers )(  0 )(id)(id) ===  id
+ * eitherElementByIndex( stackWithNumbers )(  1 )(id)(id) ===   0
+ * eitherElementByIndex( stackWithNumbers )(  2 )(id)(id) ===   1
+ * eitherElementByIndex( stackWithNumbers )(  3 )(id)(id) ===   2
  *
- * getElementByIndex( stackWithNumbers )( "im a string" ) === Nothing // strings not allowed, throws a Console-Warning
+ * eitherElementByIndex( stackWithNumbers )( "im a string" )(id)(id) === "getElementByIndex - TypError: index value 'im a string' (string) is not allowed. Use Js- or Church-Numbers"
  */
 const eitherElementByIndex = stack => index =>
     eitherTryCatch(
