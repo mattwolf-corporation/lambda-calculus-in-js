@@ -3,7 +3,7 @@ import {eitherDomElement, eitherElementsOrErrorsByFunction} from "../../../maybe
 import {HttpGet} from "../../../IO/http.js";
 import {Box, fold, mapf} from "../../../box/box.js";
 import {fst, pair, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
-import {convertElementsToStack, convertStackToArray, forEach, map, reduce} from "../../../stack/stack.js";
+import {convertElementsToStack, forEach, reduce} from "../../../stack/stack.js";
 import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
 import {speak} from "../observableUtilities.js";
 
@@ -14,8 +14,8 @@ const startProgram = domElements => {
     const [jokeHistory, norrisBtn, nerdyBtn, trumpBtn] = convertListMapToArray(domElements);
 
     // create the Listeners (text-to-speech & display to view)
-    const listenerSpeak     = newListener(nValue => oValue => speak(nValue(snd)));
-    const listenerJokeToDom = newListener(nValue => oValue => {
+    const listenerSpeak     = newListener(nValue => _ => speak(nValue(snd)));
+    const listenerJokeToDom = newListener(nValue => _ => {
         const template = document.createElement('fieldset');
         template.className = "joke"
         template.innerHTML = `<legend>${nValue(fst)}</legend><p class="jokeText">${nValue(snd)}</p>`
@@ -55,8 +55,8 @@ const startProgram = domElements => {
 }
 
 // Either all the necessary Dom-Element exist and or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nersdyBtn", "trumpBtn")
+eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
 (err => document.body.innerHTML = Box(err)
                                     (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`));
+                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`))
 (startProgram)
