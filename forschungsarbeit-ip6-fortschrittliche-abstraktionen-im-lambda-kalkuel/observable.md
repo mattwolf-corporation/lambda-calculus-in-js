@@ -114,7 +114,7 @@ const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => e
 ```
 {% endhint %}
 
-### Code-Beispiel für ein Observable Text-Input
+### Implementation
 
 ```javascript
 // Get the elements from the Dom
@@ -150,7 +150,13 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 
 ![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
 
-### Implementation des Observable Color-Picker
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
+
+### 
+
+### Implementation
 
 {% hint style="info" %}
 Der Datentype des Observable ist ein [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple), weil die zu behandelte Werte `red, green, blue` sind. 
@@ -214,10 +220,6 @@ rangeR.oninput = _ =>
 
 Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableColorPickerExample/observableColorPickerExample.js)\*\*\*\*
 
-### Demo
-
-{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
-
 
 
 ## Observable HttpGet-Joke Example
@@ -226,7 +228,13 @@ In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, 
 
 ![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
 
-### Code des Observable HttpGet-Joke Example
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
+
+
+
+### Implementation
 
 ```javascript
 // Either all the necessary Dom-Element exist and or display all missed Element
@@ -279,13 +287,9 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 })
 ```
 
-### Demo
+Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
 
-{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
-
-
-
-## Dokumentation & Implementation
+## Observable: Dokumentation & Implementation
 
 ### [Observable](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L41)
 
@@ -451,7 +455,7 @@ testObs(getValue)                // 42
 Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
 
 {% hint style="info" %}
-Funktionen sind nicht vergleichbar,  ausser sie haben eine Notation wie n1, n2, id, pair ... 
+Funktionen sind nicht vergleichbar,  ausser sie haben eine statische Notation wie n1, n2, id, pair ... 
 {% endhint %}
 
 {% hint style="info" %}
