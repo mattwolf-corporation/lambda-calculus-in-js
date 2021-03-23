@@ -209,7 +209,7 @@ const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, c
 const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(curr))(emptyStack)(listMap);
 
 /**
- * The logListMapToConsole function takes a ListMap and executes a page effect. The page effect logs the ListMap with its key and values to the JavaScript console.
+ * The logListMapToConsole function takes a ListMap and executes a site effect. The site effect logs the ListMap with its key and values to the console.
  *
  * @sideeffect
  * @function

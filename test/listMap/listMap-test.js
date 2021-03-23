@@ -216,8 +216,8 @@ listMapSuite.add("convert Object to ListMap", assert => {
     const result = convertObjToListMap(obj);
 
     assert.churchNumberEquals(size(result), n2);
-    assert.pairEquals(getElementByIndex(result)(n1), pair('a')("HelloWorld"));
-    assert.pairEquals(getElementByIndex(result)(n2), pair('b')("Lambda"));
+    assert.pairEquals( getElementByIndex(result)(n1), pair('a')("HelloWorld"));
+    assert.pairEquals( getElementByIndex(result)(n2), pair('b')("Lambda"));
 
 
     const objWithObject = {

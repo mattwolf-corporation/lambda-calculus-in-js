@@ -1,29 +1,23 @@
-import {emptyListMap, getElementByKey, removeByKey} from "../listMap/listMap.js";
-import {push, forEach, reduce} from "../stack/stack.js";
-import {pair, showPair, snd, fst, Else, If, Then, id} from "../lambda-calculus-library/lambda-calculus.js";
-import {generateRandomKey } from "./observableExamples/observableUtilities.js";
-
-export {
-    Observable, addListener, setValue, getValue, removeListenerByKey, removeListener,
-    logListenersToConsole, listenerLogToConsole, newListener, setListenerKey, getListenerKey, newListenerWithCustomKey,
-    listenerNewValueToDomElementTextContent, listenerOldValueToDomElementTextContent, listenerNewValueLengthToElementTextContent, listenerNewValueToElement
-}
+import {emptyListMap, removeByKey} from "../listMap/listMap.js";
+import {push, forEach} from "../stack/stack.js";
+import {pair, showPair, snd, fst} from "../lambda-calculus-library/lambda-calculus.js";
+import {generateRandomKey} from "./observableExamples/observableUtilities.js";
+export {Observable, addListener, setValue, getValue, removeListenerByKey, removeListener, logListenersToConsole, listenerLogToConsole, newListener, setListenerKey, getListenerKey, newListenerWithCustomKey, listenerNewValueToDomElementTextContent, listenerOldValueToDomElementTextContent, listenerNewValueLengthToElementTextContent, listenerNewValueToElement}
 
 /**
  * Generic Types
  * @typedef {function} observable
  * @typedef {function} listener
  * @typedef {function} listMap
+ * @typedef {function} observableBody
  */
 
-
 /**
- * listeners -> value -> observableFunction -> observableFunction
- * observableBody - the Body-Observable-Construct who for the observableFunctions.
- * observableFunctions are: addListener, removeListener, removeListenerByKey), setValue
+ * listeners -> value -> observableFunction -> observableFunction ;
+ * observableBody is the Body-Observable-Construct for the observableFunctions.
+ * observableFunctions are: {@link addListener}, {@link removeListener}, {@link removeListenerByKey}, {@link setValue}
  *
  * @haskell observableBody :: [a] -> b -> c -> c
- *
  * @function
  * @param  {listMap} listeners
  * @return {function(value:*): function(obsFn:function): function(obsFn:function)} a Observable-Function
@@ -32,14 +26,13 @@ const observableBody = listeners => value => obsFn =>
     obsFn(listeners)(value)
 
 /**
- * initialValue -> observableBody
+ * initialValue -> observableBody ;
  * Observable - create new Observable incl. the initial-value
  *
  * @haskell Observable :: a -> Observable
- *
  * @function
- * @param {number|churchNumber|string} initialValue
- * @return {observable} - a Observable with an emptyListMap & the InitialValue
+ * @param  {number|churchNumber|string} initialValue
+ * @return {observableBody} - a Observable with an emptyListMap & the InitialValue
  * @example
  * const obsExample = Observable(0)
  *                          (addListener)( listenerLogToConsole      )
@@ -49,16 +42,14 @@ const Observable = initialValue =>
     observableBody(emptyListMap)(initialValue)(setValue)(initialValue);
 
 /**
- * listeners -> oldValue -> newValue -> Observable ; setValue
+ * listeners -> oldValue -> newValue -> Observable ;
  * set the new value and notify all listeners
  *
  * @extends observableBody
  * @haskell setValue :: [a] -> b -> b -> Observable
- *
- * @sideeffects
  * @function
- * @param {listMap} listeners
- * @return {function(oldValue:*): function(newValue:*): function(Function) : observableBody}
+ * @param  {listMap} listeners
+ * @return {function(oldValue:*): function(newValue:*): observableBody} {@link observableBody}
  * @example
  * let obsExample = Observable(0)
  * testObs(getValue) === 0
@@ -71,15 +62,13 @@ const setValue = listeners => oldValue => newValue => {
 }
 
 /**
- * listeners -> value -> value ; getValue
- *  get the value of Observable
+ * listeners -> value -> value ;
+ * get the value of Observable
  *
  * @extends observableBody
- *
  * @haskell getValue :: [a] -> b -> b
- *
  * @function
- * @param {listMap} listeners
+ * @param  {listMap} listeners
  * @return {function(value:*): function(value:*)}
  * @example
  * let obsExample = Observable(0)
@@ -91,14 +80,17 @@ const setValue = listeners => oldValue => newValue => {
 const getValue = listeners => value => value;
 
 /**
- * listeners -> value -> newListener -> Observable ; addListener
- * add new Listener to the Observable and pass the current Observable-Value e.g. the initValue
+ * listeners -> value -> newListener -> Observable ;
+ * Add a new listener to the observable and the current observable value is immediately sendet to the listener.
  *
  * @haskell addListener :: [a] -> b -> [a] -> Observable
- *
  * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(newListener:listMap): function(Function) : observableBody}
+ * @param  {listMap} listeners
+ * @return {function(value:*): function(newListener:listMap): observableBody} {@link observableBody}
+ * @example
+ * const obsExample = Observable(0)
+ *                          (addListener)( listenerLogToConsole      )
+ *                          (addListener)( listenerNewValueToElement )
  */
 const addListener = listeners => value => newListener => {
     newListener(snd)(value)(value)
@@ -106,15 +98,14 @@ const addListener = listeners => value => newListener => {
 }
 
 /**
- * listeners -> value -> listenerKey ; removeListenerByKey
+ * listeners -> value -> listenerKey ;
  * Remove a Listener by his key
+ *
  * @extends observableBody
- *
  * @haskell removeListenerByKey :: [a] -> b -> c
- *
  * @function
- * @param {listMap} listeners
- * @return {function(value:*): function(listenerKey:*)}
+ * @param  {listMap} listeners
+ * @return {function(value:*): function(listenerKey:*)} {@link observableBody}
  * @example
  * let observedObject = {};
  * const listenerValue = newListenerWithCustomKey( 42 )( listenerNewValueToElement (valueHolder) );
@@ -134,17 +125,15 @@ const addListener = listeners => value => newListener => {
 const removeListenerByKey = listeners => value => listenerKey =>
     observableBody(removeByKey(listeners)(listenerKey))(value);
 
-
 /**
- * listeners -> value -> givenListener  ; removeListener
+ * listeners -> value -> givenListener ;
  * Remove a Listener by Listener
+ *
  * @extends observableBody
- *
  * @haskell removeListenerByKey :: [a] -> b -> c
- *
  * @function
  * @param {listMap} listeners
- * @return {function(value:*): function(givenListener:listener)}
+ * @return {function(value:*): function(givenListener:listener)} {@link observableBody}
  * @example
  * let observedObject = {};
  * const listenerValue = newListener( listenerNewValueToElement (observedObject) );
@@ -166,17 +155,6 @@ const removeListenerByKey = listeners => value => listenerKey =>
  */
 const removeListener = listeners => value => givenListener =>
     observableBody(removeByKey(listeners)(givenListener(fst)))(value);
-
-// Observable Tools
-const logListenersToConsole = listeners => _ => {
-    const logIteration = (acc, curr) => {
-        const index = acc + 1;
-        const val = typeof (curr) === 'object' ? JSON.stringify(curr) : curr;
-        console.log('element at: ' + index + ': ' + showPair(val));
-        return index;
-    };
-    reduce(logIteration)(0)(listeners);
-};
 
 /**
  * Syntactic sugar for creating a pair of Key and Value for the new Listener.
@@ -210,6 +188,8 @@ const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
 
 /**
  * Set a new Key for the listener.
+ *
+ * @function
  * @param  {*} newKey
  * @return {function(listener:function) : listener} listener with the key
  * @example
@@ -223,7 +203,9 @@ const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
 
 /**
  * Get the key of a listener
- * @param  {BaseAudioContext.listener} listener
+ *
+ * @function
+ * @param  {listener} listener
  * @return {*} key
  * @example
  * let listenerLogTest = newListener(listenerLogToConsole);
@@ -232,13 +214,23 @@ const setListenerKey = newKey => listener => pair(newKey)(listener(snd));
  *
  * getListenerKey(listenerTest) === 42)
  */
-const getListenerKey = listener => listener(fst)
+const getListenerKey = listener => listener(fst);
+
+/**
+ * The logListenersToConsole function is passed as a parameter of an observable and performs a side effect.
+ * The site effect logs all listeners of the observable with their keys and values on the console. * @sideeffect
+ *
+ * @extends observableBody
+ * @function
+ */
+const logListenersToConsole = listeners => _ =>
+    forEach(listeners)((element, index) => console.log( 'element at: ' + index + ': ' + showPair(typeof (element) === 'object' ? JSON.stringify(element) : element) ));
 
 /*
     Listener-Functions
  */
-const listenerLogToConsole                        =            nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`)
-const listenerNewValueToElement                   = element => nVal => oVal => element.value = nVal
-const listenerNewValueToDomElementTextContent     = element => nVal => oVal => element.textContent = nVal
-const listenerOldValueToDomElementTextContent     = element => nVal => oVal => element.textContent = oVal
-const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => element.textContent = nVal.length
+const listenerLogToConsole                        =            nVal => oVal => console.log(`Value: new = ${nVal}, old = ${oVal}`);
+const listenerNewValueToElement                   = element => nVal => oVal => element.value = nVal;
+const listenerNewValueToDomElementTextContent     = element => nVal => oVal => element.textContent = nVal;
+const listenerOldValueToDomElementTextContent     = element => nVal => oVal => element.textContent = oVal;
+const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => element.textContent = nVal.length;
