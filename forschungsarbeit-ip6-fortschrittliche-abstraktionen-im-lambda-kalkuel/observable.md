@@ -10,29 +10,31 @@ description: >-
 
 ## _Ein kleines Beispiel_
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  wahrnimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung so mitgeben. In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem _newValue_-Wert überschrieben, wenn dieser Listener vom Observable etwas neues mitgeteilt bekommt.
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
 
 ```javascript
 let listenerVariable; // undefined
 const listenerExample = newListener( newValue => oldValue  => listenerVariable = newValue );
 ```
 
-Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch ein 'Erzähler' \(Observable\).  
-Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert erhält.  
-Für das Hinzufügen der Listeners an ein Observable gibt es die Funktion `addListener` 
+Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
+Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert nimmt.  
+Mit der Funktion `addListener`  wird der Listeners an den Observable hinzugefügt. 
 
 ```javascript
 let obsExample = Observable(42)                     // new Observable with initValue 42
                   (addListener)( listenerExample ); // append Listener to the Observable
 ```
 
-Nachdem der Listener mit der Observable verknüpft ist, erhält jeder Listener den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Fall die Zahl '42'. 
+{% hint style="info" %}
+Nachdem einer Listener mit einem Observable verknüpft ist, erhält der Listener sofort den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Fall die Zahl '42'. 
 
 ```javascript
 listenerVariable   // 42
 ```
+{% endhint %}
 
-Die Funktion `getValue`  gibt den Wert aus den Observable.
+Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus den Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
@@ -47,13 +49,13 @@ listenerVariable         // 11
 obsExample( getValue );  // 11
 ```
 
-Wenn man ein Listener wieder entfernen möchte von einem Observable, so dass er dem Erzähler nicht mehr zuhört, gibt es die Funktion `removeListener`. 
+Wenn ein Listener wieder von einem Observable entfernt werden soll und dem Erzähler nicht mehr zuhört, benutzt man die Funktion `removeListener`. 
 
 ```javascript
 obsExample = obsExample( removeListener )( listenerExample ); 
 ```
 
-Von nun an hört der Listener nicht mehr auf den Observable und die Variable listenerVariable wird nicht überschrieben.
+Von nun an hört der Listener nicht mehr auf den Observable und die Variable _listenerVariable_ wird auch  nicht mehr überschrieben.
 
 ```javascript
 obsExample = obsExample(setValue)(66);

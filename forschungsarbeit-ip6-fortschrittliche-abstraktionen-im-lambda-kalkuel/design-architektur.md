@@ -202,8 +202,8 @@ Das Dokumentieren der Funktionen mit dem [JSDoc](https://jsdoc.app/) bringt eini
  */
 const getElementByIndex = stack => index =>
     eitherElementByIndex(stack)(index)
-    (console.error)
-    (id);
+     (console.error)
+     (id);
 ```
 
 In der IDEA \(hier Intellij\) kann man sich die Dokumentation anzeige lassen.
