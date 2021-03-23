@@ -36,7 +36,7 @@ Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werd
 In den folgenden Beispielen wird zur besseren Übersicht, die ListMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
 {% endhint %}
 
-### getElementByKey
+### [getElementByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L124)
 
 Mit der `getElementByKey` Funktion kann anhand eines Schlüssel auf den dazugehörigen Wert zugegriffen werden.
 
