@@ -702,7 +702,6 @@ const forEach = stack => callbackFunc => {
  *
  * @param {stack} stack
  * @return {function(index:churchNumber|number) : stack } stack
- * @example
  */
 const removeByIndex = stack => index => {
 

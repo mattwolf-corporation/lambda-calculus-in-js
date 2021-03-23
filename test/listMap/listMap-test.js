@@ -176,7 +176,7 @@ listMapSuite.add("filterListMap", assert => {
     const result = filterListMap(p => p.firstName.startsWith('L'))(testListMap);
 
     assert.churchNumberEquals( size(result), n1);
-    assert.pairEquals(getElementByIndex(result)(n1), p2);
+    assert.pairEquals( getElementByIndex(result)(n1), p2);
 
     const result2 = filterListMap(num => num >= 7)(listMapWithNumbers);
 

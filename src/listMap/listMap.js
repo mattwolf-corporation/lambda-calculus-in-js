@@ -1,8 +1,7 @@
 import {id, pair, fst, snd, If, Else, Then, triple} from "../lambda-calculus-library/lambda-calculus.js";
 import {n0} from "../lambda-calculus-library/church-numerals.js";
-import {stack, size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, pushToStack, startStack, emptyStack, convertArrayToStack, map, filter, reduce, forEach} from "../stack/stack.js";
-export {listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap, filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray, convertListMapToStack
-}
+import {stack, size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, map, filter, reduce, forEach} from "../stack/stack.js";
+export {listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap, filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray, convertListMapToStack}
 
 /**
  * Generic Types
@@ -12,7 +11,6 @@ export {listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapLi
  * @typedef {function} stack
  * @typedef {function} listMap
  */
-
 
 /**
  * index -> predecessor -> pair -> f -> f(index)(predecessor)(head) ; Triple
@@ -41,27 +39,80 @@ const listMap = triple;
  */
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 
-
 /**
  * A help function to create a new listMap
  */
 const startListMap = f => f(emptyListMap);
 
+/**
+ * This function takes a map function (like JavaScript Array map) and a listMap. The function returns a new listMap with the "mapped" values.
+ *
+ * @function
+ * @param  {function} f
+ * @return {function(listMap): listMap} ListMap
+ * @example
+ * const toUpperCase      = str => str.toUpperCase();
+ * const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
+ *
+ * const mappedListMap    = mapListMap(toUpperCase)(listMapWithNames); // [ ("name1", "PETER"), ("name2", "HANS") ]
+ *
+ * getElementByKey( mappedListMap )( "name1" ) // "PETER"
+ * getElementByKey( mappedListMap )( "name2" )  // "HANS"
+ */
+const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 
 /**
+ * This function takes a filter function (like JavaScript Array filter) and a listMap. The function returns the filtered listMap. If no elements match the filter, the empty listMap is returned.
  *
- * @param obj
- * @return {*}
+ * @function
+ * @param  {function} f
+ * @return {function(listMap): listMap} ListMap
+ * @example
+ * const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
+ *
+ * const filteredListMap  = filterListMap(str => str.startsWith('P'))(listMapWithNames); // [ ("name1", "Peter"), ("name3", "Paul") ]
+ *
+ * getElementByKey(filteredListMap)("name1");  // "Peter"
+ * getElementByKey(filteredListMap)("name3");  // "Paul"
+ */
+const filterListMap = f => filter(p => f(p(snd)) );
+
+/**
+ * This function takes a reduce function first, a start value second and a ListMap as the last parameter. The function returns the reduced value.
+ *
+ * @function
+ * @param  {function} f
+ * @return {function(listMap): listMap} ListMap
+ * @example
+ * const reduceFunc = (acc, curr) => acc + curr.income;
+ * const employees = convertObjToListMap({ p1: {firstName: 'Peter',  income: 1000},
+ *                                         p2: {firstName: 'Michael', income: 500} });
+ *
+ * reduceListMap(reduceFunc)(0)(employees); // 1500
+ */
+const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+
+/**
+ * Takes a JavaScript object and convert the key and values analog into a listMap
+ *
+ * @param  {object} obj
+ * @return {listMap}
+ * @example
+ * const obj = {a: 'Hello', b: "Lambda"}
+ *
+ * const listMapEx = convertObjToListMap(obj);
+ *
+ * size(listMapEx) // n2
+ * getElementByIndex(result)(n1) // pair('a')("Hello"));
+ * getElementByIndex(result)(n2) // pair('b')("Lambda"));
  */
 const convertObjToListMap = obj => Object.entries(obj).reduce((acc, [key, value]) => push(acc)(pair(key)(value)), emptyListMap);
 
-
-
 /**
- * Get the element in the ListMap by the key (Js-Number)
+ * Get the element in the ListMap by the key (key could be anything that can be comparable. Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
  *
  * @function
- * @param listMap
+ * @param  {listMap} listMap
  * @return {function(key:Number): *} element (value) or id if key not exist
  * @example
  * const testListMap = convertObjToListMap( {1: "Hans", 2: "Peter", 3: 42} )
@@ -87,7 +138,6 @@ const getElementByKey = listMap => key => {
     return (times(getElement)(initArgsPair))(snd);
 };
 
-
 /**
  * Remove the element in the ListMap by the key (key could be anything that can be comparable. Hint: Functions are not comparable except they have a notation like n1, n2, id, pair ... etc.)
  *
@@ -110,11 +160,11 @@ const removeByKey = listMap => key => {
         const currentKeyValPair = head(currentStack);
         const currentElement    = currentKeyValPair(snd);
         const currentKey        = currentKeyValPair(fst);
-        const result            =  key === currentKey
-            ? resultStack
-            : push( resultStack )(pair( currentKey )( currentElement ));
+        const result            = key === currentKey
+                                       ? resultStack
+                                       : push( resultStack )( pair(currentKey)(currentElement) );
 
-        return pair( getPreStack(currentStack) )(result);
+        return pair( getPreStack(currentStack) )( result );
     }
 
     const iteration = argsPair =>
@@ -125,30 +175,45 @@ const removeByKey = listMap => key => {
 
     return (times
                 (iteration)
-                (pair (reversedStack)(emptyListMap) )
-            ) (snd);
+                (pair(reversedStack)(emptyListMap) )
+            )(snd);
 }
 
-
-const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
-
-const filterListMap = f => filter(p => f(p(snd)) );
-
-const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
-
-const logListMapToConsole = listMap =>
-    forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
-
 /**
- *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array. The function returns an array
+ *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array and returns the array.
  *
  * @param  {listMap} listMap
  * @return {Array} Array
  * @example
+ * const personObject  = {firstName: "George", lastName: "Lucas"}
  *
+ * const personListMap = convertListMapToArray(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
  *
- *
+ * convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
  */
 const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
 
+/**
+ *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array and returns the array.
+ *
+ * @param  {listMap} listMap
+ * @return {Array} Array
+ * @example
+ * const personObject = {firstName: "George", lastName: "Lucas"}
+ *
+ * const result = convertObjToListMap( personObject ); // [ ("firstName", "George"), ("lastName","Lucas") ]
+ *
+ * getElementByKey( result )( "firstName" );  // "George"
+ * getElementByKey( result )( "lastName"  );  // "Lucas"
+ */
 const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(curr))(emptyStack)(listMap);
+
+/**
+ * The logListMapToConsole function takes a ListMap and executes a page effect. The page effect logs the ListMap with its key and values to the JavaScript console.
+ *
+ * @sideeffect
+ * @function
+ * @param {listMap} listMap
+ */
+const logListMapToConsole = listMap =>
+    forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
