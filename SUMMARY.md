@@ -14,7 +14,7 @@
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
   * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
   * [Box / MaybeBox](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
-  * [Benchmark und unsere Erfahrungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
+  * [Benchmark und unsere Erkenntnisse](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [Code Convention](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-architektur.md)
   * [Design Entscheidungen und Begründungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-entscheidungen-und-begruendungen.md)
 

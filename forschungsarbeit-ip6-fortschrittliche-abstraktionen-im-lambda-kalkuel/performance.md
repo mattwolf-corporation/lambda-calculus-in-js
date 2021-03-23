@@ -1,4 +1,4 @@
-# Benchmark und unsere Erfahrungen
+# Benchmark und unsere Erkenntnisse
 
 ## BenchmarkTest
 
@@ -22,9 +22,9 @@ const BenchmarkTest = mutName => methodUnderTest => {
 }
 ```
 
-## 
+## Unsere Erkenntnisse dank BenchmarkTests 
 
-## forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
+### forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
 
 Bei der Anwendung des Observabes ist uns aufgefallen, dass die Benachrichtigung der Listener viel zu lange ging. Wir haben uns danach gefragt welcher Teil so viel Zeit in Anspruch nimmt für die Ausführung. Danach untersuchten wir die forEach Methode, die bei bei der Benachrichtigung der Listener eine zentrale Rolle spielt. Wir haben die Methode analysiert und festgestellt dass in jeder Iterationsrundne eine zusätzliche Iteration haben, dies jedoch nicht benötigt wird.
 
@@ -85,6 +85,5 @@ const forEach = stack => callbackFunc => {
 };
 ```
 
-  
-Bild Benchmark Methode im Testframework & wie funktioniert diese ????
+
 
