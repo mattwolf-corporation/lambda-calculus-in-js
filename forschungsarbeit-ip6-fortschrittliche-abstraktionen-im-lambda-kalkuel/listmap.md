@@ -82,8 +82,8 @@ const personObject = {firstName: "George", lastName: "Lucas"}
 
 const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
-const firstName   = getElementByKey (result) ("firstName"); // "George"
-const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
+const firstName = getElementByKey( result )( "firstName" ); // "George"
+const lastName  = getElementByKey( result )( "lastName"  );  // "Lucas"
 ```
 
 ### convertListMapToArray
@@ -98,9 +98,9 @@ const convertListMapToArray = listMap =>
 // Anwendung
 const personObject  = {firstName: "George", lastName: "Lucas"}
 
-const personListmap = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
+const personListMap = convertListMapToArray( personObject ); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
-convertListMapToArray(personListmap) // [ "George", "Lucas" ]
+convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
 ```
 
 ## Higher Order Functions \(HOF's\) speziell für ListMap
@@ -135,16 +135,16 @@ Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) 
 
 ```javascript
 // Implementation
-const filterListMap    = f => filter(p => f(p(snd)) );
+const filterListMap    = f => filter(p => f(p(snd)));
 
 // Anwendung
 const startsWithP      = str => str.startsWith('P');
 
-const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
-const filteredListMap  = filterListMap(startsWithP)(listMapWithNames); // [ ("name1", "Peter"), ("name3", "Paul") ]
+const listMapWithNames = convertObjToListMap( {name1: "Peter", name2: "Hans", name3: "Paul"} );
+const filteredListMap  = filterListMap( startsWithP )( listMapWithNames ); // [ ("name1", "Peter"), ("name3", "Paul") ]
 
-const peter = getElementByKey(filteredListMap)("name1");  // "Peter"
-const paul  = getElementByKey(filteredListMap)("name3");  // "Paul"
+const peter = getElementByKey( filteredListMap )( "name1" );  // "Peter"
+const paul  = getElementByKey( filteredListMap )( "name3" );  // "Paul"
 ```
 
 ### reduceListMap
@@ -165,6 +165,12 @@ const listMapWithPersons = convertObjToListMap({
     
 const incomeSum = reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 ```
+
+## Helferfunktion
+
+### logListMapToConsole
+
+Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt die ListMap mit dessen Key und Values auf die JavaScript-Konsole.
 
 
 
