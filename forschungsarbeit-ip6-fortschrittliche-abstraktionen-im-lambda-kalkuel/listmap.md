@@ -8,17 +8,17 @@ description: Stack mit Key-Value Pairs
 
 ### ListMap
 
-ListMap ist eine weitere unveränderliche Datenstruktur die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der Stack, d.h. sie ist auch als Triple implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Key-Value Paare sind \(wie bei einer Java HashMap\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusäzlich gibt es noch weitere Funktionen die nur mit einer ListMap verwendet werden können.
+ListMap ist eine weitere unveränderliche Datenstruktur die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als Triple implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Key-Value Paare sind \(wie bei einer Java HashMap\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusäzlich gibt es noch weitere Funktionen die nur mit einer ListMap verwendet werden können.
 
 #### ListMap Implementation:
 
 ```javascript
-const listMap = stack;
+const listMap = stack; // triple
 ```
 
 ### Empty-ListMap
 
-Die `emptyList` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter des Triples listMap ist nicht nur `id` wie beim Stack sondern Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
+Die `emptyList` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter des Triples ListMap ist nicht nur `id` wie beim Stack sondern Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
 
 ```javascript
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
@@ -82,8 +82,8 @@ const personObject = {firstName: "George", lastName: "Lucas"}
 
 const result = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
-const firstName   = getElementByKey (result) ("firstName"); // "George"
-const lastName    = getElementByKey (result) ("lastName");  // "Lucas"
+const firstName = getElementByKey( result )( "firstName" ); // "George"
+const lastName  = getElementByKey( result )( "lastName"  );  // "Lucas"
 ```
 
 ### convertListMapToArray
@@ -98,9 +98,9 @@ const convertListMapToArray = listMap =>
 // Anwendung
 const personObject  = {firstName: "George", lastName: "Lucas"}
 
-const personListmap = convertObjToListMap(personObject); // [ ("firstName", "George"), ("lastName","Lucas") ]
+const personListMap = convertListMapToArray( personObject ); // [ ("firstName", "George"), ("lastName","Lucas") ]
 
-convertListMapToArray(personListmap) // [ "George", "Lucas" ]
+convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
 ```
 
 ## Higher Order Functions \(HOF's\) speziell für ListMap
@@ -121,13 +121,12 @@ const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 
 // Anwendung
 const toUpperCase      = str => str.toUpperCase();
-
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
 
 const mappedListMap    = mapListMap(toUpperCase)(listMapWithNames); // [ ("name1", "PETER"), ("name2", "HANS") ]
 
-const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
-const hans  = getElementByKey(mappedListMap)("name2");  // "HANS"
+getElementByKey( mappedListMap )( "name1" ) // "PETER"
+getElementByKey( mappedListMap )( "name2" )  // "HANS"
 ```
 
 ### filterListMap
@@ -136,16 +135,16 @@ Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) 
 
 ```javascript
 // Implementation
-const filterListMap    = f => filter(p => f(p(snd)) );
+const filterListMap    = f => filter(p => f(p(snd)));
 
 // Anwendung
 const startsWithP      = str => str.startsWith('P');
 
-const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans", name3: "Paul"});
-const filteredListMap  = filterListMap(startsWithP)(listMapWithNames); // [ ("name1", "Peter"), ("name3", "Paul") ]
+const listMapWithNames = convertObjToListMap( {name1: "Peter", name2: "Hans", name3: "Paul"} );
+const filteredListMap  = filterListMap( startsWithP )( listMapWithNames ); // [ ("name1", "Peter"), ("name3", "Paul") ]
 
-const peter = getElementByKey(filteredListMap)("name1");  // "Peter"
-const paul  = getElementByKey(filteredListMap)("name3");  // "Paul"
+const peter = getElementByKey( filteredListMap )( "name1" );  // "Peter"
+const paul  = getElementByKey( filteredListMap )( "name3" );  // "Paul"
 ```
 
 ### reduceListMap
@@ -166,6 +165,12 @@ const listMapWithPersons = convertObjToListMap({
     
 const incomeSum = reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 ```
+
+## Helferfunktion
+
+### logListMapToConsole
+
+Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt die ListMap mit dessen Key und Values auf die JavaScript-Konsole.
 
 
 
