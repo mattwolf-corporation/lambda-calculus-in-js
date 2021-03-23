@@ -121,13 +121,12 @@ const mapListMap = f => map(p => pair( p(fst) )( f(p(snd)) ));
 
 // Anwendung
 const toUpperCase      = str => str.toUpperCase();
-
 const listMapWithNames = convertObjToListMap({name1: "Peter", name2: "Hans"});
 
 const mappedListMap    = mapListMap(toUpperCase)(listMapWithNames); // [ ("name1", "PETER"), ("name2", "HANS") ]
 
-const peter = getElementByKey(mappedListMap)("name1"); // "PETER"
-const hans  = getElementByKey(mappedListMap)("name2");  // "HANS"
+getElementByKey( mappedListMap )( "name1" ) // "PETER"
+getElementByKey( mappedListMap )( "name2" )  // "HANS"
 ```
 
 ### filterListMap
