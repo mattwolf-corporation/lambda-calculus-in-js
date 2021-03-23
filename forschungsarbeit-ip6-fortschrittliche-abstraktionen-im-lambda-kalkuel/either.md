@@ -40,7 +40,7 @@ eitherXYZ(someParam)
     (result => doSomethingInSuccessCase(result))  // Right Case
 ```
 
-### eitherTruthy
+### [eitherTruthy](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L63)
 
 Die `eitherTruthy`  Funktion erwartet einen Wert und überprüft ob dieser _truthy_ ist.  Im Erfolgsfall wird ein `Right` mit dem Element zurück gegeben und im Fehlerfall ein `Left` mit der entsprechenden Fehlermeldung.
 
@@ -55,7 +55,7 @@ const eitherTruthy = value =>
         : Left(`'${value}' is a falsy value`);
 ```
 
-### eitherNotNullAndUndefined
+### [eitherNotNullAndUndefined](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L85)
 
 Die `eitherNotNullAndUndefined` ****Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
 
@@ -66,7 +66,7 @@ const eitherNotNullAndUndefined = value =>
         : Left(`element is '${value}'`);
 ```
 
-### eitherElementOrCustomErrorMessage
+### [eitherElementOrCustomErrorMessage](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L108)
 
 Die `eitherElementOrCustomErrorMessage` Funktion erwartet eine Fehlermeldung und ein Element. Die Funktion überprüft das Element auf **null** oder **undefined** und gibt entweder ein `Right` mit dem Wert oder ein `Left` mit der übergebenen Fehlermeldung zurück.
 
@@ -81,9 +81,9 @@ const eitherElementOrCustomErrorMessage = errorMessage => element =>
 eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert ist null")
 ```
 
-### eitherDomElement
+### [eitherDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L120)
 
-Die `eitherDomElemen`t Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das Dom-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
+Die `eitherDomElement`  Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das HTML-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
 
 ```javascript
 const eitherDomElement = elemId =>
@@ -92,7 +92,7 @@ const eitherDomElement = elemId =>
         (document.getElementById(elemId));
 ```
 
-### eitherNumber
+### [eitherNumber](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L177)
 
 Die `eitherNumber` Funktion überprüft ob ein Wert vom Typ Integer ist.
 
@@ -103,7 +103,7 @@ const eitherNumber = val =>
         : Left(`'${val}' is not a integer`);
 ```
 
-### eitherNaturalNumber
+### [eitherNaturalNumber](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L188)
 
 Die `eitherNaturalNumber` Funktion überprüft ob der übergebene Wert eine natürliche JavaScript-Zahl ist.
 
@@ -114,7 +114,7 @@ const eitherNaturalNumber = val =>
         : Left(`'${val}' is not a natural number`);
 ```
 
-### eitherFunction
+### [eitherFunction](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L199)
 
 Die `eitherFunction` Funktion überprüft ob ein Wert vom Typ _function_ ist.
 
@@ -125,7 +125,7 @@ const eitherFunction = val =>
         : Left(`'${val}' is not a function`);
 ```
 
-### eitherTryCatch
+### [eitherTryCatch](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L223)
 
 Die `eitherTryCatch` Funktion nimmt eine Funktion f entgegen, die schief gehen könnte. Diese Funktion wird in einem try-catch Block ausgeführt. Wenn ein Fehler auftritt während der Funktionsausführung wird dieser gefangen und es wird ein `Left` mit der Fehlermeldung zurückgegeben, ansonsten ein `Right` mit dem Resultat.
 
@@ -143,7 +143,7 @@ const eitherTryCatch = f => {
 }
 ```
 
-### eitherElementsOrErrorsByFunction
+### [eitherElementsOrErrorsByFunction](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L240)
 
 Die Funktion `eitherElementsOrErrorsByFunction` nimmt als ersten Parameter eine Funktion und als zweiten Parameter können einen Rest Parameter \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\). Die Funktion die übergeben wird sollte einen Wert entgegen nehmen und ein Either Type zurückgeben. Die Funktion `eitherElementsOrErrorsByFunction` wendet dann die übergebene Funktion auf jeden Wert an der durch den Rest Parameter übergeben wurde. Zurück kommt ein Either. Im Erfolgsfall \(Right\) bekommt der Anwender eine ListMap mit allen "Erfolgs" -Werten. Im Fehlerfall bekommt der Anwender ein Stack mit allen Fehlermeldungen die aufgetreten sind.
 
