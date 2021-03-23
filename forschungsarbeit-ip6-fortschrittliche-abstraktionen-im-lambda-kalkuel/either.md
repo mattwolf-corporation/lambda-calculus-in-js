@@ -83,7 +83,7 @@ eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert
 
 ### eitherDomElement
 
-Die `eitherDomElemen`t Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das Dom-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
+Die `eitherDomElement`  Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das HTML-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
 
 ```javascript
 const eitherDomElement = elemId =>

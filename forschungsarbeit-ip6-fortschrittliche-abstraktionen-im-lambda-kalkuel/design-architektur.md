@@ -166,7 +166,7 @@ const nextCharForNumberString = str =>
 
 Das Dokumentieren der Funktionen mit dem [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen kann ein Text stehen, der erklärt was die Funktion für Parameter erwartet und im nachinein ausführt. Anschliessend kann mittels den JSDoc-Tags die Dokumentation mit Hinweisen erweitert werden:
 
-* **@haskell** eine Haskell Notation
+* **@haskell** die Funktion in Haskell Notation
 * **@sideffect** wenn die Funktion einen Side-Effekt auslöst wie zum Beispiel ein Log auf die Konsole
 * **@function** markiert es explizit als eine Funktion. Optional: Kann man der Funktion einen zweiten Name geben
 * **@param** für das erste Argument
@@ -206,11 +206,11 @@ const getElementByIndex = stack => index =>
      (id);
 ```
 
-In der IDEA \(hier Intellij\) kann man sich die Dokumentation anzeige lassen.
+In der IDEA \(hier Intellij\) wird die Dokumentation dementsprechend angezeigt:.
 
 ![Dokumentation in der IDEA](../.gitbook/assets/image%20%288%29.png)
 
-Ein weiterer sehr praktischer Hinweist, nebst der Dokumentation, die dem Anwender helfen Informationen über eine Funktion Nachzuschlagen, ist die Pop-Up welche dem Anwender informiert, welcher Parameter als nächstes erwartet wird.
+Ein sehr praktischer Vorteil, nebst der Dokumentation, sind die Pop-Up Informationen welche dem Anwender beim benutzen der Funktionen hilft und informiert, welcher Parameter als nächstes erwartet wird.
 
 ![Erste Parameter-Info](../.gitbook/assets/image%20%286%29.png)
 

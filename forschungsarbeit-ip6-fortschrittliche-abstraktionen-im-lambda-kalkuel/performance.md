@@ -1,4 +1,28 @@
-# Benchmark Erfahrungen
+# Benchmark und unsere Erfahrungen
+
+## BenchmarkTest
+
+Um herauszufinden und zu prüfen von Funktionen auf ihre Geschwindigkeit wurde die einfache aber praktische Funktion `BenchmarkTest` gebaut. Mit den Zeitstempel Methode  `performance.now()` von JavaScript **** kann die Exekutionsdauer der Funktion `methodUnderTest` ordentlich berechnet werden. Denn die Werte, die von `Performance.now()` zurückgegeben werden sind immer in einem konstanten Tempo, unabhängig von der Systemuhr.
+
+```javascript
+const BenchmarkTest = mutName => methodUnderTest => {
+    const t0 = performance.now(); // Timer start
+
+    const result = methodUnderTest();
+
+    const t1 = performance.now(); // Timer stop
+
+    const milliseconds = t1 - t0; 
+    const timeCondition = milliseconds >= 600;
+    const time = timeCondition ? milliseconds / 1000 : milliseconds;
+
+    console.log(`Call Method ${mutName} took ${time.toFixed(2)} ${timeCondition ? 'seconds' : 'milliseconds'}.`);
+
+    return result;
+}
+```
+
+## 
 
 ## forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
 
