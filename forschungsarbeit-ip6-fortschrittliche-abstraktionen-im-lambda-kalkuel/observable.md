@@ -114,7 +114,7 @@ const listenerNewValueLengthToElementTextContent  = element => nVal => oVal => e
 ```
 {% endhint %}
 
-### Code-Beispiel für ein Observable Text-Input
+### Implementation
 
 ```javascript
 // Get the elements from the Dom
@@ -150,7 +150,13 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 
 ![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
 
-### Implementation des Observable Color-Picker
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
+
+### 
+
+### Implementation
 
 {% hint style="info" %}
 Der Datentype des Observable ist ein [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple), weil die zu behandelte Werte `red, green, blue` sind. 
@@ -214,10 +220,6 @@ rangeR.oninput = _ =>
 
 Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableColorPickerExample/observableColorPickerExample.js)\*\*\*\*
 
-### Demo
-
-{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
-
 
 
 ## Observable HttpGet-Joke Example
@@ -226,7 +228,13 @@ In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, 
 
 ![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
 
-### Code des Observable HttpGet-Joke Example
+### Demo
+
+{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
+
+
+
+### Implementation
 
 ```javascript
 // Either all the necessary Dom-Element exist and or display all missed Element
@@ -279,15 +287,11 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 })
 ```
 
-### Demo
+Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
 
-{% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
+## Observable: Dokumentation & Implementation
 
-
-
-## Dokumentation & Implementation
-
-### Observable
+### [Observable](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L41)
 
 Der Konstruktor zum erstellen eines Observable mit dem initialen Startwert.
 
@@ -302,7 +306,7 @@ const obsExample = Observable(0)
 
 ### **Observable-Functions**
 
-#### observableBody
+#### [observableBody](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L25)
 
 Das Observable-Konstrukt, für das rekursiven Anwenden der **Observable-Functions**
 
@@ -349,15 +353,20 @@ obsExample = obsExample( addListener   )( listenerLog ) // hinzufügen nicht mö
 ```
 {% endhint %}
 
-### **addListener**
+### \*\*\*\*[**addListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L95)\*\*\*\*
 
-Neuen Listener zum Observable hinzufügen und den aktuellen Observable-Wert mitteilen
+Fügt dem Observable einen neuen Listener hinzu und der aktuelle Observable-Wert wird sofort an den Listener übermittelt.
 
 ```javascript
 // Implementation
 const addListener = listeners => value => newListener => {
     newListener(snd)(value)(value)
     return observableBody( push(listeners)(newListener) )(value)
+    
+// Anwedung
+const obsExample = Observable(0)
+                    (addListener)( listenerLogToConsole      )
+                    (addListener)( listenerNewValueToElement );
 ```
 
 {% hint style="danger" %}
@@ -368,7 +377,7 @@ Das Observable sollte nicht mit mehr als 5'000 Listeners verbunden werden, weil 
 Mit bis zu 100 Listerners und vielen Wertänderungen \(zb. 100'000\) auf einmal hat der Observable kein Problem.
 {% endhint %}
 
-### removeListener
+### [removeListener](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L156)
 
 Entfernt ein Listener aus dem Observable. Braucht dazu den **Listener** als Parameter
 
@@ -387,7 +396,7 @@ let obsExample = Observable(0)
 obsExample = obsExample(removeListener)( listenerLog );    
 ```
 
-### removeListenerByKey
+### [removeListenerByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L125)
 
 Entfernt ein Listener aus dem Observable. Braucht dazu den **Key** des Listener ****als Parameter
 
@@ -406,9 +415,9 @@ let obsExample = Observable(0)
 obsExample = obsExample(removeListenerByKey)(42)   
 ```
 
-### **setValue**
+### \*\*\*\*[**setValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L59)\*\*\*\*
 
-Neuen Wert setzen und alle Listeners benachrichtigen
+Dem Observable ein neuen Wert mitteilen und alle Listeners benachrichtigen.
 
 ```javascript
 // Implementation
@@ -417,7 +426,7 @@ const setValue = listeners => oldValue => newValue => {
     return observableBody(listeners)(newValue)
 }
 
-  
+
 // Anwendung
 let obsExample = Observable(0)
 testObs(getValue)                // 0
@@ -425,9 +434,9 @@ testObs = testObs(setValue)(42)
 testObs(getValue)                // 42
 ```
 
-### **getValue**
+### \*\*\*\*[**getValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L80)\*\*\*\*
 
-Erhalte den aktuellen Wert des Observable
+Erhalte den aktuellen Wert des Observable.
 
 ```javascript
 // Implementation
@@ -441,12 +450,12 @@ testObs = testObs(setValue)(42)
 testObs(getValue)                // 42
 ```
 
-### newListenerWithCustomKey
+### [newListenerWithCustomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L170)
 
 Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
 
 {% hint style="info" %}
-Funktionen sind nicht vergleichbar,  ausser sie haben eine Notation wie n1, n2, id, pair ... 
+Funktionen sind nicht vergleichbar,  ausser sie haben eine statische Notation wie n1, n2, id, pair ... 
 {% endhint %}
 
 {% hint style="info" %}
@@ -462,7 +471,7 @@ const newListener = listenerFn => pair(generateRandomKey())(listenerFn);
 const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
 ```
 
-### **newListener**
+### \*\*\*\*[**newListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L187)\*\*\*\*
 
 Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key muss im vergleich zu `newListenerWithCustomKey` nicht angeben werden.
 
@@ -479,7 +488,7 @@ const listenerLog = newListener(listenerLogToConsole);
 Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Buchstaben \(Gross-/Kleinschreibung\) & Zahlen.  Siehe implementation: [generateRandomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/2f832eda3d66603b5901aaa060baf4e96a514512/src/observable/observableExamples/observableUtilities.js#L11)  
 {% endhint %}
 
-### setListenerKey
+### [setListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L202)
 
 Geben dem Listener eine neue Key und erhalte den neuen Listener zurück.
 
@@ -493,7 +502,7 @@ let listenerLog = newListener(listenerLogToConsole);
 listenerLog = setListenerKey( listenerLog  )(42)
 ```
 
-### getListenerKey
+### [getListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L217%20)
 
 Erhalte den Key des Listener.
 
@@ -511,7 +520,7 @@ getListenerKey( listenerLog )  // 42
 
 ## Helferfunktion
 
-### logListenersToConsole
+### [logListenersToConsole](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L226)
 
 Die Funktion `logListenersToConsole` wird als Parameter von einem Observable übergeben und führt einen Seiteneffekt aus. Der Seiteneffekt protokolliert alle Listener des Observable mit dessen Schlüsseln und Werten auf der Konsole.
 
