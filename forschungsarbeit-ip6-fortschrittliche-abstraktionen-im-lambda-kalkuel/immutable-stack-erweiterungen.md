@@ -104,15 +104,15 @@ Die Funktion `getElementByIndex` nimmt einen Stack und eine [Church-](../forschu
 #### Anwendungs Beispiel:
 
 ```javascript
-const s = convertArrayToStack(["Hello", "World"]);
+const stackWithStrings = convertArrayToStack(["Hello", "World"]);
 
-getElementByIndex(s)(n1) // "Hello"
-getElementByIndex(s)(n2) // "World"
+getElementByIndex(stackWithStrings)(n1) // "Hello"
+getElementByIndex(stackWithStrings)(n2) // "World"
 
-getElementByIndex(s)( 1)  // "Hello"
-getElementByIndex(s)( 2)  // "World"
+getElementByIndex(stackWithStrings)( 1)  // "Hello"
+getElementByIndex(stackWithStrings)( 2)  // "World"
 
-getElementByIndex(s)(999) // Error "invalid index" 
+getElementByIndex(stackWithStrings)(999) // Error "invalid index" 
 ```
 
 {% hint style="info" %}
@@ -137,7 +137,7 @@ Die Funktion `getElementByIndex`wurde erweitert, dass der Index auf den Typ kont
 * **\`\`**[**`eitherElementByChurchIndex`**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L290)**\`\`**
 {% endhint %}
 
-### removeByIndex
+### [removeByIndex](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L666)
 
 Die Funktion `removeByIndex` nimmt einen Stack und eine [Church-](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) oder JS-Zahl als Index entgegen. Die Funktion löscht das Element am übergebenen Index und gibt den neuen Stack zurück.  
 Bei einem nicht existierenden Index erhält man denselben Stack zurück.
@@ -147,9 +147,11 @@ const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "World"]);
 
 removeByIndex(stackWithStrings)( 2) // [ "Hello", "World" ]
 removeByIndex(stackWithStrings)(n2) // [ "Hello", "World" ]
+
+removeByIndex(stackWithStrings)(999) // [ "Hello", "Haskell", "World" ]
 ```
 
-### getIndexOfElement
+### [getIndexOfElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L370)
 
 Die Funktion `getIndexOfElement` nimmt einen Stack und einen Element entgegen und gibt den Index als JavasScript-Zahl von diesem Element zurück. Wenn das Element nicht existiert wird `undefined` zurückgegeben.
 
@@ -162,7 +164,7 @@ getIndexOfElement(stackWithNumbers)(10)   // 3
 getIndexOfElement(stackWithNumbers)(100)  // undefined
 ```
 
-### maybeIndexOfElement
+### [maybeIndexOfElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L398)
 
 Die Funktion `maybeIndexOfElement` ist analog zur Funktion [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement). Nur der Rückgabetyp ist ein [Maybe](maybe.md).
 
@@ -175,7 +177,7 @@ maybeIndexOfElement(stackWithNumbers)(10)   // Just(3)
 maybeIndexOfElement(stackWithNumbers)(100)  // Nothing
 ```
 
-### containsElement
+### [containsElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L414)
 
 Eine Funktion, die einen Stack und ein Element annimmt. Gibt `True` \(ChurchBoolean\) zurück, wenn das Element im Stack vorhanden ist. Gibt `False` \(ChurchBoolean\) zurück, wenn das Element nicht im Stack vorhanden ist.
 
@@ -190,9 +192,9 @@ containsElement(stackWithNumbers)(33) === True
 containsElement(stackWithNumbers)(44) === False
 ```
 
-### convertElementsToStack
+### [convertElementsToStack](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L454)
 
-Die Funktion `convertElementsToStack`  erlaubt es, mit dem [Spread Operator](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Operators/Spread_syntax) \(...\), Einzelnen Werte mit oder ohne ein Array als Parameter für die Funktion zu übergeben. Die Elementen zusammen gibt einen neuen Stack mit den Elementen zurück.
+Die Funktion `convertElementsToStack`  erlaubt es, mit dem [Spread Operator](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Operators/Spread_syntax) \(**...**\), Einzelnen Werte mit oder ohne ein Array als Parameter für die Funktion zu übergeben. Die Elementen zusammen gibt einen neuen Stack mit den Elementen zurück.
 
 ```javascript
 const stackWithValues = convertElementsToStack(1,2,3);
