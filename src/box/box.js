@@ -50,7 +50,7 @@ const Box = x => fmap(x)(id);
  *  (fmap)(n => n + 15)                   // { 65 }
  *  (fold)(n => String.fromCharCode(n));  // 'A'
  */
-const fold  = x => f => f(x);   // T         // map and then get content out of the box
+const fold  = x => f => f(x);
 
 /**
  * The chain function is used to perform a flatMap. If a map function creates a box, fmap would create a box within a box.

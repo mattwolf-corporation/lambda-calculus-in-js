@@ -471,8 +471,8 @@ boxSuite.add("lazy Box evaluation", assert => {
 boxSuite.add("box with stack", assert => {
 
     const result = Box(convertArrayToStack([1,2,3,4]))
-                            (fmap)(map(x => x * 2))
-                            (fold)(filter(x => x > 4))
+                    (fmap)(map(x => x * 2))
+                    (fold)(filter(x => x > 4))
 
     assert.arrayEquals(convertStackToArray(result), [6,8]);
 });
@@ -482,8 +482,8 @@ boxSuite.add("box with Http", async assert => {
 
 
     const result = Box( HttpGetSync(jokeNorrisUrl) )
-                     (fmap)( JSON.parse   )
-                     (fold)( x => x.value )
+                    (fmap)( JSON.parse   )
+                    (fold)( x => x.value )
 
     assert.true(result.length > 0);
 
