@@ -211,20 +211,3 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Die funktionalen Konstruktionen sind einfach zu Testen.
 * Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
 
-
-
-* Zusammenfassung was Sie wie erreicht haben.
-* Erkenntnisse aus der Arbeit
-* Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?
-* Vergleich mit der Aufgabenstellung, Projektklärung.
-* Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht
-
-  funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler&gt;
-
-* Potentielle Erweiterungen, Vorschläge für nächste Schritte.
-* Achtung: Persönliche Erfahrungen und Befindlichkeiten gehören nicht in
-
-  eine Thesis.
-
-
-
