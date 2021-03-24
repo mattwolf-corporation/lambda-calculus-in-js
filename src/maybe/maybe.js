@@ -1,8 +1,7 @@
 import {id, pair} from "../lambda-calculus-library/lambda-calculus.js";
 import {convertArrayToStack, emptyStack, push, reduce} from "../stack/stack.js";
-import {mapMaybe, flatMapMaybe} from "../box/box.js";
 import {emptyListMap} from "../listMap/listMap.js";
-export {Nothing, Just, maybeNumber, maybeFunction, maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements, maybeTruthy, eitherNumber, Left, Right, eitherFunction, eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement, eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, maybeNotNullAndUndefined, eitherNaturalNumber}
+export {Nothing, Just, mapMaybe, flatMapMaybe, maybeNumber, maybeFunction, maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements, maybeTruthy, eitherNumber, Left, Right, eitherFunction, eitherElementOrCustomErrorMessage, eitherTryCatch, maybeDomElement, eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherNotNullAndUndefined, maybeNotNullAndUndefined, eitherNaturalNumber}
 
 /*
     EITHER-Type
@@ -263,3 +262,18 @@ const maybeElementsByFunction = maybeProducerFn => (...elements) =>
     )
     ( Just(emptyListMap) )
     ( convertArrayToStack(elements) );
+
+/**
+ *
+ *
+ * @param maybe
+ * @return {function(*): *}
+ */
+const mapMaybe  = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
+
+/**
+ *
+ * @param maybe
+ * @return {function(*): *}
+ */
+const flatMapMaybe = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap

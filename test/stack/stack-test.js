@@ -4,8 +4,7 @@ import {beq, jsBool, False, fst, id, pair, snd, True} from "../../src/lambda-cal
 import {churchAddition, churchMultiplication, jsNum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9} from '../../src/lambda-calculus-library/church-numerals.js';
 import {concat, convertArrayToStack, convertStackToArray, emptyStack, filter, filterWithReduce, flatten, forEach, forEachOld, getElementByIndex, hasPre, head, map, mapWithReduce, pop, push, pushToStack, reduce, removeByIndex, reverseStack, getIndexOfElement, containsElement, maybeIndexOfElement, size, stackEquals, stackPredecessor, startStack, zip, zipWith,eitherElementByIndex
 } from "../../src/stack/stack.js";
-import {getOrDefault, Just, Nothing, maybeDomElement, Left, Right} from "../../src/maybe/maybe.js";
-import {flatMapMaybe, mapMaybe} from "../../src/box/box.js";
+import {getOrDefault, Just, Nothing, maybeDomElement, Left, Right,flatMapMaybe, mapMaybe} from "../../src/maybe/maybe.js";
 import {emptyListMap} from "../../src/listMap/listMap.js"
 
 const stackSuite = TestSuite("stack (pure functional data structure)");

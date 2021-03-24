@@ -1,20 +1,16 @@
 import {TestSuite} from "../test.js";
 import {
-    Box, fold, fmap, chain, debug, mapMaybe,
-    flatMapMaybe, fmapMaybe, foldMaybe,
+    Box, fold, fmap, chain, debug, fmapMaybe, foldMaybe,
     chainMaybe, getContent, app,
     liftA2, appMaybe, liftA2Maybe, pureMaybe
 } from "../../src/box/box.js";
-import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing, eitherTryCatch} from "../../src/maybe/maybe.js";
+import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing, eitherTryCatch, flatMapMaybe, mapMaybe} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
 import {HttpGetSync, HttpGet} from "../../src/IO/http.js";
-import {convertObjToListMap, filterListMap, mapListMap, reduceListMap} from "../../src/listMap/listMap";
-
+import {convertObjToListMap, filterListMap, mapListMap, reduceListMap} from "../../src/listMap/listMap.js";
 
 const boxSuite = TestSuite("Box");
-
-
 
 boxSuite.add("box.of", assert => {
     const p = {firstName: "lukas", lastName: "Mueller"};

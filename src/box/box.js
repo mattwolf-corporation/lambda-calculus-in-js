@@ -1,9 +1,7 @@
 import {id} from "../lambda-calculus-library/lambda-calculus.js";
-import {Just, Nothing, Left, Right} from "../maybe/maybe.js";
-
+import {Just, Nothing, Left, Right, mapMaybe, flatMapMaybe} from "../maybe/maybe.js";
 export {
-    Box, fmap, fold, chain, debug, mapMaybe,
-    flatMapMaybe, fmapMaybe, foldMaybe,
+    Box, fmap, fold, chain, debug, fmapMaybe, foldMaybe,
     chainMaybe, getContent,
     app, liftA2, appMaybe, liftA2Maybe, pureMaybe
 }
@@ -27,9 +25,6 @@ const debug = x => {
 const $_$ = 1;
 
 
-// maybe box methods
-const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
-const flatMapMaybe  = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap
 
 // TODO: rename to fmap
 const fmapMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
