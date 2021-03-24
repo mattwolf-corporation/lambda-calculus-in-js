@@ -10,7 +10,7 @@ description: >-
 
 ## Ein kleines Beispiel
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei wir dem Listener als Parameter eine Funktion erstellt, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
 
 ```javascript
 let listenerVariable; // undefined
@@ -18,7 +18,7 @@ const listenerExample = newListener( newValue => oldValue  => listenerVariable =
 ```
 
 Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
-Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert nimmt.  
+Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert mitteilt.  
 Mit der Funktion `addListener`  wird der Listeners an den Observable hinzugefügt. 
 
 ```javascript
@@ -27,14 +27,14 @@ let obsExample = Observable(42)                     // new Observable with initV
 ```
 
 {% hint style="info" %}
-Nachdem einer Listener mit einem Observable verknüpft ist, erhält der Listener sofort den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Fall die Zahl '42'. 
+Nachdem einer Listener mit einem Observable verknüpft ist, erhält der Listener sofort den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Beispiel die Zahl '42'. 
 
 ```javascript
 listenerVariable   // 42
 ```
 {% endhint %}
 
-Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus den Observable zurück.
+Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus dem Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
