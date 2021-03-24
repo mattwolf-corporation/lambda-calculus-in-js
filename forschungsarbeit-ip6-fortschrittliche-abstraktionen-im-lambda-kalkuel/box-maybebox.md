@@ -8,11 +8,11 @@ description: Verpacken -> Verarbeiten -> Auspacken
 
 Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Es können beliebige Werte in eine "Box eingepackt" werden und danach gemapped \(weiterverarbeitet\) werden. Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
 
-Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `mapf` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozessierung nicht mit `mapf` sondern mit `fold` durchgeführt.
+Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `fmap` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozessierung nicht mit `fmap` sondern mit `fold` durchgeführt.
 
 ### Beispiel Anwendung
 
-Code ohne Verwendung von Box
+#### Code ohne Verwendung von Box
 
 ```javascript
 const p = {firstName: "Lukas", lastName: "Mueller"};
@@ -24,7 +24,7 @@ const fullNameUpperCase = fullName.toUpperCase();
 const nameWithSalutation = addSalutation(fullNameUpperCase)(true); // Mr. LUKAS MUELLER
 ```
 
-Code mit Verwendung von Box
+#### Code mit Verwendung von Box
 
 ```javascript
 const p = {firstName: "Lukas", lastName: "Mueller"};
@@ -32,8 +32,8 @@ const p = {firstName: "Lukas", lastName: "Mueller"};
 const addSalutation = fullName => male => (male ? "Mr. " : "Mrs. ") + fullName;
 
 const nameWithSalutation = Box(p)
-                             (mapf)(p => p.firstName + " " + p.lastName)
-                             (mapf)(fullName => fullName.toUpperCase())
+                             (fmap)(p => p.firstName + " " + p.lastName)
+                             (fmap)(fullName => fullName.toUpperCase())
                              (fold)(fullNameUpperCase => addSalutation(fullNameUpperCase)(true)); // Mr. LUKAS MUELLER
 ```
 
@@ -55,9 +55,9 @@ In anderen Programmiersprachen kann diese Methode verglichen werden mit dem `.of
 
 ```javascript
 // Implementation
-const mapf  = x => f => g => g(f(x));  
+const fmap  = x => f => g => g(f(x));  
 
-const Box   = x => mapf(x)(id);        // Box.of
+const Box   = x => fmap(x)(id);        // Box.of
 
 // Anwendung
 Box(10);                 // { 10 }
@@ -65,19 +65,19 @@ Box("Hello World");      // { "Hello World" }
 Box(p);                  // { p }
 ```
 
-### mapf
+### fmap
 
-Die Funktion `mapf` wird verwendet um den Inhalt einer Box zu verarbeiten \(mappen\). Diese mapf Funktionsaufrufe können beliebig oft hinteinander angewendet werden \(chainning von Funktionen\). Durch das "chainning" wird eine Art Pipeline aufgebaut.
+Die Funktion `fmap` wird verwendet um den Inhalt einer Box zu verarbeiten \(mappen\). Diese `fmap`Funktionsaufrufe können beliebig oft hintereinander angewendet werden \(chainning von Funktionen\). Durch das "chainning" wird eine Art Pipeline aufgebaut.
 
 ```javascript
 // Implementation
-const mapf  = x => f => g => g(f(x));
+const fmap = x => f => g => g(f(x));
 
 // Anwendung
 Box(5)                                   // { 5 }
-   (mapf)(n => n * 10)                   // { 50 }
-   (mapf)(n => n + 15)                   // { 65 }
-   (mapf)(n => String.fromCharCode(n));  // { 'A' }
+   (fmap)(n => n * 10)                   // { 50 }
+   (fmap)(n => n + 15)                   // { 65 }
+   (fmap)(n => String.fromCharCode(n));  // { 'A' }
 ```
 
 ### fold
@@ -94,14 +94,14 @@ const fold  = x => f => f(x);
 
 // Anwendung
 Box(5)                                   // { 5 }
-   (mapf)(n => n * 10)                   // { 50 }
-   (mapf)(n => n + 15)                   // { 65 }
+   (fmap)(n => n * 10)                   // { 50 }
+   (fmap)(n => n + 15)                   // { 65 }
    (fold)(n => String.fromCharCode(n));  // 'A'
 ```
 
 ### chain \(flatMap\)
 
-Die Funktion `chain` wird verwendet um ein flatMap durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `mapf` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode chain. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
+Die Funktion `chain` wird verwendet um ein _flatMap_ durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `fmap` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode chain. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
 
 ```javascript
 // Implementation
@@ -109,11 +109,11 @@ const chain = x => f => g => g((f(x)(id)));
 
 // Anwendung
 Box(5)                                       // { 5 }
-  (mapf)(num => num + 5)                     // { 10 }                  
+  (fmap)(num => num + 5)                     // { 10 }                  
   (chain)(num => Box(num * 2)
-                     (mapf)(num => num + 1)) // { 21 }
+                     (fmap)(num => num + 1)) // { 21 }
   (chain)(num => Box(num * 3)
-                     (mapf)(num => num + 1)) // { 64 }
+                     (fmap)(num => num + 1)) // { 64 }
 ```
 
 ### getContent
@@ -129,9 +129,9 @@ const p = { firstName: "Tyrion", lastName: "Lannister" };
 
 const box1 = Box(p);
 
-const mapped1 = box1(mapf)(p => p.firstName);
+const mapped1 = box1(fmap)(p => p.firstName);
 
-const mapped2 = mapped1(mapf)(firstName => firstName.toUpperCase());
+const mapped2 = mapped1(fmap)(firstName => firstName.toUpperCase());
 
 getContent(box1);     // { firstName: "Tyrion", lastName: "Lannister" } 
 getContent(mapped1)   // "Tyrion"
@@ -148,7 +148,7 @@ Dieses "Design Pattern" oder diese apply-Funktion zusammen mit der Box-Funktion 
 
 ```javascript
 // Implementation
-const apply = x => f => g => g(f(mapf)(x)(id));
+const apply = x => f => g => g(f(fmap)(x)(id));
 
 // Anwendung
 Box(x => x + 5)
@@ -166,7 +166,7 @@ Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte an
 ```javascript
 // Implementation
 const liftA2 = f => fx => fy =>
-        fx(mapf)(f)(apply)(fy)
+        fx(fmap)(f)(apply)(fy)
 
 // Anwendung
 liftA2(fName => lName => fName + " " + lName)
@@ -176,7 +176,7 @@ liftA2(fName => lName => fName + " " + lName)
 
 ### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
 
-Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelen ZwischenResultate zu untersuchen in einer Pipeline.
+Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelne Zwischenresultate zu untersuchen in einer Pipeline.
 
 {% hint style="info" %}
 Wichtig bei der `debug` Funktion ist, das die Funktion `fold` am Schluss zwingend verwendet werden muss, um das letzte debug Statement auch auszuführen.
@@ -191,33 +191,33 @@ const debug = x => {
 
 // Anwendung
 Box(10)
-    (mapf)(debug)        // Ausgabe auf der Konsole: 10
-    (mapf)(n => n + 2)   
+    (fmap)(debug)        // Ausgabe auf der Konsole: 10
+    (fmap)(n => n + 2)   
     (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
 
 ## Verwendung der Box mit dem Maybe Type
 
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert. Somit wird das porzessieren mit dem Maybe type vereinfacht und die maybe types können verknüpft werden. 
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert. Somit wird das prozessieren mit dem Maybe type vereinfacht und die maybe types können verknüpft werden. 
 
 {% hint style="info" %}
-Wenn irgendwo ein Nothing zurückgelifert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
+Wenn irgendwo ein Nothing zurück geliefert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
 {% endhint %}
 
-### mapfMaybe
+### fmapMaybe
 
-Die Funktion `mapfMaybe` entspricht der Funktion [`mapf`](box-maybebox.md#mapf) für einen [Maybe Type](maybe.md#maybe-type).
+Die Funktion `fmapMaybe` entspricht der Funktion [`fmap`](box-maybebox.md#fmap) für einen [Maybe Type](maybe.md#maybe-type).
 
 ```javascript
 // Implementation
-const mapfMaybe = x => f => g => g(mapMaybe(x)(f));
+const fmapMaybe = x => f => g => g(mapMaybe(x)(f));
 
 // Anwendung
 const maybePerson = () => Just({firstName: "Tyrion", lastName: "Lannister"});
 
 Box(maybePerson()) // { Just({firstName: "Tyrion", lastName: "Lannister"}) }
-        (mapfMaybe)(p => p.firstName)                     // { Just("Tyrion") }
-        (mapfMaybe)(firstName => firstName.toUpperCase()) // { Just("TYRION") }
+        (fmapMaybe)(p => p.firstName)                     // { Just("Tyrion") }
+        (fmapMaybe)(firstName => firstName.toUpperCase()) // { Just("TYRION") }
 ```
 
 ### foldMaybe
@@ -234,7 +234,7 @@ const foldMaybe = mapMaybe;
 
 // Anwendung
 Box(Just(10))                                // { Just(10) }
-        (mapfMaybe)(x => x + 10)             // { Just(20) }
+        (fmapMaybe)(x => x + 10)             // { Just(20) }
         (foldMaybe)(num => num + '$')        // Just("20$")
 ```
 
@@ -290,7 +290,7 @@ Falls ein Parameter \(fx, fy oder beide\) Nothing sind, ist das Gesamtergebnis d
 // Implementation
 const liftA2Maybe = f => fx => fy =>
     Box(fx)
-        (mapfMaybe)(f)
+        (fmapMaybe)(f)
         (apMaybe)(fy)
         
 // Anwendung
