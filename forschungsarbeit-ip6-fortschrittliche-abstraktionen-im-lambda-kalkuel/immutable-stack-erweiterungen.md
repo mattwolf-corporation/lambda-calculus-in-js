@@ -171,3 +171,31 @@ maybeIndexOfElement(stackWithNumbers)(100)  // Nothing
 
 ### containsElement
 
+Eine Funktion, die einen Stack und ein Element annimmt. Gibt `True` \(ChurchBoolean\) zurück, wenn das Element im Stack vorhanden ist. Gibt `False` \(ChurchBoolean\) zurück, wenn das Element nicht im Stack vorhanden ist.
+
+```javascript
+const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
+
+containsElement(stackWithNumbers)(-1) === False
+containsElement(stackWithNumbers)( 0) === True
+containsElement(stackWithNumbers)(11) === True
+containsElement(stackWithNumbers)(22) === True
+containsElement(stackWithNumbers)(33) === True
+containsElement(stackWithNumbers)(44) === False
+```
+
+### convertElementsToStack
+
+Die Funktion `convertElementsToStack`  erlaubt es, mit dem [Spread Operator](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Operators/Spread_syntax) \(...\), Einzelnen Werte mit oder ohne ein Array als Parameter für die Funktion zu übergeben. Die Elementen zusammen gibt einen neuen Stack mit den Elementen zurück.
+
+```javascript
+const stackWithValues = convertElementsToStack(1,2,3);
+
+convertStackToArray( stackWithValues ) === [1,2,3]
+
+
+const stackWithValues2 = convertElementsToStack(1,2,3,...['a','b','c']);
+
+convertStackToArray( stackWithValues2 ) === [1,2,3,'a','b','c']
+```
+
