@@ -149,8 +149,6 @@ const checkElementByFunction = f => (...elems) =>
 
         }
     }, {values: [], isFailed: false});
-    
-    if
 ```
 
 
@@ -173,13 +171,34 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 
 ## Fazit / Erkenntnisse
 
-Wie brauchbar/nützlich ist LK mit JS?
+**Wie brauchbar/nützlich ist LK mit JS? Erkenntnisse aus der Arbeit**
 
-Die Konstruktionen sind Implementierungen von funktionalen Konzepten.
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher und wartbarer machen. Ausserdem reduziert typische Fehler, die mit null oder undefined Werten auftreten. Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekte leidet die Übersicht von grossen Anwendungen und man hat keine Ahnung mehr was wo genau geschieht. Schon durch einen kleinen Einsatz von diesen Konstruktionen können bestimmte Teile in einer Applikation einfacher und sicherer werden. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen. Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter.  
 
-Durch den Einsatz von diesen Konstruktionen, werden Konzepte, die aus der Funktionalen Programmierung stammen eingebunden. Die Konzepte bringen folgende Vorteile mit sich:
 
-Die erstellten Konstruktionen bieten die möglichkeit Konzepte aus der Funktionalen Programmierung wie zum Beispiel \(Maybe Type\) einzubinden und zu verwenden. Durch den Einsatz von diesen Konstruktionen 
+**‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
+
+-        Für die unveränderlichen Datenstrukturen Stack und ListMap könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
+
+-        Mögliche Funktionen: findFirst, stream artige Funktionen
+
+-         
+
+**Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?**
+
+-        Bei bestimmten Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
+
+-        Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
+
+-        Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
+
+-         ****
+
+**Zusammenfassung was Sie wie erreicht haben.**
+
+**Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler**
+
+Beim ersten Entwurf des Observables wurde für die Verwaltung der Listener die Stack Datenstruktur verwendet. Bei der Implementierung für das abmelden/entfernen der Listener wurde klar das dies mit einem Stack nicht bzw. nicht elegant gelöst werden kann. Dabei kam die Idee einer HashMap auf umd einen Listener per Schlüssel abzuspeichern und wieder zu entfernen. Das Problem einer HashMap ist das dies ein gute Hash-Funktion voraussetzt und die ist eine bekanntlich Schweres Problem in der Informatik. Auch für den direkten Zugriff auf eine HashMap wussten wir nicht wie wir dies implementieren wolltemn. Da kam uns die Idee das wir eine Liste mit Schlüssel-Wertpaaren entwicklen können ohne diese zu Hashen und für den Zugriff mit Iteration durch die Liste zugreifen. Der Schlüssel sollte eindeutig und mit dem JavaScript === Operator auf Gleichheit verglichen werden können. Eine alternative Implementierung wäre eine Art Binär Baum, dies wäre aber sehr komplex und nicht nötig für unsere Einsatz Zwecke. Vorteil von unsere Implementierung wir verwenden den bereits existierenden Stack und erweitern diesen und so enstand die ListMap Datenstruktur.
 
 
 
@@ -189,21 +208,4 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
 * Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
-
-
-
-* Zusammenfassung was Sie wie erreicht haben.
-* Erkenntnisse aus der Arbeit
-* Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?
-* Vergleich mit der Aufgabenstellung, Projektklärung.
-* Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht
-
-  funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler&gt;
-
-* Potentielle Erweiterungen, Vorschläge für nächste Schritte.
-* Achtung: Persönliche Erfahrungen und Befindlichkeiten gehören nicht in
-
-  eine Thesis.
-
-
 
