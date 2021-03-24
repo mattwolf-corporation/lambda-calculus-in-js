@@ -175,7 +175,7 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 
 #### Konzepte aus der funktionalen Programmierung
 
-Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltel/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
 
 #### Nutzen & Vorteile
 
@@ -185,8 +185,7 @@ Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klare
 
 #### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
 
-Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen und den erwartetetn "Typen". Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter.   
-
+Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen und den erwartetetn "Typen". Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter. 
 
 **‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
 
@@ -194,7 +193,8 @@ Mögliche Erweiterungen wären:
 
 * Für die unveränderlichen Datenstrukturen **Stack** und **ListMap** könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
 * Mögliche Funktionen: findFirst, stream artige Funktionen
-* 
+* Weitere Konzepte der funktionalen Programmierung umsetzen
+
 **\(Was läuft? Was läuft nicht?\) ????  Wo kann die Arbeit verbessert werden?**
 
 * Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
