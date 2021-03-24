@@ -24,6 +24,8 @@ const debug = x => {
     return x;
 }
 
+const $_$ = 1;
+
 
 // maybe box methods
 const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
