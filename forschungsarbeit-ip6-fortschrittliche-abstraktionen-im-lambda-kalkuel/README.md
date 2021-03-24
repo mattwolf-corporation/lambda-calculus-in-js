@@ -171,21 +171,9 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
         ( convertArrayToStack(elements) );
 ```
 
-
-
-
-
-### Ausgangslage
-
-IP5 & Lambda Kalkül
-
-### Was wurde erreicht
-
-resultate
-
-
-
 ### Fazit
+
+
 
 
 
