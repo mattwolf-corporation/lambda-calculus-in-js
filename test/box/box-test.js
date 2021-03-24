@@ -405,26 +405,33 @@ boxSuite.add("liftA2", assert => {
     assert.equals( getContent(result2), "Hello --- World");
 });
 
-boxSuite.add("maybe.ap", assert => {
+boxSuite.add("maybe.app", assert => {
 
     const box1 = Box(Just(x => x + 5))
-                        (appMaybe)(Just(10));
+                  (appMaybe)(Just(10));
 
     const res = getContent(box1)
-                    (_ => console.error('sdv'))
-                    (id)
+                 (_ => 'fail')
+                 (id)
 
     assert.equals(res, 15);
 
+    const box3 = Box(Nothing)
+                    (appMaybe)(Just(10));
 
+    const res3 = getContent(box3)
+                  (_ => 'fail')
+                  (id)
+
+    assert.equals(res3, 15);
 
     const box2 = Box(Just( x => y => x + y))
-                        (appMaybe)(Just(10))
-                        (appMaybe)(Just(14));
+                  (appMaybe)(Just(10))
+                  (appMaybe)(Just(14));
 
     const res2 = getContent(box2)
-                        (_ => console.error('sdv'))
-                        (id)
+                  (_ => console.error('sdv'))
+                  (id)
 
     assert.equals(res2, 24);
 });
