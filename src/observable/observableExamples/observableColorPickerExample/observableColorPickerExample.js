@@ -2,14 +2,14 @@ import {Observable, addListener, setValue, getValue, newListener} from "../../ob
 import {firstOfTriple, secondOfTriple, thirdOfTriple, triple} from "../../../lambda-calculus-library/lambda-calculus.js";
 import {toHexString, toRGBString, addUnSubscriberToggle, creatHtmlUnsubscribeToggle} from "../observableUtilities.js";
 import {eitherDomElement, eitherElementsOrErrorsByFunction} from "../../../maybe/maybe.js";
-import {Box, fold, mapf} from "../../../box/box.js";
+import {Box, fold, fmap} from "../../../box/box.js";
 import {reduce} from "../../../stack/stack.js";
 import {convertListMapToArray} from "../../../listMap/listMap.js";
 
 // Either all the necessary Dom-Element exist or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)("resultColor", "rgbValue", "hex", "hsl", "inputR", "inputG", "inputB","rangeR", "rangeG", "rangeB")
 (err => document.body.innerHTML = Box(err)
-                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (result => {
 
