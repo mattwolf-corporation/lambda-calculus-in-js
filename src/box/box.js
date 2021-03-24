@@ -5,7 +5,7 @@ export {
     Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, getContent,
-    apply, liftA2, apMaybe, liftA2Maybe
+    apply, liftA2, apMaybe, liftA2Maybe, pureMaybe
 }
 
 // Box === Monade
@@ -29,15 +29,20 @@ const debug = x => {
 const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
 const flatMapMaybe  = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap
 
+// TODO: rename to fmap
 const mapfMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
 const foldMaybe     = mapMaybe;                                             // map and then get Content out of the box
 const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));                 // map ant then flatten (returns a box) --> for chaining
 // const apMaybe    = x => f => g => g(x(() => x)(func => mapMaybe(f)(func)));
 const apMaybe       = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
 
+const pureMaybe = f => Just(f);
+
 const liftA2Maybe = f => fx => fy =>
     Box(fx)
         (mapfMaybe)(f)
         (apMaybe)(fy)
+
+
 
 

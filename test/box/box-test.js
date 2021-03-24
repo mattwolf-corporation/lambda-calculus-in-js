@@ -3,7 +3,7 @@ import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
     chainMaybe, getContent, apply,
-    liftA2, apMaybe, liftA2Maybe
+    liftA2, apMaybe, liftA2Maybe, pureMaybe
 } from "../../src/box/box.js";
 import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing, eitherTryCatch} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
@@ -493,6 +493,52 @@ boxSuite.add("box with Http", async assert => {
     //     console.log(res)
     //     return JSON.parse(res)
     // }).then(x => console.log(x.value)).catch(e => console.error(e))
+});
+
+boxSuite.add("playground", async assert => {
+
+    const findPerson = Just({firstName: "Urs", lastName: "Mueller"});
+
+    const result = liftA2Maybe( x => y => x + y)
+                                    (Just(10))
+                                    (Just(5));
+
+    const result2 = Box(pureMaybe(x => y => x + y))
+                            (apMaybe)(Just(10))
+                            (apMaybe)(Just(5));
+
+    const res1 = getContent(result) (() => console.error("failed")) (id);
+    const res2 = getContent(result2) (() => console.error("failed")) (id);
+
+    console.log(res1);
+    console.log(res2);
+    console.log(res1 === res2);
+
+    const withDraw      = amount => bankAcc   => token => Just(100);
+    const getBankAcc    = userName  =>                    Just("CH_8080_2424");
+    const getLoginToken = secret    =>                    Just("TH68AL2TM1");
+
+    const maybeMoney = userName => secret => amount =>
+                                                Box(pureMaybe(withDraw(amount)))
+                                                        (apMaybe)(getBankAcc(userName))
+                                                        (apMaybe)(getLoginToken(secret))
+                                                        (foldMaybe)(id);
+
+    // search post in db -> maybe post
+    const findPost = num => Just({title: "first post", desc: "random"});
+    const findPostJs = num => ({title: "first post", desc: "random"});
+
+    const getTitleJs = postNum => {
+        const post = findPostJs(postNum);
+        if (post)
+            return post.title
+        else
+            return null;
+    }
+
+
+    const getTitle = postNum => Box(findPost(postNum))
+                                        (fold)(post => post.title);
 });
 
 
