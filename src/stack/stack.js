@@ -105,10 +105,9 @@ const hasPre = s => not(is0(s(stackIndex)));
  */
 const getPreStack = s => s(stackPredecessor)
 
-
 /**
  * A function that takes a stack and a value.
- * The function returns a new stack with the pushed value
+ * The function returns a new stack with the pushed value.
  *
  * @haskell push :: stack -> a -> stack
  * @param  {stack} s
@@ -349,7 +348,8 @@ const getElementByJsnumIndex = s => i => {
     };
     return (times
                 (getElement)(initArgsPair)
-            )(snd);
+            )
+            (snd);
 };
 
 /**
@@ -429,7 +429,7 @@ const containsElement = s => element =>
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
 /**
- * A function that takes an javascript array and converts the array into a stack. The function returns a stack
+ * A function that takes an javascript array and converts the array into a stack. The function returns a stack.
  *
  * @param  {Array} array
  * @return {stack} stack
