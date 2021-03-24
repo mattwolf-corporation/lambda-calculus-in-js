@@ -203,7 +203,13 @@ Mögliche Erweiterungen wären:
 
 **Was wurde erreicht - Zusammenfassung**
 
-\*\*\*\*
+Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda Kalkül\) bestehend aus:
+
+* Funktionale Art für die Fehlerbehandlung mit Maybe und Either Type
+* Immutable Datenstruktur ListMap
+* Observable
+* diverse Erweiterungen für die immutable Datenstruktur Stack
+* Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
 
 **Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler**
 
