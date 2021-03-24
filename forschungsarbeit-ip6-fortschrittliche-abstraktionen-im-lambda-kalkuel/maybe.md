@@ -93,7 +93,7 @@ const maybeTruthy = value =>
 
 ### maybeDomElement
 
-Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem Element zurückgegeben ansonsten Nothing.
+Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem HTML-Element zurückgegeben ansonsten Nothing.
 
 ```javascript
 const maybeDomElement = elemId =>
@@ -104,13 +104,24 @@ const maybeDomElement = elemId =>
 
 ### maybeNumber
 
-Diese Funktion nimmt einen Wert entgegen und prüft ob dieser vom Typ Integer ist. Falls es sich nicht um ein Wert vom Typ Integer handelt wird ein Nothing zurückgegeben.
+Diese Funktion nimmt einen Wert entgegen und prüft ob dieser vom Typ Integer \(JavaScript-Zahl\) ist. Falls es sich nicht um ein Wert vom Typ Integer handelt wird ein Nothing zurückgegeben.
 
 ```javascript
 const maybeNumber = val =>
     eitherNumber(val)
         (_ => Nothing)
         (_ => Just(val));
+```
+
+### maybeFunction
+
+Die `maybeFunction` Funktion überprüft ob ein Wert vom Typ _function_ ist.
+
+```javascript
+const eitherFunction = val =>
+    typeof val === "function"
+        ? Right(val)
+        : Left(`'${val}' is not a function`);
 ```
 
 ### mapMaybe
@@ -135,8 +146,8 @@ Die Funktion `flatMapMaybe` wird verwendet um eine maybe Type zu mappen und ansc
 const flatMapMaybe = maybe => f => maybe (() => maybe) (x => f(x));
 
 // Anwendung
-flatMapMaybe( Just(10) ) (num => Just(num * 2));    // Just (20)
-flatMapMaybe( Just(10) ) (num => Nothing);          // Nothing
-flatMapMaybe( Nothing )  (num => Just(num * 2));    // Nothing
+flatMapMaybe( Just(10) )(num => Just(num * 2));    // Just (20)
+flatMapMaybe( Just(10) )(num => Nothing      );    // Nothing
+flatMapMaybe( Nothing  )(num => Just(num * 2));    // Nothing
 ```
 
