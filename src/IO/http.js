@@ -8,7 +8,7 @@ export {HttpGet, HttpGetSync}
  * @return {function(callback:function): void}
  * @example
  * HttpGet(jokeUrl)
- * (response => document.getElementById("joke").innerText = JSON.parse(response).value)
+ * (response => getDomElement("jokeText").textContent = JSON.parse(response).value)
  */
 const HttpGet = url => callback => {
     const xmlHttp = new XMLHttpRequest();
@@ -31,7 +31,7 @@ const HttpGet = url => callback => {
  * @example
  * Box( HttpGet(jokeUrl) )
  *  (mapf)( JSON.parse )
- *  (fold)( x => document.getElementById("joke").innerText = x.value) )
+ *  (fold)( x => getDomElement("joke").textContent = x.value) );
  */
 const HttpGetSync = url => {
     const xmlHttp = new XMLHttpRequest();
