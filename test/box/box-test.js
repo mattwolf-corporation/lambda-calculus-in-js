@@ -9,6 +9,7 @@ import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
 import {HttpGetSync, HttpGet} from "../../src/IO/http.js";
+import {convertObjToListMap, filterListMap, mapListMap, reduceListMap} from "../../src/listMap/listMap";
 
 
 const boxSuite = TestSuite("Box");
@@ -514,15 +515,64 @@ boxSuite.add("playground", async assert => {
     console.log(res2);
     console.log(res1 === res2);
 
-    const withDraw      = amount => bankAcc   => token => Just(100);
-    const getBankAcc    = userName  =>                    Just("CH_8080_2424");
-    const getLoginToken = secret    =>                    Just("TH68AL2TM1");
+    const createBankAccNr = name => `CH_9090_${name.toUpperCase()}`;
+    const BankAccount = name => secret => initialMoney =>
+                                convertObjToListMap({name, secret, initialMoney, accountNr: createBankAccNr(name)});
 
+
+    let Bank = convertArrayToStack([
+        BankAccount("Urs")("1234")("1000"),
+        BankAccount("Beni")("wrt23")("100"),
+        BankAccount("Lukas")("g4fg7")("250"),
+        BankAccount("Peter")("2gd6")("875")
+    ]);
+
+    const maybeElementByJsnumIndex = s => i => maybeNotNullAndUndefined(getElementByJsnumIndex(s)(i));
+
+    const getAccNr = bankAcc => getElementByKey(bankAcc)("accountNr");
+
+    const maybeBankAccNr = bank => userName =>
+        Box(filter(bankAcc => getElementByKey(bankAcc)("name") === userName)(bank))
+                (fold)(stack => convertToJsBool(size(stack)) === 1
+                                        ? maybeElementByJsnumIndex(stack)(1)
+                                        : Nothing
+                )
+                (foldMaybe)(getAccNr);
+
+
+
+    const hashFunc = secret => "XYZ_" + secret.length + secret.toUpperCase().substring(0, 2);
+
+    const maybeLoginToken = bank => secret =>
+                Box(filter(bankAcc => getElementByKey(bankAcc)("secret") === secret)(bank))
+                    (fold)(stack => convertToJsBool(size(stack)) === 1
+                                        ? Just(hashFunc(secret))
+                                        : Nothing
+                    );
+
+
+
+    // Just(pair(bank)(withDrawAmount))
+    // Nothing
+    const withDraw = bank => amount => bankAccNr => token => map(bankAcc => {
+
+        if(bankAccNr === getElementByKey("accountNr")
+            && hashFunc(getElementByKey("secret")) === token){
+
+        }else{
+            return
+        }
+    })
+
+
+
+    const $_$ = appMaybe;
     const maybeMoney = userName => secret => amount =>
                                                 Box(pureMaybe(withDraw(amount)))
-                                                        (appMaybe)(getBankAcc(userName))
-                                                        (appMaybe)(getLoginToken(secret))
+                                                        ($_$)(getBankAcc(userName))
+                                                        ($_$)(maybeLoginToken(secret))
                                                         (foldMaybe)(id);
+
 
     // search post in db -> maybe post
     const findPost = num => Just({title: "first post", desc: "random"});
@@ -539,6 +589,8 @@ boxSuite.add("playground", async assert => {
 
     const getTitle = postNum => Box(findPost(postNum))
                                         (fold)(post => post.title);
+
+    const test = (...elems) => ({...elems});
 });
 
 
