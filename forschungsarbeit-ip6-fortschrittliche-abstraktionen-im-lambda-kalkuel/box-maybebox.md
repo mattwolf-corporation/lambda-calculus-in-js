@@ -99,9 +99,9 @@ Box(5)                                 // { 5 }
  (fold)(n => String.fromCharCode(n));  // 'A'
 ```
 
-### chain \(flatMap\)
+### chain _\(flatMap\)_
 
-Die Funktion `chain` wird verwendet um ein _flatMap_ durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `fmap` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode chain. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
+Die Funktion `chain` wird verwendet um ein _flatMap_ durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `fmap` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode `chain`. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
 
 ```javascript
 // Implementation
@@ -197,9 +197,11 @@ Box(10)
  (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
 
+
+
 ## Verwendung der Box mit dem Maybe Type
 
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von maybe Types erleichtert. Somit wird das prozessieren mit dem Maybe type vereinfacht und die maybe types können verknüpft werden. 
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von Maybe Types erleichtert. Somit wird das prozessieren mit dem Maybe Type vereinfacht und die Maybe Types können verknüpft werden. 
 
 {% hint style="info" %}
 Wenn irgendwo ein Nothing zurück geliefert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
