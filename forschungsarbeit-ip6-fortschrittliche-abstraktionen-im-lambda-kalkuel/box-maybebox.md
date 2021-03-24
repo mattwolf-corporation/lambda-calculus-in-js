@@ -299,5 +299,9 @@ liftA2Maybe( x => y => x + y)
                 (Just(5)); // Just(15)
 ```
 
+### pureMaybe
+
+Diese Funktion ...
+
 
 
