@@ -234,10 +234,25 @@ listMapSuite.add("convert Object to ListMap", assert => {
     const result2 = convertObjToListMap(objWithObject);
 
     assert.churchNumberEquals(size(result2), n2);
-    assert.equals(getElementByIndex(result2)(n1)(fst), "a")
-    assert.equals(JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld', short: 'HW'}))
-    assert.equals(getElementByIndex(result2)(n2)(fst), "b")
-    assert.equals(JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda', short: 'λ'}))
+    assert.equals( getElementByIndex(result2)(n1)(fst), "a")
+    assert.equals( JSON.stringify(getElementByIndex(result2)(n1)(snd)), JSON.stringify({txt: 'HelloWorld', short: 'HW'}))
+    assert.equals( getElementByIndex(result2)(n2)(fst), "b")
+    assert.equals( JSON.stringify(getElementByIndex(result2)(n2)(snd)), JSON.stringify({txt: 'Lambda', short: 'λ'}))
+
+
+    // Person-Constructor
+    const personCtor = fstName => lstName => age => convertObjToListMap({fstName, lstName, age});
+
+    // creat Persons
+    const chuck = personCtor("Chuck")("Norris")(42);
+    const peter = personCtor("Peter")("Pan")(102);
+
+    assert.equals( getElementByKey(chuck)( "fstName" ), "Chuck"  );
+    assert.equals( getElementByKey(chuck)( "lstName" ), "Norris" );
+    assert.equals( getElementByKey(chuck)( "age"     ), 42       );
+    assert.equals( getElementByKey(peter)( "fstName" ), "Peter"  );
+    assert.equals( getElementByKey(peter)( "lstName" ), "Pan"    );
+    assert.equals( getElementByKey(peter)( "age"     ), 102      );
 });
 
 
