@@ -10,7 +10,7 @@ description: >-
 
 ## Ein kleines Beispiel
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei muss als Parameter eine Funktion erstellt werden, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
+Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei wir dem Listener als Parameter eine Funktion erstellt, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
 
 ```javascript
 let listenerVariable; // undefined
@@ -18,7 +18,7 @@ const listenerExample = newListener( newValue => oldValue  => listenerVariable =
 ```
 
 Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
-Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert nimmt.  
+Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert mitteilt.  
 Mit der Funktion `addListener`  wird der Listeners an den Observable hinzugefügt. 
 
 ```javascript
@@ -27,14 +27,14 @@ let obsExample = Observable(42)                     // new Observable with initV
 ```
 
 {% hint style="info" %}
-Nachdem einer Listener mit einem Observable verknüpft ist, erhält der Listener sofort den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Fall die Zahl '42'. 
+Nachdem einer Listener mit einem Observable verknüpft ist, erhält der Listener sofort den aktuellsten Stand \(initialen Wert\) vom Observable. In diesem Beispiel die Zahl '42'. 
 
 ```javascript
 listenerVariable   // 42
 ```
 {% endhint %}
 
-Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus den Observable zurück.
+Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus dem Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
@@ -154,8 +154,6 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
 
-### 
-
 ### Implementation
 
 {% hint style="info" %}
@@ -232,8 +230,6 @@ In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, 
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
 
-
-
 ### Implementation
 
 ```javascript
@@ -288,6 +284,30 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 ```
 
 Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
+
+> ## \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)\*\*\*\*
+>
+> Mit der Funktion `HttpGet`   werden asynchrone Daten von einem Webserver angefordert. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und gibt also zweiten Parameter ein _Callback_ zurück mit der Response vom Server.
+>
+> ####  Beispiel:
+>
+> ```javascript
+> HttpGet(jokeUrl)
+>  (response => getDomElement("joke").textContent = JSON.parse(response).value);
+> ```
+
+> ## \*\*\*\*[**HttpGetSync** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L36)\*\*\*\*
+>
+> Analog zur `HttpGet`  gibt es die Synchrone-Variante ohne Callback: `HttpGetSync`.  
+> Denn Callback braucht es nicht, da der Response direkt der Rückgabewert der Funktion ist.
+>
+> #### Beispiel mit [Box](box-maybebox.md):
+
+> ```javascript
+> Box( HttpGet(jokeUrl) )
+>  (mapf)( JSON.parse )
+>  (fold)( x => getDomElement("joke").textContent = x.value) )
+> ```
 
 ## Observable: Dokumentation & Implementation
 
