@@ -6,12 +6,10 @@ description: >-
 
 # Immutable Stack Erweiterungen
 
-Die Funktionen auf dieser Seite sind neu zum [Immutable Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md) hinzugekommen.
-
-{% page-ref page="../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md" %}
+Die Funktionen auf dieser Seite sind neu zum Immutable Stack hinzugekommen.
 
 {% hint style="danger" %}
-Der Index bei einem Stack beginnt bei 1. Der Index 0 ist reserviert für den [`emptyStack`](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#empty-stack). Am Index 0 steht immer das Element `id`.
+Der Index bei einem Stack beginnt bei 1. Der Index 0 ist reserviert für den emptyStack. Am Index 0 steht immer das Element `id`.
 {% endhint %}
 
 {% hint style="info" %}

@@ -717,42 +717,12 @@ stackSuite.add("containsElement ", assert => {
     assert.churchBooleanEquals( containsElement(stackWithNumbers)(33),True)
     assert.churchBooleanEquals( containsElement(stackWithNumbers)(44), False)
 
-    assert.churchNumberEquals( n0 , False) // n0 === False
-
-
     const stackWithStrings = convertArrayToStack(["a", "b", "c"]);
 
     assert.churchBooleanEquals( containsElement(stackWithStrings)("a"), True)
     assert.churchBooleanEquals( containsElement(stackWithStrings)("b"), True)
     assert.churchBooleanEquals( containsElement(stackWithStrings)("c"), True)
     assert.churchBooleanEquals( containsElement(stackWithStrings)("xx"), False)
-});
-
-stackSuite.add(" sdgsgsd", assert => {
-    // const eitherElements = maybeFunc => (...elements) => {
-    //     const stackWithElems = convertArrayToStack(elements);
-    //     //const values = map(key => maybeFunc(key))(stackWithElems);
-    //     // const pairs = elements.map(key => {
-    //     //     const maybeElem = maybeFunc(key);
-    //     //     return pair(key)(maybeElem);
-    //     // });
-    //
-    //     //const listM = zipListMap(stackWithElems)(values);
-    //
-    //     // reduce((acc, curr) => mapMaybe(curr)(val => mapMaybe()))(emptyStack)(s)
-    //     return reduce
-    //     ((acc, curr) => flatMapMaybe(acc)(listMap => mapMaybe(maybeFunc(curr))(val => push(listMap)( pair(curr)(val) ) ) )
-    //     )
-    //     (Just(emptyListMap))
-    //     (stackWithElems)
-    // }
-    //
-    // eitherElements(str => {
-    //     const elem = document.getElementById(str);
-    //     return elem ? Just(elem) : Nothing;
-    // })("inputText", "newValue")(_ => console.error("wtffff!"))(
-    //     stack => console.log("Erfolg!!!")
-    // )
 });
 
 stackSuite.report();

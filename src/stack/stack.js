@@ -1,73 +1,18 @@
-import {
-    id,
-    beq,
-    True,
-    False,
-    showBoolean as show,
-    jsBool,
-    pair,
-    triple,
-    fst,
-    snd,
-    firstOfTriple,
-    secondOfTriple,
-    thirdOfTriple,
-    not,
-    and, or,
-    If, Then, Else, K, B, churchBool,
-    LazyIf
-} from '../lambda-calculus-library/lambda-calculus.js'
-
-import {
-    maybeTruthy,
-    getOrDefault,
-    eitherFunction,
-    eitherNumber,
-    Left,
-    Right,
-    Just,
-    Nothing, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber
-} from "../maybe/maybe.js";
-
-import {
-    n0,
-    n1,
-    n2,
-    n3,
-    n4,
-    n5,
-    n6,
-    n7,
-    n8,
-    n9,
-    pred,
-    succ,
-    jsNum,
-    is0, gt, leq, eq, phi, churchAddition, churchSubtraction,
-    churchNum, min, max
-} from '../lambda-calculus-library/church-numerals.js'
-
-export {
-    stack, stackIndex, stackPredecessor, stackValue, emptyStack,
-    hasPre, push, pop, head, size, reduce, filter, map,
-    getElementByIndex, logStackToConsole,
-    startStack, pushToStack, reverseStack, filterWithReduce,
-    mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach,
-    forEachOld, removeByIndex, getPreStack, concat, flatten, zip,
-    zipWith, zipWithOneLiner, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByIndex, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex
-}
+import {id, True, False, jsBool, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not, and, If, Then, Else, churchBool, LazyIf} from '../lambda-calculus-library/lambda-calculus.js'
+import {eitherFunction, Left, Right, Just, Nothing, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber} from "../maybe/maybe.js";
+import {n0, n1, succ, jsNum, is0,  leq, eq, churchSubtraction, churchNum, min,} from '../lambda-calculus-library/church-numerals.js'
+export {stack, stackIndex, stackPredecessor, stackValue, emptyStack, hasPre, push, pop, head, size, reduce, filter, map, getElementByIndex, logStackToConsole, startStack, pushToStack, reverseStack, filterWithReduce, mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach, forEachOld, removeByIndex, getPreStack, concat, flatten, zip, zipWith, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByIndex, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex}
 
 /**
  * Generic Types
- * @typedef {*} a
- * @typedef {*} b
  * @typedef {function} pair
  * @typedef {function} churchBoolean
- * @typedef {function} churchNumber
  * @typedef {function} stack
  * @typedef {function} stackOp
- * @typedef {number} JsNumber
  * @typedef {function} maybe
+ * @typedef {function} either
+ * @typedef {function} churchNumber
+ * @typedef {number}   jsNumber
  */
 
 /**
@@ -98,14 +43,12 @@ const stack = triple;
  */
 const emptyStack = stack(n0)(id)(id);
 
-
 /**
  * A help function to create a new stack
  *
  * @function
- * @type function(Function): Stack
- * @param {function} f
- * @return {stack} emptyStack
+ * @param  {function} f
+ * @return {stack} stack
  */
 const startStack = f => f(emptyStack);
 
@@ -113,7 +56,7 @@ const startStack = f => f(emptyStack);
  * stack getter function - get the Index (first of a triple)
  *
  * @haskell stackIndex :: a -> b -> c -> a
- * @function stackIndex
+ * @function
  * @return {churchNumber} index/size
  * @example
  * stack(n0)(emptyStack)(42)(stackIndex) === n0
@@ -124,32 +67,30 @@ const stackIndex = firstOfTriple;
  * stack getter function - get the Predecessor (second of a triple)
  *
  * @haskell stackPredecessor :: a -> b -> c -> b
- * @function stackPredecessor
+ * @function
  * @return {stack|id} predecessor stack or id if emptyStack
  * @example
  * stack(n0)(emptyStack)(42)(stackPredecessor) === emptyStack
  */
 const stackPredecessor = secondOfTriple;
 
-
 /**
  * stack getter function - get the Value (third of a triple)
  *
  * @haskell stackValue :: a -> b -> c -> c
- * @function stackValue
+ * @function
  * @return {*} value
  * @example
  * stack(n0)(emptyStack)(42)(stackValue) === 42
  */
 const stackValue = thirdOfTriple;
 
-
 /**
  * A function that takes a stack and returns a church-boolean, which indicates whether the stack has a predecessor stack
  *
  * @haskell: hasPre :: a -> churchBoolean
  * @function hasPredecessor
- * @param {stack} s
+ * @param  {stack} s
  * @return {churchBoolean} churchBoolean
  */
 const hasPre = s => not(is0(s(stackIndex)));
@@ -159,18 +100,17 @@ const hasPre = s => not(is0(s(stackIndex)));
  *
  * @haskell getPreStack :: stack -> stack
  * @function getPredecessorStack
- * @param {stack} s
- * @return {stack} predecessor of that stack
+ * @param  {stack} s
+ * @return {stack} predecessor stack of that stack
  */
 const getPreStack = s => s(stackPredecessor)
 
-
 /**
  * A function that takes a stack and a value.
- * The function returns a new stack with the pushed value
+ * The function returns a new stack with the pushed value.
  *
  * @haskell push :: stack -> a -> stack
- * @param {stack} s
+ * @param  {stack} s
  * @return {stack} stack with value x
  */
 const push = s => stack(succ(s(stackIndex)))(s);
@@ -181,7 +121,7 @@ const push = s => stack(succ(s(stackIndex)))(s);
  * The second element of the pair is the head (the top element) of the stack.
  *
  * @haskell pop :: stack -> pair
- * @param {stack} s
+ * @param  {stack} s
  * @return {pair} pair
  */
 const pop = s => pair(getPreStack(s))(head(s));
@@ -191,7 +131,7 @@ const pop = s => pair(getPreStack(s))(head(s));
  *
  * @haskell head :: stack -> a
  * @function
- * @param {stack} s
+ * @param  {stack} s
  * @return {*} stack-value
  */
 const head = s => s(stackValue);
@@ -201,7 +141,7 @@ const head = s => s(stackValue);
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} s
+ * @param  {stack} s
  * @return {churchNumber} stack-index as church numeral
  */
 const getStackIndex = s => s(stackIndex);
@@ -211,7 +151,7 @@ const getStackIndex = s => s(stackIndex);
  *
  * @haskell size :: stack -> churchNumber
  * @function
- * @param {stack} s
+ * @param  {stack} s
  * @return {churchNumber} size (stack-index) as church numeral
  */
 const size = getStackIndex;
@@ -263,7 +203,8 @@ const reduce = reduceFn => initialValue => s => {
                                     (s)
                                     ((acc, curr) => push(acc)(curr))
                                     (emptyStack)
-                                )(thirdOfTriple);
+                                )
+                                (thirdOfTriple);
 
     return times
             (reduceIteration)
@@ -282,7 +223,7 @@ const reduce = reduceFn => initialValue => s => {
  * @sideeffect Logs a error when index is no Church- or JS-Number or valid number
  * @function
  * @param {stack} stack
- * @return {function(index:churchNumber|number) : * } stack-value or undefined when not exist or invalid
+ * @return {function(index:churchNumber|jsNumber) : * } stack-value or undefined when not exist or invalid
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
@@ -305,11 +246,12 @@ const getElementByIndex = stack => index =>
 
 /**
  * A function that takes a stack and an index (as Church- or JS-Number).
- * The function returns a maybe with the value or Nothing if not exist or illegal index argument
+ * The function returns a either Right with the value or if not exist or illegal index argument a Left with Error
+ *
  * @haskell eitherElementByIndex :: stack -> number -> either
  * @function
  * @param  {stack} stack
- * @return {function(index:churchNumber|number) : either } a either with Right(value) or Lef("Element Error msg")
+ * @return {function(index:churchNumber|jsNumber) : either } a either with Right(value) or Lef("Element Error msg")
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
@@ -337,9 +279,13 @@ const eitherElementByIndex = stack => index =>
     (id) // return value
 
 /**
+ * A function that takes a stack and an index as ChurchNumber.
+ * The function returns a either Right with the value or if not exist or illegal index argument a Left with Error
  *
- * @param stack
- * @return {function(*=): *}
+ * @haskell eitherElementByChurchIndex :: stack -> churchNumber -> either
+ * @function
+ * @param  {stack} stack
+ * @return {function(index:churchNumber) : either } a either with Right(value) or Lef("Element Error msg")
  */
 const eitherElementByChurchIndex = stack => index =>
     eitherFunction(index)
@@ -349,9 +295,13 @@ const eitherElementByChurchIndex = stack => index =>
             (e => Right(e))               );
 
 /**
+ * A function that takes a stack and an index as JsNumber.
+ * The function returns a either Right with the value or if not exist or illegal index argument a Left with Error
  *
- * @param stack
- * @return {function(*=): *}
+ * @haskell eitherElementByJsNumIndex :: stack -> jsNumber -> either
+ * @function
+ * @param  {stack} stack
+ * @return {function(index:jsNumber) : either } a either with Right(value) or Lef("Element Error msg")
  */
 const eitherElementByJsNumIndex = stack => index =>
     eitherNotNullAndUndefined( getElementByJsnumIndex(stack)(index) )
@@ -359,25 +309,25 @@ const eitherElementByJsNumIndex = stack => index =>
         (e => Right(e)                );
 
 /**
- * A function that takes a stack and an index as churchNumber.
- * The function returns the element at the passed index
+ * A function that takes a stack and an index as ChurchNumber.
+ * The function returns the element at the passed index or if not exist a undefined
  *
  * @function
- * @param {stack} s
- * @return { function(i:churchNumber) : * } stack-value
+ * @param  {stack} s
+ * @return {function(i:churchNumber) : *} stack-value
  */
 const getElementByChurchNumberIndex = s => i =>
     If( leq(i)(size(s)))
         (Then( head( ( churchSubtraction(size(s))(i) )(getPreStack)(s))))
         (Else(undefined));
 
-
 /**
- *  A function that takes a stack and an index as JsNumber. The function returns the element at the passed index
+ * A function that takes a stack and an index as JsNumber.
+ * The function returns the element at the passed index or if not exist a undefined
  *
  * @function
- * @param {stack} s
- * @return { function(i:Number) : * } stack-value
+ * @param  {stack} s
+ * @return {function(i:Number) : *} stack-value
  */
 const getElementByJsnumIndex = s => i => {
     if (i < 0){ return undefined; } // negativ index are not allowed
@@ -398,9 +348,9 @@ const getElementByJsnumIndex = s => i => {
     };
     return (times
                 (getElement)(initArgsPair)
-            )(snd);
+            )
+            (snd);
 };
-
 
 /**
  * A function that takes a stack and an element. The function returns the index (ChurchNumber) of the element from the passed stack.
@@ -408,7 +358,7 @@ const getElementByJsnumIndex = s => i => {
  *
  * @function
  * @param  {stack} s
- * @return { function(element:*) : churchNumber|undefined } a ChurchNumber or undefined
+ * @return {function(element:*) : churchNumber|undefined} a ChurchNumber or undefined
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
@@ -432,8 +382,9 @@ const getIndexOfElement = s => element => {
     const initArgsPair = pair(s)(undefined);
 
     return (times
-                (getIndex)(initArgsPair)
-            )(snd);
+             (getIndex)(initArgsPair)
+           )
+           (snd);
 }
 
 /**
@@ -442,7 +393,7 @@ const getIndexOfElement = s => element => {
  *
  * @function
  * @param  {stack} s
- * @return { function(element:*) : Just|Nothing } Just(withIndex) or Nothing
+ * @return {function(element:*): either} Just(withIndex) or Nothing
  */
 const maybeIndexOfElement = s => element => {
     const result = getIndexOfElement(s)(element)
@@ -465,7 +416,6 @@ const containsElement = s => element =>
         ( () => False )
         ( () => True  );
 
-
 /**
  *  A function that takes an stack and converts the stack into an array. The function returns an array
  *
@@ -479,7 +429,7 @@ const containsElement = s => element =>
 const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
 
 /**
- *  A function that takes an javascript array and converts the array into a stack. The function returns a stack
+ * A function that takes an javascript array and converts the array into a stack. The function returns a stack.
  *
  * @param  {Array} array
  * @return {stack} stack
@@ -491,25 +441,27 @@ const convertArrayToStack = array =>
     array.reduce((acc, curr) => push(acc)(curr), emptyStack);
 
 /**
- *  A function that takes an some Element and converts into a stack. The function returns a stack
+ * A function that takes an some Element and converts into a stack. The function returns a stack
  *
- * @param  {Array} elements
+ * @param  {...*} elements
  * @return {stack} stack
  * const stackWithValues = convertElementsToStack( 1,2,3 )
+ * convertStackToArray( stackWithValues ) === [1,2,3]
  *
- * convertArrayToStack( stackWithValues ) === [1,2,3]
+ * const stackWithValues2 = convertElementsToStack( 1,2,3,...['a','b','c'] )
+ * convertStackToArray( stackWithValues2 ) === [1,2,3,'a','b','c']
  */
 const convertElementsToStack = (...elements) =>
     convertArrayToStack(elements);
 
 /**
- *  A function that accepts a stack. The function returns the reversed stack.
+ * A function that accepts a stack and returns as a reversed stack.
  *
  * @param  {stack} s
  * @return {stack} stack (reversed)
  */
 const reverseStack = s =>
-    reduce((acc, curr) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s)(snd);
+    reduce((acc, _) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s)(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -556,8 +508,9 @@ const map = mapFunction => s => {
     const initArgsPair = pair(emptyStack)(reverseStack(s));
 
     return (times
-        (mapIteration)(initArgsPair)
-    )(fst);
+             (mapIteration)(initArgsPair)
+            )
+            (fst);
 };
 
 /**
@@ -565,7 +518,6 @@ const map = mapFunction => s => {
  *
  * @param  {function} filterFunction
  * @return {function(s:stack): stack} pair
- *
  * @example
  * const stackWithNumbers = convertArrayToStack([42,7,3])
  *
@@ -592,24 +544,26 @@ const filter = filterFunction => s => {
 
     return (times
                 (filterIteration)(initArgsPair)
-            )(fst);
+            )
+            (fst);
 };
 
 /**
  * A function that accepts a stack. The function performs a side effect. The side effect logs the stack to the console.
  *
+ * @function
+ * @sideffect log to Console
  * @param {stack} stack
  */
 const logStackToConsole = stack =>
     forEach(stack)((element, index) => console.log("At Index " + index + " is the Element " + JSON.stringify(element)));
-
 
 /**
  * stackOperationBuilder is the connector for Stack-Operations to have a Builderpattern
  *
  * @function stackOperationBuilder
  * @param   {stackOp} stackOp
- * @returns {function(s:stack):  function(x:*): function(f:function): function(Function) } pushToStack
+ * @returns {function(s:stack): function(x:*): function(f:function): function(Function) } pushToStack
  */
 const stackOpBuilder = stackOp => s => x => f =>
     f(stackOp(s)(x));
@@ -617,9 +571,9 @@ const stackOpBuilder = stackOp => s => x => f =>
 /**
  * pushToStack is a Stack-Builder-Command to push new values to the current stack
  *
+ * @function
  * @param   {stackOpBuilder} stackOp
  * @returns {function(pushToStack)} pushToStack
- *
  * @example
  * const stackOfWords = convertArrayToStack(["Hello", "World"])
  *
@@ -627,7 +581,6 @@ const stackOpBuilder = stackOp => s => x => f =>
  * getElementByIndex( stackOfWords )( 2 ) === "World"
  */
 const pushToStack = stackOpBuilder(push);
-
 
 /**
  * Foreach implementation for stack
@@ -654,12 +607,12 @@ const forEachOld = stack => f => {
         (iteration)(reversedStack);
 };
 
-
 /**
  * Foreach implementation for stack
  * A function that expects a stack and a callback function.
  * The current element of the stack iteration and the index of this element is passed to this callback function
  *
+ * @function
  * @param stack
  * @return {function(callbackFunc:function): void}
  * @example
@@ -697,11 +650,18 @@ const forEach = stack => callbackFunc => {
 };
 
 /**
- * Remove element by given Index and return the stack without the removed element.
- * If invalid index no element will be removed and returns the same stack.
+ * The removeByIndex function takes a stack and a Church- or JS-Number as an index.
+ * The function deletes the element at the passed index and returns the new stack.
+ * If the index does not exist, the same stack is returned.
  *
- * @param {stack} stack
- * @return {function(index:churchNumber|number) : stack } stack
+ * @function
+ * @param  {stack} stack
+ * @return {function(index:churchNumber|jsNumber) : stack } stack
+ * @example
+ * const stackWithStrings = convertArrayToStack(["Hello", "Haskell", "World"]);
+ *
+ * removeByIndex(stackWithStrings)(  2 )     // [ "Hello", "World" ]
+ * removeByIndex(stackWithStrings)( n2 )     // [ "Hello", "World" ]
  */
 const removeByIndex = stack => index => {
 
@@ -733,11 +693,12 @@ const removeByIndex = stack => index => {
 
         return times
                 (iteration)
-                (triple
-                    ( reversedStack )
-                    ( emptyStack    )
-                    ( n1            )
-        )(secondOfTriple);
+                    (triple
+                        ( reversedStack )
+                        ( emptyStack    )
+                        ( n1            )
+                    )
+                (secondOfTriple);
     };
 
     return eitherTryCatch(
@@ -754,11 +715,10 @@ const removeByIndex = stack => index => {
 /**
  * Takes two stacks and concat it to one. E.g.:  concat( [1,2,3] )( [1,2,3] ) -> [1,2,3,1,2,3]
  *
+ * @function
+ * @haskell concat :: [a] -> [a] -> [a]
  * @param  {stack} s1
  * @return {function(s2:stack)} a concat stack
- *
- * @haskell concat :: [a] -> [a] -> [a]
- *
  * @example
  * const elements1          = convertArrayToStack( ["Hello", "Haskell"] );
  * const elements2          = convertArrayToStack( ["World", "Random"] );
@@ -779,8 +739,10 @@ const concat = s1 => s2 =>
           : reduce((acc, curr) => push(acc) (curr)) (s1) (s2);
 
 /**
- * This function flatten a nested stack of stacks with values
+ * This function flatten a nested stack of stacks with values.
+ * The function links them all together to form a stack. The depth level to which the structure is flattened is one.
  *
+ * @function
  * @param  {stack} stack
  * @return {stack} a flatten stack
  * @example
@@ -805,15 +767,15 @@ const concat = s1 => s2 =>
  */
 const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
 
-
 /**
- *  Zip (combine) with two Stacks and apply a function
+ * The zipWith function receives a linking function and two stacks.
+ * Using the linking function, the elements of the two transferred stacks are linked together to form a new stack.
+ * If one of the two stacks passed is shorter, only the last element of the shorter stack is linked.
  *
+ * @function
  * @haskell zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
- *
  * @param  {function} f
- * @return { function(s1:stack): function(s2:stack): stack}
- *
+ * @return {function(s1:stack): function(s2:stack): stack}
  * @example
  * const add = x => y => x + y;
  * const s1  = convertArrayToStack([1, 2, 3]);
@@ -865,57 +827,12 @@ const zipWith = f => s1 => s2 => {
         (thirdOfTriple);
 }
 
-// const zipWithListMap = f => s1 => s2 => {
-//
-//     const zipElements = t => {
-//         const s1    = t(firstOfTriple);
-//         const s2    = t(secondOfTriple);
-//         const acc   = t(thirdOfTriple);
-//
-//         const element1 = head(s1);
-//         const element2 = head(s2);
-//
-//         const result = push(acc)(f(element1)(element2));
-//
-//         return triple
-//         (getPreStack(s1))
-//         (getPreStack(s2))
-//         (result);
-//     }
-//
-//     const iteration = t =>
-//         If(hasPre(t(firstOfTriple)))
-//         (Then(zipElements(t)))
-//         (Else(t));
-//
-//     const times =  min(size(s1))(size(s2));
-//
-//     return times
-//     (iteration)
-//     (triple
-//         (reverseStack(s1))
-//         (reverseStack(s2))
-//         (emptyListMap)
-//     )
-//     (thirdOfTriple);
-// }
-
-const zipWithOneLiner = null;
-// const zipWithOneLiner = f => s1 => s2 => If(leq(size(s1))(size(s2)))(Then(size(s1)))(Else(size(s2)))(t => If(hasPre(t(firstOfTriple)))(Then((triple(getPreStack(t(firstOfTriple)))(getPreStack(t(secondOfTriple)))(push(t(thirdOfTriple))(f(head(t(firstOfTriple)))(head(t(secondOfTriple))))))))(Else(t)))(triple(reverseStack(s1))(reverseStack(s2))(emptyStack))(thirdOfTriple);
-
-// const zipWithOneLiner = f => s1 => s2 => ((n => k => (n => n((x => y => x)(x => y => y))(x => y => x))((n => k => k(n(p => (x => y => f => f(x)(y))(p(x => y => y))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(p(x => y => y))))((x => y => f => f(x)(y))(f => a => a)(f => a => a))(x => y => x))(n))(n)(k)))
-// ((s => s(x => y => z => x))(s1))((s => s(x => y => z => x))(s2)))(((s => s(x => y => z => x))(s1)))((x => x)((s => s(x => y => z => x))(s2)))(t => ((s => (f => x => y => f(y)(x))((n => n((x => y => x)(x => y => y))(x => y => x))(s(x => y => z => x))))(t(x => y => z => x)))((((x => y => z => f => f(x)(y)(z))((s => s(x => y => z => y))(t(x => y => z => x)))((s => s(x => y => z => y))(t(x => y => z => y)))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(t(x => y => z => z))(f((s => s(x => y => z => z))(t(x => y => z => x)))((s => s(x => y => z => z))
-// (t(x => y => z => y))))))))((t)))((x => y => z => f => f(x)(y)(z))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))
-// (s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)(emptyStack)))(s))(x => y => y))(s1))((s => (reduce((x => y => f => f(x)(y))((acc, curr) => (x => y => f => f(x)(y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))
-// ((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => x))((s => x => (x => y => z => f => f(x)(y)(z))((n => f => (f => g => x => f(g(x)))(f)(n(f)))(s(x => y => z => x)))(s)(x))(acc(x => y => y))((s => (x => y => f => f(x)(y))(s(x => y => z => y))((s => s(x => y => z => z))(s)))(acc(x => y => x))(x => y => y))))((x => y => f => f(x)(y))(s)((x => y => z => f => f(x)(y)(z))
-// (f => a => a)(x => x))))(s))(x => y => y))(s2))((x => y => z => f => f(x)(y)(z))(f => a => a)(x => x)(x => x)))(x => y => z => z);
-
-
-// TODO: zip with empty stacks ?
 /**
  * Zip (combine) two Stack to one stack of pairs
- * @haskell zip :: [a] -> [b] -> [(a, b)]
+ * If one of the two stacks passed is shorter, only the last element of the shorter stack is linked.
  *
+ * @function
+ * @haskell zip :: [a] -> [b] -> [(a, b)]
  * @type {function(triple): function(triple): triple}
  * @example
  * const s1 = convertArrayToStack([1, 2]);
@@ -929,15 +846,13 @@ const zipWithOneLiner = null;
  * getElementByIndex( zippedStack )(2) === pair(2)(4)
  */
 const zip = zipWith(pair);
-//const zipListMap = zipWithListMap(pair);
-
 
 /**
  * Check two stacks of equality.
  *
+ * @function
  * @param {stack} s1
- * @return {function(s2:stack): churchBoolean} True / False
- *
+ * @return {function(s2:stack): churchBoolean} True / False (ChurchBoolean)
  * @example
  * const s1 = convertArrayToStack([1, 2, 7]);
  * const s2 = convertArrayToStack([1, 2, 3]);
@@ -968,8 +883,8 @@ const stackEquals = s1 => s2 => {
 
     const iteration = t =>
         LazyIf( and( hasPre( t(firstOfTriple)) )( t(thirdOfTriple)) )
-            (Then(() => compareElements(t) ))
-            (Else(() => t                  ));
+         (Then(() => compareElements(t) ))
+         (Else(() => t                  ));
 
     return LazyIf( eq(size1)(size2) )
                 (Then(() => times
