@@ -45,7 +45,7 @@ In den folgenden Beispielen wird die Box zur besseren Übersicht wie folgt darge
 **`{ content }`**
 {% endhint %}
 
-### Box
+### [Box](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L38)
 
 Die Funktion `Box` wird verwendet um einen beliebigen Wert in eine "Box" zu verpacken. 
 
@@ -65,7 +65,7 @@ Box("Hello World");      // { "Hello World" }
 Box(p);                  // { p }
 ```
 
-### fmap
+### [fmap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L24)
 
 Die Funktion `fmap` wird verwendet um den Inhalt einer Box zu verarbeiten \(mappen\). Diese `fmap`Funktionsaufrufe können beliebig oft hintereinander angewendet werden \(chainning von Funktionen\). Durch das "chainning" wird eine Art Pipeline aufgebaut.
 
@@ -80,7 +80,7 @@ Box(5)                                 // { 5 }
  (fmap)(n => String.fromCharCode(n));  // { 'A' }
 ```
 
-### fold
+### [fold](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L53)
 
 Die Funktion `fold` wird verwendet um einen Wert in der "Box" zu mappen und anschliessend zu extrahieren \(den Inhalt aus der Box auspacken\).
 
@@ -99,7 +99,7 @@ Box(5)                                 // { 5 }
  (fold)(n => String.fromCharCode(n));  // 'A'
 ```
 
-### chain _\(flatMap\)_
+### [chain _\(flatMap\)_](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L53)\_\_
 
 Die Funktion `chain` wird verwendet um ein _flatMap_ durchzuführen. Wenn eine Map-Funktion eine Box erstellt, würde mit `fmap` eine Box in einer Box entstehen. Um diese extra Box zu entfernen bzw. das gemappte Ergebnis abzuflachen gibt es die Methode `chain`. Dadurch können auch geschachtelte Box Aufrufe stattfinden.
 
@@ -116,7 +116,7 @@ Box(5)                                     // { 5 }
                  (fmap)(num => num + 1))   // { 64 }
 ```
 
-### getContent
+### [getContent](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L118)
 
 Die Funktion `getContent` wird verwendet um den Inhalt einer "Box" zu entpacken.
 
@@ -138,7 +138,7 @@ getContent( mapped1 )   // "Tyrion"
 getContent( mapped2 )   // "TYRION"
 ```
 
-### app
+### [app](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L90)
 
 Die Funktion `app` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
 
@@ -159,9 +159,9 @@ Box( x => y => x + y)    // { 10 + 24 }
  (app)( Box(14) );       // { 24 }
 ```
 
-### liftA2
+### [liftA2](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L103)
 
-Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte anzuwenden.
+Die Funktion `liftA2` wird verwendet um eine Funktion auf zweit eingepackte Werte anzuwenden.
 
 ```javascript
 // Implementation
@@ -175,7 +175,7 @@ liftA2(name1 => name2 => name1 + " " + name2)  // { "Tyrion Lannister" }
 
 ## Helferfunktion
 
-### debug
+### [debug](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L134)
 
 Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelne Zwischenresultate zu untersuchen in einer Pipeline.
 
@@ -197,9 +197,9 @@ Box(10)
  (fold)(debug);       // Ausgabe auf der Konsole: 12
 ```
 
-## Box Featuring
+## Box Featurings
 
-### Stack
+### [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
 
 ```text
 Box( convertArrayToStack([1,2,3,4]) )
@@ -207,7 +207,7 @@ Box( convertArrayToStack([1,2,3,4]) )
  (fold)( filter(x => x > 4) )
 ```
 
-### HttpGet
+### [HttpGet](observable.md#observable-httpget-joke-example)
 
 ```javascript
 // Synchron
@@ -231,7 +231,7 @@ Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funk
 Wenn irgendwo ein Nothing zurück geliefert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
 {% endhint %}
 
-### fmapMaybe
+### [fmapMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L160)
 
 Die Funktion `fmapMaybe` entspricht der Funktion [`fmap`](box-maybebox.md#fmap) für einen [Maybe Type](maybe.md#maybe-type).
 
@@ -252,7 +252,7 @@ const fmapMaybe = x => f => g => g(mapMaybe(x)(f));
   (foldMaybe)( firstName => firstName.toUpperCase() )  //   Just("TYRION")
 ```
 
-### foldMaybe
+### [foldMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L173)
 
 Die Funktion `foldMaybe` entspricht der Funktion [`fold`](box-maybebox.md#fold) für einen [Maybe Type](maybe.md#maybe-type)
 
@@ -270,7 +270,7 @@ Box( Just(10) )                   // { Just(10) }
  (foldMaybe)(num => num + '$')    // Just("20$")
 ```
 
-### chainMaybe
+### [chainMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L194)
 
 Die Funktion `chainMaybe` entspricht der Funktion [`chain`](box-maybebox.md#chain-flatmap) für einen [Maybe Type](maybe.md#maybe-type).
 
@@ -295,7 +295,7 @@ Box( maybePerson() )                                  // { Just({firstName: "Tyr
  (foldMaybe)( firstName => firstName.toUpperCase() )  //   Just("TYRION")
 ```
 
-### appMaybe
+### [appMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L206)
 
 Die Funktion `appMaybe` entspricht der Funktion [`app`](box-maybebox.md#app-todo-funktionsname-aendern) für einen Maybe Type.
 
@@ -309,7 +309,7 @@ Box( Just(x => x + 5) )          // { Just(15 + 5) }
 
 ```
 
-### liftA2Maybe
+### [liftA2Maybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L220)
 
 Die Funktion `liftA2Maybe` entspricht der Funktion [`liftA2`](box-maybebox.md#lifta2) für einen Maybe Type.
 
