@@ -2,22 +2,22 @@ import {id} from "../lambda-calculus-library/lambda-calculus.js";
 import {Just, Nothing, Left, Right} from "../maybe/maybe.js";
 
 export {
-    Box, mapf, fold, chain, debug, mapMaybe,
-    flatMapMaybe, mapfMaybe, foldMaybe,
+    Box, fmap, fold, chain, debug, mapMaybe,
+    flatMapMaybe, fmapMaybe, foldMaybe,
     chainMaybe, getContent,
-    apply, liftA2, apMaybe, liftA2Maybe, pureMaybe
+    app, liftA2, appMaybe, liftA2Maybe, pureMaybe
 }
 
 // Box === Monade
-const Box   = x => mapf(x)(id);                     // Box.of
-const mapf  = x => f => g => g(f(x));               // Box.map
+const Box   = x => fmap(x)(id);                     // Box.of
+const fmap  = x => f => g => g(f(x));               // Box.map
 const fold  = x => f =>        f(x);   // T         // map and then get content out of the box
 const chain = x => f => g => g((f(x)(id)));         // Box.flatMap
-const apply = x => f => g => g(f(mapf)(x)(id));     // Box Applicative
+const app = x => f => g => g(f(fmap)(x)(id));     // Box Applicative
 const getContent = b => b(id)                       // get Content out of the box (unwrap)
 
 const liftA2 = f => fx => fy =>
-        fx(mapf)(f)(apply)(fy)
+        fx(fmap)(f)(app)(fy)
 
 const debug = x => {
     console.log(x);
@@ -30,18 +30,18 @@ const mapMaybe      = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // m
 const flatMapMaybe  = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap
 
 // TODO: rename to fmap
-const mapfMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
+const fmapMaybe     = x => f => g => g(mapMaybe(x)(f));                     // map (returns a box) --> for chaining
 const foldMaybe     = mapMaybe;                                             // map and then get Content out of the box
 const chainMaybe    = x => f => g => g(flatMapMaybe(x)(f));                 // map ant then flatten (returns a box) --> for chaining
 // const apMaybe    = x => f => g => g(x(() => x)(func => mapMaybe(f)(func)));
-const apMaybe       = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
+const appMaybe       = x => f => g => g(flatMapMaybe(x)(func => mapMaybe(f)(func)));
 
 const pureMaybe = f => Just(f);
 
 const liftA2Maybe = f => fx => fy =>
     Box(fx)
-        (mapfMaybe)(f)
-        (apMaybe)(fy)
+        (fmapMaybe)(f)
+        (appMaybe)(fy)
 
 
 

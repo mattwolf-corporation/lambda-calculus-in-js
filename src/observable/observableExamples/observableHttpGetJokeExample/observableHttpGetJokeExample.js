@@ -1,7 +1,7 @@
 import {addListener, newListener, Observable, setValue} from "../../observable.js";
 import {eitherDomElement, eitherElementsOrErrorsByFunction} from "../../../maybe/maybe.js";
 import {HttpGet} from "../../../IO/http.js";
-import {Box, fold, mapf} from "../../../box/box.js";
+import {Box, fold, fmap} from "../../../box/box.js";
 import {fst, pair, snd} from "../../../lambda-calculus-library/lambda-calculus.js";
 import {convertElementsToStack, forEach, reduce} from "../../../stack/stack.js";
 import {convertListMapToArray, convertObjToListMap, getElementByKey} from "../../../listMap/listMap.js";
@@ -50,13 +50,13 @@ const startProgram = domElements => {
         getElementByKey(joke)("btn").onclick = _ =>
             HttpGet( getElementByKey(joke)("url") )( resp =>
                 jokePairObserver(setValue)( Box(resp)
-                                             (mapf)( JSON.parse )
+                                             (fmap)( JSON.parse )
                                              (fold)( x => pair( getElementByKey(joke)("name") )( x[getElementByKey(joke)("jsonKey")] )))));
 }
 
 // Either all the necessary Dom-Element exist and or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "nerdyBtn", "trumpBtn")
 (err => document.body.innerHTML = Box(err)
-                                    (mapf)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem"> ${txt}</div>`))
 (startProgram)
