@@ -209,9 +209,7 @@ Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda 
 * diverse Erweiterungen für die immutable Datenstruktur Stack
 * Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
 
-**Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler**
-
-Beim ersten Entwurf des Observables wurde für die Verwaltung der Listener die Stack Datenstruktur verwendet. Bei der Implementierung für das abmelden/entfernen der Listener wurde klar das dies mit einem Stack nicht bzw. nicht elegant gelöst werden kann. Dabei kam die Idee einer HashMap auf umd einen Listener per Schlüssel abzuspeichern und wieder zu entfernen. Das Problem einer HashMap ist das dies ein gute Hash-Funktion voraussetzt und die ist eine bekanntlich Schweres Problem in der Informatik. Auch für den direkten Zugriff auf eine HashMap wussten wir nicht wie wir dies implementieren wolltemn. Da kam uns die Idee das wir eine Liste mit Schlüssel-Wertpaaren entwicklen können ohne diese zu Hashen und für den Zugriff mit Iteration durch die Liste zugreifen. Der Schlüssel sollte eindeutig und mit dem JavaScript === Operator auf Gleichheit verglichen werden können. Eine alternative Implementierung wäre eine Art Binär Baum, dies wäre aber sehr komplex und nicht nötig für unsere Einsatz Zwecke. Vorteil von unsere Implementierung wir verwenden den bereits existierenden Stack und erweitern diesen und so enstand die ListMap Datenstruktur.
+\*\*\*\*
 
 
 
