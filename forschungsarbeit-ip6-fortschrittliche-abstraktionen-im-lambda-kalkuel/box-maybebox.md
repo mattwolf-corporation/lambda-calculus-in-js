@@ -133,30 +133,30 @@ const mapped1 = box1(fmap)(p => p.firstName);
 
 const mapped2 = mapped1(fmap)(firstName => firstName.toUpperCase());
 
-getContent(box1);     // { firstName: "Tyrion", lastName: "Lannister" } 
-getContent(mapped1)   // "Tyrion"
-getContent(mapped2)   // "TYRION"
+getContent( box1    )   // { firstName: "Tyrion", lastName: "Lannister" } 
+getContent( mapped1 )   // "Tyrion"
+getContent( mapped2 )   // "TYRION"
 ```
 
-### app \(TODO: Funktionsname ändern\)
+### app
 
-Die Funktion `apply` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
+Die Funktion `app` wird verwendet um eine eingepackte Funktion \(Funktion in einer Box\) auf einen eingepackten Wert anzuwenden. 
 
 {% hint style="info" %}
-Dieses "Design Pattern" oder diese apply-Funktion zusammen mit der Box-Funktion bilden eine [Applikative](https://github.com/madnight/monad-in-pictures-german#applikative).
+Dieses "Design Pattern" oder diese `app`-Funktion zusammen mit der Box-Funktion bilden eine [Applikative](https://github.com/madnight/monad-in-pictures-german#applikative).
 {% endhint %}
 
 ```javascript
 // Implementation
-const apply = x => f => g => g(f(fmap)(x)(id));
+const app = x => f => g => g(f(fmap)(x)(id));
 
 // Anwendung
 Box(x => x + 5)
-       (apply)(Box(10)); // { 15 }
+       (app)(Box(10)); // { 15 }
 
 Box( x => y => x + y)
-              (apply)(Box(10))  // { y => 10 + y }
-              (apply)(Box(14)); // { 24 }
+              (app)(Box(10))  // { y => 10 + y }
+              (app)(Box(14)); // { 24 }
 ```
 
 ### liftA2
@@ -165,16 +165,17 @@ Die Funktion `liftA2` wird verwendet um eine Funktion auf 2 eingepackte Werte an
 
 ```javascript
 // Implementation
-const liftA2 = f => fx => fy =>
-        fx(fmap)(f)(apply)(fy)
+const liftA2 = f => fx => fy => fx(fmap)(f)(app)(fy);
 
 // Anwendung
-liftA2(fName => lName => fName + " " + lName)
-                (Box("Tyrion"))
-                (Box("Lannister")); // { "Tyrion Lannister" }
+liftA2(name1 => name2 => name1 + " " + name2) // { "Tyrion Lannister" } 
+        (Box( "Tyrion"   ))
+        (Box( "Lannister")); 
 ```
 
-### debug \(helfer Funktion zum entwickeln bzw. für debug Zwecke\)
+## Helferfunktion
+
+### debug
 
 Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelne Zwischenresultate zu untersuchen in einer Pipeline.
 
