@@ -12,7 +12,7 @@ Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 
 ### [ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L30)
 
-ListMap ist eine weitere unveränderliche Datenstruktur die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als Triple implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Key-Value Paare sind \(wie bei einer Java HashMap\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusäzlich gibt es noch weitere Funktionen die nur mit einer ListMap verwendet werden können.
+ListMap ist eine weitere unveränderliche Datenstruktur die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#vireo) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Key-Value Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen die nur mit einer ListMap verwendet werden können.
 
 ```javascript
 const listMap = stack; // triple
@@ -20,7 +20,7 @@ const listMap = stack; // triple
 
 ### [Empty-ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L40)
 
-Die `emptyList` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter des Triples ListMap ist nicht nur `id` wie beim Stack sondern Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
+Die `emptyList` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter des ListMap ist nicht nur `id` wie beim Stack sondern ein Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
 
 ```javascript
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
@@ -30,12 +30,18 @@ const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 
 Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusätzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
 
-{% hint style="danger" %}
-Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
-{% endhint %}
-
 {% hint style="info" %}
 In den folgenden Beispielen wird zur besseren Übersicht, die ListMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
+{% endhint %}
+
+{% hint style="danger" %}
+Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
+
+```javascript
+const listMapWithOneValue = push(emptyListMap)( pair(1)("Hello") ) // [(1, "Hello")]
+
+const listMapWithTwoValue = push(listMapWithOneValue )( pair(42)("World") ) // [(1, "Hello"), (42, "World")]
+```
 {% endhint %}
 
 ### [getElementByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L124)
@@ -87,6 +93,27 @@ const result = convertObjToListMap(personObject); // [ ("firstName", "George"), 
 const firstName = getElementByKey( result )( "firstName" ); // "George"
 const lastName  = getElementByKey( result )( "lastName"  );  // "Lucas"
 ```
+
+> ### Tuple-Konstruktor mit `convertObjToListMap` 
+>
+> Mit der Funktion `convertObjToListMap` kann ein Tuple-Artiges Konstruktor gebaut werden. Mit der Funktion `getElementByKey` kann mit denselben Parameter, die für die Erstellung des Konstruktor gebraucht wurden, als Key verwendet werden und so die Werte erhalten.
+>
+> ```javascript
+> // Person-Constructor
+> const personCtor = fstName => lstName => age => convertObjToListMap({fstName, lstName, age});
+>
+> // creat Persons
+> const chuck = personCtor("Chuck")("Norris")(42);
+> const peter = personCtor("Peter")("Pan")(102);
+>
+> getElementByKey( chuck )( "fstName" )  ===  "Chuck"  
+> getElementByKey( chuck )( "lstName" )  ===  "Norris" 
+> getElementByKey( chuck )( "age"     )  ===  42     
+>   
+> getElementByKey( peter )( "fstName" )  ===  "Peter"  
+> getElementByKey( peter )( "lstName" )  ===  "Pan"    
+> getElementByKey( peter )( "age"     )  ===  102      
+> ```
 
 ### [convertListMapToArray](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L209)
 
