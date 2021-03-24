@@ -8,15 +8,15 @@ description: Villeicht ist ein Wert vorhanden
 
 ### Maybe Type
 
-Der Maybe Type baut auf dem Either Type auf und kommt aus der Welt der funktionalen Programmiersprachen. Der Maybe Type ist ein polymorpher Typ, der auch \(wie der Either Type\) zwei Zustände annehmen kann. Die Zustände sind: es existiert ein Wert, dass wird mit `Just(value)` ausgedrückt oder es existiert kein Wert und dass wird mit `Nothing` ausgedrückt.
+Der Maybe Type baut auf dem _Either_ Type auf und kommt aus der Welt der funktionalen Programmiersprachen. Der _Maybe_ Type ist ein polymorpher Typ, der auch \(wie der _Either_ Type\) zwei Zustände annehmen kann. Die Zustände sind: Es existiert ein Wert, dass wird mit `Just(value)` ausgedrückt oder es existiert kein Wert und dass wird mit `Nothing` ausgedrückt.
 
 #### Beispiel Szenario:
 
 Wenn eine Funktion, in einer übergebenen Datenstruktur ein Element anhand einer bestimmten Eigenschaft sucht und ein solches Element existiert nicht, dann kann diese Funktion ein `Nothing` zurückgeben. Dies hat mehrere Vorteile: Der Anwender weiss zu Beginn, dass diese Funktion nur "vielleicht" einen Wert zurück liefert und ist somit auch gezwungen, den Fall zu berücksichtigen wenn kein Wert vorhanden ist.
 
-Durch den Maybe Type kann eleganter auf fehlende, abwesende Werte reagiert werden und dies nur mit Hilfe von pure Functions ohne Seiteneffekte.
+Durch den _Maybe_ Type kann eleganter auf fehlende, abwesende Werte reagiert werden und dies nur mit Hilfe von reinen Funktionen ohne Seiteneffekte.
 
-Maybe Implementation:
+#### Maybe Implementation:
 
 ```javascript
 // either type
@@ -28,7 +28,7 @@ const Nothing  = Left();
 const Just     = Right ;
 ```
 
-Anhand der Implementation von `Just` und `Nothing` ist erkenbar, dass der Maybe Type auf dem Either Type basiert. Just ist der Fall bei dem ein Wert vorhanden ist. Dem Just "Konstruktor" kann ein Wert übergeben werden. Nothing ist der Fall bei dem kein Wert vorhanden ist.
+Anhand der Implementation von `Just` und `Nothing` ist erkennbar, dass der _Maybe_ Type auf dem _Either_ Type basiert. `Just` ist der Fall bei dem ein Wert vorhanden ist. Dem `Just` "Konstruktor" kann ein Wert übergeben werden. `Nothing` ist der Fall bei dem kein Wert vorhanden ist.
 
 ## Verwendung
 
@@ -65,12 +65,12 @@ const result2 = getOrDefault ( Nothing  )(20) // 20
 
 ### maybeDivision
 
-Die Funktion `maybeDivision` führt "vielleicht" eine Division mit zwei übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 ist wird die Division durchgeführt und es wird Just mit dem Resultat zurückgegeben.
+Die Funktion `maybeDivision` führt "vielleicht" eine Division mit zwei übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 \(Zahl null\) ist wird die Division durchgeführt und es wird `Just` mit dem Resultat zurückgegeben.
 
 ```javascript
 const maybeDivision = dividend => divisor =>
     Number.isInteger(dividend) &&
-    Number.isInteger(divisor) &&
+    Number.isInteger(divisor)  &&
     divisor !== 0
         ? Just(dividend / divisor)
         : Nothing;
