@@ -47,7 +47,7 @@ maybeXYZ(someParam)
     (result => doSomethingInJustCase(result))      // Just Case
 ```
 
-### getOrDefault
+### [getOrDefault](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L37)
 
 Die `getOrDefault` Funktion erwartet ein Maybe und einen Default-Wert. Der Default-Wert wird zurückgegeben falls _maybe_ von Typ `Nothing` ist.
 
@@ -63,7 +63,7 @@ const result1 = getOrDefault ( Just(10) )(20) // 10
 const result2 = getOrDefault ( Nothing  )(20) // 20
 ```
 
-### maybeDivision
+### [maybeDivision](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L49)
 
 Die Funktion `maybeDivision` führt "vielleicht" eine Division mit zwei übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 \(Zahl null\) ist wird die Division durchgeführt und es wird `Just` mit dem Resultat zurückgegeben.
 
@@ -76,7 +76,7 @@ const maybeDivision = dividend => divisor =>
         : Nothing;
 ```
 
-### maybeTruthy
+### [maybeTruthy](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L74)
 
 Diese Funktion nimmt einen Wert entgegen und überprfüt ob dieser truthy ist. Falls nicht wird ein Nothing zurückgegeben.
 
@@ -91,7 +91,18 @@ const maybeTruthy = value =>
         (_ => Just(value));
 ```
 
-### maybeDomElement
+### [maybeNotNullAndUndefined](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L96)
+
+Die `maybeNotNullAndUndefined` ****Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
+
+```javascript
+const maybeNotNullAndUndefined = value =>
+    eitherNotNullAndUndefined(value)
+        (_ => Nothing)
+        (_ => Just(value));
+```
+
+### [maybeDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L132)
 
 Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem HTML-Element zurückgegeben ansonsten Nothing.
 
@@ -102,7 +113,7 @@ const maybeDomElement = elemId =>
         (e => Just(e));
 ```
 
-### maybeNumber
+### [maybeNumber](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L166)
 
 Diese Funktion nimmt einen Wert entgegen und prüft ob dieser vom Typ Integer \(JavaScript-Zahl\) ist. Falls es sich nicht um ein Wert vom Typ Integer handelt wird ein Nothing zurückgegeben.
 
@@ -113,7 +124,7 @@ const maybeNumber = val =>
         (_ => Just(val));
 ```
 
-### maybeFunction
+### [maybeFunction](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L210)
 
 Die `maybeFunction` Funktion überprüft ob ein Wert vom Typ _function_ ist.
 
@@ -123,6 +134,8 @@ const eitherFunction = val =>
         ? Right(val)
         : Left(`'${val}' is not a function`);
 ```
+
+## Mapping mit Maybe
 
 ### mapMaybe
 
