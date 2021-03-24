@@ -88,6 +88,27 @@ const firstName = getElementByKey( result )( "firstName" ); // "George"
 const lastName  = getElementByKey( result )( "lastName"  );  // "Lucas"
 ```
 
+> ### Tuple-Konstruktor mit `convertObjToListMap` 
+>
+> Mit der Funktion `convertObjToListMap` kann ein Tuple-Artiges Konstruktor gebaut werden. Mit der Funktion `getElementByKey` kann mit denselben Parameter, die für die Erstellung des Konstruktor gebraucht wurden, als Key verwendet werden und so die Werte erhalten.
+>
+> ```javascript
+> // Person-Constructor
+> const personCtor = fstName => lstName => age => convertObjToListMap({fstName, lstName, age});
+>
+> // creat Persons
+> const chuck = personCtor("Chuck")("Norris")(42);
+> const peter = personCtor("Peter")("Pan")(102);
+>
+> getElementByKey( chuck )( "fstName" )  ===  "Chuck"  
+> getElementByKey( chuck )( "lstName" )  ===  "Norris" 
+> getElementByKey( chuck )( "age"     )  ===  42     
+>   
+> getElementByKey( peter )( "fstName" )  ===  "Peter"  
+> getElementByKey( peter )( "lstName" )  ===  "Pan"    
+> getElementByKey( peter )( "age"     )  ===  102      
+> ```
+
 ### [convertListMapToArray](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L209)
 
 Mit der Funktion `convertListMapToArray` kann eine ListMap in ein JavaScript-Array konvertiert werden. Dabei werden nur die Werte in der ListMap erfasst.
