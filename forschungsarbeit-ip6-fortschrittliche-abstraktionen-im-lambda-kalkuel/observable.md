@@ -154,8 +154,6 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableColorPickerExample/viewColorPickerExample.html" %}
 
-### 
-
 ### Implementation
 
 {% hint style="info" %}
@@ -231,8 +229,6 @@ In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, 
 ### Demo
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableHttpGetJokeExample/viewObservableHttpGetJokeExample.html" %}
-
-
 
 ### Implementation
 
