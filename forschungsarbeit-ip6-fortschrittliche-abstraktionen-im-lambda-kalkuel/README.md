@@ -171,21 +171,39 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
         ( convertArrayToStack(elements) );
 ```
 
+## Fazit / Erkenntnisse
+
+Wie brauchbar/nützlich ist LK mit JS?
+
+Die Konstruktionen sind Implementierungen von funktionalen Konzepten.
+
+Durch den Einsatz von diesen Konstruktionen, werden Konzepte, die aus der Funktionalen Programmierung stammen eingebunden. Die Konzepte bringen folgende Vorteile mit sich:
+
+Die erstellten Konstruktionen bieten die möglichkeit Konzepte aus der Funktionalen Programmierung wie zum Beispiel \(Maybe Type\) einzubinden und zu verwenden. Durch den Einsatz von diesen Konstruktionen 
 
 
 
+Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 
-### Ausgangslage
-
-IP5 & Lambda Kalkül
-
-### Was wurde erreicht
-
-resultate
+* Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
+* Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
+* Die funktionalen Konstruktionen sind einfach zu Testen.
+* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
 
 
 
-### Fazit
+* Zusammenfassung was Sie wie erreicht haben.
+* Erkenntnisse aus der Arbeit
+* Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?
+* Vergleich mit der Aufgabenstellung, Projektklärung.
+* Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht
+
+  funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler&gt;
+
+* Potentielle Erweiterungen, Vorschläge für nächste Schritte.
+* Achtung: Persönliche Erfahrungen und Befindlichkeiten gehören nicht in
+
+  eine Thesis.
 
 
 
