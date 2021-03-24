@@ -423,7 +423,7 @@ boxSuite.add("maybe.app", assert => {
                   (_ => 'fail')
                   (id)
 
-    assert.equals(res3, 15);
+    assert.equals(res3, 'fail');
 
     const box2 = Box(Just( x => y => x + y))
                   (appMaybe)(Just(10))
