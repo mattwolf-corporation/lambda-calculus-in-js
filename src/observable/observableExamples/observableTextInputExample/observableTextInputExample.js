@@ -55,24 +55,9 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "old
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (startProgram)
 
-function preProgramm(...elementIds){
-    console.log(elementIds)
 
-   const domElements = elementIds.map(document.getElementById)
 
-   if(domElements.includes(undefined)){
-
-       return elementIds.map(element => {
-           if(!document.getElementById(element)){
-               return 'element with id: ' + element + 'not found'
-           }
-       })
-
-   }
- return domElements;
-}
-
-const checkElementByFunction = f => (...elems) =>
+const checkElementsByFunction = f => (...elems) =>
     elems.reduce((acc, curr) => {
         const result = f(curr);
         if (acc.isFailed) {
