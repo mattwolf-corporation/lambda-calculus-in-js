@@ -6,7 +6,9 @@ description: >-
 
 # Immutable Stack Erweiterungen
 
-Die Funktionen auf dieser Seite sind neu zum [Immutable Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md) hinzugekommen.
+## Basis
+
+Die Funktionen in diesem Kapitel sind neu zum [Immutable Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md) hinzugekommen.
 
 {% page-ref page="../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md" %}
 
@@ -17,6 +19,8 @@ Der Index bei einem Stack beginnt bei 1. Der Index 0 ist reserviert für den [`e
 {% hint style="info" %}
 In den folgenden Beispielen wird zur besseren Übersicht, die Stack Datenstruktur wie folgt dargestellt:**`[ element1, element2, element3, ... ]`**
 {% endhint %}
+
+## Erweiterungen
 
 ### concat
 
@@ -31,8 +35,7 @@ concat(stack1)(stack2); // [ "Hello", "Haskell", "World", "Random" ]
 
 const stack3 = convertArrayToStack( [1, 2, 3] );
 const stack4 = convertArrayToStack( [4] );
-concat(stack3 )(stack4); // [ 1, 2, 3, 4 ]
-
+concat(stack3)(stack4)  // [ 1, 2, 3, 4 ]
 ```
 
 ### flatten
@@ -46,14 +49,7 @@ const s3 = convertArrayToStack([5, 6]);
 
 const stackWithStacks = convertArrayToStack([s1, s2, s3]); // [ [1, 2], [3, 4], [5, 6] ]
 
-flatten(stackWithStacks); // [ 1, 2, 3, 4, 5, 6]
-```
-
-```javascript
-const s1 = convertArrayToStack([1, 2]);
-const s2 = convertArrayToStack([3, 4]);
-
-zip(s1)(s2); // [ (1, 3), (2, 4) ]
+flatten(stackWithStacks) // [ 1, 2, 3, 4, 5, 6]
 ```
 
 ### zipWith
@@ -70,7 +66,7 @@ const add = x => y => x + y;
 const s1 = convertArrayToStack([1, 2]);
 const s2 = convertArrayToStack([4, 5]);
 
-zipWith(add)(s1)(s2); // [ 5, 7 ]
+zipWith(add)(s1)(s2) // [ 5, 7 ]
 ```
 
 ### zip _\(with pair\)_
@@ -81,6 +77,13 @@ Die `zip` Funktion nimmt zwei Stacks entgegen und verknüpft die beiden Stacks m
 Wenn einer der beiden übergebenen Stacks kürzer ist wird nur bis zum letzten Element des kürzeren Stacks verknüpft.
 {% endhint %}
 
+```javascript
+const s1 = convertArrayToStack([1, 2]);
+const s2 = convertArrayToStack([3, 4]);
+
+zip(s1)(s2)  // [ (1, 3), (2, 4) ]
+```
+
 ### stackEquals
 
 Die Funktion `stackEquals` nimmt zwei Stacks entegen und vergleicht alle Elemente mit dem JavaScript `===` Operator auf Gleichheit. Wenn alle Vergleiche `true` ergeben, gibt die Funktion ein Church-Boolean `True` zurück ansonsten ein Church-Boolean `False` zurück.
@@ -89,7 +92,7 @@ Die Funktion `stackEquals` nimmt zwei Stacks entegen und vergleicht alle Element
 const s1 = convertArrayToStack([1, 2]);
 const s2 = convertArrayToStack([1, 2]);
 
-stackEquals(s1)(s2); // True (Church Boolean)
+stackEquals(s1)(s2)  // True (Church Boolean)
 ```
 
 ### 
@@ -98,7 +101,7 @@ stackEquals(s1)(s2); // True (Church Boolean)
 
 Die Funktion `getElementByIndex` nimmt einen Stack und eine [Church-](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) oder JS-Zahl, die den Index des Elements repräsentiert, entgegen. Falls an diesem Index ein Element existiert, wird dieses zurückgegeben ansonsten wird auf der Console einer Error geloggt und der Rückgabewert ist `undefined`. 
 
-Beispiel:
+#### Anwendungs Beispiel:
 
 ```javascript
 const s = convertArrayToStack(["Hello", "World"]);
@@ -109,8 +112,7 @@ getElementByIndex(s)(n2) // "World"
 getElementByIndex(s)( 1)  // "Hello"
 getElementByIndex(s)( 2)  // "World"
 
-getElementByIndex(s)(999) // Error "invalid index"
-
+getElementByIndex(s)(999) // Error "invalid index" 
 ```
 
 {% hint style="info" %}
@@ -166,4 +168,6 @@ maybeIndexOfElement(stackWithNumbers)(34)   // Just(2)
 maybeIndexOfElement(stackWithNumbers)(10)   // Just(3)
 maybeIndexOfElement(stackWithNumbers)(100)  // Nothing
 ```
+
+### containsElement
 
