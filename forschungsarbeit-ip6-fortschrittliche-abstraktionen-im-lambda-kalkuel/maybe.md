@@ -129,10 +129,10 @@ const maybeNumber = val =>
 Die `maybeFunction` Funktion überprüft ob ein Wert vom Typ _function_ ist.
 
 ```javascript
-const eitherFunction = val =>
-    typeof val === "function"
-        ? Right(val)
-        : Left(`'${val}' is not a function`);
+const maybeFunction = value =>
+    eitherFunction(value)
+        (_ => Nothing)
+        (_ => Just(value));
 ```
 
 ## Mapping mit Maybe
