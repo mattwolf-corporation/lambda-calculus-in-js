@@ -149,6 +149,8 @@ const checkElementByFunction = f => (...elems) =>
 
         }
     }, {values: [], isFailed: false});
+    
+    if
 ```
 
 
@@ -171,45 +173,13 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 
 ## Fazit / Erkenntnisse
 
-**Wie brauchbar/nützlich ist LK mit JS? Erkenntnisse aus der Arbeit**
+Wie brauchbar/nützlich ist LK mit JS?
 
-#### Konzepte aus der funktionalen Programmierung
+Die Konstruktionen sind Implementierungen von funktionalen Konzepten.
 
-Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
+Durch den Einsatz von diesen Konstruktionen, werden Konzepte, die aus der Funktionalen Programmierung stammen eingebunden. Die Konzepte bringen folgende Vorteile mit sich:
 
-#### Nutzen & Vorteile
-
-In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
-
-Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekte leidet die Übersicht von grossen Anwendungen und man hat keine Ahnung mehr was wo genau geschieht. Schon durch einen kleinen Einsatz von diesen Konstruktionen können bestimmte Teile in einer Applikation einfacher und sicherer werden. 
-
-#### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
-
-Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen und den erwartetetn "Typen". Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter. 
-
-**‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
-
-* Für die unveränderlichen Datenstrukturen **Stack** und **ListMap** könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
-* Mögliche Funktionen: findFirst, stream artige Funktionen
-* Weitere Konzepte der funktionalen Programmierung umsetzen
-
-**Was kann verbessert werden?**
-
-* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
-* Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
-* Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
-
-**Was wurde erreicht - Zusammenfassung**
-
-Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda Kalkül\) bestehend aus:
-
-* Funktionale Art für die Fehlerbehandlung mit Maybe und Either Type
-* Immutable Datenstruktur ListMap
-* Observable
-* diverse Erweiterungen für die immutable Datenstruktur Stack
-* Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
-
-\*\*\*\*
+Die erstellten Konstruktionen bieten die möglichkeit Konzepte aus der Funktionalen Programmierung wie zum Beispiel \(Maybe Type\) einzubinden und zu verwenden. Durch den Einsatz von diesen Konstruktionen 
 
 
 
@@ -219,4 +189,21 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
 * Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
+
+
+
+* Zusammenfassung was Sie wie erreicht haben.
+* Erkenntnisse aus der Arbeit
+* Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?
+* Vergleich mit der Aufgabenstellung, Projektklärung.
+* Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht
+
+  funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler&gt;
+
+* Potentielle Erweiterungen, Vorschläge für nächste Schritte.
+* Achtung: Persönliche Erfahrungen und Befindlichkeiten gehören nicht in
+
+  eine Thesis.
+
+
 
