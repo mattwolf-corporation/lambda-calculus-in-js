@@ -263,4 +263,3 @@ const maybeElementsByFunction = maybeProducerFn => (...elements) =>
     )
     ( Just(emptyListMap) )
     ( convertArrayToStack(elements) );
-

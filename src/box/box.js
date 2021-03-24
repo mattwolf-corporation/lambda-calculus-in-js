@@ -4,7 +4,7 @@ import {Just, Nothing, Left, Right} from "../maybe/maybe.js";
 export {
     Box, mapf, fold, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent,
+    chainMaybe, getContent,
     apply, liftA2, apMaybe, liftA2Maybe
 }
 
@@ -40,12 +40,4 @@ const liftA2Maybe = f => fx => fy =>
         (mapfMaybe)(f)
         (apMaybe)(fy)
 
-// should be the only try and catch in code basis !
-const tryCatch = f => {
-    try {
-        return Right(f());
-    } catch (error) {
-        return Left(error);
-    }
-}
 

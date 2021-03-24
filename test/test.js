@@ -189,14 +189,13 @@ const renderReport = (name, tests) => {
 };
 
 const BenchmarkTest = mutName => methodUnderTest => {
-    const t0 = performance.now();
+    const t0 = performance.now(); // Timer start
 
     const result = methodUnderTest();
 
-    const t1 = performance.now();
+    const t1 = performance.now(); // Timer stop
 
     const milliseconds = t1 - t0;
-
     const timeCondition = milliseconds >= 600;
     const time = timeCondition ? milliseconds / 1000 : milliseconds;
 
