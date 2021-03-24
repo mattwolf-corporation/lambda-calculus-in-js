@@ -2,7 +2,7 @@
 description: Verpacken -> Verarbeiten -> Auspacken
 ---
 
-# Box / MaybeBox
+# Box
 
 ## Beschreibung
 

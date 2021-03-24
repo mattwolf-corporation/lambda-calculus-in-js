@@ -44,14 +44,9 @@ Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül
 
 
 * Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript
-  * [Immutable ListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
-  * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
-  * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
-  * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
-  * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
-  * [Box](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
-  * Benchmark
-  * Code Convention
+  * ListMap
+  * Observable-ListMap
+  * Maybe
 
 
 
