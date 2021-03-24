@@ -2,10 +2,10 @@ import {TestSuite} from "../test.js";
 import {
     Box, fold, mapf, chain, debug, mapMaybe,
     flatMapMaybe, mapfMaybe, foldMaybe,
-    chainMaybe, tryCatch, getContent, apply,
+    chainMaybe, getContent, apply,
     liftA2, apMaybe, liftA2Maybe
 } from "../../src/box/box.js";
-import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing} from "../../src/maybe/maybe.js";
+import {maybeDivision, maybeTruthy, maybeFunction, maybeNumber,Left, Right, Just, Nothing, eitherTryCatch} from "../../src/maybe/maybe.js";
 import {id, pair, fst, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {convertStackToArray, convertArrayToStack, map, filter, reduce} from "../../src/stack/stack.js";
 import {HttpGetSync, HttpGet} from "../../src/IO/http.js";
@@ -294,22 +294,6 @@ boxSuite.add("findColor maybeBox example", assert => {
     assert.equals( findCol('yellow'), 'FFF68F');
 });
 
-boxSuite.add("try catch", assert => {
-    const result1 = tryCatch(() => {throw "random error"})
-    const result2 = tryCatch(() => 10)
-    const result3 = tryCatch(() => "Hello")
-    const result4 = tryCatch(() => {throw new TypeError("failed")})
-
-
-    assert.equals( result1(id)(id), "random error");
-    assert.equals( result2(id)(id), 10);
-    assert.equals( result3(id)(id), "Hello");
-    assert.equals( result1(() => "error")(id), "error");
-    assert.equals( result2(() => "error")(() => "success"), "success");
-    assert.equals( result3(id)(() => 42), 42);
-    assert.equals( result4(e => e.message)(id), "failed");
-    assert.equals( result4(e => e.name)(id), "TypeError");
-});
 
 boxSuite.add("readPersonFromApi maybeBox example", assert => {
 
@@ -323,13 +307,13 @@ boxSuite.add("readPersonFromApi maybeBox example", assert => {
     };
 
     // returns either a parsed object or Nothing
-    const parseJson = object =>  object !== null ? tryCatch(() => JSON.parse(object)) : Nothing;
+    const parseJson = object =>  object !== null ? eitherTryCatch(() => JSON.parse(object)) : Nothing;
 
-    const parseJsonWithError = _ =>  tryCatch(() => JSON.parse('{"first": "Jane", last: "Doe"}'))
+    const parseJsonWithError = _ =>  eitherTryCatch(() => JSON.parse('{"first": "Jane", last: "Doe"}'))
 
 
     const getPerson1 = lastName =>
-        Box(tryCatch(readPersonFromApiWithError))
+        Box(eitherTryCatch(readPersonFromApiWithError))
             (chainMaybe)(parseJson)
             (mapfMaybe)(name => name.toUpperCase())
             (mapfMaybe)(name => name + " " + lastName)
@@ -338,7 +322,7 @@ boxSuite.add("readPersonFromApi maybeBox example", assert => {
                 (id);
 
     const getPerson2 = lastName =>
-        Box(tryCatch(readPersonFromApi))
+        Box(eitherTryCatch(readPersonFromApi))
             (chainMaybe)(parseJson)
             (mapfMaybe)(p => p.name.toUpperCase())
             (mapfMaybe)(name => name + " " + lastName)
@@ -347,7 +331,7 @@ boxSuite.add("readPersonFromApi maybeBox example", assert => {
                 (id);
 
     const getPerson3 = lastName =>
-        Box(tryCatch(readPersonFromApi))
+        Box(eitherTryCatch(readPersonFromApi))
             (chainMaybe)(parseJsonWithError)                 // if this fail skip the rest (give null val to see failure)
             (mapfMaybe)(name => name + " " + lastName)
             (foldMaybe)(name => "Mr. " + name)
@@ -366,7 +350,7 @@ boxSuite.add("readPersonFromApi with left & right", assert => {
 
     const parseJson = object =>
         object !== null
-            ? tryCatch(() => JSON.parse(object))
+            ? eitherTryCatch(() => JSON.parse(object))
             : Left('parse json failed');
 
     const debug = x => {

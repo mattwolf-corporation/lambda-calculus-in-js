@@ -25,7 +25,7 @@ import {
     maybeTruthy, maybeDomElement,
     eitherNumber,
     eitherElementsOrErrorsByFunction,
-    maybeElementsByFunction
+    maybeElementsByFunction, eitherTryCatch
 } from "../../src/maybe/maybe.js";
 import {getElementByIndex, size} from "../../src/stack/stack.js";
 import {getElementByKey} from "../../src/listMap/listMap.js"
@@ -209,5 +209,23 @@ maybeSuite.add("maybeElementsByFunction", assert => {
 
     tearDown();
 });
+
+maybeSuite.add("either try catch", assert => {
+    const result1 = eitherTryCatch(() => {throw "random error"})
+    const result2 = eitherTryCatch(() => 10)
+    const result3 = eitherTryCatch(() => "Hello")
+    const result4 = eitherTryCatch(() => {throw new TypeError("failed")})
+
+
+    assert.equals( result1(id)(id), "random error");
+    assert.equals( result2(id)(id), 10);
+    assert.equals( result3(id)(id), "Hello");
+    assert.equals( result1(() => "error")(id), "error");
+    assert.equals( result2(() => "error")(() => "success"), "success");
+    assert.equals( result3(id)(() => 42), 42);
+    assert.equals( result4(e => e.message)(id), "failed");
+    assert.equals( result4(e => e.name)(id), "TypeError");
+});
+
 
 maybeSuite.report();
