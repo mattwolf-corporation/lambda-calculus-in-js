@@ -129,10 +129,10 @@ const getElementByKey = listMap => key => {
         const stack             = argsPair(fst);
         const predecessorStack  = (stack)(stackPredecessor);
         const currentKeyValPair = head(stack);
-        if (currentKeyValPair(fst) === key) {
-            return pair(predecessorStack)(currentKeyValPair(snd));
-        }
-        return pair(predecessorStack)(argsPair(snd));
+
+      return (currentKeyValPair(fst) === key)
+        ? pair(predecessorStack)( currentKeyValPair(snd) )
+        : pair(predecessorStack)( argsPair(snd)          );
     };
 
     return (times(getElement)(initArgsPair))(snd);

@@ -1,7 +1,7 @@
 import {id, True, False, jsBool, pair, triple, fst, snd, firstOfTriple, secondOfTriple, thirdOfTriple, not, and, If, Then, Else, churchBool, LazyIf} from '../lambda-calculus-library/lambda-calculus.js'
 import {eitherFunction, Left, Right, Just, Nothing, eitherTryCatch, eitherNotNullAndUndefined, eitherNaturalNumber} from "../maybe/maybe.js";
 import {n0, n1, succ, jsNum, is0,  leq, eq, churchSubtraction, churchNum, min,} from '../lambda-calculus-library/church-numerals.js'
-export {stack, stackIndex, stackPredecessor, stackValue, emptyStack, hasPre, push, pop, head, size, reduce, filter, map, getElementByIndex, logStackToConsole, startStack, pushToStack, reverseStack, filterWithReduce, mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach, forEachOld, removeByIndex, getPreStack, concat, flatten, zip, zipWith, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByIndex, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsnumIndex}
+export {stack, stackIndex, stackPredecessor, stackValue, emptyStack, hasPre, push, pop, head, size, reduce, filter, map, getElementByIndex, logStackToConsole, startStack, pushToStack, reverseStack, filterWithReduce, mapWithReduce, convertStackToArray, convertArrayToStack, convertElementsToStack, forEach, forEachOld, removeByIndex, getPreStack, concat, flatten, zip, zipWith, stackEquals, getIndexOfElement, containsElement, maybeIndexOfElement, eitherElementByIndex, eitherElementByJsNumIndex, eitherElementByChurchIndex, getElementByChurchNumberIndex, getElementByJsNumIndex}
 
 /**
  * Generic Types
@@ -304,7 +304,7 @@ const eitherElementByChurchIndex = stack => index =>
  * @return {function(index:jsNumber) : either } a either with Right(value) or Lef("Element Error msg")
  */
 const eitherElementByJsNumIndex = stack => index =>
-    eitherNotNullAndUndefined( getElementByJsnumIndex(stack)(index) )
+    eitherNotNullAndUndefined( getElementByJsNumIndex(stack)(index) )
         (_ => Left("invalid index"))
         (e => Right(e)                );
 
@@ -329,21 +329,19 @@ const getElementByChurchNumberIndex = s => i =>
  * @param  {stack} s
  * @return {function(i:Number) : *} stack-value
  */
-const getElementByJsnumIndex = s => i => {
+const getElementByJsNumIndex = s => i => {
     if (i < 0){ return undefined; } // negativ index are not allowed
 
     const times = succ(size(s));
-    const initArgsPair = pair(s)(undefined); // Nothing or undefined
+    const initArgsPair = pair(s)(undefined);
 
     const getElement = argsPair => {
         const stack = argsPair(fst);
         const result = pair(getPreStack(stack));
 
-        // was ist aufwändiger toJsnum oder toChurchNum ?? evtl. hier austauschen
-        if (jsNum(getStackIndex(stack)) === i) {
-            return result(head(stack));
-        }
-        return result(argsPair(snd));
+        return (jsNum(getStackIndex(stack)) === i)
+            ? result(head(stack))
+            : result(argsPair(snd));
 
     };
     return (times
