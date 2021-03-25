@@ -245,8 +245,6 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 
 ## Fazit / Erkenntnisse
 
-**Wie brauchbar/nützlich ist LK mit JS? Erkenntnisse aus der Arbeit**
-
 #### Konzepte aus der funktionalen Programmierung
 
 Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
