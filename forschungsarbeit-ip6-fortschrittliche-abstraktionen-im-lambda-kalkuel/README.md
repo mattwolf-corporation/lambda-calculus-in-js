@@ -229,23 +229,23 @@ const checkElementByFunction = f => (...elems) =>
 
 ```javascript
 const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-     reduce((acc, curr) => acc
-                                ( stack => Left( eitherProducerFn(curr)
-                                            (err => push(stack)(err))
-                                            (_   => stack))
-                                )
-                                ( listMap => eitherProducerFn(curr)
-                                                (err => Left(  push(emptyStack)(err)           ))
-                                                (val => Right( push(listMap)( pair(curr)(val) )))
-                                )
-        )
-        ( Right( emptyListMap) )
-        ( convertArrayToStack(elements) );
+    reduce((acc, curr) =>
+        acc
+         ( stack => Left( eitherProducerFn(curr)
+                            (err => push(stack)(err) )
+                            (_   => stack            )
+                        )
+         )
+         ( listMap => eitherProducerFn(curr)
+                        (err => Left(  push( emptyStack )( err             )))
+                        (val => Right( push( listMap    )( pair(curr)(val) )))
+         )
+    )
+    ( Right( emptyListMap) )
+    ( convertArrayToStack(elements) );
 ```
 
 ## Fazit / Erkenntnisse
-
-**Wie brauchbar/nützlich ist LK mit JS? Erkenntnisse aus der Arbeit**
 
 #### Konzepte aus der funktionalen Programmierung
 
