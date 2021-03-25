@@ -264,16 +264,25 @@ const maybeElementsByFunction = maybeProducerFn => (...elements) =>
     ( convertArrayToStack(elements) );
 
 /**
+ * The mapMaybe function is used to map a Maybe Type. The function takes a Maybe and a mapping function f.
+ * The function returns the mapped Maybe.
  *
- *
- * @param maybe
- * @return {function(*): *}
+ * @param  {function} maybe
+ * @return {function(f:function): Just|Nothing} a Maybe (Just with the element or Nothing)
+ * @example
+ * mapMaybe( Just(10) ) (x => x * 4) // Just (40)
+ * mapMaybe( Nothing )  (x => x * 4) // Nothing
  */
 const mapMaybe  = maybe => f => maybe (() => maybe) (x => Just(f(x)));  // maybe.map
 
 /**
+ * The function flatMapMaybe is used to map a maybe type and then flatten the result.
  *
- * @param maybe
- * @return {function(*): *}
+ * @param  {function} maybe
+ * @return {function(f:function): Just|Nothing} a Maybe (Just with the element or Nothing=
+ * @example
+ * flatMapMaybe( Just(10) )(num => Just(num * 2));    // Just (20)
+ * flatMapMaybe( Just(10) )(num => Nothing      );    // Nothing
+ * flatMapMaybe( Nothing  )(num => Just(num * 2));    // Nothing
  */
 const flatMapMaybe = maybe => f => maybe (() => maybe) (x =>       f(x));  // maybe.flatmap

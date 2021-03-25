@@ -1,32 +1,7 @@
 import {TestSuite} from "../test.js";
-
-import {id, pair, True, False} from "../../src/lambda-calculus-library/lambda-calculus.js";
-import {
-    n1,
-    n2,
-    n3,
-    n4,
-    n5,
-    n6,
-    n7,
-    n8,
-    n9,
-    churchMultiplication,
-    jsNum
-} from "../../src/lambda-calculus-library/church-numerals.js";
-import {
-    Nothing, Left, Right,
-    Just,
-    maybeDivision,
-    eitherDomElement,
-    getOrDefault,
-    getDomElement,
-    getDomElements,
-    maybeTruthy, maybeDomElement,
-    eitherNumber,
-    eitherElementsOrErrorsByFunction,
-    maybeElementsByFunction, eitherTryCatch
-} from "../../src/maybe/maybe.js";
+import {id, pair} from "../../src/lambda-calculus-library/lambda-calculus.js";
+import {jsNum} from "../../src/lambda-calculus-library/church-numerals.js";
+import {Nothing, Just, maybeDivision, eitherDomElement, getOrDefault, getDomElement, getDomElements, maybeTruthy, maybeDomElement, eitherNumber, eitherElementsOrErrorsByFunction, maybeElementsByFunction, eitherTryCatch} from "../../src/maybe/maybe.js";
 import {getElementByIndex, size} from "../../src/stack/stack.js";
 import {getElementByKey} from "../../src/listMap/listMap.js"
 
@@ -120,34 +95,6 @@ maybeSuite.add("getOrDefault", assert => {
     assert.equals( getOrDefault(eitherNumber((() => 5)()))(42), 5);
     tearDown();
 });
-
-// maybeSuite.add("getJsNumberOrFunction", assert => {
-//     assert.equals( getJsNumberOrFunction(3), 3);
-//     assert.equals( getJsNumberOrFunction(42), 42);
-//
-//     assert.churchNumberEquals( getJsNumberOrFunction(n3) , n3);
-//     assert.churchNumberEquals( getJsNumberOrFunction( churchMultiplication(n3)(n2) ), n6);
-//
-//     assert.equals( getJsNumberOrFunction(id) , id);
-//     assert.equals( getJsNumberOrFunction(pair) , pair);
-//     assert.equals( getJsNumberOrFunction(True) , True);
-//     assert.equals( getJsNumberOrFunction(False) , False);
-//
-//
-//     assert.equals( getJsNumberOrFunction("3") , Nothing);
-//     assert.equals( getJsNumberOrFunction(null) , Nothing);
-//     assert.equals( getJsNumberOrFunction({}) , Nothing);
-//     assert.equals( getJsNumberOrFunction([]) , Nothing);
-//
-//     const test = index => maybeNumber(index)
-//                             ( Left( maybeFunction(index)( v => console.error("Wrong Type " + v)  )( v => console.log("function " + v)) ))
-//                             ( () => console.log("number") )
-//
-//     assert.equals( test(3), 3);
-//     assert.equals( test(id), id);
-//     assert.equals( test("id"), Nothing);
-// });
-
 
 maybeSuite.add("eitherElementsOrErrors - good case", assert => {
     setup();

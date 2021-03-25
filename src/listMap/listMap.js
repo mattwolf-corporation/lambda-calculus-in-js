@@ -102,7 +102,7 @@ const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
  *
  * const listMapEx = convertObjToListMap(obj);
  *
- * size(listMapEx) // n2
+ * size(listMapEx)               // n2
  * getElementByIndex(result)(n1) // pair('a')("Hello"));
  * getElementByIndex(result)(n2) // pair('b')("Lambda"));
  */

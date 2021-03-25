@@ -1,11 +1,8 @@
 import {BenchmarkTest, TestSuite} from "../test.js";
-
 import {beq, jsBool, False, fst, id, pair, snd, True} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {churchAddition, churchMultiplication, jsNum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9} from '../../src/lambda-calculus-library/church-numerals.js';
-import {concat, convertArrayToStack, convertStackToArray, emptyStack, filter, filterWithReduce, flatten, forEach, forEachOld, getElementByIndex, hasPre, head, map, mapWithReduce, pop, push, pushToStack, reduce, removeByIndex, reverseStack, getIndexOfElement, containsElement, maybeIndexOfElement, size, stackEquals, stackPredecessor, startStack, zip, zipWith,eitherElementByIndex
-} from "../../src/stack/stack.js";
-import {getOrDefault, Just, Nothing, maybeDomElement, Left, Right,flatMapMaybe, mapMaybe} from "../../src/maybe/maybe.js";
-import {emptyListMap} from "../../src/listMap/listMap.js"
+import {concat, convertArrayToStack, convertStackToArray, emptyStack, filter, filterWithReduce, flatten, forEach, forEachOld, getElementByIndex, hasPre, head, map, mapWithReduce, pop, push, pushToStack, reduce, removeByIndex, reverseStack, getIndexOfElement, containsElement, maybeIndexOfElement, size, stackEquals, stackPredecessor, startStack, zip, zipWith,eitherElementByIndex} from "../../src/stack/stack.js";
+import {Nothing} from "../../src/maybe/maybe.js";
 
 const stackSuite = TestSuite("stack (pure functional data structure)");
 
@@ -247,7 +244,6 @@ stackSuite.add("filter", assert => {
     const filteredStackWithNumbers = filter(x => x < 35 && x > 2)(stackWithNumbers);
     const filteredStackWithLastNames = map(person => person.lastName)(filter(person => person.lastName.startsWith('S'))(personStack));
     const filteredStackWithIncome = filter(person => person.income > 5000)(personStack);
-
 
     assert.equals( jsNum(size(filteredStackWithNumbers)), 2);
     assert.equals( getElementByIndex(filteredStackWithNumbers)(0), id);
@@ -593,38 +589,6 @@ stackSuite.add("zipWith", assert => {
     assert.equals(getElementByIndex(zippedStack3)(1), 6);
 });
 
-stackSuite.add("zipWithOneLiner", assert => {
-    // const add = x => y => x + y;
-    // const s1 = convertArrayToStack([1, 2, 3]);
-    // const s2 = convertArrayToStack([4, 5, 6]);
-    //
-    // const zippedStack = zipWithOneLiner(add)(s1)(s2);
-    //
-    // assert.equals(jsNum(size(zippedStack)), 3);
-    // assert.equals(getElementByIndex(zippedStack)(0)("id"), "id");
-    // assert.equals(getElementByIndex(zippedStack)(1), 5);
-    // assert.equals(getElementByIndex(zippedStack)(2), 7);
-    // assert.equals(getElementByIndex(zippedStack)(3), 9);
-    //
-    // const s3 = convertArrayToStack([1, 2]);
-    // const s4 = convertArrayToStack([3]);
-    //
-    // const zippedStack2 = zipWithOneLiner(add)(s3)(s4);
-    //
-    // assert.equals(jsNum(size(zippedStack2)), 1);
-    // assert.equals(getElementByIndex(zippedStack2)(0)("id"), "id");
-    // assert.equals(getElementByIndex(zippedStack2)(1), 4);
-    //
-    // const s5 = convertArrayToStack([2]);
-    // const s6 = convertArrayToStack([4, 5]);
-    //
-    // const zippedStack3 = zipWithOneLiner(add)(s5)(s6);
-    //
-    // assert.equals(jsNum(size(zippedStack3)), 1);
-    // assert.equals(getElementByIndex(zippedStack3)(0)("id"), "id"); // bei one liner kommt keine Referenz auf id zurück // bei getElementByJsnumIndex war default id darum hat dies funktioniert
-    // assert.equals(getElementByIndex(zippedStack3)(1), 6);
-});
-
 stackSuite.add("stackEquals", assert => {
     const s1 = convertArrayToStack([1, 2, 3]);
     const s2 = convertArrayToStack([1, 2, 4]);
@@ -665,24 +629,6 @@ stackSuite.add("stackEquals", assert => {
     assert.churchBooleanEquals(r8, False);
 });
 
-stackSuite.add("maybeElementByJsnumIndex", assert => {
-    const s1 = convertArrayToStack([1, 2, 3, 4]);
-
-    // TODO: test anpassen: assert.consoleEquals verwenden und fehler check auf invalid index
-    // assert.equals(jsNum(size(s1)), 4);
-    // assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(0))(false), id);
-    // assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(1))(false), 1);
-    // assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(2))(false), 2);
-    // assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(3))(false), 3);
-    // assert.equals(getOrDefault(maybeElementByJsnumIndex(s1)(4))(false), 4);
-    // assert.equals(maybeElementByJsnumIndex(s1)(5), undefined);
-    // assert.equals(maybeElementByJsnumIndex(s1)(-1), undefined);
-    // assert.equals(maybeElementByJsnumIndex(s1)(99999999), undefined);
-    // assert.equals(maybeElementByJsnumIndex(s1)("dfbehterhrt"), undefined);
-    // assert.equals(maybeElementByJsnumIndex(s1)(Number.NaN), undefined);
-    // assert.equals(maybeElementByJsnumIndex(s1)({}), undefined);
-});
-
 stackSuite.add("maybe-/getIndexOfElement ", assert => {
     const stackWithNumbers = convertArrayToStack([0, 11, 22, 33]);
 
@@ -694,8 +640,6 @@ stackSuite.add("maybe-/getIndexOfElement ", assert => {
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(22),n3)
     assert.churchNumberEquals( getIndexOfElement(stackWithNumbers)(33),n4)
     assert.equals( getIndexOfElement(stackWithNumbers)(44), undefined)
-
-    assert.churchNumberEquals( n0 , False) // n0 === False
 
 
     const stackWithStrings = convertArrayToStack(["a", "b", "c"]);

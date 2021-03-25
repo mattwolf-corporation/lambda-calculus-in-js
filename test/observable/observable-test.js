@@ -3,13 +3,11 @@ import {addListener, listenerNewValueToElement, getValue, newListener, newListen
 
 const observableListMapSuite = TestSuite("Observable Pattern with ListMap (pure functional data structure)");
 
-
 observableListMapSuite.add("Observable", assert => {
 
     // first Listener
     const observedObject = {};
     const listenerValue = newListener( listenerNewValueToElement(observedObject) )
-
 
     assert.equals(observedObject.value, undefined)
 

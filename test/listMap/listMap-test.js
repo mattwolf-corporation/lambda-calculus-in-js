@@ -1,29 +1,8 @@
 import {TestSuite} from "../test.js";
-
 import {jsBool, fst, id, pair, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n0, n1, n2, n3, n4, n5} from '../../src/lambda-calculus-library/church-numerals.js';
-import {
-    convertArrayToStack,
-    getElementByIndex,
-    hasPre,
-    head,
-    map,
-    pop,
-    pushToStack,
-    size
-} from "../../src/stack/stack.js";
-
-import {
-    convertListMapToArray,
-    convertObjToListMap,
-    emptyListMap,
-    filterListMap,
-    getElementByKey,
-    mapListMap,
-    reduceListMap,
-    removeByKey,
-    startListMap
-} from "../../src/listMap/listMap.js";
+import {convertArrayToStack, getElementByIndex, hasPre, head, map, pop, pushToStack, size} from "../../src/stack/stack.js";
+import {convertListMapToArray, convertObjToListMap, emptyListMap, filterListMap, getElementByKey, mapListMap, reduceListMap, removeByKey, startListMap} from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
 
