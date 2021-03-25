@@ -123,9 +123,83 @@ const streetName = user =>
 | Leserlichkeit/Lesefluss | erschwert | klarer |
 | Wartbarkeit | schlecht | gut |
 
-### 
 
-### 
+
+## Pure Lambda JS vs Lambda JS
+
+ Bereits kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
+\(`const stackWithOneValue = push(emptyStack)(1);` \) , besteht im kern aus mehreren Funktionen. 
+
+Unserer Implementation, mit welcher wir arbeiten und zur Verfügung stellen, sieht dabei so aus: 
+
+```javascript
+const push = s => stack( succ( s(stackIndex) ) )(s);
+```
+
+`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist; denn zweiten Parameter denselben Stack \(`s`\) und als letzten Wert den neuen Wert erwartet. Der erster Parameter mit dem Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles Evaluiert wird, so aussieht:
+
+```javascript
+// in reinem Lambda Kalkül
+const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
+```
+
+Reinem Lambda Kalkül Code mit JavaScript zu schreiben und zu verstehen kann schnell unübersichtlich werden. Zu merken, was die anonyme Funktion in der nächsten anonymen Funktion macht und ausführt, kann zu komplex werden.
+
+Wenn man die Funktion `reduce` anschaut, erkannt man 
+
+```javascript
+// reduce in mehreren Funktionen unterteilt
+const reduce = reduceFn => initialValue => s => {
+
+    const reduceIteration = argsTriple => {
+        const stack = argsTriple(firstOfTriple);
+
+        const getTriple = argsTriple => {
+            const reduceFunction    = argsTriple(secondOfTriple);
+            const preAcc            = argsTriple(thirdOfTriple);
+            const curr              = head(stack);
+            const acc               = reduceFunction(preAcc)(curr);
+            const preStack          = stack(stackPredecessor);
+            return triple(preStack)(reduceFunction)(acc);
+        }
+
+        return If( hasPre(stack) )
+                (Then( getTriple(argsTriple) ))
+                (Else(           argsTriple  ));
+    };
+
+    const times = size(s);
+    const reversedStack = times
+                            (reduceIteration)
+                                (triple
+                                  (s)
+                                  (acc => curr => push(acc)(curr))
+                                  (emptyStack)
+                                )
+                                (thirdOfTriple);
+
+    return times
+            (reduceIteration)
+                (triple
+                  (reversedStack)
+                  (reduceFn)
+                  (initialValue)
+            )(thirdOfTriple);
+};
+```
+
+
+
+```javascript
+// reduce in reinem Lambda Kalkül 
+const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
+```
+
+Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie ist vollgebackt mit vielen anonymen Funktionen die alls gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, und da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundante Arbeite verbrauchen,. 
+
+
+
+
 
 ```javascript
 const checkElementByFunction = f => (...elems) =>
@@ -149,37 +223,87 @@ const checkElementByFunction = f => (...elems) =>
 
         }
     }, {values: [], isFailed: false});
-    
-    if
 ```
 
 
 
 ```javascript
 const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-     reduce((acc, curr) => acc
-                                ( stack => Left( eitherProducerFn(curr)
-                                            (err => push(stack)(err))
-                                            (_   => stack))
-                                )
-                                ( listMap => eitherProducerFn(curr)
-                                                (err => Left(  push(emptyStack)(err)           ))
-                                                (val => Right( push(listMap)( pair(curr)(val) )))
-                                )
-        )
-        ( Right( emptyListMap) )
-        ( convertArrayToStack(elements) );
+    reduce((acc, curr) =>
+        acc
+         ( stack => Left( eitherProducerFn(curr)
+                            (err => push(stack)(err) )
+                            (_   => stack            )
+                        )
+         )
+         ( listMap => eitherProducerFn(curr)
+                        (err => Left(  push( emptyStack )( err             )))
+                        (val => Right( push( listMap    )( pair(curr)(val) )))
+         )
+    )
+    ( Right( emptyListMap) )
+    ( convertArrayToStack(elements) );
+```
+
+Die Funktion [`eitherElementsOrErrorsByFunction`](either.md#eitherelementsorerrorsbyfunction) als Programmstarter nützlich. Gib dieser Funktion irgendein Either und die Werte an. 
+
+```javascript
+// Either all the necessary Dom-Element exist or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
+(err => document.body.innerHTML = Box(err)
+                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
+(result => {
+
+    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);
+
+    divisionBtn.onclick = () => {
+        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
+        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
+    }
+
+});
 ```
 
 ## Fazit / Erkenntnisse
 
-Wie brauchbar/nützlich ist LK mit JS?
+#### Konzepte aus der funktionalen Programmierung
 
-Die Konstruktionen sind Implementierungen von funktionalen Konzepten.
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
 
-Durch den Einsatz von diesen Konstruktionen, werden Konzepte, die aus der Funktionalen Programmierung stammen eingebunden. Die Konzepte bringen folgende Vorteile mit sich:
+#### Nutzen & Vorteile
 
-Die erstellten Konstruktionen bieten die möglichkeit Konzepte aus der Funktionalen Programmierung wie zum Beispiel \(Maybe Type\) einzubinden und zu verwenden. Durch den Einsatz von diesen Konstruktionen 
+In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
+
+Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekte leidet die Übersicht von grossen Anwendungen und man hat keine Ahnung mehr was wo genau geschieht. Schon durch einen kleinen Einsatz von diesen Konstruktionen können bestimmte Teile in einer Applikation einfacher und sicherer werden. 
+
+#### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
+
+Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen und den erwartetetn "Typen". Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter. 
+
+**‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
+
+* Für die unveränderlichen Datenstrukturen **Stack** und **ListMap** könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
+* Mögliche Funktionen: findFirst, stream artige Funktionen
+* Weitere Konzepte der funktionalen Programmierung umsetzen
+
+**Was kann verbessert werden?**
+
+* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
+* Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
+* Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
+
+**Was wurde erreicht - Zusammenfassung**
+
+Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda Kalkül\) bestehend aus:
+
+* Funktionale Art für die Fehlerbehandlung mit Maybe und Either Type
+* Immutable Datenstruktur ListMap
+* Observable
+* diverse Erweiterungen für die immutable Datenstruktur Stack
+* Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
+
+\*\*\*\*
 
 
 
@@ -189,21 +313,4 @@ Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
 * Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
 * Die funktionalen Konstruktionen sind einfach zu Testen.
 * Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
-
-
-
-* Zusammenfassung was Sie wie erreicht haben.
-* Erkenntnisse aus der Arbeit
-* Was läuft? Was läuft nicht? Wo kann die Arbeit verbessert werden?
-* Vergleich mit der Aufgabenstellung, Projektklärung.
-* Reflektion der gewählten Ansätze und Lösungen. «Ansatz X hat nicht
-
-  funktioniert, weil &lt;sachliche Argumente und nicht persönliche Fehler&gt;
-
-* Potentielle Erweiterungen, Vorschläge für nächste Schritte.
-* Achtung: Persönliche Erfahrungen und Befindlichkeiten gehören nicht in
-
-  eine Thesis.
-
-
 
