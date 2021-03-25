@@ -127,9 +127,27 @@ const streetName = user =>
 
 ### Pure Lambda-JS VS Lambda JS mit mehreren Funktionen
 
-In reinem Lambda Kalkül JavaScript-Code schreiben ist nicht nur unübersichtlich, das auflösen der Formel kann sehr komplex werden.
+In reinem Lambda Kalkül Code mit JavaScript zu schreiben kann sehr unübersichtlicht werden. Denn bei Funktionen die im kern mehrere Aufgaben erledigen kann die Formel sehr komplex werden.
 
-Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie vollgebackt mit vielen anonymen Funktionen die alles gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, aber da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundate Arbeite verbrauchen,.  gebraucht ist nicht nochmal zu auswerten, sondern direkt wiede
+ Schon kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
+\(`const stackWithOneValue = push(emptyStack)(1);` \) , besteht im kern aus mehreren Funktionen. 
+
+Unserer Implementation sieht dabei so aus: 
+
+```javascript
+const push = s => stack( succ( s(stackIndex) ) )(s);
+```
+
+`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist. Der Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles zusammen kommt, so aussieht:
+
+```javascript
+// in reinem Lambda Kalkül
+const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
+```
+
+
+
+
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
@@ -176,11 +194,9 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
+Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie vollgebackt mit vielen anonymen Funktionen die alles gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, aber da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundate Arbeite verbrauchen,.  gebraucht ist nicht nochmal zu auswerten, sondern direkt wiede 
 
 
-```javascript
-
-```
 
 
 
