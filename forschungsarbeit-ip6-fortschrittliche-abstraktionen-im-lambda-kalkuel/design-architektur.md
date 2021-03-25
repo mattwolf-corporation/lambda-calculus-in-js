@@ -45,10 +45,19 @@ Bei Konstruktionen soll darauf geachtet werden, dass diese aus reinen Funktionen
 
 ### Die Brücken zwischen λ und JS
 
-Objekte und Arrays werden nicht verwendet. Ausnahme sind Funktionen die als Brücke zwischen den Welten Lambda Kalkül und JavaScript dienen.   
-Beispiel sind die _Convert_-Funktionen: [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack), [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray), converElementsToStack, [converObjectToListMap](listmap.md#convertobjtolistmap), [convertListMapToArray ](listmap.md#convertlistmaptoarray)etc.
+Objekte und Arrays werden nicht verwendet. Ausnahme gibt es Funktionen die als Brücke zwischen den Welten _Lambda Kalkül_ und _JavaScript_ dienen.   
+Das sind die _**Convert**_**-Funktionen**: 
 
-Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum), [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
+* [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack)
+* [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray)
+* converElementsToStack
+*  [converObjectToListMap](listmap.md#convertobjtolistmap)
+* [convertListMapToArray](listmap.md#convertlistmaptoarray)
+
+Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_: 
+
+* [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum)
+* [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
 
 ## Formatierung
 
