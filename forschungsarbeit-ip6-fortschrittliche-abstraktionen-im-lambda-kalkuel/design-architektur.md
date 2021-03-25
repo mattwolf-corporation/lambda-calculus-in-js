@@ -41,31 +41,22 @@ Alle Konstruktionen sind mit dem Keyword `const` definiert. Somit können diese 
 
 ### Konstante Konstrukte
 
-Bei Konstruktionen soll darauf geachtet werden, dass diese aus **reinen Funktionen** bestehen.
+Bei Konstruktionen soll darauf geachtet werden, dass diese aus reinen Funktionen bestehen.
 
 ### Die Brücken zwischen λ und JS
 
-Objekte und Arrays werden nicht verwendet. Ausnahme gibt es Funktionen die als Brücke zwischen den Welten _Lambda Kalkül_ und _JavaScript_ dienen.   
-Das sind die _**Convert**_**-Funktionen**: 
+Objekte und Arrays werden nicht verwendet. Ausnahme sind Funktionen die als Brücke zwischen den Welten Lambda Kalkül und JavaScript dienen.   
+Beispiel sind die _Convert_-Funktionen: [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack), [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray), converElementsToStack, [converObjectToListMap](listmap.md#convertobjtolistmap), [convertListMapToArray ](listmap.md#convertlistmaptoarray)etc.
 
-* [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack)
-* [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray)
-* converElementsToStack
-*  [converObjectToListMap](listmap.md#convertobjtolistmap)
-* [convertListMapToArray](listmap.md#convertlistmaptoarray)
-
-Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_: 
-
-* [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum)
-* [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
+Und die Umwandlungs-Funktionen zwischen Church- und JavaScript-Zahlen: [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum), [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
 
 ## Formatierung
 
-Beim Anwenden der Konstruktionen gibt es nicht die Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen, welche man in einer Linien schreiben könnte, kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher empfehlenswert und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
+Mit dem Anwenden der Konstruktionen kommt zu keine Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher sehr wichtig und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
 
 ### Workflow-Beispiel
 
-Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind, da sie in einer Reihe aufgelistet sind.
+Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind.
 
 ```javascript
 const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
@@ -158,7 +149,7 @@ forEach(jokes)( (joke, _) =>
 
 ```javascript
 // unformatiert
-const nextCharForNumberString = str => Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
+const nextCharForNumberString = str =>Box(str)(chain)(s => Box(s)(mapf)(s => s.trim()))(mapf)(r => parseInt(r))(mapf)(i => i + 1)(mapf)(i => String.fromCharCode(i))(fold)(c => c.toLowerCase())
 
 // formatiert
 const nextCharForNumberString = str =>
@@ -173,16 +164,16 @@ const nextCharForNumberString = str =>
 
 ## JS Doc
 
-Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen steht ein Text mit zwei bis drei Sätze, der fachlich erklärt was die Funktion tut. Anschliessend wird mit den JSDoc-Tags die Dokumentation mit Hinweisen erweitert werden:
+Das Dokumentieren der Funktionen mit dem [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen kann ein Text stehen, der erklärt was die Funktion für Parameter erwartet und im nachinein ausführt. Anschliessend kann mittels den JSDoc-Tags die Dokumentation mit Hinweisen erweitert werden:
 
-* **@haskell** die Funktion in Haskell Notation
+* **@haskell** eine Haskell Notation
 * **@sideffect** wenn die Funktion einen Side-Effekt auslöst wie zum Beispiel ein Log auf die Konsole
 * **@function** markiert es explizit als eine Funktion. Optional: Kann man der Funktion einen zweiten Name geben
-* **@param** für das erste Argument \(hilfreich für die Pop-Up Informationen\)
-* **@return** wenn die Funktion mehrere Argumente/Funktionen erwartet  \(hilfreich für die Pop-Up Informationen\)
+* **@param** für das erste Argument
+* **@return** wenn die Funktion mehr als ein Argument erwartet
 * **@example** Beispiele wie die Funktion angewendet wird
 
- Beispiel JS-Dokumentation an der Funktion [`getElementByIndex`](immutable-stack-erweiterungen.md#removebyindex)
+ Beispiel JS-Dokumentation an der Funktion `getElementByIndex`
 
 ```javascript
 /**
@@ -215,11 +206,11 @@ const getElementByIndex = stack => index =>
      (id);
 ```
 
-In der IDEA \(hier Intellij\) wird die Dokumentation dementsprechend angezeigt:.
+In der IDEA \(hier Intellij\) kann man sich die Dokumentation anzeige lassen.
 
 ![Dokumentation in der IDEA](../.gitbook/assets/image%20%288%29.png)
 
-Ein sehr praktischer Vorteil, nebst der Dokumentation, sind die Pop-Up Informationen welche dem Anwender beim benutzen der Funktionen erscheint und informiert, welcher Parameter als nächstes erwartet wird.
+Ein weiterer sehr praktischer Hinweist, nebst der Dokumentation, die dem Anwender helfen Informationen über eine Funktion Nachzuschlagen, ist die Pop-Up welche dem Anwender informiert, welcher Parameter als nächstes erwartet wird.
 
 ![Erste Parameter-Info](../.gitbook/assets/image%20%286%29.png)
 
