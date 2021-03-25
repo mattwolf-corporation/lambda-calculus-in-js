@@ -6,7 +6,7 @@ description: Entweder Erfolgsfall mit Resultat oder Fehlerfall mit Fehlermeldung
 
 ## Beschreibung
 
-{% hint style="success" %}
+{% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 

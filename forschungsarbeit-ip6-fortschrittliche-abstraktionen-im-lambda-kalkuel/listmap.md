@@ -6,7 +6,7 @@ description: Stack mit Key-Value Pairs
 
 ## Beschreibung
 
-{% hint style="success" %}
+{% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
