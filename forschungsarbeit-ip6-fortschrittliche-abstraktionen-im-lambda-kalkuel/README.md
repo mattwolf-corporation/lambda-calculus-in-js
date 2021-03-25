@@ -143,7 +143,7 @@ const push = s => stack( succ( s(stackIndex) ) )(s);
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 ```
 
-In reinem Lambda Kalkül Code mit JavaScript zu schreiben kann schnell unübersichtlich werden. Zu verstehen, was jede anonyme Funktion in der nächsten anonymen Funktion macht, kann sehr kompliziert werden.
+Reinem Lambda Kalkül Code mit JavaScript zu schreiben und zu verstehen kann schnell unübersichtlich werden. Zu merken, was die anonyme Funktion in der nächsten anonymen Funktion macht und ausführt, kann zu komplex werden.
 
 Wenn man die Funktion `reduce` anschaut, erkannt man 
 
