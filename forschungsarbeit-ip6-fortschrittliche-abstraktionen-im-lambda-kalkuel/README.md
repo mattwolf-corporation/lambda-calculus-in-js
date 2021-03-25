@@ -125,11 +125,9 @@ const streetName = user =>
 
 
 
-### Pure Lambda-JS VS Lambda JS mit mehreren Funktionen
+### Pure Lambda JS vs Lambda JS
 
-In reinem Lambda Kalkül Code mit JavaScript zu schreiben kann sehr unübersichtlicht werden. Denn bei Funktionen die im kern mehrere Aufgaben erledigen kann die Formel sehr komplex werden.
-
- Schon kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
+ Bereits kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
 \(`const stackWithOneValue = push(emptyStack)(1);` \) , besteht im kern aus mehreren Funktionen. 
 
 Unserer Implementation, mit welcher wir arbeiten und zur Verfügung stellen, sieht dabei so aus: 
@@ -145,14 +143,11 @@ const push = s => stack( succ( s(stackIndex) ) )(s);
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 ```
 
+In reinem Lambda Kalkül Code mit JavaScript zu schreiben kann schnell unübersichtlich werden. Zu verstehen, was jede anonyme Funktion in der nächsten anonymen Funktion macht, kann sehr kompliziert werden.
 
-
-
+Wenn man die Funktion `reduce` anschaut, erkannt man 
 
 ```javascript
-// reduce in reinem Lambda Kalkül 
-const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
-
 
 // reduce in mehreren Funktionen unterteilt
 const reduce = reduceFn => initialValue => s => {
@@ -192,6 +187,13 @@ const reduce = reduceFn => initialValue => s => {
                   (initialValue)
             )(thirdOfTriple);
 };
+```
+
+
+
+```javascript
+// reduce in reinem Lambda Kalkül 
+const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
 Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie vollgebackt mit vielen anonymen Funktionen die alles gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, aber da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundate Arbeite verbrauchen,.  gebraucht ist nicht nochmal zu auswerten, sondern direkt wiede 
