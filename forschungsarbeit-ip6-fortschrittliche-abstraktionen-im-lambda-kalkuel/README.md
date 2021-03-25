@@ -136,7 +136,7 @@ Unserer Implementation, mit welcher wir arbeiten und zur Verfügung stellen, sie
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist; denn zweiten Parameter denselben Stack \(`s`\) und als letzten Wert den neuen Wert erwartet. Der erster Paramter mit dem Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles Evaluiert wird, so aussieht:
+`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist; denn zweiten Parameter denselben Stack \(`s`\) und als letzten Wert den neuen Wert erwartet. Der erster Parameter mit dem Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles Evaluiert wird, so aussieht:
 
 ```javascript
 // in reinem Lambda Kalkül
@@ -148,7 +148,6 @@ Reinem Lambda Kalkül Code mit JavaScript zu schreiben und zu verstehen kann sch
 Wenn man die Funktion `reduce` anschaut, erkannt man 
 
 ```javascript
-
 // reduce in mehreren Funktionen unterteilt
 const reduce = reduceFn => initialValue => s => {
 
