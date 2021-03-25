@@ -311,7 +311,7 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 
 ## Observable: Dokumentation & Implementation
 
-{% hint style="info" %}
+{% hint style="success" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 

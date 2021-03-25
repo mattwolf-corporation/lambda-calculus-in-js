@@ -45,6 +45,10 @@ In den folgenden Beispielen wird die Box zur besseren Übersicht wie folgt darge
 **`{ content }`**
 {% endhint %}
 
+{% hint style="success" %}
+Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
+{% endhint %}
+
 ### [Box](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L38)
 
 Die Funktion `Box` wird verwendet um einen beliebigen Wert in eine "Box" zu verpacken. 
