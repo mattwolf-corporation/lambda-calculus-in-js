@@ -339,7 +339,7 @@ Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 
 ### [Observable](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L41)
 
-Der Konstruktor zum erstellen eines Observable mit dem initialen Startwert.
+Die Funktion `Observable` nimmt einen initialen Startwert und erstellt ein Observable.
 
 ```javascript
 // Implementation
@@ -369,8 +369,8 @@ const observableBody = listeners => value => observableFn =>
     observableFn(listeners)(value);
 ```
 
-{% hint style="warning" %}
-Nachdem anwenden eines der **Observable-Functions** erhält man den aktuellen Observable zurück. Es ist dabei "best-practices" eine Zuweisung auf dieselbe Observable wieder zu setzen, damit diese die Alte überschreibt. Ansonsten wird das hinzufügen oder entfernen eines Listeners nicht abgeschlossen.
+{% hint style="danger" %}
+Nachdem anwenden einer **Observable-Funktion** ist es wichtig den Rückgabewert in einer Variablen zu speichern, weil dieser das aktuelle Observable enthält.
 
 ```javascript
 let obsExample = Observable(0)
@@ -379,12 +379,10 @@ obsExample = obsExample( addListener    )( /* dein Listener   */ )
 obsExample = obsExample( removeListener )( /* dein Listener   */ )
 obsExample = obsExample( setValue       )( /* dein neuer Wert */ )
 ```
-
-#### Mit dieser Ausnahme wird gegen die[ Regel der unveränderbaren Datenstruktur](../#forschungsarbeit) verstossen!
 {% endhint %}
 
 {% hint style="info" %}
-Ein Observable kann _immutable_ sein, wenn man die Observable-Variable mit `const` deklariert.  So kann man die Überschreibung des Observable unterbinden und nachhinein keine Listener mehr hinzufügen oder entfernen.  
+Die Variable, die das Observable enthält, kann mit dem `const` Schlüsselwort deklariert werden und ist somit auch immutable. Dadurch kann diese Variable nicht überschrieben werden und es können dann keine Listener hinzugefügt werden oder entfernt werden.
 
 ```javascript
 const listenerLog = newListener( listenerLogToConsole  );
