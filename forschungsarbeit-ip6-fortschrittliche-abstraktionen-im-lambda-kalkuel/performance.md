@@ -2,7 +2,7 @@
 
 ## BenchmarkTest
 
-Um Funktionen auf ihre Ausführungsgeschwindigkeit zu prüfenb wurde die Funktion `BenchmarkTest` gebaut. Mit der Zeitstempel Methode  `performance.now()` von JavaScript **** kann die Ausführungsdauer der Funktion `methodUnderTest` berechnet werden. Die Werte, die von `Performance.now()` zurückgegeben werden sind immer in einem konstanten Tempo, unabhängig von der Systemuhr.
+Um Funktionen auf ihre Ausführungsgeschwindigkeit zu prüfen wurde die Funktion `BenchmarkTest` dem TestFramework hinzugefügt. Mit der Zeitstempel Methode  `performance.now()` von JavaScript **** kann die Ausführungsdauer der Funktion `methodUnderTest` berechnet werden. Die Werte, die von `Performance.now()` zurückgegeben werden sind immer in einem konstanten Tempo, unabhängig von der Systemuhr.
 
 ```javascript
 const BenchmarkTest = mutName => methodUnderTest => {
@@ -22,13 +22,13 @@ const BenchmarkTest = mutName => methodUnderTest => {
 }
 ```
 
-## Unsere Erkenntnisse dank BenchmarkTests 
+## Unsere Erkenntnisse mit der Funktion BenchmarkTest
 
 ### forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
 
-Bei der Anwendung des Observabes ist uns aufgefallen, dass die Benachrichtigung der Listener viel zu lange ging. Wir haben uns danach gefragt welcher Teil so viel Zeit in Anspruch nimmt für die Ausführung. Danach untersuchten wir die forEach Methode, die bei bei der Benachrichtigung der Listener eine zentrale Rolle spielt. Wir haben die Methode analysiert und festgestellt dass in jeder Iterationsrundne eine zusätzliche Iteration haben, dies jedoch nicht benötigt wird.
+Bei der Anwendung des Observabes ist uns aufgefallen, dass die Benachrichtigung der Listener viel zu lange ging. Wir haben uns danach gefragt, welcher Teil so viel Zeit in Anspruch nimmt für die Ausführung. Danach untersuchten wir die `forEach` Methode, die bei der Benachrichtigung der Listener eine zentrale Rolle spielt. Wir haben die Methode analysiert und festgestellt dass in jeder Iterationsrunde eine weitere Iteration gestartet wird \(ähnlich wie eine for-Schleife in einer for-Schleife\), die jedoch nicht benötigt wird. 
 
-Anstelle den Index in jeder Iterationsrunde aus dem Stack via **`jsnum`** zu berechnen, wurde der Index in jeder Iteration um eins erhöht und der nächsten Iterationsrunde mitgegeben. Das Problem bei der Funktion `jsnum` die mit einer rekursiven Implementation eine Church Zahl in eine JavaScript Zahl umwandelt.
+Anstelle den Index in jeder Iterationsrunde aus dem Stack via **`jsnum`** zu berechnen, wurde der Index in jeder Iteration um eins erhöht und der nächsten Iterationsrunde mitgegeben. Das Problem bei der Funktion `jsnum` ist das diese mit einer rekursiven Implementation eine Church Zahl in eine JavaScript Zahl umwandelt.
 
 Nach dem Refactoring war die `forEach` Methode massiv viel schneller \(mehr als doppelt so schnell\) . Wir haben einen kleinen Benchmark Test erstellt, der misst wie lange eine Ausführung dauert und konnten dadurch einen erheblichen Unterschied feststellen.
 
