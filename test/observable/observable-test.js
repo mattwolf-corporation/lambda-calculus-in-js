@@ -168,14 +168,14 @@ observableListMapSuite.add("benchmark test", assert => {
     // set Value
     BenchmarkTest('observable set value method ' + amountListener)(() => testObs = testObs(setValue)(66));
 
-    assert.equals(listOfValuesHandlers.every(v => v.value === 66), true);
+    assert.true(listOfValuesHandlers.every(v => v.value === 66));
 
     BenchmarkTest('observable set value method 1000 times')(() => {
         for (let i = 0; i <= 1000; i++) {
             testObs = testObs(setValue)(i)
         }
     });
-    assert.equals(listOfValuesHandlers.every(v => v.value === 1000), true);
+    assert.true(listOfValuesHandlers.every(v => v.value === 1000));
 
 });
 
