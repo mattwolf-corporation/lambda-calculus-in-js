@@ -6,20 +6,26 @@ description: >-
 
 # Observable
 
-#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
+#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster 'Observer-Pattern' an, dass in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: Der 'Erzähler' \(Observable\) hält Informationen bereit an die sich 'Zuhörer' \(Listener\) registrieren können. Sobald der 'Erzähler' neue Informationen bekommt, benachrichtigt er seine 'Zuhörer'.
 
-## Ein kleines Beispiel
+## Beispiel
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei wir dem Listener als Parameter eine Funktion erstellt, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
+### Listener erstellen
+
+Als erstes wird ein Listener erstellt. Ein Listener ist ein Schlüssel-Wert Paar, dessen Wert eine Funktion ist, die bei einer Wertänderung auf dem Obersvable, aufgerufen wird. Somit kann mit dieser Funktion auf eine Wertänderung reagiert werden. Diese Funktion nimmt zwei Parameter entgegen, als erstes den`newValue` und als zweites den `oldValue`.
+
+In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem `newValue`-Wert überschrieben, wenn der Listener vom Observable über eine Wertänderung benachricht wird. `oldValue` wird in diesem Beispiel nicht verwendet.
 
 ```javascript
 let listenerVariable; // undefined
 const listenerExample = newListener( newValue => oldValue  => listenerVariable = newValue );
 ```
 
-Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
-Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert mitteilt.  
-Mit der Funktion `addListener`  wird der Listeners an den Observable hinzugefügt. 
+### Observable erstellen und Listener registrieren
+
+Nachdem ein 'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
+Dafür gibt es die Funktion `Observable`  welche als ersten Parameter den initialen Wert entgegennimmt.  
+Mit der Funktion `addListener` wird der zuvor erstelle Listener registriert.
 
 ```javascript
 let obsExample = Observable(42)                     // new Observable with initValue 42
@@ -34,13 +40,13 @@ listenerVariable   // 42
 ```
 {% endhint %}
 
-Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus dem Observable zurück.
+Die Funktion `getValue`  gibt den aktuellsten Wert aus dem Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
 ```
 
-Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listeners werden benachrichtig und der neuen Wert als _newValue_ mitgegeben. Der vorherige Wert als _oldValue._ 
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listeners werden benachrichtig und der neue Wert als _newValue_ mitgegeben. Der vorherige Wert als _oldValue._ 
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -311,7 +317,7 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 
 ## Observable: Dokumentation & Implementation
 
-{% hint style="info" %}
+{% hint style="success" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
