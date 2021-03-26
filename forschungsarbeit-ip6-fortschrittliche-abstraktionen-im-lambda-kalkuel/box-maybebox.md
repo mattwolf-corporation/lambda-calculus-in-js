@@ -6,7 +6,7 @@ description: Verpacken -> Verarbeiten -> Auspacken
 
 ## Beschreibung
 
-Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Es können beliebige Werte in eine "Box eingepackt" werden und danach gemapped \(weiterverarbeitet\) werden. Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
+Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Die Werte werden in eine "Box" eingepackt und danach gemapped \(weiterverarbeitet\). Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen-Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
 
 Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `fmap` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozessierung nicht mit `fmap` sondern mit `fold` durchgeführt.
 
@@ -45,12 +45,16 @@ In den folgenden Beispielen wird die Box zur besseren Übersicht wie folgt darge
 **`{ content }`**
 {% endhint %}
 
+{% hint style="info" %}
+Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
+{% endhint %}
+
 ### [Box](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L38)
 
 Die Funktion `Box` wird verwendet um einen beliebigen Wert in eine "Box" zu verpacken. 
 
 {% hint style="info" %}
-In anderen Programmiersprachen kann diese Methode verglichen werden mit dem `.of` Konstruktor. Die Funktion ist also eine Art `Box.of()` Methode.
+In anderen Programmiersprachen kann diese Methode verglichen werden mit der statischen Methode`.of`. Die Funktion ist also eine Art `Box.of()` Methode.
 {% endhint %}
 
 ```javascript
@@ -82,7 +86,7 @@ Box(5)                                 // { 5 }
 
 ### [fold](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L53)
 
-Die Funktion `fold` wird verwendet um einen Wert in der "Box" zu mappen und anschliessend zu extrahieren \(den Inhalt aus der Box auspacken\).
+Die Funktion `fold` wird verwendet um einen Wert in der "Box" zu mappen und anschliessend zu extrahieren \(den Inhalt aus der Box auszupacken\).
 
 {% hint style="info" %}
 Diese Funktion wird meistens am Schluss in einer Box Pipeline verwendet, um den Wert nach dem letzten Verarbeitungsschritt zu entpacken.
@@ -177,7 +181,7 @@ liftA2(name1 => name2 => name1 + " " + name2)  // { "Tyrion Lannister" }
 
 ### [debug](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L134)
 
-Die Funktion `debug` ist eine Helferfunktion, die für debug zwecke da ist. Die Funktion hilft dem Anwender die einzelne Zwischenresultate zu untersuchen in einer Pipeline.
+Die Funktion `debug` ist eine Helferfunktion, die für debug Zwecke da ist. Die Funktion hilft dem Anwender die Zwischenresultate zu untersuchen in einer Pipeline.
 
 {% hint style="info" %}
 Wichtig bei der `debug` Funktion ist, das die Funktion `fold` am Schluss zwingend verwendet werden muss, um das letzte debug Statement auch auszuführen.
@@ -201,8 +205,10 @@ Box(10)
 
 ### [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
 
-```text
-Box( convertArrayToStack([1,2,3,4]) )
+```javascript
+const Stream = (...elements) => Box(convertArrayToStack(elements));
+
+Stream(1,2,3,4)
  (fmap)( map(x => x * 2)    )
  (fold)( filter(x => x > 4) )
 ```
@@ -223,12 +229,12 @@ HttpGet( URL )(resp => Box(resp)
 
 ```
 
-## Verwendung der Box mit dem Maybe Type
+## Box mit Maybe
 
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von Maybe Types erleichtert. Somit wird das prozessieren mit dem Maybe Type vereinfacht und die Maybe Types können verknüpft werden. 
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion, die das verarbeiten von Maybe Types erleichtern. Somit wird das prozessieren mit dem Maybe Type vereinfacht und die Maybe Types können verknüpft werden.
 
 {% hint style="info" %}
-Wenn irgendwo ein Nothing zurück geliefert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
+Wenn irgendwo ein Nothing zurück geliefert wird, wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
 {% endhint %}
 
 ### [fmapMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L160)
@@ -329,10 +335,6 @@ liftA2Maybe( x => y => x + y)  // (10 + 5)
  ( Just(10) )
  ( Just(5)  );
 ```
-
-### pureMaybe
-
-Diese Funktion ...
 
 
 
