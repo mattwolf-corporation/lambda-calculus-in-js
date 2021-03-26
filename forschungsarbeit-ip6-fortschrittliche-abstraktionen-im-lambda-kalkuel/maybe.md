@@ -111,7 +111,7 @@ const maybeNotNullAndUndefined = value =>
 
 ### [maybeDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L132)
 
-Diese Funktion nimmt eine Dom-Element-Id als String entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein Just mit diesem HTML-Element zurückgegeben ansonsten Nothing.
+Diese Funktion nimmt eine Id für ein Dom-Element entgegen. Wenn ein Element mit dieser Id im DOM existiert wird ein `Just` mit diesem HTML-Element zurückgegeben ansonsten `Nothing`.
 
 ```javascript
 const maybeDomElement = elemId =>
