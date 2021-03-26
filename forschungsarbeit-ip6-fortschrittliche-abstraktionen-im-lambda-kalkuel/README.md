@@ -2,6 +2,8 @@
 
 ## Abstract
 
+
+
 Was wurde erreicht? Was sind die Ergebnisse?
 
 * Erweiterungen der **immutable Stack** Datenstruktur
@@ -35,7 +37,11 @@ JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber
 
 {% page-ref page="box-maybebox.md" %}
 
-Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
+{% page-ref page="performance.md" %}
+
+{% page-ref page="design-architektur.md" %}
+
+Bei den entwickelten Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
 
 * **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
 * **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
@@ -49,16 +55,9 @@ Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkaste
 
 Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
-### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
+### Classic JS vs Lambda JS
 
-| Fehlermeldung | Grund |
-| :--- | :--- |
-| Uncaught TypeError: Cannot Read Property | Zugriff auf Objekt das null oder undefined ist |
-| ... |  |
-
-## Classic JS vs Lambda JS
-
-### Property Value aus Objekt extrahieren \(null-safe\)
+#### Property Value aus Objekt extrahieren \(null-safe\)
 
 **Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
 **Ziel:**           Strassenname extrahieren
@@ -114,7 +113,7 @@ const streetName = user =>
     (id)
 ```
 
-### Vergleich
+#### Vergleich
 
 | Eigenschaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
@@ -125,9 +124,9 @@ const streetName = user =>
 
 
 
-## Pure Lambda JS vs Lambda JS
+### Pure Lambda JS vs Lambda JS
 
-Bereits eine kleinere Funktion wie `push`  die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
+Bereits eine kleine Funktion wie `push` , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
 Die Implementation der Funktion `push` sieht wie folgt aus: 
 
@@ -135,11 +134,9 @@ Die Implementation der Funktion `push` sieht wie folgt aus:
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex.`
+Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funktionen können in der Funktion push durch ihre Implmentation ersetzt werden:
 
-Diese Definition können mit der Implementierung die dahinter steckt ersetzt werden. So ergibt sich am Schluss eine einzige grosse Funktion. Im Lambda Kalkül gibt es keine Variablen sondern nur Funktion die auf Argumente angwendet werden.
-
-
+`const stack = triple`
 
 `const triple = x => y => z => f => f(x)(y)(z);`
 
@@ -149,16 +146,23 @@ Diese Definition können mit der Implementierung die dahinter steckt ersetzt wer
 
 `const firstOfTriple = x => y => z => x`; 
 
-Die Funktion push würde im reinen lambda Kalkül wie folgt aussehen:
+Die Funktion `push` würde im reinen lambda Kalkül wie folgt aussehen:
 
 ```javascript
-// in reinem Lambda Kalkül
+const push = s => (x => y => z => f => f(x)(y)(z))((n => f => x => (f)(n(f)(x)))(s(x => _ => _ => x)))(s)
+```
+
+Nach Eta-Reduktion:
+
+```javascript
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 ```
 
-Reinem Lambda Kalkül Code mit JavaScript zu schreiben und zu verstehen kann schnell unübersichtlich werden. Zu merken, was die anonyme Funktion in der nächsten anonymen Funktion macht und ausführt, kann zu komplex werden.
+Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Defintionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinvollen Namen zu geben.
 
-Wenn man die Funktion `reduce` anschaut, erkannt man 
+Beispiel an der grösseren Funktion `reduce` :
+
+Implementation Lambda JS
 
 ```javascript
 // reduce in mehreren Funktionen unterteilt
@@ -201,94 +205,26 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-
+Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und eta reduziert\)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
 const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
-Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie ist vollgebackt mit vielen anonymen Funktionen die alls gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, und da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundante Arbeite verbrauchen,. 
-
-
-
-
-
-```javascript
-const checkElementByFunction = f => (...elems) =>
-    elems.reduce((acc, curr) => {
-        const result = f(curr);
-        if (acc.isFailed) {
-            if (!result) {
-                 acc.values.push('element with id: ' + curr + 'not found');
-                return acc;
-            }
-            return acc;
-        } else {
-            if (result) {
-                acc.values.push(result);
-                return acc;
-            }
-            acc.values = [] // clear elements
-            acc.values.push('element with id: ' + curr + 'not found');
-            acc.isFailed = true;
-            return acc;
-
-        }
-    }, {values: [], isFailed: false});
-```
-
-
-
-```javascript
-const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-    reduce((acc, curr) =>
-        acc
-         ( stack => Left( eitherProducerFn(curr)
-                            (err => push(stack)(err) )
-                            (_   => stack            )
-                        )
-         )
-         ( listMap => eitherProducerFn(curr)
-                        (err => Left(  push( emptyStack )( err             )))
-                        (val => Right( push( listMap    )( pair(curr)(val) )))
-         )
-    )
-    ( Right( emptyListMap) )
-    ( convertArrayToStack(elements) );
-```
-
-Die Funktion [`eitherElementsOrErrorsByFunction`](either.md#eitherelementsorerrorsbyfunction) als Programmstarter nützlich. Gib dieser Funktion irgendein Either und die Werte an. 
-
-```javascript
-// Either all the necessary Dom-Element exist or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
-(err => document.body.innerHTML = Box(err)
-                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
-(result => {
-
-    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);
-
-    divisionBtn.onclick = () => {
-        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
-        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
-    }
-
-});
-```
+Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen lambda Kalkül Schreibweise definiert ist. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden in JavaScript. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lambda Kalkül Schreibweise zu definieren.
 
 ## Fazit / Erkenntnisse
 
 #### Konzepte aus der funktionalen Programmierung
 
-Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
 
 #### Nutzen & Vorteile
 
 In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
 
-Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekte leidet die Übersicht von grossen Anwendungen und man hat keine Ahnung mehr was wo genau geschieht. Schon durch einen kleinen Einsatz von diesen Konstruktionen können bestimmte Teile in einer Applikation einfacher und sicherer werden. 
+Da die Konstruktionen aus puren Funktionen bestehen, ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekten, leidet die Übersicht, man verliert die Kontrolle über den Programmablauf und den Abhängigkeiten innerhalb des Programmes. Schon durch einen kleinen Einsatz von diesen Konstruktionen wird diesem Problem entegengewirkt und die Übersicht wird verbessert.
 
 #### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
 
@@ -297,12 +233,12 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
 **‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
 
 * Für die unveränderlichen Datenstrukturen **Stack** und **ListMap** könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
-* Mögliche Funktionen: findFirst, stream artige Funktionen
+* Mögliche Funktionen: findFirst, stream-artige Funktionen
 * Weitere Konzepte der funktionalen Programmierung umsetzen
 
 **Was kann verbessert werden?**
 
-* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
+* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass ungültige Parameter besser abgefangen werden
 * Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
 * Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
 
@@ -315,15 +251,4 @@ Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda 
 * Observable
 * diverse Erweiterungen für die immutable Datenstruktur Stack
 * Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
-
-\*\*\*\*
-
-
-
-Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
-
-* Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
-* Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
-* Die funktionalen Konstruktionen sind einfach zu Testen.
-* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
 
