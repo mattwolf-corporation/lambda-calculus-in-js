@@ -329,7 +329,7 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 
 ## Verwendung
 
-{% hint style="success" %}
+{% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
