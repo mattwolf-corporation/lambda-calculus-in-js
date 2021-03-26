@@ -2,24 +2,27 @@
 
 ## Abstract
 
+Ziel der Arbeit war es in JavaScript sichere und belastbare Konstruktionen mit Industriehärte zu bauen. Für den Bau dieser Konstruktionen wurden die Erkentnisse aus dem untypsierten Lambda Kalkül angewendet. Folgende Werte waren für die Implementation der Konstruktionen essentiel:
 
+* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
+* **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
+* **Fehlerbehandlung** ohne `throw` Ausdruck
+* **Funktionen höherer Ordnung** \(high order functions\).
+* **Zustandslosigkeit**
 
-Was wurde erreicht? Was sind die Ergebnisse?
+Dabei kam eine Sammlung von folgenden Konstruktionen heraus:
 
-* Erweiterungen der **immutable Stack** Datenstruktur
-* Umsetzung des **Observer Pattern**
-* **immutable ListMap** \(Stack mit Schlüssel-&gt;Wert Paaren\) Datenstruktur
-* Umsetzung **Maybe** und **Either** Type für eine Fehlerbehandlung nur mit reinen Funktionen , ohne `throw` Statements.
-* **Box/MaybeBox** \(Monade\) um Werte in einer Art Pipeline zu verarbeiten
-* Erweiterung des Test-Frameworks mit einer Zeitmessung für die Methodenausführung \(Benchmark-Test\)
-* JsDoc Ergänzungen
+* Zusätzliche Funktionen für die **immutable Stack** Datenstruktur
+* Umsetzung des **Observer Pattern \(funktionales Oberservable Konstrukt\)**
+* **immutable ListMap** Datenstruktur \(Stack mit Schlüssel-Wert Paaren\)
+* Umsetzung **Maybe** und **Either** Type für die Fehlerbehandlung
+* **Box-Konstrukt** um Werte in einer Pipeline zu verarbeiten
+* **Erweiterung des Test-Frameworks** mit einer Zeitmessung für die Methodenausführung \(Benchmark-Test\)
+* **JsDoc** Ergänzungen \(Typ Unerstüzung für den Anwender\)
 * Dokumentation und Anwendungsbeispiele der Konstruktionen
 
-Warum wurde es gemacht? Was war das Problem?
-
-Wie wurde es gemacht/untersucht/getestet ?
-
-
+In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
 
 ## Einleitung
 
