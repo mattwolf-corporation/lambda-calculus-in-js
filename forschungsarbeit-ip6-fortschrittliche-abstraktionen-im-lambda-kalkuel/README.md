@@ -231,12 +231,12 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
 **‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
 
 * Für die unveränderlichen Datenstrukturen **Stack** und **ListMap** könnten zusätzliche Funktionen entwickelt werden, sodass ein noch grösseres Anwendungsgebiet entsteht.
-* Mögliche Funktionen: findFirst, stream artige Funktionen
+* Mögliche Funktionen: findFirst, stream-artige Funktionen
 * Weitere Konzepte der funktionalen Programmierung umsetzen
 
 **Was kann verbessert werden?**
 
-* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass spezielle Falsche Parameter besser abgefangen werden
+* Bei gewissen Funktionen könnte noch mehr Sicherheit eingebaut werden, sodass ungültige Parameter besser abgefangen werden
 * Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
 * Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
 
@@ -249,15 +249,4 @@ Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda 
 * Observable
 * diverse Erweiterungen für die immutable Datenstruktur Stack
 * Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
-
-\*\*\*\*
-
-
-
-Unsere Konstruktionen aus dem Lambda Kalkül bringen folgende Vorteile mit sich:
-
-* Die Verwendung von unveränderlichen Datenstrukturen reduziert Fehler im Code, in dem sie geschützt ist vor Manipulation.
-* Reine Funktionen sind wartbarer und erhöhen die Leserlichkeit von Code.
-* Die funktionalen Konstruktionen sind einfach zu Testen.
-* Funktions-Komposition ist ein sehr mächtiges Werkzeug, weil dadurch rasch nützliche neue Konstruktionen entstehen.
 
