@@ -127,7 +127,7 @@ const streetName = user =>
 
 ## Pure Lambda JS vs Lambda JS
 
-Bereits eine kleinere Funktion wie `push`  die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
+Bereits eine kleine Funktion wie `push` , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
 Die Implementation der Funktion `push` sieht wie folgt aus: 
 
@@ -135,11 +135,9 @@ Die Implementation der Funktion `push` sieht wie folgt aus:
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex.`
+Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funktionen können in der Funktion push durch ihre Implmentation ersetzt werden:
 
-Diese Definition können mit der Implementierung die dahinter steckt ersetzt werden. So ergibt sich am Schluss eine einzige grosse Funktion. Im Lambda Kalkül gibt es keine Variablen sondern nur Funktion die auf Argumente angwendet werden.
-
-
+`const stack = triple`
 
 `const triple = x => y => z => f => f(x)(y)(z);`
 
@@ -149,16 +147,23 @@ Diese Definition können mit der Implementierung die dahinter steckt ersetzt wer
 
 `const firstOfTriple = x => y => z => x`; 
 
-Die Funktion push würde im reinen lambda Kalkül wie folgt aussehen:
+Die Funktion `push` würde im reinen lambda Kalkül wie folgt aussehen:
 
 ```javascript
-// in reinem Lambda Kalkül
+const push = s => (x => y => z => f => f(x)(y)(z))((n => f => x => (f)(n(f)(x)))(s(x => _ => _ => x)))(s)
+```
+
+Nach Eta-Reduktion:
+
+```javascript
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 ```
 
-Reinem Lambda Kalkül Code mit JavaScript zu schreiben und zu verstehen kann schnell unübersichtlich werden. Zu merken, was die anonyme Funktion in der nächsten anonymen Funktion macht und ausführt, kann zu komplex werden.
+Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Defintionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinvollen Namen zu geben.
 
-Wenn man die Funktion `reduce` anschaut, erkannt man 
+Beispiel an der grösseren Funktion `reduce` :
+
+Implementation Lambda JS
 
 ```javascript
 // reduce in mehreren Funktionen unterteilt
@@ -201,14 +206,14 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-
+Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und eta reduziert\)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
 const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
-Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie ist vollgebackt mit vielen anonymen Funktionen die alls gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, und da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundante Arbeite verbrauchen,. 
+Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie ist vollgebackt mit vielen anonymen Funktionen die alls gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, und da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundante Arbeite verbrauchen. 
 
 
 
