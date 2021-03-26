@@ -205,8 +205,10 @@ Box(10)
 
 ### [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
 
-```text
-Box( convertArrayToStack([1,2,3,4]) )
+```javascript
+const Stream = (...elements) => Box(convertArrayToStack(elements));
+
+Stream(1,2,3,4)
  (fmap)( map(x => x * 2)    )
  (fold)( filter(x => x > 4) )
 ```
@@ -227,12 +229,12 @@ HttpGet( URL )(resp => Box(resp)
 
 ```
 
-## Verwendung der Box mit dem Maybe Type
+## Box mit Maybe
 
-Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion die das verarbeiten von Maybe Types erleichtert. Somit wird das prozessieren mit dem Maybe Type vereinfacht und die Maybe Types können verknüpft werden. 
+Um die die Box Konstruktion zu verwenden mit Maybe Werten gibt es spezielle Funktion, die das verarbeiten von Maybe Types erleichtern. Somit wird das prozessieren mit dem Maybe Type vereinfacht und die Maybe Types können verknüpft werden.
 
 {% hint style="info" %}
-Wenn irgendwo ein Nothing zurück geliefert wird wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
+Wenn irgendwo ein Nothing zurück geliefert wird, wird die Funktionskette abgebrochen und die restlichen Funktionen werden nicht ausgeführt.
 {% endhint %}
 
 ### [fmapMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/23eaf0fb1316566a93f135f6a7ee9a3638bfe8f7/src/box/box.js#L160)
@@ -333,10 +335,6 @@ liftA2Maybe( x => y => x + y)  // (10 + 5)
  ( Just(10) )
  ( Just(5)  );
 ```
-
-### pureMaybe
-
-Diese Funktion ...
 
 
 
