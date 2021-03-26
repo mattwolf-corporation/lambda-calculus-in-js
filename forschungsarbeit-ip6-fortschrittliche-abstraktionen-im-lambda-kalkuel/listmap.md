@@ -141,7 +141,7 @@ convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
 
 ## Higher Order Functions \(HOF's\) speziell für ListMap
 
-Für die HOF's `map`, `filter` und `reduce` wurde noch eine spezifischere Variante für die ListMap Datenstruktur implementiert, dies um die Anwendung nochmals zu vereinfachen. Die HOF's vom Stack können auch benutzt werden, da muss aber immer mit einem pair\(key\)\(value\) gearbeitet werden obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf \(sollte\). darum wird in den spezifischen HOF's der Key weg abstrahiert und der Anwender kann sich voll und ganz auf das eigentliche Element zu konzentrieren.
+Für die ListMap wurde eine spezifischere Variante für die HOF's `map`, `filter` und `reduce`  implementiert. Dies um die Anwendung nochmals zu vereinfachen weil sonst mit einem pair\(key\)\(value\) gearbeitet werden muss, obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf. Der Key wird in den HOF's für die ListMap weg abstrahiert, sodass sicher der Anwender auf das eigentliche Element konzentrieren kann.
 
 ### [mapListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L62)
 
