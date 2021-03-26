@@ -213,9 +213,7 @@ Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und eta reduziert\
 const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
-Die Performance leidet wenn eine grössere und komplexere Funktion in einer Linie in reiner mathematischen Lambda Kalkül hinschreibt. Denn sie ist vollgebackt mit vielen anonymen Funktionen die alls gelesen und evaluiert werden. So werden mehrere Male Funktionen ausgewertet die das gleiche tun, und da sie anonym sind, weiss das JavaScript nicht.  Darum ist es besser, mehrere Funktionen zu bauen, die nicht zu viel Arbeit verrichten und  zur Wiederverwendbarkeit mehrfach gebraucht werden können. So muss JavaScript eine Funktion die er bereits einmal evaluiert hat nicht unnötigerweise nochmals bearbeiten und die Leistung für redundante Arbeite verbrauchen. 
-
-
+Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen lambda Kalkül Schreibweise definiert wird. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lmabda Kalkül Schriebweise zu definieren.
 
 
 
