@@ -141,11 +141,11 @@ convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
 
 ## Higher Order Functions \(HOF's\) speziell für ListMap
 
-Für die ListMap wurde eine spezifischere Variante für die HOF's `map`, `filter` und `reduce`  implementiert. Dies um die Anwendung nochmals zu vereinfachen weil sonst mit einem pair\(key\)\(value\) gearbeitet werden muss, obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf. Der Key wird in den HOF's für die ListMap weg abstrahiert, sodass sicher der Anwender auf das eigentliche Element konzentrieren kann.
+Für die ListMap wurde eine spezifischere Variante für die HOF's `map`, `filter` und `reduce`  implementiert. Dies um die Anwendung nochmals zu vereinfachen, weil sonst mit einem pair\(key\)\(value\) gearbeitet werden muss, obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf. Der Key wird in den HOF's für die ListMap weg abstrahiert, sodass sicher der Anwender auf das eigentliche Element konzentrieren kann.
 
 ### [mapListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L62)
 
-Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und eine listMap entgegen. Zurück gibt die Funktion eine neue listMap mit den "gemappten" Werten.
+Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und eine ListMap entgegen. Zurück gibt die Funktion eine neue ListMap mit den "gemappten" Werten.
 
 {% hint style="info" %}
 Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
@@ -167,7 +167,7 @@ getElementByKey( mappedListMap )( "name2" )  // "HANS"
 
 ### [filterListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L78)
 
-Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine _listMap_ entgegen. Die Funktion gibt die gefilterte _listMap_ zurück. Wenn keine Elemente dem Filter entsprechen wird die leere _listMap_ \([`emptyListMap`](listmap.md#empty-listmap)\) zurückgegeben.
+Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine ListMap __entgegen. Die Funktion gibt die gefilterte ListMap __zurück. Wenn keine Elemente dem Filter entsprechen wird die leere ListMap __\([`emptyListMap`](listmap.md#empty-listmap)\) zurückgegeben.
 
 ```javascript
 // Implementation
@@ -179,13 +179,13 @@ const startsWithP      = str => str.startsWith('P');
 const listMapWithNames = convertObjToListMap( {name1: "Peter", name2: "Hans", name3: "Paul"} );
 const filteredListMap  = filterListMap( startsWithP )( listMapWithNames ); // [ ("name1", "Peter"), ("name3", "Paul") ]
 
-const peter = getElementByKey( filteredListMap )( "name1" );  // "Peter"
-const paul  = getElementByKey( filteredListMap )( "name3" );  // "Paul"
+getElementByKey( filteredListMap )( "name1" );  // "Peter"
+getElementByKey( filteredListMap )( "name3" );  // "Paul"
 ```
 
 ### [reduceListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L93)
 
-Diese Funktion nimmt als erstes eine reduce-Funktion entgegen, als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
+Diese Funktion nimmt als ersten Parameter eine reduce-Funktion entgegen \(wie bei JavaScript Array `reduce`\), als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
 
 ```javascript
 // Implementation
@@ -199,14 +199,14 @@ const listMapWithPersons = convertObjToListMap({
               p2: {firstName: 'Michael', income: 500}
         });
     
-const incomeSum = reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
+reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 ```
 
 ## Helferfunktion
 
 ### [logListMapToConsole](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L218)
 
-Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt loggt die ListMap mit dessen Key und Values auf die JavaScript-Konsole.
+Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt gibt die ListMap mit dessen Schlüssel-Wert Paaren auf die JavaScript-Konsole aus.
 
 
 
