@@ -24,13 +24,15 @@ Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbind
 
 Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung):
 
-* **Reinheit** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
+* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Funktionale Algorithmen und Datenstrukturen**: Verwaltung von persistente Datenstrukturen
+* **Fehlerbehandlung** ohne `throw` Ausdruck
+* **Funktionen höherer Ordnung** \(high order functions\).
+* **Zustandslosigkeit**
 
-> **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte- oder sonstige nicht funktionale Konzepte verwendet.
+> **Abgrenzung von objektorientierter Programmierung:**   
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
 ## Inhaltsverzeichnis
 
