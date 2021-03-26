@@ -538,7 +538,7 @@ Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Bu
 
 ### [setListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L202)
 
-Geben dem Listener eine neue Key und erhalte den neuen Listener zurück.
+Mit der Funktion `setListenerKey` wird einem Listener ein neuer Schlüssel zugewiesen.
 
 ```javascript
 // Implementation
@@ -552,7 +552,7 @@ listenerLog = setListenerKey( listenerLog  )(42)
 
 ### [getListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L217%20)
 
-Erhalte den Key des Listener.
+Mit der Funktion `getListenerKey` wird der Schlüssel von einem Listener abgefragt.
 
 ```javascript
 // Implementation
