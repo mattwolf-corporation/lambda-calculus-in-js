@@ -65,7 +65,7 @@ Bei den erstelleten Funktionen kommt es häufig vor, dass die Impementation aus 
 
 ### Workflow-Beispiel
 
-Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listeners die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind, da sie in einer Reihe aufgelistet sind.
+Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listener, die hinzugefügt werden. Es ist schwer auf einem Blick zu sehen wieviel und welche Listener es sind, da sie in einer Reihe aufgelistet sind.
 
 ```javascript
 const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
