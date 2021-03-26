@@ -216,13 +216,13 @@ Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen 
 
 #### Konzepte aus der funktionalen Programmierung
 
-Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler gestaltet/implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
 
 #### Nutzen & Vorteile
 
 In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
 
-Da die Konstruktionen aus puren Funktionen bestehen ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekte leidet die Übersicht von grossen Anwendungen und man hat keine Ahnung mehr was wo genau geschieht. Schon durch einen kleinen Einsatz von diesen Konstruktionen können bestimmte Teile in einer Applikation einfacher und sicherer werden. 
+Da die Konstruktionen aus puren Funktionen bestehen, ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekten, leidet die Übersicht, man verliert die Kontrolle über den Programmablauf und den Abhängigkeiten innerhalb des Programmes. Schon durch einen kleinen Einsatz von diesen Konstruktionen wird diesem Problem entegengewirkt und die Übersicht wird verbessert.
 
 #### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
 
