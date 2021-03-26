@@ -12,9 +12,9 @@ description: >-
 
 ### Listener erstellen
 
-Als erstes wird ein Listener erstellt. Ein Listener ist ein Schlüssel-Wert Paar, dessen Wert eine Funktion ist, die bei einer Wertänderung auf dem Obersvable, aufgerufen wird. Somit kann mit dieser Funktion auf eine Wertänderung reagiert werden. Diese Funktion nimmt zwei Parameter entgegen, als erstes den`newValue` und als zweites den `oldValue`.
+Als erstes wird ein Listener erstellt. Ein Listener ist ein Schlüssel-Wert Paar, dessen Wert eine Funktion ist, die bei einer Wertänderung auf dem Observable, aufgerufen wird. Somit kann mit dieser Funktion auf eine Wertänderung reagiert werden. Diese Funktion nimmt zwei Parameter entgegen, als erstes den`newValue` und als zweites den `oldValue`.
 
-In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem `newValue`-Wert überschrieben, wenn der Listener vom Observable über eine Wertänderung benachricht wird. `oldValue` wird in diesem Beispiel nicht verwendet.
+In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem `newValue`-Wert überschrieben, wenn der Listener vom Observable über eine Wertänderung benachrichtigt wird. `oldValue` wird in diesem Beispiel nicht verwendet.
 
 ```javascript
 let listenerVariable; // undefined
@@ -50,7 +50,7 @@ obsExample( getValue );  // 42
 
 ### Wertänderung
 
-Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listener werden benachrichtig und der neue Wert als `newValue` __mitgegeben. Der vorherige Wert als `oldValue`_._ Die Funktionn `setValue` gibt ein neues Observable zurück.
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listener werden benachrichtig und der neue Wert als `newValue` __mitgegeben. Der vorherige Wert als `oldValue`_._ Die Funktion `setValue` gibt ein neues Observable zurück.
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -67,16 +67,16 @@ Wenn ein Listener wieder von einem Observable entfernt werden soll, gibt es daf�
 obsExample = obsExample( removeListener )( listenerExample ); 
 ```
 
-Der zuvor entfernte Listener bekommt nun keine Wertänderungen mehr mit.
+> Der zuvor entfernte Listener bekommt nun keine Wertänderungen mehr mit.
 
-```javascript
-obsExample = obsExample(setValue)(66);
+> ```javascript
+> obsExample = obsExample(setValue)(66);
+>
+> listenerVariable         // 11 <- no updates anymore
+> obsExample( getValue );  // 66
+> ```
 
-listenerVariable         // 11 <- no updates anymore
-obsExample( getValue );  // 66
-```
-
-### Zusammenfassung:
+#### Zusammenfassung:
 
 ```javascript
 let listenerVariable; // undefined
@@ -104,7 +104,7 @@ obsExample = obsExample(setValue)(67);
 listenerVariable // 11  
 ```
 
-## Observable Text-Input Example
+## Observable Text-Input Beispiel
 
 In diesem Beispiel-Projekt gibt es ein 'Observable'_,_ welches auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert. Dabei werden alle 'Listener' mit dem neuen und alten Wert informiert.
 
@@ -161,7 +161,7 @@ Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mat
 
 
 
-## Observable Color-Picker Example
+## Observable Color-Picker Beispiel
 
 In diesem Beispiel-Projekt wird gezeigt wie ein Color-Picker mit dem Observable gebaut werden kann.  
 Es gibt ein Observable das die Farbe verwaltet, an welches sich Listener wie Background, Labels und Inputs registrieren können. Die Input-Felder \(Text-Input und Slider\) sind dabei nicht nur Listener sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Die Elemente Text-Input und Slider-Input sind bidirektional mit dem Observerable verbunden. Um das zu demonstrieren wurden Buttons im UI hinzugefügt zum an- und abmelden der Listener.
@@ -238,9 +238,9 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 
 
 
-## Observable HttpGet-Joke Example
+## Observable HttpGet-Joke Beispiel
 
-In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener infomriert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
+In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener informiert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
 
 ![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
 
