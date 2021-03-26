@@ -35,7 +35,11 @@ JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber
 
 {% page-ref page="box-maybebox.md" %}
 
-Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
+{% page-ref page="performance.md" %}
+
+{% page-ref page="design-architektur.md" %}
+
+Bei den entwickelten Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
 
 * **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
 * **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
@@ -49,16 +53,9 @@ Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkaste
 
 Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
-### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
+### Classic JS vs Lambda JS
 
-| Fehlermeldung | Grund |
-| :--- | :--- |
-| Uncaught TypeError: Cannot Read Property | Zugriff auf Objekt das null oder undefined ist |
-| ... |  |
-
-## Classic JS vs Lambda JS
-
-### Property Value aus Objekt extrahieren \(null-safe\)
+#### Property Value aus Objekt extrahieren \(null-safe\)
 
 **Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
 **Ziel:**           Strassenname extrahieren
@@ -114,7 +111,7 @@ const streetName = user =>
     (id)
 ```
 
-### Vergleich
+#### Vergleich
 
 | Eigenschaften | Classic JS | Lambda JS |
 | :--- | :--- | :--- |
@@ -125,7 +122,7 @@ const streetName = user =>
 
 
 
-## Pure Lambda JS vs Lambda JS
+### Pure Lambda JS vs Lambda JS
 
 Bereits eine kleine Funktion wie `push` , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
