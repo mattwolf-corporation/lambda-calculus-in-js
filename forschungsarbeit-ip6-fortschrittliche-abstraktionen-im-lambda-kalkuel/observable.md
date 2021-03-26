@@ -570,9 +570,5 @@ getListenerKey( listenerLog )  // 42
 
 ### [logListenersToConsole](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L226)
 
-Die Funktion `logListenersToConsole` wird als Parameter von einem Observable übergeben und führt einen Seiteneffekt aus. Der Seiteneffekt protokolliert alle Listener des Observable mit dessen Schlüsseln und Werten auf der Konsole.
-
-
-
-
+Mit der Funktion `logListenersToConsole` werden die Listener eines Observables auf der JavaScript Konsole ausgegeben.
 
