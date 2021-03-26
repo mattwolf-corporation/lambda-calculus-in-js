@@ -21,7 +21,7 @@ Wie wurde es gemacht/untersucht/getestet ?
 
 ## Einleitung
 
-JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere, belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "Lambda Kalkül für praktisches JavaScript" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
+JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "[Lambda Kalkül für praktisches JavaScript](../forschungsarbeit-ip5-lambda-kalkuel/)" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
 
 {% page-ref page="listmap.md" %}
 
@@ -37,17 +37,17 @@ JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber
 
 Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
 
-* **Reinheit** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
+* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
-> **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> **Abgrenzung von objektorientierter Programmierung:**   
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
-Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
+Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
 
-Durch den Einsatz von diesem Werzeugkasten sollten weniger Fehler auftauchen, die sonst typischerweise beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten auftauchen.
+Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
 ### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
 
@@ -101,7 +101,7 @@ const streetName = user => {
 }
 ```
 
-Eine gleichwertige Implementierung im Stil der funnktionalen Programmierung.
+Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens.
 
 ```javascript
 const streetName = user =>
@@ -127,16 +127,29 @@ const streetName = user =>
 
 ## Pure Lambda JS vs Lambda JS
 
- Bereits kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
-\(`const stackWithOneValue = push(emptyStack)(1);` \) , besteht im kern aus mehreren Funktionen. 
+Bereits eine kleinere Funktion wie `push`  die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
-Unserer Implementation, mit welcher wir arbeiten und zur Verfügung stellen, sieht dabei so aus: 
+Die Implementation der Funktion `push` sieht wie folgt aus: 
 
 ```javascript
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist; denn zweiten Parameter denselben Stack \(`s`\) und als letzten Wert den neuen Wert erwartet. Der erster Parameter mit dem Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles Evaluiert wird, so aussieht:
+Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex.`
+
+Diese Definition können mit der Implementierung die dahinter steckt ersetzt werden. So ergibt sich am Schluss eine einzige grosse Funktion. Im Lambda Kalkül gibt es keine Variablen sondern nur Funktion die auf Argumente angwendet werden.
+
+
+
+`const triple = x => y => z => f => f(x)(y)(z);`
+
+`const succ = n => f => x => (f)(n(f)(x));`
+
+`const stackIndex = firstOfTriple;`
+
+`const firstOfTriple = x => y => z => x`; 
+
+Die Funktion push würde im reinen lambda Kalkül wie folgt aussehen:
 
 ```javascript
 // in reinem Lambda Kalkül
@@ -243,6 +256,26 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
     )
     ( Right( emptyListMap) )
     ( convertArrayToStack(elements) );
+```
+
+Die Funktion [`eitherElementsOrErrorsByFunction`](either.md#eitherelementsorerrorsbyfunction) als Programmstarter nützlich. Gib dieser Funktion irgendein Either und die Werte an. 
+
+```javascript
+// Either all the necessary Dom-Element exist or display all missed Element
+eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
+(err => document.body.innerHTML = Box(err)
+                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
+(result => {
+
+    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);
+
+    divisionBtn.onclick = () => {
+        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
+        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
+    }
+
+});
 ```
 
 ## Fazit / Erkenntnisse

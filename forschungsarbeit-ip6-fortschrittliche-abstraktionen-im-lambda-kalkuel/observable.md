@@ -6,20 +6,26 @@ description: >-
 
 # Observable
 
-#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster \(Design-Pattern\) des 'Observer-Pattern' an, das in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: ein einzelner 'Erzähler' \(Observable\) möchte, dass eine von ihm gesandte Nachricht von einer beliebigen Vielzahl von 'Zuhörern' \(Listeners\) wahrgenommen wird.
+**In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster 'Observer-Pattern' an, dass in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: Der 'Erzähler' \(Observable\) hält Informationen bereit an die sich 'Zuhörer' \(Listener\) registrieren können. Sobald der 'Erzähler' neue Informationen bekommt, benachrichtigt er seine 'Zuhörer'.**
 
-## Ein kleines Beispiel
+## Beispiel
 
-Erst wird ein 'Zuhörer' \(Listener\) erstellt, dem gesagt wird, wie er einem 'Erzähler' \(Observable\) zuhören  soll. Mit der Funktion `newListener` wird ein neuer Listener erstellt, dabei wir dem Listener als Parameter eine Funktion erstellt, welche die zwei Callback-Parameter  _newValue_ und _oldValue_  entgegen nimmt. Die Parameter _newValue_ und _oldValue_  werden vom Observable bei jeder Wertänderung als callback mitgeben. In diesem Beispiel wird die Variable _listenerVariable_  immer mit dem _newValue_-Wert überschrieben, wenn der Listener vom Observable etwas neues mitgeteilt bekommt. `oldValue` wird in diesem Beispiel nicht gebraucht
+### Listener erstellen
+
+Als erstes wird ein Listener erstellt. Ein Listener ist ein Schlüssel-Wert Paar, dessen Wert eine Funktion ist, die bei einer Wertänderung auf dem Observable, aufgerufen wird. Somit kann mit dieser Funktion auf eine Wertänderung reagiert werden. Diese Funktion nimmt zwei Parameter entgegen, als erstes den`newValue` und als zweites den `oldValue`.
+
+In diesem Beispiel wird die Variable `listenerVariable`  immer mit dem `newValue`-Wert überschrieben, wenn der Listener vom Observable über eine Wertänderung benachrichtigt wird. `oldValue` wird in diesem Beispiel nicht verwendet.
 
 ```javascript
 let listenerVariable; // undefined
 const listenerExample = newListener( newValue => oldValue  => listenerVariable = newValue );
 ```
 
-Nachdem ein  'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
-Dafür gibt es die Funktion `Observable`  welcher als ersten Parameter den initialen Wert mitteilt.  
-Mit der Funktion `addListener`  wird der Listeners an den Observable hinzugefügt. 
+### Observable erstellen und Listener registrieren
+
+Nachdem ein 'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
+Dafür gibt es die Funktion `Observable`  welche als ersten Parameter den initialen Wert entgegennimmt.  
+Mit der Funktion `addListener` wird der zuvor erstellte Listener registriert.
 
 ```javascript
 let obsExample = Observable(42)                     // new Observable with initValue 42
@@ -34,13 +40,17 @@ listenerVariable   // 42
 ```
 {% endhint %}
 
-Die Funktion `getValue`  gibt den letzten _newValue_ bzw. aktuellsten Wert aus dem Observable zurück.
+### Aktueller Wert abfragen
+
+Die Funktion `getValue`  gibt den aktuellen Wert aus dem Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
 ```
 
-Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listeners werden benachrichtig und der neuen Wert als _newValue_ mitgegeben. Der vorherige Wert als _oldValue._ 
+### Wertänderung
+
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listener werden benachrichtig und der neue Wert als `newValue` __mitgegeben. Der vorherige Wert als `oldValue`_._ Die Funktion `setValue` gibt ein neues Observable zurück.
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -49,49 +59,57 @@ listenerVariable         // 11
 obsExample( getValue );  // 11
 ```
 
-Wenn ein Listener wieder von einem Observable entfernt werden soll und dem Erzähler nicht mehr zuhört, benutzt man die Funktion `removeListener`. 
+### Listener entfernen
+
+Wenn ein Listener wieder von einem Observable entfernt werden soll, gibt es dafür die Funktion`removeListener`. Diese Funktion gibt wieder ein Observable zurück.
 
 ```javascript
 obsExample = obsExample( removeListener )( listenerExample ); 
 ```
 
-Von nun an hört der Listener nicht mehr auf den Observable und die Variable _listenerVariable_ wird auch  nicht mehr überschrieben.
+> Der zuvor entfernte Listener bekommt nun keine Wertänderungen mehr mit.
 
-```javascript
-obsExample = obsExample(setValue)(66);
+> ```javascript
+> obsExample = obsExample(setValue)(66);
+>
+> listenerVariable         // 11 <- no updates anymore
+> obsExample( getValue );  // 66
+> ```
 
-listenerVariable         // 11 <- variable getting no updates anymore
-obsExample( getValue );  // 66
-```
-
-### Alles zusammen:
+#### Zusammenfassung:
 
 ```javascript
 let listenerVariable; // undefined
 const lisExample = newListener( nVal => oVal => listenerVariable = nVal );
 
+// create observable and add listener
 let obsExample = Observable(42)
-                    (addListener)(lisExample); // add listener
+                    (addListener)(lisExample); 
 
-listenerVariable // 42 <- get the value from InitialValue
+listenerVariable // 42 <- get the value from initialValue
 
-obsExample = obsExample(setValue)(11) // set new value and update listeners
+// set new value and update listeners
+obsExample = obsExample(setValue)(11) 
 
-listenerVariable // 11 <- recieve the update
+// receive the update
+listenerVariable // 11 
 
-obsExample = obsExample(removeListener)(lisExample);  // remove listener
+// remove listener
+obsExample = obsExample(removeListener)(lisExample);  
 
+// set new value and update listeners
 obsExample = obsExample(setValue)(67); 
 
-listenerVariable // 11  <- is still 11. Recieve no updates anymore 
+// receive no updates anymore 
+listenerVariable // 11  
 ```
 
-## Observable Text-Input Example
+## Observable Text-Input Beispiel
 
-In diesem Beispiel-Projekt wird eine 'Observable', genannt _textInputObservable,_ welcher auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert und dabei alle 'Listeners' mit dem neuen und alten Wert informiert. 
+In diesem Beispiel-Projekt gibt es ein 'Observable'_,_ welches auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert. Dabei werden alle 'Listener' mit dem neuen und alten Wert informiert.
 
 {% hint style="info" %}
-In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und hinzufügen der Listeners da.
+In der Demo sind die Checkboxen neben den Labels zum entfernen und hinzufügen der Listener da.
 {% endhint %}
 
 ![Screenshot Text-Input Example](../.gitbook/assets/image%20%282%29.png)
@@ -101,7 +119,7 @@ In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und h
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableTextInputExample/viewTextInputExample.html" %}
 
 {% hint style="info" %}
-Es gibt vorgefertigte _Listener-Funktionen_, welche im Beispiel benutzt werden.
+Es gibt vorgefertigte Listener-Funktionen, welche im Beispiel benutzt werden.
 
 ```javascript
 /*
@@ -143,10 +161,10 @@ Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mat
 
 
 
-## Observable Color-Picker Example
+## Observable Color-Picker Beispiel
 
 In diesem Beispiel-Projekt wird gezeigt wie ein Color-Picker mit dem Observable gebaut werden kann.  
-Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\) hinzugefügt werden. Die Inputs \(Text-Inputs und Sliders\) sind dabei nicht nur Listeners sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Das heisst, das _'Input R'_ \(Text-Input\) und der _'Range R'_ \(Slider-Input\) sind bidirektional durch den Observer verbunden - solange keiner von beidem als Listener entfernt wird. Um das zu Demonstrieren wurde zusätzlich Buttons im UI hinzugefügt zum Un- und Subscribe des dazugehörigen Listener. 
+Es gibt ein Observable das die Farbe verwaltet, an welches sich Listener wie Background, Labels und Inputs registrieren können. Die Input-Felder \(Text-Input und Slider\) sind dabei nicht nur Listener sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Die Elemente Text-Input und Slider-Input sind bidirektional mit dem Observerable verbunden. Um das zu demonstrieren wurden Buttons im UI hinzugefügt zum an- und abmelden der Listener.
 
 ![Screenshot Color-Picker Example](../.gitbook/assets/image%20%284%29.png)
 
@@ -157,7 +175,7 @@ Es gibt ein Observable an welche alle Listeners \(Background, Labels und Inputs\
 ### Implementation
 
 {% hint style="info" %}
-Der Datentype des Observable ist ein [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple), weil die zu behandelte Werte `red, green, blue` sind. 
+Der observierte Farbwert ist als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert:`triple(red, green, blue)`
 {% endhint %}
 
 ```javascript
@@ -220,9 +238,9 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 
 
 
-## Observable HttpGet-Joke Example
+## Observable HttpGet-Joke Beispiel
 
-In diesem Beispiel-Projekt wird gezeigt, wie Buttons dem Observable neue Jokes, asynchron aus dem Internet geladen, mitgeteilt wird. Mit dabei gibt es zwei Listener wissen mit den Inhalten des Observable umzugehen. Dabei rendert ein Listener die Jokes auf dem UI und der andere löst ein Text-To-Speech-Skript aus. 
+In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener informiert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
 
 ![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
 
@@ -285,9 +303,13 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 
 Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
 
-> ## \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)\*\*\*\*
+> ## HTTP-Programmierschnittstelle
 >
-> Mit der Funktion `HttpGet`   werden asynchrone Daten von einem Webserver angefordert. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und gibt also zweiten Parameter ein _Callback_ zurück mit der Response vom Server.
+> Für dieses Beispiel wurde extra eine Funktionen erstellt um HTTP-Get anfragen zu tätigen. Sie bieten einen einfachen Weg, Daten von einer URL zu erhalten.
+>
+> ### \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)**\(asynchron\)**
+>
+> Mit der Funktion `HttpGet`   wird asynchrone anfrage abgesetzt. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und als zweiten Parameter eine Callback-Funktion  __mit der Antwort vom Webserver.
 >
 > ####  Beispiel:
 >
@@ -296,10 +318,10 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 >  (response => getDomElement("joke").textContent = JSON.parse(response).value);
 > ```
 
-> ## \*\*\*\*[**HttpGetSync** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L36)\*\*\*\*
+> ### \*\*\*\*[**HttpGetSync** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L36)\*\*\*\*
 >
-> Analog zur `HttpGet`  gibt es die Synchrone-Variante ohne Callback: `HttpGetSync`.  
-> Denn Callback braucht es nicht, da der Response direkt der Rückgabewert der Funktion ist.
+> Analog zu  `HttpGet`  gibt es die Synchrone-Variante: `HttpGetSync`.  
+> Denn Callback braucht es nicht, da der Response direkt als Rückgabewert zurück gegeben werden kann.
 >
 > #### Beispiel mit [Box](box-maybebox.md):
 
@@ -309,7 +331,7 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 >  (fold)( x => getDomElement("joke").textContent = x.value) )
 > ```
 
-## Observable: Dokumentation & Implementation
+## Verwendung
 
 {% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
@@ -317,7 +339,7 @@ Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 
 ### [Observable](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L41)
 
-Der Konstruktor zum erstellen eines Observable mit dem initialen Startwert.
+Die Funktion `Observable` nimmt einen initialen Startwert und erstellt ein Observable.
 
 ```javascript
 // Implementation
@@ -328,18 +350,9 @@ const Observable = initialValue =>
 const obsExample = Observable(0)
 ```
 
-### **Observable-Functions**
+### **Observable-Funktionen**
 
-#### [observableBody](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L25)
-
-Das Observable-Konstrukt, für das rekursiven Anwenden der **Observable-Functions**
-
-> **Observable-Functions:**
-
-> * [addListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#addlistener)
-> * [removeListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistener)
-> * [removeListenerByKey](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistenerbykey)
-> * [setValue](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#setvalue)
+#### [observableBody](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L25) \(der Kern des Observable\)
 
 ```javascript
 // Implementation
@@ -347,8 +360,17 @@ const observableBody = listeners => value => observableFn =>
     observableFn(listeners)(value);
 ```
 
-{% hint style="warning" %}
-Nachdem anwenden eines der **Observable-Functions** erhält man den aktuellen Observable zurück. Es ist dabei "best-practices" eine Zuweisung auf dieselbe Observable wieder zu setzen, damit diese die Alte überschreibt. Ansonsten wird das hinzufügen oder entfernen eines Listeners nicht abgeschlossen.
+Das Observable-Konstrukt `observableBody` repräsentiert der Körper der Observable-Funktionen: 
+
+> * \*\*\*\*[addListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#addlistener)
+> * [removeListener](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistener)
+> * [removeListenerByKey](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#removelistenerbykey)
+> * [setValue](https://app.gitbook.com/@mattwolf-corporation/s/ip6-lambda-calculus/~/drafts/-MVkfUbGB0l_ujcQeoUn/forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable#setvalue)
+
+Der `observableBody` wird bei diesen Funktion immer zurückgegeben. Es ermöglicht eine Verkettung der Funktionen mit einem Observable. 
+
+{% hint style="danger" %}
+Nachdem anwenden einer **Observable-Funktion** ist es wichtig den Rückgabewert in einer Variablen zu speichern, weil dieser das aktuelle Observable enthält. Anschliessend kann darauf immer weitere Observable-Funktion angewandt werden.
 
 ```javascript
 let obsExample = Observable(0)
@@ -357,12 +379,10 @@ obsExample = obsExample( addListener    )( /* dein Listener   */ )
 obsExample = obsExample( removeListener )( /* dein Listener   */ )
 obsExample = obsExample( setValue       )( /* dein neuer Wert */ )
 ```
-
-#### Mit dieser Ausnahme wird gegen die[ Regel der unveränderbaren Datenstruktur](../#forschungsarbeit) verstossen!
 {% endhint %}
 
 {% hint style="info" %}
-Ein Observable kann _immutable_ sein, wenn man die Observable-Variable mit `const` deklariert.  So kann man die Überschreibung des Observable unterbinden und nachhinein keine Listener mehr hinzufügen oder entfernen.  
+Die Variable, die das Observable enthält, kann mit dem `const` Schlüsselwort deklariert werden und ist somit auch immutable. Dadurch kann diese Variable nicht überschrieben werden und es können dann keine Listener hinzugefügt werden oder entfernt werden.
 
 ```javascript
 const listenerLog = newListener( listenerLogToConsole  );
@@ -379,7 +399,11 @@ obsExample = obsExample( addListener   )( listenerLog ) // hinzufügen nicht mö
 
 ### \*\*\*\*[**addListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L95)\*\*\*\*
 
-Fügt dem Observable einen neuen Listener hinzu und der aktuelle Observable-Wert wird sofort an den Listener übermittelt.
+Mit der Funktion `addListener` wird dem Observable ein neuer Listener hinzugefügt.
+
+{% hint style="info" %}
+Der aktuelle Wert des Observables wird beim Registrieren sofort dem neuen Listener mitgeteilt.
+{% endhint %}
 
 ```javascript
 // Implementation
@@ -394,16 +418,16 @@ const obsExample = Observable(0)
 ```
 
 {% hint style="danger" %}
-Das Observable sollte nicht mit mehr als 5'000 Listeners verbunden werden, weil ansonsten ein "Uncaught RangeError: Maximum call stack size exceeded" __auftretten könnte. 
+Das Observable sollte nicht mit mehr als 5'000 Listener verbunden werden, weil ansonsten ein "Uncaught RangeError: Maximum call stack size exceeded" __auftretten könnte. 
 {% endhint %}
 
 {% hint style="info" %}
-Mit bis zu 100 Listerners und vielen Wertänderungen \(zb. 100'000\) auf einmal hat der Observable kein Problem.
+Mit bis zu 100 Listener und vielen Wertänderungen \(zb. 100'000\) auf einmal hat das Observable kein Problem.
 {% endhint %}
 
 ### [removeListener](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L156)
 
-Entfernt ein Listener aus dem Observable. Braucht dazu den **Listener** als Parameter
+Die Funktion `removeListener` entfernt den übergebenen Listener aus dem Observable.
 
 ```javascript
 // Implementation
@@ -422,7 +446,7 @@ obsExample = obsExample(removeListener)( listenerLog );
 
 ### [removeListenerByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L125)
 
-Entfernt ein Listener aus dem Observable. Braucht dazu den **Key** des Listener ****als Parameter
+Die Funktion `removeListenerByKey` entfernt ein Listener aus dem Observable anhand des übergeben Schlüssels.
 
 ```javascript
 // Implementation
@@ -441,7 +465,7 @@ obsExample = obsExample(removeListenerByKey)(42)
 
 ### \*\*\*\*[**setValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L59)\*\*\*\*
 
-Dem Observable ein neuen Wert mitteilen und alle Listeners benachrichtigen.
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert gegeben. Das Observable informiert danach alle Listener.
 
 ```javascript
 // Implementation
@@ -460,7 +484,7 @@ testObs(getValue)                // 42
 
 ### \*\*\*\*[**getValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L80)\*\*\*\*
 
-Erhalte den aktuellen Wert des Observable.
+Mit der Funktion `getValue` erhält man den aktuellen Wert vom Observable.
 
 ```javascript
 // Implementation
@@ -476,14 +500,14 @@ testObs(getValue)                // 42
 
 ### [newListenerWithCustomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L170)
 
-Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
+Mit der Funktion `newListenerWithCustomKey` wir ein neuer Listener erstellt. Die Funktion nimmt als erstes den Schlüssel, als zweites die Funktion, die auf die Wertänderung reagiert, entgegen.
 
-{% hint style="info" %}
-Funktionen sind nicht vergleichbar,  ausser sie haben eine statische Notation wie n1, n2, id, pair ... 
+{% hint style="danger" %}
+Der Schlüssel muss mit dem JavaScript "===" - Operator verglichen werden können.
 {% endhint %}
 
-{% hint style="info" %}
-Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
+{% hint style="danger" %}
+Der Schlüssel von einem Listener muss eindeutig sein in einem Observable.
 {% endhint %}
 
 ```javascript
@@ -497,7 +521,7 @@ const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
 
 ### \*\*\*\*[**newListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L187)\*\*\*\*
 
-Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key muss im vergleich zu `newListenerWithCustomKey` nicht angeben werden.
+Mit der Funktion `newListener` wir ein neuer Listener erstell. Der Key muss im Vergleich zu `newListenerWithCustomKey` nicht angeben werden, weil dieser automatisch generiert wird.
 
 ```javascript
 // Implementation
@@ -514,7 +538,7 @@ Der `generateRandomKey` erzeugt einen String der Länge sechs mit zufälligen Bu
 
 ### [setListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L202)
 
-Geben dem Listener eine neue Key und erhalte den neuen Listener zurück.
+Mit der Funktion `setListenerKey` wird einem Listener ein neuer Schlüssel zugewiesen.
 
 ```javascript
 // Implementation
@@ -528,7 +552,7 @@ listenerLog = setListenerKey( listenerLog  )(42)
 
 ### [getListenerKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L217%20)
 
-Erhalte den Key des Listener.
+Mit der Funktion `getListenerKey` wird der Schlüssel von einem Listener abgefragt.
 
 ```javascript
 // Implementation
@@ -546,9 +570,5 @@ getListenerKey( listenerLog )  // 42
 
 ### [logListenersToConsole](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L226)
 
-Die Funktion `logListenersToConsole` wird als Parameter von einem Observable übergeben und führt einen Seiteneffekt aus. Der Seiteneffekt protokolliert alle Listener des Observable mit dessen Schlüsseln und Werten auf der Konsole.
-
-
-
-
+Mit der Funktion `logListenersToConsole` werden die Listener eines Observables auf der JavaScript Konsole ausgegeben.
 
