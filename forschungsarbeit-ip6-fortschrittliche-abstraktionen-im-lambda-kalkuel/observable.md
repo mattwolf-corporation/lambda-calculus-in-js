@@ -303,9 +303,13 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 
 Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
 
-> ## \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)\*\*\*\*
+> ## HTTP-Programmierschnittstelle
 >
-> Mit der Funktion `HttpGet`   werden asynchrone Daten von einem Webserver angefordert. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und gibt also zweiten Parameter ein _Callback_ zurück mit der Response vom Server.
+> Fur diese Beispiel wurde extra eine Funktionen erstellt um eine HTTP-Get anfrage zu tätigen. Sie bieten einen einfachen Weg, Daten von einer URL zu erhalten.
+>
+> ### \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)**\(asynchron\)**
+>
+> Mit der Funktion `HttpGet`   werden asynchrone Daten von einem Webserver angefordert. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und als zweiten Parameter ein _Callback-Funktion_ zurück mit der Response vom Server.
 >
 > ####  Beispiel:
 >
@@ -314,10 +318,10 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 >  (response => getDomElement("joke").textContent = JSON.parse(response).value);
 > ```
 
-> ## \*\*\*\*[**HttpGetSync** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L36)\*\*\*\*
+> ### \*\*\*\*[**HttpGetSync** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L36)\*\*\*\*
 >
-> Analog zur `HttpGet`  gibt es die Synchrone-Variante ohne Callback: `HttpGetSync`.  
-> Denn Callback braucht es nicht, da der Response direkt der Rückgabewert der Funktion ist.
+> Analog zu  `HttpGet`  gibt es die Synchrone-Variante: `HttpGetSync`.  
+> Denn Callback braucht es nicht, da der Response direkt als Rückgabewert zurück gegeben werden kann.
 >
 > #### Beispiel mit [Box](box-maybebox.md):
 
