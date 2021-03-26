@@ -399,7 +399,11 @@ obsExample = obsExample( addListener   )( listenerLog ) // hinzufügen nicht mö
 
 ### \*\*\*\*[**addListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L95)\*\*\*\*
 
-Fügt dem Observable einen neuen Listener hinzu und der aktuelle Observable-Wert wird sofort an den Listener übermittelt.
+Mit der Funktion `addListener` wird dem Observable ein neuer Listener hinzugefügt.
+
+{% hint style="info" %}
+Der aktuelle Wert des Observables wird beim Registrieren sofort dem neuen Listener mitgeteilt.
+{% endhint %}
 
 ```javascript
 // Implementation
@@ -414,16 +418,16 @@ const obsExample = Observable(0)
 ```
 
 {% hint style="danger" %}
-Das Observable sollte nicht mit mehr als 5'000 Listeners verbunden werden, weil ansonsten ein "Uncaught RangeError: Maximum call stack size exceeded" __auftretten könnte. 
+Das Observable sollte nicht mit mehr als 5'000 Listener verbunden werden, weil ansonsten ein "Uncaught RangeError: Maximum call stack size exceeded" __auftretten könnte. 
 {% endhint %}
 
 {% hint style="info" %}
-Mit bis zu 100 Listerners und vielen Wertänderungen \(zb. 100'000\) auf einmal hat der Observable kein Problem.
+Mit bis zu 100 Listener und vielen Wertänderungen \(zb. 100'000\) auf einmal hat das Observable kein Problem.
 {% endhint %}
 
 ### [removeListener](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L156)
 
-Entfernt ein Listener aus dem Observable. Braucht dazu den **Listener** als Parameter
+Die Funktion `removeListener` entfernt den übergebenen Listener aus dem Observable.
 
 ```javascript
 // Implementation
@@ -442,7 +446,7 @@ obsExample = obsExample(removeListener)( listenerLog );
 
 ### [removeListenerByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L125)
 
-Entfernt ein Listener aus dem Observable. Braucht dazu den **Key** des Listener ****als Parameter
+Die Funktion `removeListenerByKey` entfernt ein Listener aus dem Observable anhand des übergeben Schlüssels.
 
 ```javascript
 // Implementation
@@ -461,7 +465,7 @@ obsExample = obsExample(removeListenerByKey)(42)
 
 ### \*\*\*\*[**setValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L59)\*\*\*\*
 
-Dem Observable ein neuen Wert mitteilen und alle Listeners benachrichtigen.
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert gegeben. Das Observable informiert danach alle Listener.
 
 ```javascript
 // Implementation
@@ -480,7 +484,7 @@ testObs(getValue)                // 42
 
 ### \*\*\*\*[**getValue**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L80)\*\*\*\*
 
-Erhalte den aktuellen Wert des Observable.
+Mit der Funktion `getValue` erhält man den aktuellen Wert vom Observable.
 
 ```javascript
 // Implementation
@@ -496,7 +500,11 @@ testObs(getValue)                // 42
 
 ### [newListenerWithCustomKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L170)
 
-Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key kann alles sein, was vergleichbar ist. 
+Mit der Funktion `newListenerWithCustomKey` wir ein neuer Listener erstellt. Die Funktion nimmt als erstes den Schlüssel, als zweites die Funktion, die auf die Wertänderung reagiert, entgegen.
+
+{% hint style="danger" %}
+Der Schlüssel muss mit dem JavaScript "===" - Operator verglichen werden können
+{% endhint %}
 
 {% hint style="info" %}
 Funktionen sind nicht vergleichbar,  ausser sie haben eine statische Notation wie n1, n2, id, pair ... 
