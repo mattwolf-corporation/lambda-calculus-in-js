@@ -1,5 +1,5 @@
 ---
-description: Wie alles begann.
+description: Wie alles begann
 ---
 
 # Forschungsarbeit IP5 - Lambda Kalkül

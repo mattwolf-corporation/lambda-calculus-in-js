@@ -6,7 +6,7 @@ description: Die Fortsetzung.
 
 ## Abstract
 
-Ziel der Arbeit war es in JavaScript sichere und belastbare Konstruktionen mit Industriehärte zu bauen. Für den Bau dieser Konstruktionen wurden die Erkentnisse aus dem untypsierten Lambda Kalkül angewendet. Folgende Werte waren für die Implementation der Konstruktionen essentiel:
+Ziel der Arbeit war es in JavaScript sichere und belastbare Konstruktionen mit Industriehärte zu bauen. Für den Bau dieser Konstruktionen wurden die Erkenntnisse aus dem untypsierten Lambda Kalkül angewendet. Folgende Werte waren für die Implementation der Konstruktionen essenziell:
 
 * **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
 * **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
@@ -19,14 +19,14 @@ Dabei kam eine Sammlung von folgenden Konstruktionen heraus:
 
 * Zusätzliche Funktionen für die **immutable Stack** Datenstruktur
 * Umsetzung des **Observer Pattern \(funktionales Oberservable Konstrukt\)**
-* **immutable ListMap** Datenstruktur \(Stack mit Schlüssel-Wert Paaren\)
+* **Immutable ListMap** Datenstruktur \(Stack mit Schlüssel-Wert Paaren\)
 * Umsetzung **Maybe** und **Either** Type für die Fehlerbehandlung
 * **Box-Konstrukt** um Werte in einer Pipeline zu verarbeiten
 * **Erweiterung des Test-Frameworks** mit einer Zeitmessung für die Methodenausführung \(Benchmark-Test\)
-* **JsDoc** Ergänzungen \(Typ Unerstüzung für den Anwender\)
+* **JsDoc** Ergänzungen \(Typ Unterstützung für den Anwender\)
 * Dokumentation und Anwendungsbeispiele der Konstruktionen
 
-In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
+In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
 
 ## Einleitung
 
