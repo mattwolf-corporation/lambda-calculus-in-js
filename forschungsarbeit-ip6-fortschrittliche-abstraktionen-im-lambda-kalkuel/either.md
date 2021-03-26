@@ -47,7 +47,7 @@ eitherXYZ(someParam)
 Die `eitherTruthy`  Funktion erwartet einen Wert und überprüft ob dieser 'truthy' ist.  Im Erfolgsfall wird ein `Right` mit dem Element zurück gegeben und im Fehlerfall ein `Left` mit der entsprechenden Fehlermeldung.
 
 {% hint style="info" %}
-[Liste mit JavaScript falsy Werten](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
+[Liste mit JavaScript 'falsy' Werten](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
 {% endhint %}
 
 ```javascript
@@ -137,7 +137,7 @@ const eitherFunction = val =>
 
 ### [eitherTryCatch](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L223)
 
-Die `eitherTryCatch` Funktion nimmt eine Funktion f entgegen, die schief gehen könnte. Diese Funktion wird in einem try-catch Block ausgeführt. Wenn ein Fehler auftritt während der Funktionsausführung wird dieser gefangen und es wird ein `Left` mit der Fehlermeldung zurückgegeben, ansonsten ein `Right` mit dem Resultat.
+Die `eitherTryCatch` Funktion nimmt eine Funktion `f` entgegen, die schief gehen könnte. Diese Funktion wird in einem try-catch Block ausgeführt. Wenn ein Fehler auftritt während der Funktionsausführung wird dieser gefangen und es wird ein `Left` mit der Fehlermeldung zurückgegeben, ansonsten ein `Right` mit dem Resultat.
 
 {% hint style="info" %}
 Diese Funktion hat den Zweck bestehende JavaScript Funktionen die noch auf die nicht funktionale Art Fehler mit `throw` werfen abzufangen und diese in die Welt der funktionalen Programmierung einzubetten. Somit fungiert diese Funktion als Brücke von der JavaScript Welt in die Welt der funktionalen Programmiersprachen.
