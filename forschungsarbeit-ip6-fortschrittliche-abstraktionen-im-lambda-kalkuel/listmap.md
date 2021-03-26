@@ -55,9 +55,9 @@ const p3 = pair(3)("Hans")
 
 const testListMap = convertArrayToStack([p1, p2, p3]) // [ ("1", "Michael"), ("2", "Peter"),("3", "Hans") ]
 
-getElementByKey(testListMap)(1)   // "Michael"
-getElementByKey(testListMap)(2)   // "Peter"
-getElementByKey(testListMap)(3)   // "Hans"
+getElementByKey( testListMap )( 1 )   // "Michael"
+getElementByKey( testListMap )( 2 )   // "Peter"
+getElementByKey( testListMap )( 3 )   // "Hans"
 ```
 
 ### [removeByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L155)
@@ -208,5 +208,18 @@ reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 
 Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt gibt die ListMap mit dessen Schlüssel-Wert Paaren auf die JavaScript-Konsole aus.
 
+```javascript
+// Implementation
+const logListMapToConsole = listMap =>
+    forEach(listMap)( (element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
+    
+// Anwendung
+const listMapWithPersons = convertObjToListMap( {firstName: "George", lastName: "Lucas"} );
 
+logListMapToConsole( listMapWithPersons );
+
+// Logs to Console:
+// Index 1 (Key, Element): ("firstName", "George")
+// Index 2 (Key, Element): ("lastName", "Lucas")
+```
 
