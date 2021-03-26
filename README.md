@@ -1,3 +1,7 @@
+---
+description: von Benjamin Brodwolf & Pascal Andermatt
+---
+
 # Lambda Kalkül für praktisches JavaScript
 
 ![](.gitbook/assets/repoimage.png)
