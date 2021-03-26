@@ -73,7 +73,7 @@ const textInputObservables = Observable("")(addListener)(listenerNewValue)(addLi
 
 #### Schritt 1: Zeilenumbrüche 
 
-> Wir sind gewohnt das Codes auf jeder Zeile immer linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert.  Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
+> Wir sind gewohnt das Code Zeilen linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert.  Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -85,7 +85,7 @@ const textInputObservables = Observable("")
 
 #### Schritt 2: Einrücken
 
-> Einrücken der Funktion unterhalb der Haupt-Funktion in einer Linie plus einem Leerschlag, mach es erkennbarer, dass sie zueinander gehören und darauf aufbauen.
+> Einrücken der Funktion unterhalb der Haupt-Funktion in einer Linie plus einem Leerzeichen, macht es erkennbarer, dass sie zueinander gehören und darauf aufbauen.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -97,7 +97,7 @@ const textInputObservables = Observable("")
 
 #### Schritt 3: Leerzeichen \(Padding\)
 
-> Es ist schöner und lesbarer, wenn es zwischen den Werten in den Klammern mindestens ein Leerzeichen gibt. Um allen Werten dieselbe Präsenz zu geben, ist es dabei empfehlenswert die Klammern auf einer Linie untereinander zu bringen.
+> Es ist schöner und lesbarer, wenn es zwischen den Werten in den Klammern mindestens ein Leerzeichen gibt. Somit bekommen alle Werte dieselbe Präsenz. Es ist dabei empfehlenswert die Klammern auf einer Linie untereinander zu bringen.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -109,7 +109,7 @@ const textInputObservables = Observable("")
 
 #### Schritt 4: Semikolon
 
-> JavaScript versucht zwar selber eine Semikolon am Ende einer Anweisung einzufügen, wenn der Programmierer keine gesetzt hat. Hier ist aber nicht klar, ob die Anweisung für JavaScript fertig ist, denn es wäre mittel Funktionskomposition möglich immer weitere Funktionen anzufügen. Es ist darum besser immer ein Semikolon zu setzen, nicht nur um JavaScript zu signalisieren, dass es hier zu ende ist, sondern auch für die Leserlichkeit.
+> JavaScript versucht zwar selber eine Semikolon am Ende einer Anweisung einzufügen, wenn der Programmierer keine gesetzt hat. Hier ist aber nicht klar, ob die Anweisung für JavaScript fertig ist, denn es wäre mittels Funktionskomposition möglich immer weitere Funktionen anzufügen. Es ist darum besser immer ein Semikolon zu setzen, nicht nur um JavaScript zu signalisieren, dass es hier zu ende ist, sondern auch für die Leserlichkeit.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -118,8 +118,6 @@ const textInputObservables = Observable("")
                               (addListener)( listenerNewValueSize )
                               (addListener)( listenerConsoleLog   );
 ```
-
-
 
 ### Vergleichsbeispiele
 
