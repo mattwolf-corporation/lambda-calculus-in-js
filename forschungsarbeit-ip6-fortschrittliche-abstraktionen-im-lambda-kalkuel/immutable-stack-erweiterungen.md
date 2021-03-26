@@ -23,7 +23,7 @@ In den folgenden Beispielen wird zur besseren Übersicht, die Stack Datenstruktu
 
 ## Erweiterungen
 
-{% hint style="success" %}
+{% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft
 {% endhint %}
 
@@ -91,7 +91,7 @@ zip(s1)(s2)  // [ (1, 3), (2, 4) ]
 
 ### [stackEquals](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L863)
 
-Die Funktion `stackEquals` nimmt zwei Stacks entegen und vergleicht alle Elemente mit dem JavaScript `===` Operator auf Gleichheit. Wenn alle Vergleiche `true` ergeben, gibt die Funktion ein Church-Boolean `True` zurück ansonsten ein Church-Boolean `False` zurück.
+Die Funktion `stackEquals` nimmt zwei Stacks entegen und vergleicht alle Elemente mit dem JavaScript `===` Operator auf Gleichheit. Wenn alle Vergleiche `true` ergeben, gibt die Funktion ein Church-Boolean `True` ansonsten ein Church-Boolean `False` zurück.
 
 ```javascript
 const s1 = convertArrayToStack([1, 2]);
@@ -99,8 +99,6 @@ const s2 = convertArrayToStack([1, 2]);
 
 stackEquals(s1)(s2)  // True (Church Boolean)
 ```
-
-### 
 
 ### [getElementByIndex](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L242)
 
