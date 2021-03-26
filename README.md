@@ -1,7 +1,3 @@
----
-description: von Benjamin Brodwolf & Pascal Andermatt
----
-
 # Lambda Kalkül für praktisches JavaScript
 
 ![](.gitbook/assets/repoimage.png)
@@ -28,15 +24,13 @@ Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbind
 
 Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung):
 
-* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
+* **Reinheit** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Unveränderlichkeit** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Fehlerbehandlung** ohne `throw` Ausdruck
-* **Funktionen höherer Ordnung** \(high order functions\).
-* **Zustandslosigkeit**
+* **Funktionale Algorithmen und Datenstrukturen**: Verwaltung von persistente Datenstrukturen
 
-> **Abgrenzung von objektorientierter Programmierung:**   
-> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> **Abgrenzung von imperativer Programmierung:**   
+> Es werden keine Objektorientierte- oder sonstige nicht funktionale Konzepte verwendet.
 
 ## Inhaltsverzeichnis
 

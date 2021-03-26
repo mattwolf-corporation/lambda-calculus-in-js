@@ -1,3 +1,7 @@
+---
+description: Die Fortsetzung.
+---
+
 # Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül
 
 ## Abstract
@@ -137,7 +141,7 @@ Die Implementation der Funktion `push` sieht wie folgt aus:
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funktionen können in der Funktion push durch ihre Implmentation ersetzt werden:
+Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funktionen können in der Funktion push durch ihre Implementation ersetzt werden:
 
 `const stack = triple`
 
@@ -149,19 +153,19 @@ Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funkt
 
 `const firstOfTriple = x => y => z => x`; 
 
-Die Funktion `push` würde im reinen lambda Kalkül wie folgt aussehen:
+#### Die Funktion `push` würde im reinen Lambda Kalkül wie folgt aussehen:
 
 ```javascript
 const push = s => (x => y => z => f => f(x)(y)(z))((n => f => x => (f)(n(f)(x)))(s(x => _ => _ => x)))(s)
 ```
 
-Nach Eta-Reduktion:
+#### Nach Eta-Reduktion:
 
 ```javascript
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 ```
 
-Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Defintionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinvollen Namen zu geben.
+Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Definitionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinnvollen Namen zu geben.
 
 Beispiel an der grösseren Funktion `reduce` :
 
@@ -208,14 +212,14 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und eta reduziert\)
+Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und ETA reduziert\)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
 const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
-Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen lambda Kalkül Schreibweise definiert ist. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden in JavaScript. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lambda Kalkül Schreibweise zu definieren.
+Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen Lambda Kalkül Schreibweise definiert ist. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden in JavaScript. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lambda Kalkül Schreibweise zu definieren.
 
 ## Fazit / Erkenntnisse
 
@@ -225,13 +229,13 @@ Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmie
 
 #### Nutzen & Vorteile
 
-In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem enstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
+In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
 
-Da die Konstruktionen aus puren Funktionen bestehen, ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekten, leidet die Übersicht, man verliert die Kontrolle über den Programmablauf und den Abhängigkeiten innerhalb des Programmes. Schon durch einen kleinen Einsatz von diesen Konstruktionen wird diesem Problem entegengewirkt und die Übersicht wird verbessert.
+Da die Konstruktionen aus puren Funktionen bestehen, ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekten, leidet die Übersicht, man verliert die Kontrolle über den Programmablauf und den Abhängigkeiten innerhalb des Programmes. Schon durch einen kleinen Einsatz von diesen Konstruktionen wird diesem Problem entgegenwirkt und die Übersicht wird verbessert.
 
-#### JS Doc Unterstüzung - Fehlendes Typ System bei JavaScript
+#### JS Doc Unterstützung - Fehlendes Typ System bei JavaScript
 
-Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen und den erwartetetn "Typen". Mit der JS Doc bekommt der Anwender Hinweise  auf die korrekten Typ-Parameter. 
+Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen. Mit der JS Doc bekommt der Anwender Hinweise auf die korrekten Typ-Parameter. 
 
 **‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
 
@@ -247,7 +251,7 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
 
 **Was wurde erreicht - Zusammenfassung**
 
-Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(lambda Kalkül\) bestehend aus:
+Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(Lambda Kalkül\) bestehend aus:
 
 * Funktionale Art für die Fehlerbehandlung mit Maybe und Either Type
 * Immutable Datenstruktur ListMap
