@@ -6,8 +6,8 @@ import {convertListMapToArray} from "../../listMap/listMap.js";
 // Either all the necessary Dom-Element exist or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
 (err => document.body.innerHTML = Box(err)
-                                    (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                    (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
+                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (result => {
 
     const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);

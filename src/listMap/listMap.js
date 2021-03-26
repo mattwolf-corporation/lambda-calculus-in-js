@@ -216,4 +216,4 @@ const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(
  * @param {listMap} listMap
  */
 const logListMapToConsole = listMap =>
-    forEach(listMap)((element, index) => console.log("At Index " + index + " is  Key and Element " + JSON.stringify(element(fst)) + " | " + JSON.stringify(element(snd)) ));
+    forEach(listMap)((element, index) => console.log(`Index ${index} (Key, Element): (${JSON.stringify(element(fst))}, ${JSON.stringify(element(snd))})` ));

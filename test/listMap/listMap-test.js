@@ -2,7 +2,7 @@ import {TestSuite} from "../test.js";
 import {jsBool, fst, id, pair, snd} from "../../src/lambda-calculus-library/lambda-calculus.js";
 import {n0, n1, n2, n3, n4, n5} from '../../src/lambda-calculus-library/church-numerals.js';
 import {convertArrayToStack, getElementByIndex, hasPre, head, map, pop, pushToStack, size} from "../../src/stack/stack.js";
-import {convertListMapToArray, convertObjToListMap, emptyListMap, filterListMap, getElementByKey, mapListMap, reduceListMap, removeByKey, startListMap} from "../../src/listMap/listMap.js";
+import {convertListMapToArray, convertObjToListMap, emptyListMap, filterListMap, getElementByKey, mapListMap, reduceListMap, removeByKey, startListMap, logListMapToConsole} from "../../src/listMap/listMap.js";
 
 const listMapSuite = TestSuite("List Map (pure functional data structure)");
 
@@ -233,6 +233,17 @@ listMapSuite.add("convert Object to ListMap", assert => {
     assert.equals( getElementByKey(peter)( "lstName" ), "Pan"    );
     assert.equals( getElementByKey(peter)( "age"     ), 102      );
 });
+listMapSuite.add("logListMapToConsole", assert => {
 
+    const listMapWithPerson = convertObjToListMap( {firstName: "George"} );
+    assert.consoleLogEquals( () =>  logListMapToConsole(listMapWithPerson) ,`Index 1 (Key, Element): ("firstName", "George")`);
+
+     const listMapWithPersons = convertObjToListMap( {firstName: "George", lastName: "Lucas"} );
+
+const expected= `Index 1 (Key, Element): ("firstName", "George"),Index 2 (Key, Element): ("lastName", "Lucas")`
+    assert.consoleLogEquals( () =>  logListMapToConsole(listMapWithPersons) ,expected);
+
+
+});
 
 listMapSuite.report();
