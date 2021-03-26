@@ -10,7 +10,7 @@
 
 Lambda Kalkül ****ist ein formales System, in der mathematische Logik zur Berechnung und Untersuchung von Funktionen gilt.  Es ist ein universelles Berechnungsmodel , mit dem jede Turing-Maschine simuliert werden kann. Es wurde von dem Mathematiker [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church) in den 1930er Jahren als Teil seiner Forschung zu den Grundlagen der Mathematik eingeführt.
 
-> Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablenbindung, einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
+> Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablenbindung \(statt Zuweisung\), einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
 
 ### Was ist JavaScript?
 
@@ -43,10 +43,15 @@ Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül
 
 
 
-* Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript
-  * ListMap
-  * Observable-ListMap
-  * Maybe
+* [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/)
+  * [Immutable ListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
+  * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
+  * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
+  * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)
+  * [Immutable Stack Erweiterungen](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/immutable-stack-erweiterungen.md)
+  * [Box](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/box-maybebox.md)
+  * [Benchmark](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
+  * [Code Convention](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-architektur.md)
 
 
 
