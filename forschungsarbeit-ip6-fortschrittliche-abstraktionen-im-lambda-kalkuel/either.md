@@ -6,7 +6,7 @@ description: Entweder Erfolgsfall mit Resultat oder Fehlerfall mit Fehlermeldung
 
 ## Beschreibung
 
-{% hint style="info" %}
+{% hint style="success" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
@@ -40,8 +40,8 @@ Eine either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am 
 ```javascript
 // Anwendung        
 eitherXYZ(someParam)
-    (error => doSomethingInErrorCase(error))      // Left Case
-    (result => doSomethingInSuccessCase(result))  // Right Case
+    (error =>  doSomethingInErrorCase(error)    )  // Left Case
+    (result => doSomethingInSuccessCase(result) )  // Right Case
 ```
 
 ### [eitherTruthy](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L63)
@@ -78,8 +78,8 @@ Die `eitherElementOrCustomErrorMessage` Funktion erwartet eine Fehlermeldung und
 // Implementation
 const eitherElementOrCustomErrorMessage = errorMessage => element =>
     eitherNotNullAndUndefined(element)
-        (_ => Left(errorMessage))
-        (_ => Right(element));
+     (_ => Left(errorMessage))
+     (_ => Right(element));
  
 // Anwendung       
 eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert ist null")
@@ -92,8 +92,8 @@ Die `eitherDomElement`  Funktion nimmt eine Dom-Element-Id entgegen und gibt ein
 ```javascript
 const eitherDomElement = elemId =>
     eitherElementOrCustomErrorMessage
-        (`no element exist with id: ${elemId}`)
-        (document.getElementById(elemId));
+     (`no element exist with id: ${elemId}`)
+     (document.getElementById(elemId));
 ```
 
 ### [eitherNumber](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L177)
@@ -167,16 +167,15 @@ Somit hat eine Funktion die einen generischen Parameter `a` erwartet und einen E
 
 ```javascript
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue")
-(err =>      doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
+(err => doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
 (result => { // result === listMap mit den Resultaten
 
-   // Get the elements
+   // Die Resultate als einzelne Variablen
    const [inputText, newValue] = convertListMapToArray(result);
    
    doSomethingWithResult(inputText, newValue);
    
-   }
-)
+})
 ```
 
 

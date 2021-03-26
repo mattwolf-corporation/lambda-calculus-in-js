@@ -1,5 +1,5 @@
 ---
-description: Stack mit Schlüssel-Wert Paare
+description: Stack mit Key-Value Pairs
 ---
 
 # Immutable ListMap
@@ -12,7 +12,7 @@ Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 
 ### [ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L30)
 
-ListMap ist eine weitere unveränderliche Datenstruktur, die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Schlüssel-Wert Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen, die nur mit einer ListMap verwendet werden können.
+ListMap ist eine weitere unveränderliche Datenstruktur die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Key-Value Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen die nur mit einer ListMap verwendet werden können.
 
 ```javascript
 const listMap = stack; // triple
@@ -20,7 +20,7 @@ const listMap = stack; // triple
 
 ### [Empty-ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L40)
 
-Die `emptyListMap` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter, der ListMap ist nicht nur `id`wie beim Stack, sondern ein Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
+Die `emptyList` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter des ListMap ist nicht nur `id` wie beim Stack sondern ein Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
 
 ```javascript
 const emptyListMap = listMap(n0)(id)( pair(id)(id) );
@@ -28,14 +28,14 @@ const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 
 ## Verwendung
 
-Alle Funktionen vom Stack können auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusätzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
+Alle Funktionen vom Stack könne auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusätzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
 
 {% hint style="info" %}
 In den folgenden Beispielen wird zur besseren Übersicht, die ListMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
 {% endhint %}
 
 {% hint style="danger" %}
-Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Schlüssel-Wert Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
+Bei der Verwendung von Funktionen, des Stacks mit der ListMap muss beachtet werden, dass die Elemente immer Key-Value Paare sind und somit immer mit einem `pair` gearbeitet wird als Eintrag.
 
 ```javascript
 const listMapWithOneValue = push(emptyListMap)( pair(1)("Hello") ) // [(1, "Hello")]
