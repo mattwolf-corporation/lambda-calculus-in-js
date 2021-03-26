@@ -34,7 +34,7 @@ Anhand der Implementation von `Just` und `Nothing` ist erkennbar, dass der _Mayb
 
 ### Allgemeine Anwendung für Funktionen, die ein `maybe` zurückgeben
 
-Bei Funktionen, die ein _maybe_ zurückgeben können an den Funktionsaufruf zwei weitere Parameter übergeben werden. Der erste Parameter ist eine Funktion, die keinen Parameter entgegen nimmt und dann `Nothing` Fall behandelt. Der zweite Parameter ist eine Funktion für den `Just` Fall, die das Resultat entgegen nimmt.
+Bei Funktionen, die ein _maybe_ zurückgeben können an den Funktionsaufruf zwei weitere Parameter übergeben werden. Der erste Parameter ist eine Funktion, die keinen Parameter entgegen nimmt und den `Nothing` Fall behandelt. Der zweite Parameter ist eine Funktion für den `Just` Fall, die das Resultat entgegen nimmt.
 
 #### Allgemeines Schema:
 
@@ -59,8 +59,8 @@ const getOrDefault = maybe => defaultVal =>
         (id);
    
 // Anwendung     
-const result1 = getOrDefault ( Just(10) )(20) // 10
-const result2 = getOrDefault ( Nothing  )(20) // 20
+getOrDefault ( Just(10) )(20) // 10
+getOrDefault ( Nothing  )(20) // 20
 ```
 
 ### [maybeDivision](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L49)
