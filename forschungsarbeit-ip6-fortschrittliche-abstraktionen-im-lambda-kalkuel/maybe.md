@@ -65,7 +65,7 @@ getOrDefault ( Nothing  )(20) // 20
 
 ### [maybeDivision](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L49)
 
-Die Funktion `maybeDivision` führt "vielleicht" eine Division mit zwei übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 \(Zahl null\) ist wird die Division durchgeführt und es wird `Just` mit dem Resultat zurückgegeben.
+Die Funktion `maybeDivision` führt "vielleicht" eine Division mit zwei übergeben Parametern durch. Falls die übergeben Zahlen vom Typ Integer sind und der Divisor nicht 0 ist, wird die Division durchgeführt und es wird `Just` mit dem Resultat zurückgegeben.
 
 ```javascript
 const maybeDivision = dividend => divisor =>
@@ -80,26 +80,6 @@ const maybeDivision = dividend => divisor =>
 
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/maybe/maybeExample/maybeExample.html" %}
 
-#### Implementation
-
-```javascript
-// Either all the necessary Dom-Element exist or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
-(err => document.body.innerHTML = Box(err)
-                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
-(result => {
-
-    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);
-
-    divisionBtn.onclick = () => {
-        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
-        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
-    }
-
-});
-```
-
 ### [maybeTruthy](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L74)
 
 Diese Funktion nimmt einen Wert entgegen und überprfüt ob dieser truthy ist. Falls nicht wird ein Nothing zurückgegeben.
@@ -109,10 +89,13 @@ Diese Funktion nimmt einen Wert entgegen und überprfüt ob dieser truthy ist. F
 {% endhint %}
 
 ```javascript
+// Implementation
 const maybeTruthy = value =>
     eitherTruthy(value)
         (_ => Nothing)
         (_ => Just(value));
+        
+// Anwendung
 ```
 
 ### [maybeNotNullAndUndefined](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/75900e181c5467e253ef0d79447623d3ea18b9cd/src/maybe/maybe.js#L96)
@@ -159,7 +142,7 @@ const maybeFunction = value =>
         (_ => Just(value));
 ```
 
-## Mapping mit Maybe
+## Mapping von Maybe
 
 ### [mapMaybe](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/69c77e9f203aa2f4c499ad064fd10287504c222f/src/maybe/maybe.js#L276)
 
