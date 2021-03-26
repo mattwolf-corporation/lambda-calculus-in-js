@@ -197,7 +197,7 @@ containsElement(stackWithNumbers)(44) === False
 
 ### [convertElementsToStack](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/1854cf6515e5f1ba74c48c4a9a97f12e5e363aa2/src/stack/stack.js#L454)
 
-Die Funktion `convertElementsToStack` nimmt einen Rest Parameter \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\) entgegen. Die übergebenen Elemente werden in ein Stack umgewnadelt.
+Die Funktion `convertElementsToStack` nimmt einen Rest Parameter \([JavaScript Rest Parameter](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Functions/rest_parameters)\) entgegen. Die übergebenen Elemente werden in ein Stack umgewandelt.
 
 ```javascript
 const stackWithValues = convertElementsToStack(1,2,3);
