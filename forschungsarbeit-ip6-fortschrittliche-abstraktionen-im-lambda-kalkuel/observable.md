@@ -240,7 +240,7 @@ Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/m
 
 ## Observable HttpGet-Joke Example
 
-In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener infomriert. Es existieren zwei Listener, der eine rendert die Jokes auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
+In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener infomriert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
 
 ![Screenshot Joke-Example](../.gitbook/assets/image%20%285%29.png)
 
