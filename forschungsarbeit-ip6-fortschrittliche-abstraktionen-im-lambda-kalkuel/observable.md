@@ -106,10 +106,10 @@ listenerVariable // 11
 
 ## Observable Text-Input Example
 
-In diesem Beispiel-Projekt wird eine 'Observable', genannt _textInputObservable,_ welcher auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert und dabei alle 'Listeners' mit dem neuen und alten Wert informiert. 
+In diesem Beispiel-Projekt gibt es ein 'Observable'_,_ welches auf die Wertänderungen eines Text-Input-Feldes auf dem UI reagiert. Dabei werden alle 'Listener' mit dem neuen und alten Wert informiert.
 
 {% hint style="info" %}
-In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und hinzufügen der Listeners da.
+In der Demo sind die Checkboxen neben den Labels zum entfernen und hinzufügen der Listener da.
 {% endhint %}
 
 ![Screenshot Text-Input Example](../.gitbook/assets/image%20%282%29.png)
@@ -119,7 +119,7 @@ In der Demo sind die Checkboxen neben den Labels zum dynamischen entfernen und h
 {% embed url="https://mattwolf-corporation.github.io/ip6\_lambda-calculus-in-js/src/observable/observableExamples/observableTextInputExample/viewTextInputExample.html" %}
 
 {% hint style="info" %}
-Es gibt vorgefertigte _Listener-Funktionen_, welche im Beispiel benutzt werden.
+Es gibt vorgefertigte Listener-Funktionen, welche im Beispiel benutzt werden.
 
 ```javascript
 /*
