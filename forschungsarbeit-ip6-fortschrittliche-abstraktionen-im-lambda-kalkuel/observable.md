@@ -25,7 +25,7 @@ const listenerExample = newListener( newValue => oldValue  => listenerVariable =
 
 Nachdem ein 'Zuhörer' \(Listener\) erstellt wurde, braucht es noch den 'Erzähler' \(Observable\).  
 Dafür gibt es die Funktion `Observable`  welche als ersten Parameter den initialen Wert entgegennimmt.  
-Mit der Funktion `addListener` wird der zuvor erstelle Listener registriert.
+Mit der Funktion `addListener` wird der zuvor erstellte Listener registriert.
 
 ```javascript
 let obsExample = Observable(42)                     // new Observable with initValue 42
@@ -40,13 +40,17 @@ listenerVariable   // 42
 ```
 {% endhint %}
 
-Die Funktion `getValue`  gibt den aktuellsten Wert aus dem Observable zurück.
+### Aktueller Wert abfragen
+
+Die Funktion `getValue`  gibt den aktuellen Wert aus dem Observable zurück.
 
 ```javascript
 obsExample( getValue );  // 42
 ```
 
-Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listeners werden benachrichtig und der neue Wert als _newValue_ mitgegeben. Der vorherige Wert als _oldValue._ 
+### Wertänderung
+
+Mit der Funktion `setValue` wird dem Observable ein neuer Wert mitgeteilt. Alle verbundene Listener werden benachrichtig und der neue Wert als `newValue` __mitgegeben. Der vorherige Wert als `oldValue`_._ Die Funktionn `setValue` gibt ein neues Observable zurück.
 
 ```javascript
 obsExample = obsExample( setValue )(11) // set new value and update all listeners
@@ -55,41 +59,49 @@ listenerVariable         // 11
 obsExample( getValue );  // 11
 ```
 
-Wenn ein Listener wieder von einem Observable entfernt werden soll und dem Erzähler nicht mehr zuhört, benutzt man die Funktion `removeListener`. 
+### Listener entfernen
+
+Wenn ein Listener wieder von einem Observable entfernt werden soll, gibt es dafür die Funktion`removeListener`. Diese Funktion gibt wieder ein Observable zurück.
 
 ```javascript
 obsExample = obsExample( removeListener )( listenerExample ); 
 ```
 
-Von nun an hört der Listener nicht mehr auf den Observable und die Variable _listenerVariable_ wird auch  nicht mehr überschrieben.
+Der zuvor entfernte Listener bekommt nun keine Wertänderungen mehr mit.
 
 ```javascript
 obsExample = obsExample(setValue)(66);
 
-listenerVariable         // 11 <- variable getting no updates anymore
+listenerVariable         // 11 <- no updates anymore
 obsExample( getValue );  // 66
 ```
 
-### Alles zusammen:
+### Zusammenfassung:
 
 ```javascript
 let listenerVariable; // undefined
 const lisExample = newListener( nVal => oVal => listenerVariable = nVal );
 
+// create observable and add listener
 let obsExample = Observable(42)
-                    (addListener)(lisExample); // add listener
+                    (addListener)(lisExample); 
 
-listenerVariable // 42 <- get the value from InitialValue
+listenerVariable // 42 <- get the value from initialValue
 
-obsExample = obsExample(setValue)(11) // set new value and update listeners
+// set new value and update listeners
+obsExample = obsExample(setValue)(11) 
 
-listenerVariable // 11 <- recieve the update
+// receive the update
+listenerVariable // 11 
 
-obsExample = obsExample(removeListener)(lisExample);  // remove listener
+// remove listener
+obsExample = obsExample(removeListener)(lisExample);  
 
+// set new value and update listeners
 obsExample = obsExample(setValue)(67); 
 
-listenerVariable // 11  <- is still 11. Recieve no updates anymore 
+// receive no updates anymore 
+listenerVariable // 11  
 ```
 
 ## Observable Text-Input Example
