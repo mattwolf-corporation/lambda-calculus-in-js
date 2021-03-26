@@ -503,15 +503,11 @@ testObs(getValue)                // 42
 Mit der Funktion `newListenerWithCustomKey` wir ein neuer Listener erstellt. Die Funktion nimmt als erstes den Schlüssel, als zweites die Funktion, die auf die Wertänderung reagiert, entgegen.
 
 {% hint style="danger" %}
-Der Schlüssel muss mit dem JavaScript "===" - Operator verglichen werden können
+Der Schlüssel muss mit dem JavaScript "===" - Operator verglichen werden können.
 {% endhint %}
 
-{% hint style="info" %}
-Funktionen sind nicht vergleichbar,  ausser sie haben eine statische Notation wie n1, n2, id, pair ... 
-{% endhint %}
-
-{% hint style="info" %}
-Die Listeners brauchen jeweils einen Unikaten Key, damit sie in der Listeners-ListMap im Observable gefunden und entfernt werden kann. 
+{% hint style="danger" %}
+Der Schlüssel von einem Listener muss eindeutig sein in einem Observable.
 {% endhint %}
 
 ```javascript
@@ -525,7 +521,7 @@ const listenerLog = newListenerWithCustomKey(42)(listenerLogToConsole);
 
 ### \*\*\*\*[**newListener**](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/951d8489290b05391cb71abdfed25bb2666aa76c/src/observable/observable.js#L187)\*\*\*\*
 
-Syntaktischer Zucker zum Erstellen eines Paares aus Schlüssel und Wert für den neuen Listener. Der Key muss im vergleich zu `newListenerWithCustomKey` nicht angeben werden.
+Mit der Funktion `newListener` wir ein neuer Listener erstell. Der Key muss im Vergleich zu `newListenerWithCustomKey` nicht angeben werden, weil dieser automatisch generiert wird.
 
 ```javascript
 // Implementation
