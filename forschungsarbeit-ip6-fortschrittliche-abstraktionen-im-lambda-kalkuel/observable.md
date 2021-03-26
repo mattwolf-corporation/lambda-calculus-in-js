@@ -305,11 +305,11 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 
 > ## HTTP-Programmierschnittstelle
 >
-> Fur diese Beispiel wurde extra eine Funktionen erstellt um eine HTTP-Get anfrage zu tätigen. Sie bieten einen einfachen Weg, Daten von einer URL zu erhalten.
+> Für dieses Beispiel wurde extra eine Funktionen erstellt um HTTP-Get anfragen zu tätigen. Sie bieten einen einfachen Weg, Daten von einer URL zu erhalten.
 >
 > ### \*\*\*\*[**HttpGet** ](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ba755edca55de9fbf70267e6ecce48ac58fb6512/src/IO/http.js#L13)**\(asynchron\)**
 >
-> Mit der Funktion `HttpGet`   werden asynchrone Daten von einem Webserver angefordert. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und als zweiten Parameter ein _Callback-Funktion_ zurück mit der Response vom Server.
+> Mit der Funktion `HttpGet`   wird asynchrone anfrage abgesetzt. Die Anfrage wird nach 30 Sekunden _Time-out_  automatisch beendet, wenn vom Webserver bis dahin keine Antwort kommt. Die Funktion `HttpGet` erwartet als ersten Parameter eine URL und als zweiten Parameter eine Callback-Funktion  __mit der Antwort vom Webserver.
 >
 > ####  Beispiel:
 >
