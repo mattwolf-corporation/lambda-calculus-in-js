@@ -1,6 +1,30 @@
-# Benchmark Erfahrungen
+# Benchmark und unsere Erkenntnisse
 
-## forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
+## BenchmarkTest
+
+Um Funktionen auf ihre Ausführungsgeschwindigkeit zu prüfenb wurde die Funktion `BenchmarkTest` gebaut. Mit der Zeitstempel Methode  `performance.now()` von JavaScript **** kann die Ausführungsdauer der Funktion `methodUnderTest` berechnet werden. Die Werte, die von `Performance.now()` zurückgegeben werden sind immer in einem konstanten Tempo, unabhängig von der Systemuhr.
+
+```javascript
+const BenchmarkTest = mutName => methodUnderTest => {
+    const t0 = performance.now(); // Timer start
+
+    const result = methodUnderTest();
+
+    const t1 = performance.now(); // Timer stop
+
+    const milliseconds = t1 - t0; 
+    const timeCondition = milliseconds >= 600;
+    const time = timeCondition ? milliseconds / 1000 : milliseconds;
+
+    console.log(`Call Method ${mutName} took ${time.toFixed(2)} ${timeCondition ? 'seconds' : 'milliseconds'}.`);
+
+    return result;
+}
+```
+
+## Unsere Erkenntnisse dank BenchmarkTests 
+
+### forEach-Methode des [Immutable-Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#foreach-loop)
 
 Bei der Anwendung des Observabes ist uns aufgefallen, dass die Benachrichtigung der Listener viel zu lange ging. Wir haben uns danach gefragt welcher Teil so viel Zeit in Anspruch nimmt für die Ausführung. Danach untersuchten wir die forEach Methode, die bei bei der Benachrichtigung der Listener eine zentrale Rolle spielt. Wir haben die Methode analysiert und festgestellt dass in jeder Iterationsrundne eine zusätzliche Iteration haben, dies jedoch nicht benötigt wird.
 
@@ -61,6 +85,5 @@ const forEach = stack => callbackFunc => {
 };
 ```
 
-  
-Bild Benchmark Methode im Testframework & wie funktioniert diese ????
+
 
