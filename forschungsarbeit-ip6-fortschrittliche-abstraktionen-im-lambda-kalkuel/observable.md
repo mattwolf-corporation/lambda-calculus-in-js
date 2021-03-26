@@ -327,7 +327,7 @@ Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/m
 >  (fold)( x => getDomElement("joke").textContent = x.value) )
 > ```
 
-## Observable: Dokumentation & Implementation
+## Verwendung
 
 {% hint style="success" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
