@@ -233,17 +233,11 @@ listMapSuite.add("convert Object to ListMap", assert => {
     assert.equals( getElementByKey(peter)( "lstName" ), "Pan"    );
     assert.equals( getElementByKey(peter)( "age"     ), 102      );
 });
+
 listMapSuite.add("logListMapToConsole", assert => {
-
     const listMapWithPerson = convertObjToListMap( {firstName: "George"} );
+
     assert.consoleLogEquals( () =>  logListMapToConsole(listMapWithPerson) ,`Index 1 (Key, Element): ("firstName", "George")`);
-
-     const listMapWithPersons = convertObjToListMap( {firstName: "George", lastName: "Lucas"} );
-
-const expected= `Index 1 (Key, Element): ("firstName", "George"),Index 2 (Key, Element): ("lastName", "Lucas")`
-    assert.consoleLogEquals( () =>  logListMapToConsole(listMapWithPersons) ,expected);
-
-
 });
 
 listMapSuite.report();

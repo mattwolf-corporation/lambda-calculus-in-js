@@ -149,6 +149,7 @@ observableListMapSuite.add("removeListener", assert => {
     assert.equals(testObs(getValue), 100)
 });
 
+
 observableListMapSuite.add("benchmark test", assert => {
 
     let testObs = Observable(1)
@@ -156,7 +157,8 @@ observableListMapSuite.add("benchmark test", assert => {
     let listOfValuesHandlers = []
 
     // addListener
-    for (let i = 0; i < 100; i++) { // limit to 6250
+    const amountListener = 100;
+    for (let i = 0; i <= amountListener; i++) { // limit to 6250
         const valueHolder = {};
         const valueHandler = newListener(listenerNewValueToElement(valueHolder))
         listOfValuesHandlers.push(valueHolder)
@@ -164,17 +166,17 @@ observableListMapSuite.add("benchmark test", assert => {
     }
 
     // set Value
-    BenchmarkTest('observable set value method')(() => testObs = testObs(setValue)(66));
-
-    // BenchmarkTest('observable set value method 1000 times')(() => {
-    //     for (let i = 0; i < 10000; i++) {
-    //         testObs = testObs(setValue)(i)
-    //     }
-    // });
-
-    console.log(testObs(getValue))
+    BenchmarkTest('observable set value method ' + amountListener)(() => testObs = testObs(setValue)(66));
 
     assert.equals(listOfValuesHandlers.every(v => v.value === 66), true);
+
+    BenchmarkTest('observable set value method 1000 times')(() => {
+        for (let i = 0; i <= 1000; i++) {
+            testObs = testObs(setValue)(i)
+        }
+    });
+    assert.equals(listOfValuesHandlers.every(v => v.value === 1000), true);
+
 });
 
 
