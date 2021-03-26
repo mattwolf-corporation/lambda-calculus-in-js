@@ -213,73 +213,7 @@ Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und eta reduziert\
 const reduce = reduceFn => initialValue => s => s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s(x => _ => _ => x)(t => t(x => _ => _ => x)(x => _ => _ => x)(_ => (_ => y => y))(x => _ => x)(t)((t => f => f(t(x => _ => _ => x)(_ => y => _ => y))(t(_ => y => _ => y))(t(_ => y => _ => y)(t(_ => _ => z => z))((t(x => _ => _ => x))(_ => _ => z => z))))(t)))(f => f(s)(acc => curr =>  f => f( f => x => f(s(x => _ => _ => x)(f)(x)))(acc)(curr))(f => f(_ => a => a)(x => x)(x => x)))(_ => _ => z => z))(reduceFn)(initialValue))(_ => _ => z => z);
 ```
 
-Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen lambda Kalkül Schreibweise definiert wird. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lmabda Kalkül Schriebweise zu definieren.
-
-
-
-```javascript
-const checkElementByFunction = f => (...elems) =>
-    elems.reduce((acc, curr) => {
-        const result = f(curr);
-        if (acc.isFailed) {
-            if (!result) {
-                 acc.values.push('element with id: ' + curr + 'not found');
-                return acc;
-            }
-            return acc;
-        } else {
-            if (result) {
-                acc.values.push(result);
-                return acc;
-            }
-            acc.values = [] // clear elements
-            acc.values.push('element with id: ' + curr + 'not found');
-            acc.isFailed = true;
-            return acc;
-
-        }
-    }, {values: [], isFailed: false});
-```
-
-
-
-```javascript
-const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-    reduce((acc, curr) =>
-        acc
-         ( stack => Left( eitherProducerFn(curr)
-                            (err => push(stack)(err) )
-                            (_   => stack            )
-                        )
-         )
-         ( listMap => eitherProducerFn(curr)
-                        (err => Left(  push( emptyStack )( err             )))
-                        (val => Right( push( listMap    )( pair(curr)(val) )))
-         )
-    )
-    ( Right( emptyListMap) )
-    ( convertArrayToStack(elements) );
-```
-
-Die Funktion [`eitherElementsOrErrorsByFunction`](either.md#eitherelementsorerrorsbyfunction) als Programmstarter nützlich. Gib dieser Funktion irgendein Either und die Werte an. 
-
-```javascript
-// Either all the necessary Dom-Element exist or display all missed Element
-eitherElementsOrErrorsByFunction(eitherDomElement)('firstNumInput', 'secondNumInput', 'resultDivision', 'divisionBtn' )
-(err => document.body.innerHTML = Box(err)
-                                   (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
-                                   (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
-(result => {
-
-    const [firstNumInput, secondNumInput, resultDivision, divisionBtn] = convertListMapToArray(result);
-
-    divisionBtn.onclick = () => {
-        const [fstNum, sndNum] = [firstNumInput, secondNumInput].map(e => Number(e.value))
-        resultDivision.textContent = getOrDefault(maybeDivision(fstNum)(sndNum))("Can't divide by zero")
-    }
-
-});
-```
+Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen lambda Kalkül Schreibweise definiert ist. Da es keine Definitionen gibt die wiederverwendet werden können muss viel mehr evaluiert werden in JavaScript. Darum ist es für die Performance und für die Leserlichkeit besser die Funktionen nicht in der reinen Lambda Kalkül Schreibweise zu definieren.
 
 ## Fazit / Erkenntnisse
 
