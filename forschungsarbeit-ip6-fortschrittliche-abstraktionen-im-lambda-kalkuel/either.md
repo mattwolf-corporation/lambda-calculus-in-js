@@ -6,7 +6,7 @@ description: Entweder Erfolgsfall mit Resultat oder Fehlerfall mit Fehlermeldung
 
 ## Beschreibung
 
-{% hint style="success" %}
+{% hint style="info" %}
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
@@ -29,13 +29,13 @@ const Right  = x => _ => g => g (x);
 
 Die folgenden Funktion geben alle ein Either zurück und unterstützen so eine saubere Fehlerbehandlung mit reine Funktionen ohne Seiteneffekte. Somit können typische Fehler, die zum Beispiel auftreten wenn Werte `null` oder `undefined` sind, vermieden werden. Eine Funktion die ein Either zurück liefert hilft dem Anwender an den Fehlerfall zu denken und diesen zu behandeln.
 
-### Allgemeine Anwendung für Funktionen, die ein _either_ zurückgeben
+### Allgemeine Anwendung für Funktionen, die ein _Either_ zurückgeben
 
 Bei Funktionen, die ein Either zurückgeben können an den Funktionsaufruf 2 weitere Parameter übergeben werden. Der erste Parameter ist eine Funktion die eine Fehlermeldung entgegen nimmt und dann eine Fehlerbehandlung durchführt. Der zweite Parameter ist eine Funktion für den Erfolgsfall, die das Resultat entgegen nimmt.
 
 Allgemeines Schema:
 
-Eine either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am Schluss vom Funktionsaufruf werden 2 Funktionen übergeben. Eine Funktion für den Fehlerfall \(Left Case\) und eine für den Erfolgsfall \(Right Case\).
+Eine Either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am Schluss vom Funktionsaufruf werden 2 Funktionen übergeben. Eine Funktion für den Fehlerfall \(Left Case\) und eine für den Erfolgsfall \(Right Case\).
 
 ```javascript
 // Anwendung        
@@ -87,7 +87,7 @@ eitherElementOrCustomErrorMessage("Der Wert ist Null")(null); // Left ("Der Wert
 
 ### [eitherDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L120)
 
-Die `eitherDomElement`  Funktion nimmt eine Dom-Element-Id entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das HTML-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
+Die `eitherDomElement`  Funktion nimmt eine Id für ein Dom-Element entgegen und gibt ein Either Type zurück. Im Erfolgsfall wird das HTML-Element zurückgegeben sonst eine Fehlermeldung, dass ein solches Element nicht existiert.
 
 ```javascript
 const eitherDomElement = elemId =>
