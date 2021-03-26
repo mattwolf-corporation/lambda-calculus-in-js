@@ -2,6 +2,8 @@
 
 ## Abstract
 
+
+
 Was wurde erreicht? Was sind die Ergebnisse?
 
 * Erweiterungen der **immutable Stack** Datenstruktur
