@@ -6,7 +6,7 @@ description: >-
 
 # Observable
 
-#### In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster 'Observer-Pattern' an, dass in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: Der 'Erzähler' \(Observable\) hält Informationen bereit an die sich 'Zuhörer' \(Listener\) registrieren können. Sobald der 'Erzähler' neue Informationen bekommt, benachrichtigt er seine 'Zuhörer'.
+**In  vielen Programmiersprachen bietet sich hierfür das Entwurfsmuster 'Observer-Pattern' an, dass in verschiedenen Sprachen sehr unterschiedlich implementiert wurde. Das Prinzip gestaltet sich allerdings gleich: Der 'Erzähler' \(Observable\) hält Informationen bereit an die sich 'Zuhörer' \(Listener\) registrieren können. Sobald der 'Erzähler' neue Informationen bekommt, benachrichtigt er seine 'Zuhörer'.**
 
 ## Beispiel
 
