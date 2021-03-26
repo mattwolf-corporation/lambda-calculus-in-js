@@ -51,14 +51,10 @@ Die `eitherTruthy`  Funktion erwartet einen Wert und überprüft ob dieser 'trut
 {% endhint %}
 
 ```javascript
-// Implementation
 const eitherTruthy = value =>
     value
         ? Right(value)
         : Left(`'${value}' is a falsy value`);
-        
-// Anwendung
-// TODO:
 ```
 
 ### [eitherNotNullAndUndefined](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L85)
@@ -66,14 +62,10 @@ const eitherTruthy = value =>
 Die `eitherNotNullAndUndefined` ****Funktion erwartet einen Wert und überprüft ob dieser nicht **null** oder **undefined** ist.
 
 ```javascript
-// Implementation
 const eitherNotNullAndUndefined = value =>
     value !== null && value !== undefined
         ? Right(value)
         : Left(`element is '${value}'`);
-        
-//Anwendung
-// TODO
 ```
 
 ### [eitherElementOrCustomErrorMessage](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b6edeaa62cf134fde7d3d57343bbc639f4fca2e/src/maybe/maybe.js#L108)
