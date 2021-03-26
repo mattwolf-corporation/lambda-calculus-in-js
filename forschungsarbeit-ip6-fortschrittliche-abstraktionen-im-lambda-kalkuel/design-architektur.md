@@ -61,7 +61,7 @@ Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _
 
 ## Formatierung
 
-Beim Anwenden der Konstruktionen gibt es nicht die Zuweisungen auf jeder Zeile, wie man es von der Prozentualen- oder OOP-Programmiersprachen kennt, sondern zu einer Verkettung von Funktionen. Bei diesen Funktionskompositionen, welche man in einer Linien schreiben könnte, kann schnell die Übersicht verloren gehen. Richtiges formatieren der Funktionen mit Zeilenumbrüche,  Einrückungen und Leerzeichen sind daher empfehlenswert und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
+Bei den erstelleten Funktionen kommt es häufig vor, dass die Impementation aus einer einzigen Codezeile besteht. Die Leserlichkeit kann zum Teil darunter leiden weil die Zeile zu lang ist. Richtiges formatieren der Funktionen mit Zeilenumbrüchen,  Einrückungen und Leerzeichen sind daher empfehlenswert und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
 
 ### Workflow-Beispiel
 
