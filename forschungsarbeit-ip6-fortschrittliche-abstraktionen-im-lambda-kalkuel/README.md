@@ -42,12 +42,12 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
-> **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> **Abgrenzung von objektorientierter Programmierung:**   
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
-Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
+Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
 
-Durch den Einsatz von diesem Werkzeugkasten sollten weniger Fehler auftauchen, die sonst typischerweise beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten auftauchen.
+Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
 ### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
 
@@ -101,7 +101,7 @@ const streetName = user => {
 }
 ```
 
-Eine gleichwertige Implementierung im Stil der funnktionalen Programmierung.
+Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens.
 
 ```javascript
 const streetName = user =>
@@ -127,16 +127,29 @@ const streetName = user =>
 
 ## Pure Lambda JS vs Lambda JS
 
- Bereits kleinere Funktionen wie `push`  der ein Stack erstellt mit einem neuen Wert    
-\(`const stackWithOneValue = push(emptyStack)(1);` \) , besteht im kern aus mehreren Funktionen. 
+Bereits eine kleinere Funktion wie `push`  die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
-Unserer Implementation, mit welcher wir arbeiten und zur Verfügung stellen, sieht dabei so aus: 
+Die Implementation der Funktion `push` sieht wie folgt aus: 
 
 ```javascript
 const push = s => stack( succ( s(stackIndex) ) )(s);
 ```
 
-`Push` erwartet einen Parameter `s` vom _Typ Stack_ und gibt ein Stack zurück. Dieser Stack ist nichts weiter als ein Platzhalter für ein Triple \(`const triple = x => y => z => f => f(x)(y)(z);`\), dessen erster Parameter die Funktion `succ`aka Successor \( `const succ = n => f => x => (f)(n(f)(x));` \) ist; denn zweiten Parameter denselben Stack \(`s`\) und als letzten Wert den neuen Wert erwartet. Der erster Parameter mit dem Successor verlangt dabei nach einer Churchzahl um dessen Wert um einen zu erhöhen und zurück zu geben. Um diese Churchzahl überhaupt erst zu erhalten wird mit dem Aufruf der Funktion `stackIndex`  aus dem Stack der Index geholt. Und da der Stack ein Triple ist, ist die Funktion `stackIndex`  \(`const stackIndex = firstOfTriple;`\)  nur eine Funktion um Werte aus einem Triple zu holen \( `const firstOfTriple = x => y => z => x`;  \).  In allem ist das ein Funktionskomposition, dass im Hintergrund, wenn alles Evaluiert wird, so aussieht:
+Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex.`
+
+Diese Definition können mit der Implementierung die dahinter steckt ersetzt werden. So ergibt sich am Schluss eine einzige grosse Funktion. Im Lambda Kalkül gibt es keine Variablen sondern nur Funktion die auf Argumente angwendet werden.
+
+
+
+`const triple = x => y => z => f => f(x)(y)(z);`
+
+`const succ = n => f => x => (f)(n(f)(x));`
+
+`const stackIndex = firstOfTriple;`
+
+`const firstOfTriple = x => y => z => x`; 
+
+Die Funktion push würde im reinen lambda Kalkül wie folgt aussehen:
 
 ```javascript
 // in reinem Lambda Kalkül
