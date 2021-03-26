@@ -42,12 +42,12 @@ Bei diesen Konstruktionen wurde komplett auf die Werte der reinen [funktionalen 
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
-> **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> **Abgrenzung von objektorientierter Programmierung:**   
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
-Die entwickelten Konstruktionen haben das Ziel dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
+Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
 
-Durch den Einsatz von diesem Werkzeugkasten sollten weniger Fehler auftauchen, die sonst typischerweise beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten auftauchen.
+Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
 ### Typische Fehler die beim Entwickeln mit JavaScript auftauchen.
 
@@ -101,7 +101,7 @@ const streetName = user => {
 }
 ```
 
-Eine gleichwertige Implementierung im Stil der funnktionalen Programmierung.
+Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens.
 
 ```javascript
 const streetName = user =>
