@@ -167,9 +167,11 @@ const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 
 Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Definitionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinnvollen Namen zu geben.
 
-Beispiel an der grösseren Funktion `reduce` :
 
-Implementation Lambda JS
+
+#### Beispiel an der grösseren Funktion `reduce` :
+
+#### Implementation in Lambda JS
 
 ```javascript
 // reduce in mehreren Funktionen unterteilt
@@ -212,7 +214,7 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-Implementation pure Lambda JS \(Funktionsdefinitionen ersetzt und ETA reduziert\)
+#### Implementation in pure Lambda JS \(Funktionsdefinitionen ersetzt und ETA reduziert\)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
