@@ -1,2 +1,0 @@
-# Design Entscheidungen und Begründungen
-
