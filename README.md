@@ -1,3 +1,7 @@
+---
+description: von Benjamin Brodwolf & Pascal Andermatt
+---
+
 # Lambda Kalkül für praktisches JavaScript
 
 ![](.gitbook/assets/repoimage.png)
@@ -10,7 +14,7 @@
 
 Lambda Kalkül ****ist ein formales System, in der mathematische Logik zur Berechnung und Untersuchung von Funktionen gilt.  Es ist ein universelles Berechnungsmodel , mit dem jede Turing-Maschine simuliert werden kann. Es wurde von dem Mathematiker [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church) in den 1930er Jahren als Teil seiner Forschung zu den Grundlagen der Mathematik eingeführt.
 
-> Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablenbindung \(statt Zuweisung\), einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
+> Lambda-Kalkül hat im Grunde nichts in sich. Es hat nur drei Dinge: Variablenbindung, einen Weg, Funktionen zu bauen und einen Weg, Funktionen anzuwenden. Es hat keine anderen Kontrollstrukturen, keine anderen Datentypen, gar nichts.
 
 ### Was ist JavaScript?
 
@@ -18,19 +22,21 @@ JavaScript ist die Programmiersprache die hauptsächlich im Web verwendet wird u
 
 ### Lambda Kalkül & JavaScript
 
-Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale_Programmierung) Program-Codes zu schreiben \(purely functional\). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, das wir in JavaScript funktional programmieren können. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung \(high order functions\).
+Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale_Programmierung) Program-Codes zu schreiben \(purely functional\). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, dass wir in JavaScript funktional programmieren können. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung \(high order functions\) zu schreiben.
 
 ## Forschungsarbeit
 
 Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung):
 
-* **Reinheit** \(_pure functions\):_   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\):_  Unveränderliche Datenstrukturen
+* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
+* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Funktionale Algorithmen und Datenstrukturen**: Verwaltung von persistente Datenstrukturen
+* **Fehlerbehandlung** ohne `throw` Ausdruck
+* **Funktionen höherer Ordnung** \(high order functions\).
+* **Zustandslosigkeit**
 
-> **Abgrenzung von imperativer Programmierung:**   
-> Es werden keine Objektorientierte- oder sonstige nicht funktionale Konzepte verwendet.
+> **Abgrenzung von objektorientierter Programmierung:**   
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
 ## Inhaltsverzeichnis
 

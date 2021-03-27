@@ -6,7 +6,7 @@ description: Verpacken -> Verarbeiten -> Auspacken
 
 ## Beschreibung
 
-Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Die Werte werden in eine "Box" eingepackt und danach gemapped \(weiterverarbeitet\). Dabei ensteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen-Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
+Das Box Konstrukt erleichtert das Verarbeiten von beliebigen Werten. Die Werte werden in eine "Box" eingepackt und danach gemapped \(weiterverarbeitet\). Dabei entsteht eine Art linearer Datenfluss, der die Leserlichkeit des Codes erhöht. Ausserdem werden keine Variablen-Deklarationen für die Zwischenstände benötigt, weil das Resultat der Verarbeitung direkt in die nächste Funktion weitergeleitet wird.
 
 Mit dem Box Konstrukt kann eine Art Pipeline aufgebaut werden, bei dem ein Wert durch diese Pipeline geschickt wird und bei jedem `fmap` wird der Wert weiter prozessiert. Um am Schluss an den verarbeiteten Wert zu kommen wird die letzte Prozessierung nicht mit `fmap` sondern mit `fold` durchgeführt.
 
@@ -320,7 +320,7 @@ Box( Just(x => x + 5) )          // { Just(15 + 5) }
 Die Funktion `liftA2Maybe` entspricht der Funktion [`liftA2`](box-maybebox.md#lifta2) für einen Maybe Type.
 
 {% hint style="info" %}
-Falls ein Parameter \(fx, fy oder beide\) Nothing sind, ist das Gesamtergebnis der Funktion Nothing.
+Falls ein Parameter \(`fx`, `fy` oder beide\) Nothing sind, ist das Gesamtergebnis der Funktion Nothing.
 {% endhint %}
 
 ```javascript
