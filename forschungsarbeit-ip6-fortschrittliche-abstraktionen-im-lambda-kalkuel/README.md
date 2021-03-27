@@ -62,12 +62,12 @@ Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkaste
 
 Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typischerweise, beim Entwickeln mit JavaScript und der Verwendung von Objekten und veränderlichen Werten/Datenstrukturen, auftauchen.
 
-### Classic JS vs Lambda JS
+### _Classic JS_ vs _Lambda JS_
 
 #### Property Value aus Objekt extrahieren \(null-safe\)
 
 **Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
-**Ziel:**           Strassenname extrahieren
+**Ziel:**          Strassenname extrahieren
 
 ```javascript
 // User-Object
@@ -83,11 +83,11 @@ const user = {
     }
 }
 
-// Anwendung
+// Anwendungs Ziel
 streetName(user) // "WALTSTREET"
 ```
 
-Eine mögliche Implementierung im klassischen JavaScript wäre:
+#### Eine mögliche Implementierung im klassischen JavaScript _\(Classic JS\)_ wäre:
 
 ```javascript
 const streetName = user => {
@@ -107,7 +107,7 @@ const streetName = user => {
 }
 ```
 
-Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens.
+#### Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens _\(Lambda JS\)_:
 
 ```javascript
 const streetName = user =>
@@ -122,7 +122,7 @@ const streetName = user =>
 
 #### Vergleich
 
-| Eigenschaften | Classic JS | Lambda JS |
+| Eigenschaften | _Classic JS_ | _Lambda JS_ |
 | :--- | :--- | :--- |
 | Variablen für Zwischenstände | wird benötigt | keine |
 | Verschachtelung von If Statements | wird benötigt | keine |
@@ -131,11 +131,11 @@ const streetName = user =>
 
 
 
-### Pure Lambda JS vs Lambda JS
+### _Pure Lambda JS_ vs _Lambda JS_
 
-Bereits eine kleine Funktion wie `push` , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
+Bereits eine kleine Funktion wie [`push`](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
-Die Implementation der Funktion `push` sieht wie folgt aus: 
+#### Die Implementation der Funktion `push` sieht wie folgt aus: 
 
 ```javascript
 const push = s => stack( succ( s(stackIndex) ) )(s);
@@ -153,13 +153,13 @@ Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funkt
 
 `const firstOfTriple = x => y => z => x`; 
 
-#### Die Funktion `push` würde im reinen Lambda Kalkül wie folgt aussehen:
+#### Die Funktion `push` würde im reinen Lambda Kalkül _\(pure Lambda JS\)_ wie folgt aussehen:
 
 ```javascript
 const push = s => (x => y => z => f => f(x)(y)(z))((n => f => x => (f)(n(f)(x)))(s(x => _ => _ => x)))(s)
 ```
 
-#### Nach Eta-Reduktion:
+#### Nach der Eta-Reduktion:
 
 ```javascript
 const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
@@ -169,9 +169,9 @@ Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersicht
 
 
 
-#### Beispiel an der grösseren Funktion `reduce` :
+#### Beispiel an der grösseren Funktion `reduce` 
 
-#### Implementation in Lambda JS
+#### Implementation von `reduce` in _Lambda JS_:
 
 ```javascript
 // reduce in mehreren Funktionen unterteilt
@@ -214,7 +214,7 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-#### Implementation in pure Lambda JS \(Funktionsdefinitionen ersetzt und ETA reduziert\)
+#### Implementation in _pure Lambda JS_ \(Funktionsdefinitionen ersetzt und ETA reduziert\)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
