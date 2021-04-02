@@ -1,10 +1,5 @@
 import {B, K, T, True, False, and, or, pair, fst, snd, Blackbird, not} from "./lambda-calculus.js";
-
-export {
-    n0, n1, n2, n3, n4, n5, n6, n7, n8, n9,
-    succ, pred, phi, churchAddition, churchSubtraction,
-    churchMultiplication, churchPotency, is0, churchNum, jsNum, eq, leq, gt, max, min
-}
+export {n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, succ, pred, phi, churchAddition, churchSubtraction, churchMultiplication, churchPotency, is0, churchNum, jsNum, eq, leq, gt, max, min}
 
 /**
  * Generic Types
