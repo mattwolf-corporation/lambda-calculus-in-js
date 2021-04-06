@@ -165,8 +165,8 @@ eitherElementsOrErrorsByFunction:: (a -> Either a) -> [a] -> Either [a]
 
 ```javascript
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "output")
-(err => doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
-(result => { // result === listMap mit den Resultaten
+(err    => doSomethingWithErrorMessages) // stack mit Fehlermeldungen
+(result => {                             // listMap mit den Resultaten
 
    // Die Resultate als einzelne Variablen
    const [inputText, output] = convertListMapToArray(result);
