@@ -213,7 +213,7 @@ Stream(1,2,3,4)
  (fold)( filter(x => x > 4) )
 ```
 
-### [HttpGet](observable.md#observable-httpget-joke-example)
+### [HttpGet](observable.md#implementation-2)
 
 ```javascript
 // Synchron
