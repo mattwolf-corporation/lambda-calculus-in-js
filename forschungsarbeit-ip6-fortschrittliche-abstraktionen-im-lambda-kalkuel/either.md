@@ -38,7 +38,7 @@ Eine Either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am 
 ```javascript
 // Anwendung        
 eitherXYZ(someParam)
-    (error =>  doSomethingInErrorCase(error)    )  // Left Case
+    (error  => doSomethingInErrorCase(error)    )  // Left Case
     (result => doSomethingInSuccessCase(result) )  // Right Case
 ```
 
@@ -164,14 +164,14 @@ eitherElementsOrErrorsByFunction:: (a -> Either a) -> [a] -> Either [a]
 **Beispiel**
 
 ```javascript
-eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue")
-(err => doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
-(result => { // result === listMap mit den Resultaten
+eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "output")
+(err    => doSomethingWithErrorMessages) // stack mit Fehlermeldungen
+(result => {                             // listMap mit den Resultaten
 
    // Die Resultate als einzelne Variablen
-   const [inputText, newValue] = convertListMapToArray(result);
+   const [inputText, output] = convertListMapToArray(result);
    
-   doSomethingWithResult(inputText, newValue);
+   doSomethingWithResult(inputText, output);
    
 })
 ```

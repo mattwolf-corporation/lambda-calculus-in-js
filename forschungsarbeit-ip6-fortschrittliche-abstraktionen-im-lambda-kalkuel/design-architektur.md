@@ -13,7 +13,7 @@ Funktionen die mit einem **get** beginnen, geben wenn möglich den gewünschten 
 > Funktion:     **get**XYZ  
 > Ergebnis:     **Wert** oder _**undefined**_
 
-Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), getDomElement
+Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), [getDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L143), [getDomElements](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L155)
 
 ### maybe-Präfix
 
