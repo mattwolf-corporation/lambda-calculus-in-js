@@ -38,7 +38,7 @@ Eine Either Funktion XYZ wird mit einem oder mehreren Parametern aufgerufen. Am 
 ```javascript
 // Anwendung        
 eitherXYZ(someParam)
-    (error =>  doSomethingInErrorCase(error)    )  // Left Case
+    (error  => doSomethingInErrorCase(error)    )  // Left Case
     (result => doSomethingInSuccessCase(result) )  // Right Case
 ```
 
