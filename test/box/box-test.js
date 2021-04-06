@@ -495,50 +495,37 @@ boxSuite.add("functor/applicative/monad - box example ", async assert => {
 
     // class Functor f where fmap :: (a -> b) -> f a -> f b
 
-    // f a
-    const hans = Box("Hans");
+    const hans = Box("Hans"); // f a
 
-    // (a -> b)
-    const firstLetter = str => str.charAt(0);
+    const firstLetter = str => str.charAt(0); // (a -> b)
 
-    // f b
-    const result = hans(fmap)(firstLetter);
+    const result = hans(fmap)(firstLetter);  // f b
 
-    // b
-    getContent(result); // H
+    getContent(result); // b  // H
 
     // -----------------------------------
 
     // class Functor f => Applicative f where app :: f (a -> b) -> f a -> f b
 
-    // f (a -> b)
-    const addTen = Box(x => x + 10);
+    const addTen = Box(x => x + 10); // f (a -> b)
 
-    // f a
-    const five = Box(5);
+    const five = Box(5); // f a
 
-    // f b
-    const result2 = addTen(app)(five);
+    const result2 = addTen(app)(five); // f b
 
-    // b
-    getContent(result2); // 15
+    getContent(result2); // b // 15
 
     // -----------------------------------
 
     // class Monad m where (>>=) :: m a -> (a -> m b) -> m b
 
-    // m a
-    const peter = Box("Peter");
+    const peter = Box("Peter"); // m a
 
-    // (a => m b)
-    const nameToUpperCase = name => Box(name.toUpperCase());
+    const nameToUpperCase = name => Box(name.toUpperCase()); // (a => m b)
 
-    // chain (>>=)
-    // m b
-    const result3 = peter(chain)( firstName => nameToUpperCase(firstName) );
+    const result3 = peter(chain)( firstName => nameToUpperCase(firstName) ); // chain (>>=) // m b
 
-    // b
-    getContent(result3); // PETER
+    getContent(result3); // b // PETER
 
     assert.equals(getContent(result), 'H');
     assert.equals(getContent(result2), 15);
