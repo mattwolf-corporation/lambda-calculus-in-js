@@ -164,14 +164,14 @@ eitherElementsOrErrorsByFunction:: (a -> Either a) -> [a] -> Either [a]
 **Beispiel**
 
 ```javascript
-eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue")
+eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "output")
 (err => doSomethingWithErrorMessages) // err === stack mit den fehlende Elementen
 (result => { // result === listMap mit den Resultaten
 
    // Die Resultate als einzelne Variablen
-   const [inputText, newValue] = convertListMapToArray(result);
+   const [inputText, output] = convertListMapToArray(result);
    
-   doSomethingWithResult(inputText, newValue);
+   doSomethingWithResult(inputText, output);
    
 })
 ```
