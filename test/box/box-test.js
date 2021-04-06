@@ -491,4 +491,59 @@ boxSuite.add("box with Http", async assert => {
 
 });
 
+boxSuite.add("functor/applicative/monad - box example ", async assert => {
+
+    // class Functor f where fmap :: (a -> b) -> f a -> f b
+
+    // f a
+    const hans = Box("Hans");
+
+    // (a -> b)
+    const firstLetter = str => str.charAt(0);
+
+    // f b
+    const result = hans(fmap)(firstLetter);
+
+    // b
+    getContent(result); // H
+
+    // -----------------------------------
+
+    // class Functor f => Applicative f where app :: f (a -> b) -> f a -> f b
+
+    // f (a -> b)
+    const addTen = Box(x => x + 10);
+
+    // f a
+    const five = Box(5);
+
+    // f b
+    const result2 = addTen(app)(five);
+
+    // b
+    getContent(result2); // 15
+
+    // -----------------------------------
+
+    // class Monad m where (>>=) :: m a -> (a -> m b) -> m b
+
+    // m a
+    const peter = Box("Peter");
+
+    // (a => m b)
+    const nameToUpperCase = name => Box(name.toUpperCase());
+
+    // chain (>>=)
+    // m b
+    const result3 = peter(chain)( firstName => nameToUpperCase(firstName) );
+
+    // b
+    getContent(result3); // PETER
+
+    assert.equals(getContent(result), 'H');
+    assert.equals(getContent(result2), 15);
+    assert.equals(getContent(result3), "PETER");
+});
+
+
 boxSuite.report();
