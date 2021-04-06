@@ -80,16 +80,16 @@ obsExample = obsExample( removeListener )( listenerExample );
 
 ```javascript
 let listenerVariable; // undefined
-const lisExample = newListener( nVal => oVal => listenerVariable = nVal );
+const listenerExample = newListener( nVal => oVal => listenerVariable = nVal );
 
 // create observable and add listener
 let obsExample = Observable(42)
-                    (addListener)(lisExample); 
+                    (addListener)(listenerExample); 
 
 listenerVariable // 42 <- get the value from initialValue
 
 // set new value and update listeners
-obsExample = obsExample(setValue)(11) 
+obsExample = obsExample(setValue)(11);
 
 // receive the update
 listenerVariable // 11 
