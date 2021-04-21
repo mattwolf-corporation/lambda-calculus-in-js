@@ -1,7 +1,7 @@
 ---
 description: >-
   Neue Funktionen für den Stack: concat, flatten, zipWith, zip, stackEquals,
-  getElementByIndey, removeByIndex, getIndexOfElement, maybeIndexOfElement,
+  getElementByIndex, removeByIndex, getIndexOfElement, maybeIndexOfElement,
   containsElement, convertElementsToStack
 ---
 
