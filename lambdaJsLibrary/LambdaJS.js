@@ -787,14 +787,14 @@ const size = getStackIndex;
  * @example
  * const stackWithNumbers  = convertArrayToStack([0,1,2]);
  *
- * const reduceFunctionSum = (acc, curr) => acc + curr;
+ * const reduceFunctionSum = acc => curr => acc + curr;
  * reduce( reduceFunctionSum )( 0 )( stackWithNumbers )          ===  3
  * reduce( reduceFunctionSum )( 0 )( push(stackWithNumbers)(3) ) ===  5
  *
  * reduce( reduceFunctionSum )( 5 )( stackWithNumbers )          ===  8
  * reduce( reduceFunctionSum )( 5 )( push(stackWithNumbers)(3) ) === 10
  *
- * const reduceToArray = (acc, curr) => [...acc, curr];
+ * const reduceToArray = acc => curr => [...acc, curr];
  * reduce( reduceToArray )( [] )( stackWithNumbers ) === [0, 1, 2]
  */
 const reduce = reduceFn => initialValue => s => {
@@ -806,7 +806,7 @@ const reduce = reduceFn => initialValue => s => {
             const reduceFunction    = argsTriple(secondOfTriple);
             const preAcc            = argsTriple(thirdOfTriple);
             const curr              = head(stack);
-            const acc               = reduceFunction(preAcc, curr);
+            const acc               = reduceFunction(preAcc)(curr);
             const preStack          = stack(stackPredecessor);
             return triple(preStack)(reduceFunction)(acc);
         }
@@ -821,7 +821,7 @@ const reduce = reduceFn => initialValue => s => {
     (reduceIteration)
     (triple
         (s)
-        ((acc, curr) => push(acc)(curr))
+        (acc => curr => push(acc)(curr))
         (emptyStack)
     )
     (thirdOfTriple);
@@ -1044,7 +1044,7 @@ const containsElement = s => element =>
  *
  * convertArrayToStack( stackWithValues ) === [1,2,3]
  */
-const convertStackToArray = reduce((acc, curr) => [...acc, curr])([]);
+const convertStackToArray = reduce(acc => curr => [...acc, curr])([]);
 
 /**
  * A function that takes an javascript array and converts the array into a stack. The function returns a stack.
@@ -1079,7 +1079,7 @@ const convertElementsToStack = (...elements) =>
  * @return {stack} stack (reversed)
  */
 const reverseStack = s =>
-    reduce((acc, _) => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s)(snd);
+    reduce(acc => _ => pair(pop(acc(fst))(fst))(push(acc(snd))(pop(acc(fst))(snd))))(pair(s)(emptyStack))(s)(snd);
 
 /**
  *  A function that accepts a map function and a stack. The function returns the mapped stack.
@@ -1088,7 +1088,7 @@ const reverseStack = s =>
  * @return {function(reduce:stack): function(stack)} stack
  */
 const mapWithReduce = mapFunc =>
-    reduce((acc, curr) => push(acc)(mapFunc(curr)))(emptyStack);
+    reduce(acc => curr => push(acc)(mapFunc(curr)))(emptyStack);
 
 /**
  *  A function that accepts a stack and a filter function. The function returns the filtered stack.
@@ -1097,7 +1097,7 @@ const mapWithReduce = mapFunc =>
  * @return {function(reduce:stack): function(stack)} stack
  */
 const filterWithReduce = filterFunc =>
-    reduce((acc, curr) => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
+    reduce(acc => curr => filterFunc(curr) ? push(acc)(curr) : acc)(emptyStack);
 
 /**
  *  A function that takes a map function and a stack. The function returns the mapped stack
@@ -1354,7 +1354,7 @@ const concat = s1 => s2 =>
         ? s2
         : s2 === emptyStack
         ? s1
-        : reduce((acc, curr) => push(acc) (curr)) (s1) (s2);
+        : reduce(acc => curr => push(acc) (curr)) (s1) (s2);
 
 /**
  * This function flatten a nested stack of stacks with values.
@@ -1383,7 +1383,7 @@ const concat = s1 => s2 =>
  * getElementByIndex( flattenStack )( 5 ) ===  5
  * getElementByIndex( flattenStack )( 6 ) ===  6
  */
-const flatten = reduce( (acc, curr) => concat( acc )( curr ) )(emptyStack);
+const flatten = reduce( acc => curr => concat( acc )( curr ) )(emptyStack);
 
 /**
  * The zipWith function receives a linking function and two stacks.
@@ -1603,13 +1603,13 @@ const filterListMap = f => filter(p => f(p(snd)) );
  * @param  {function} f
  * @return {function(listMap): listMap} ListMap
  * @example
- * const reduceFunc = (acc, curr) => acc + curr.income;
+ * const reduceFunc = acc => curr => acc + curr.income;
  * const employees = convertObjToListMap({ p1: {firstName: 'Peter',  income: 1000},
  *                                         p2: {firstName: 'Michael', income: 500} });
  *
  * reduceListMap(reduceFunc)(0)(employees); // 1500
  */
-const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+const reduceListMap = f => reduce(acc => curr => f(acc)(curr(snd)));
 
 /**
  * Takes a JavaScript object and convert the key and values analog into a listMap
@@ -1710,7 +1710,7 @@ const removeByKey = listMap => key => {
  *
  * convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
  */
-const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
+const convertListMapToArray = listMap => reduceListMap(acc => curr => [...acc, curr])([])(listMap);
 
 /**
  *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array and returns the array.
@@ -1725,7 +1725,7 @@ const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, c
  * getElementByKey( result )( "firstName" );  // "George"
  * getElementByKey( result )( "lastName"  );  // "Lucas"
  */
-const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(curr))(emptyStack)(listMap);
+const convertListMapToStack = listMap => reduceListMap(acc => curr => push(acc)(curr))(emptyStack)(listMap);
 
 /**
  * The logListMapToConsole function takes a ListMap and executes a site effect. The site effect logs the ListMap with its key and values to the console.
@@ -2211,7 +2211,7 @@ const eitherTryCatch = f => {
  * @return {function(elements:...[*]): {(Left|Right)}} either Right with all "success" values as ListMap or Left with all error messages that occurred as Stack
  */
 const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-    reduce((acc, curr) =>
+    reduce(acc => curr =>
         acc
         ( stack => Left( eitherProducerFn(curr)
             (err => push(stack)(err) )
@@ -2229,7 +2229,7 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 // Haskell: (a -> Maybe a) -> [a] -> Maybe [a]
 const maybeElementsByFunction = maybeProducerFn => (...elements) =>
     reduce
-    ((acc, curr) =>
+    (acc => curr =>
         flatMapMaybe(acc)(listMap =>
             mapMaybe( maybeProducerFn(curr) )(val => push(listMap)( pair(curr)(val) ))
         )

@@ -165,10 +165,10 @@ listMapSuite.add("filterListMap", assert => {
 });
 
 listMapSuite.add("reduceListMap", assert => {
-    const result = reduceListMap((acc, curr) => acc + curr.income)(0)(testListMap);
+    const result = reduceListMap(acc => curr => acc + curr.income)(0)(testListMap);
     assert.equals( result, 15000);
 
-    const result2 = reduceListMap((acc, curr) => acc + curr)(0)(listMapWithNumbers);
+    const result2 = reduceListMap(acc => curr => acc + curr)(0)(listMapWithNumbers);
     assert.equals(result2, 30)
 });
 

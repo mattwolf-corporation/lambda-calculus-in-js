@@ -171,13 +171,13 @@ Beispiel:
 ```javascript
 const stackWithNumbers  = convertArrayToStack([0,1,2]);
 
-const reduceFunctionSum = (acc, curr) => acc + curr;
+const reduceFunctionSum = acc => curr => acc + curr;
 reduce( reduceFunctionSum )( 0 )( stackWithNumbers )          // returns  3
 reduce( reduceFunctionSum )( 0 )( push(stackWithNumbers)(3) ) // returns  5
 reduce( reduceFunctionSum )( 5 )( stackWithNumbers )          // returns  8
 reduce( reduceFunctionSum )( 5 )( push(stackWithNumbers)(3) ) // returns 10
 
-const reduceToArray = (acc, curr) => [...acc, curr];
+const reduceToArray = acc => curr => [...acc, curr];
 reduce( reduceToArray )( [] )( stackWithNumbers )              // returns [0, 1, 2]
 ```
 
@@ -201,7 +201,7 @@ Ausserdem gibt es noch eine MapWithReduce-Funktion die mittels der obenstehenden
 Implementation:
 
 ```javascript
-const mapWithReduce = s => map => reduce(s)(pair((acc, curr) => push(acc)(map(curr)))(emptyStack));
+const mapWithReduce = s => map => reduce(s)(pair(acc => curr => push(acc)(map(curr)))(emptyStack));
 ```
 
 ### Filter
@@ -224,7 +224,7 @@ Ausserdem gibt es noch eine FilterWithReduce-Funktion die mittels der obenstehen
 Implementation:
 
 ```javascript
-const filterWithReduce = s => filter => reduce(s)(pair((acc, curr) => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
+const filterWithReduce = s => filter => reduce(s)(pair(acc => curr => filter(curr) ? push(acc)(curr) : acc)(emptyStack));
 ```
 
 ## ForEach-Loop

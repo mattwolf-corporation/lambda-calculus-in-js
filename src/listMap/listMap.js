@@ -1,6 +1,6 @@
 import {id, pair, fst, snd, If, Else, Then, triple} from "../lambda-calculus-library/lambda-calculus.js";
 import {n0} from "../lambda-calculus-library/church-numerals.js";
-import {stack, size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, map, filter, reduce, forEach, emptyStack} from "../stack/stack.js";
+import {size, stackPredecessor, head, reverseStack, hasPre, getPreStack, push, map, filter, reduce, forEach, emptyStack} from "../stack/stack.js";
 export {listMap, emptyListMap, getElementByKey, removeByKey, startListMap, mapListMap, filterListMap, reduceListMap, convertObjToListMap, logListMapToConsole, convertListMapToArray, convertListMapToStack}
 
 /**
@@ -84,13 +84,13 @@ const filterListMap = f => filter(p => f(p(snd)) );
  * @param  {function} f
  * @return {function(listMap): listMap} ListMap
  * @example
- * const reduceFunc = (acc, curr) => acc + curr.income;
+ * const reduceFunc = acc => curr => acc + curr.income;
  * const employees = convertObjToListMap({ p1: {firstName: 'Peter',  income: 1000},
  *                                         p2: {firstName: 'Michael', income: 500} });
  *
  * reduceListMap(reduceFunc)(0)(employees); // 1500
  */
-const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+const reduceListMap = f => reduce(acc => curr => f(acc)(curr(snd)));
 
 /**
  * Takes a JavaScript object and convert the key and values analog into a listMap
@@ -191,7 +191,7 @@ const removeByKey = listMap => key => {
  *
  * convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
  */
-const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
+const convertListMapToArray = listMap => reduceListMap(acc => curr => [...acc, curr])([])(listMap);
 
 /**
  *  A function that takes an ListMap, takes the values (ignore the keys) and converts it into an array and returns the array.
@@ -206,7 +206,7 @@ const convertListMapToArray = listMap => reduceListMap((acc, curr) => [...acc, c
  * getElementByKey( result )( "firstName" );  // "George"
  * getElementByKey( result )( "lastName"  );  // "Lucas"
  */
-const convertListMapToStack = listMap => reduceListMap((acc, curr) => push(acc)(curr))(emptyStack)(listMap);
+const convertListMapToStack = listMap => reduceListMap(acc => curr => push(acc)(curr))(emptyStack)(listMap);
 
 /**
  * The logListMapToConsole function takes a ListMap and executes a site effect. The site effect logs the ListMap with its key and values to the console.

@@ -237,7 +237,7 @@ const eitherTryCatch = f => {
  * @return {function(elements:...[*]): {(Left|Right)}} either Right with all "success" values as ListMap or Left with all error messages that occurred as Stack
  */
 const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
-    reduce((acc, curr) =>
+    reduce(acc => curr =>
         acc
          ( stack => Left( eitherProducerFn(curr)
                             (err => push(stack)(err) )
@@ -255,7 +255,7 @@ const eitherElementsOrErrorsByFunction = eitherProducerFn => (...elements) =>
 // Haskell: (a -> Maybe a) -> [a] -> Maybe [a]
 const maybeElementsByFunction = maybeProducerFn => (...elements) =>
     reduce
-    ((acc, curr) =>
+    (acc => curr =>
         flatMapMaybe(acc)(listMap =>
             mapMaybe( maybeProducerFn(curr) )(val => push(listMap)( pair(curr)(val) ))
         )

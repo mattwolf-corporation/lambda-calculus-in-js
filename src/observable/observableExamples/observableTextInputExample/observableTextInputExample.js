@@ -33,7 +33,7 @@ const startProgram = domElements => {
     //For demonstration, how to Un- & Subscribe the Handler from the Observable-Object
     eitherElementsOrErrorsByFunction(eitherDomElement)("unsubNewValue", "unsubOldValue", "unsubSize" )
     (err => document.body.appendChild( Box(err)
-                                        (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Warn Un- & Subscribe</h1>"))
+                                        (fmap)(reduce(acc => curr => acc + "<br>" + curr )("<h1>Warn Un- & Subscribe</h1>"))
                                         (fmap)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`)
                                         (fold)(tag => document.createRange().createContextualFragment(tag)))
     )
@@ -51,14 +51,14 @@ const startProgram = domElements => {
 // Either all the necessary Dom-Element exist or display all missed Element
 eitherElementsOrErrorsByFunction(eitherDomElement)("inputText", "newValue", "oldValue", "sizes" )
 (err => document.body.innerHTML = Box(err)
-                                    (fmap)(reduce((acc, curr) => acc + "<br>" + curr )("<h1>Error</h1>"))
+                                    (fmap)(reduce(acc => curr => acc + "<br>" + curr )("<h1>Error</h1>"))
                                     (fold)(txt => `<div style="background: #ffcccb; padding: 10px; border-radius: 1rem">${txt}</div>`))
 (startProgram)
 
 
 
 const checkElementsByFunction = f => (...elems) =>
-    elems.reduce((acc, curr) => {
+    elems.reduce(acc => curr => {
         const result = f(curr);
         if (acc.isFailed) {
             if (!result) {

@@ -129,7 +129,7 @@ Mit der Funktion `convertListMapToArray` kann eine ListMap in ein JavaScript-Arr
 ```javascript
 // Implementation
 const convertListMapToArray = listMap => 
-    reduceListMap((acc, curr) => [...acc, curr])([])(listMap);
+    reduceListMap(acc => curr => [...acc, curr])([])(listMap);
 
 // Anwendung
 const personObject  = {firstName: "George", lastName: "Lucas"}
@@ -189,10 +189,10 @@ Diese Funktion nimmt als ersten Parameter eine reduce-Funktion entgegen \(wie be
 
 ```javascript
 // Implementation
-const reduceListMap = f => reduce((acc, curr) => f(acc, curr(snd)));
+const reduceListMap = f => reduce(acc => curr => f(acc => curr(snd)));
 
 // Anwendung
-const reduceFunc = (acc, curr) => acc + curr.income;
+const reduceFunc = acc => curr => acc + curr.income;
 
 const listMapWithPersons = convertObjToListMap({
               p1: {firstName: 'Peter', income: 1000},
