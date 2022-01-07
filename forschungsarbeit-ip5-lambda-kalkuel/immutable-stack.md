@@ -4,7 +4,7 @@
 
 ### Stack
 
-Der Stack ist eine rein funktionale Datenstruktur und daher unveränderlich. Der Stack ist als [Tripel](einfache-kombinatoren.md#triple) implementiert. Ein Tripel ist eine weitere rein funktionale Datenstruktur, die drei Werte hält. Über "getter"-Funktionen kann auf diese Werte des Tripels zugegriffen werden. Der erste Wert des Tripels stellt die Größe \(Anzahl der Elemente\) des Stacks dar. Gleichzeitig repräsentiert der erste Wert, den Index des Kopfes \(oberster Wert\), des Stacks. Die Grösse/der Index, des Stacks wird als [Church-Zahl ](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen)angegeben. Der zweite Wert repräsentiert den Vorgänger-Stack. Der dritte Wert stellt den Kopf \( oberster Wert \) des Stacks dar.
+Der Stack ist eine rein funktionale Datenstruktur und daher unveränderlich. Der Stack ist als [Tripel](einfache-kombinatoren.md#triple) implementiert. Ein Tripel ist eine weitere rein funktionale Datenstruktur, die drei Werte hält. Über "getter"-Funktionen kann auf diese Werte des Tripels zugegriffen werden. Der erste Wert des Tripels stellt die Größe (Anzahl der Elemente) des Stacks dar. Gleichzeitig repräsentiert der erste Wert, den Index des Kopfes (oberster Wert), des Stacks. Die Grösse/der Index, des Stacks wird als [Church-Zahl ](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen)angegeben. Der zweite Wert repräsentiert den Vorgänger-Stack. Der dritte Wert stellt den Kopf ( oberster Wert ) des Stacks dar.
 
 Stack Implementation:
 
@@ -14,7 +14,7 @@ const stack = x => y => z => f => f(x)(y)(z);
 
 ### Empty-Stack
 
-Zur späteren Verwendung von einem Stack wird der leere Stack als Grundbaustein benötigt. Der leere Stack hat die Grösse/ den Index Null. Der leere Stack hat keinen Vorgänger, stattdessen hat er die [Identitätsfunktion](einfache-kombinatoren.md) als Platzhalter. Ausserdem bestitzt der leere Stack keinen Kopf \(oberster Wert\), sondern hat als Platzhalter die Identitätsfunktion.
+Zur späteren Verwendung von einem Stack wird der leere Stack als Grundbaustein benötigt. Der leere Stack hat die Grösse/ den Index Null. Der leere Stack hat keinen Vorgänger, stattdessen hat er die [Identitätsfunktion](einfache-kombinatoren.md) als Platzhalter. Ausserdem bestitzt der leere Stack keinen Kopf (oberster Wert), sondern hat als Platzhalter die Identitätsfunktion.
 
 Implementation des leeren Stacks:
 
@@ -26,20 +26,20 @@ const emptyStack = stack(n0)(id)(id);
 
 Ein kleines grafisches Beispiel wie ein Stack aussieht. In diesem Beispiel wird ein Stack mit Emoji's erstellt:
 
-| stack-name | stack | code |
-| :--- | :--- | :--- |
-| emptyStack | \(n0\)\(id\)\(id\) | const s1 = push\(empyStack\)\( 😎 \); |
-| s1 | \(n1\)\(**emptyStack**\)\( 😎 \) | const s2 = push\(s1\)\( 🤓 \); |
-| s2 | \(n2\)\(**s1**\)\( 🤓 \) | const s3 = push\(s2\)\( 👾 \); |
-| s3 | \(n3\)\(**s2**\)\( 👾 \) |  |
+| stack-name | stack                      | code                              |
+| ---------- | -------------------------- | --------------------------------- |
+| emptyStack | (n0)(id)(id)               | const s1 = push(empyStack)( 😎 ); |
+| s1         | (n1)(**emptyStack**)( 😎 ) | const s2 = push(s1)( 🤓 );        |
+| s2         | (n2)(**s1**)( 🤓 )         | const s3 = push(s2)( 👾 );        |
+| s3         | (n3)(**s2**)( 👾 )         |                                   |
 
-s3 = \(n3\)\( \(n2\)\( \(n1\)\( \(n0\)\(id\)\(id\) \)\(😎\) \)\(🤓\) \)\(👾\)
+s3 = (n3)( (n2)( (n1)( (n0)(id)(id) )(😎) )(🤓) )(👾)
 
 Der Stack **s3** besteht nun aus den Elementen: 😎, 🤓, 👾 .
 
-* Element an Index 1:😎 
-* Element an Index 2:🤓 
-* Element an Index 3:👾 
+* Element an Index 1:😎
+* Element an Index 2:🤓
+* Element an Index 3:👾
 
 ## Verwendung
 
@@ -82,7 +82,7 @@ const sizeOfStack = size(stackWithOneValue); // n1
 
 ### head
 
-Um auf den Kopf \(oberster Wert\) des Stacks zuzugreifen gibt es die Funktion head. Diese Funktion nimmt ein Stack entgegen und gibt den Kopf des Stacks zurück.
+Um auf den Kopf (oberster Wert) des Stacks zuzugreifen gibt es die Funktion head. Diese Funktion nimmt ein Stack entgegen und gibt den Kopf des Stacks zurück.
 
 Beispiel:
 
@@ -118,7 +118,6 @@ getElementByIndex(stackWithTwoElements)(1); // "Hello"
 getElementByIndex(stackWithTwoElements)(2); // "World"
 
 getElementByIndex(stackWithTwoElements)(999); // Error "invalid index"
-
 ```
 
 ## Stack zu einem Array konvertieren und umgekehrt
@@ -164,7 +163,7 @@ Die JavaScript Funktionen `reduce`, `map` und `filter` wurden auch für den Stac
 
 ### Reduce
 
-Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.md#pair). Das erste Argument des Paares muss eine reduce-Funktion\(wie bei JavaScript reduce\). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den reduzierten Wert zurück.
+Reduce nimmt einen Stack entgegen und ein Argument-[Pair](einfache-kombinatoren.md#pair). Das erste Argument des Paares muss eine reduce-Funktion(wie bei JavaScript reduce). Das zweite Argument muss ein Startwert sein. Die Funktion gibt den reduzierten Wert zurück.
 
 Beispiel:
 
@@ -183,7 +182,7 @@ reduce( reduceToArray )( [] )( stackWithNumbers )              // returns [0, 1,
 
 ### Map
 
-Map nimmt einen Stack und eine map-Funktion \(wie bei JavaScript Array map\) entgegen. Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
+Map nimmt einen Stack und eine map-Funktion (wie bei JavaScript Array map) entgegen. Zurück gibt die Funktion einen neuen Stack mit den "gemappten" Werten.
 
 Beispiel:
 
@@ -206,7 +205,7 @@ const mapWithReduce = s => map => reduce(s)(pair(acc => curr => push(acc)(map(cu
 
 ### Filter
 
-Filter nimmt einen Stack und eine filter-Funktion \(wie bei JavaScript Array filter\) entgegen. Die Funktion gibt den gefilterten Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
+Filter nimmt einen Stack und eine filter-Funktion (wie bei JavaScript Array filter) entgegen. Die Funktion gibt den gefilterten Stack zurück. Wenn keine Elemente dem Filter entsprechen wird der leere Stack zurückgegeben.
 
 Beispiel:
 
@@ -243,7 +242,6 @@ const callbackFunc = (element, index) => {
 forEach(stackWithNumbers)(callbackFunc); // element at: 1: 5
                                          // element at: 2: 10
 
-
 ```
 
 Bei der Implementierung von der forEach-Funktion wurde für die eigentliche Iteration [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) verwendet.
@@ -279,7 +277,6 @@ Durch diese Helferfunktion lassen sich Stacks bequemer erstellen.
 
 ## Eigenschaften der Funktionen vom Stack
 
-* Alle Funktionen sind **rein** \(mit Ausnahme logStackToConsole\). 
-* In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**. 
+* Alle Funktionen sind **rein** (mit Ausnahme logStackToConsole).
+* In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**.
 * Die [Iteration ist mit church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md) implementiert.
-

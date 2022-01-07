@@ -18,7 +18,7 @@ CaluclatorHandler Implementation:
 const calculatorHandler = op => n => k => f => f(op(n)(k));
 ```
 
-Der _calculatorHandler_ nimmt jeweils eine arithmetische Operation \(Addition, Subtraktion, Multiplikation usw.\), zwei Werte und zum Schluss eine Funktion entgegen. 
+Der _calculatorHandler_ nimmt jeweils eine arithmetische Operation (Addition, Subtraktion, Multiplikation usw.), zwei Werte und zum Schluss eine Funktion entgegen.
 
 ## Rechnen mit JavaScript-Zahlen
 
@@ -37,7 +37,7 @@ multiplication(2)(3)  // 6
 subtraction(5)(2)     // 3
 ```
 
-Mit dem _CalculatorHandler_ und den JavaScript-Operatoren kombiniert, werden via Point-Freestyle neue \(Calculator-\)Funktionen erstellt:
+Mit dem _CalculatorHandler_ und den JavaScript-Operatoren kombiniert, werden via Point-Freestyle neue (Calculator-)Funktionen erstellt:
 
 ```javascript
 const add   = calculatorHandler(plus);            
@@ -47,7 +47,7 @@ const pow   = calculatorHandler(exponentiation);
 const div   = calculatorHandler(division);
 ```
 
-Mit der [Thrush-Funktion](einfache-kombinatoren.md) \(`T = x => f => f(x)` \) als den Taschenrechner-Starter und den neuen CalculatorFunktionen, ist es mögliche eine unendliche Verkettungen von Zahlen und Operationen zu erstellen.
+Mit der [Thrush-Funktion](einfache-kombinatoren.md) (`T = x => f => f(x)` ) als den Taschenrechner-Starter und den neuen CalculatorFunktionen, ist es mögliche eine unendliche Verkettungen von Zahlen und Operationen zu erstellen.
 
 Beispiel:
 
@@ -68,7 +68,7 @@ T(5)(div)(5)(multi)(100)(add)(1)(id) // 101
 
 Um die Leserlichkeit des Code zu verbessern, wird für die _Trush_- und _id_-Funktion ein passender Variablename gewählt.
 
-Implementation \(Umbenennung\):
+Implementation (Umbenennung):
 
 ```javascript
 const calc   = T;
@@ -130,12 +130,11 @@ calc(n5)(cpow)(n8)(cmulti)(n6)(cadd)(n8)(csub)(n9) ... // Maximum call stack siz
 
 Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch visuell bedienen zu können, wurde eine statische HTML-Webseite, mit einem grafischen Taschenrechner und den von hier gezeigten Funktionen implementiert:
 
-![](../.gitbook/assets/image.png)
+![](<../.gitbook/assets/image (10).png>)
 
 Link zum lambdafizierten Taschenrechner: [Calculator.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/src/calculator/calculator-view.html)
 
 ## Eigenschaften des lambdafizierter Taschenrechner
 
-* Alle Funktionen sind **rein**  
-* In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**. 
-
+* Alle Funktionen sind **rein**
+* In allen Funktionen gibt es **keine** Ausdrücke wie _`for`_, _`while`_ oder `do` **Schleifen**.

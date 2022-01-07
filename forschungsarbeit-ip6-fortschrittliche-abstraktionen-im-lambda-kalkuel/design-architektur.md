@@ -10,17 +10,17 @@ Bei Abfragefunktionen, mit welcher der Anwender einen Wert anfordert, gibt der j
 
 Funktionen die mit einem **get** beginnen, geben wenn möglich den gewünschten Wert ansonsten ein _undefined_ zurück.
 
-> Funktion:     **get**XYZ  
-> Ergebnis:     **Wert** oder _**undefined**_
+> Funktion: **get**XYZ\
+> Ergebnis: **Wert** oder _**undefined**_
 
-Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), [getDomElement](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L143), [getDomElements](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L155)
+Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), [getDomElement](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L143), [getDomElements](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L155)
 
 ### maybe-Präfix
 
 Funktionen die mit einem **maybe** beginnen, geben im Erfolgsfall ein [`Just`](maybe.md#maybe-type) mit den gewünschten Wert, ansonsten ein [`Nothing`](maybe.md#maybe-type) zurück.
 
-> Funktion:      **maybe**XYZ  
-> Ergebnis:     **Just\(Wert\)** oder **Nothing**
+> Funktion: **maybe**XYZ\
+> Ergebnis: **Just(Wert)** oder **Nothing**
 
 Beispiele: [maybeDivision](maybe.md#maybedivision), [maybeTruthy](maybe.md#maybetruthy), [maybeDomElement](maybe.md#maybedomelement), [maybeNumber](maybe.md#maybenumber)
 
@@ -28,8 +28,8 @@ Beispiele: [maybeDivision](maybe.md#maybedivision), [maybeTruthy](maybe.md#maybe
 
 Funktionen die mit einem **either** beginnen, geben im Erfolgsfall ein [`Right`](either.md#either-type) mit dem Resultat, ansonsten ein [`Left`](either.md#either-type) mit einer Fehlermeldung zurück.
 
-> Funktionen: **either**XY   
-> Ergebnis:     **Left\(Fehlerbehandlung\)** oder **Right\(Wert\)**
+> Funktionen: **either**XY\
+> Ergebnis: **Left(Fehlerbehandlung)** oder **Right(Wert)**
 
 Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](either.md#eithernotnullandundefined), [eitherDomElement](either.md#eitherdomelement), [eitherNumber](either.md#eithernumber), [eitherFunction](either.md#eitherfunction)
 
@@ -45,23 +45,23 @@ Bei Konstruktionen soll darauf geachtet werden, dass diese aus **reinen Funktion
 
 ### Die Brücke zwischen λ und JS
 
-Objekte und Arrays werden nicht verwendet. Ausnahme gibt es bei Funktionen, die als Brücke zwischen den Welten _Lambda Kalkül_ und _JavaScript_ dienen.   
-Das sind die _**Convert**_**-Funktionen**: 
+Objekte und Arrays werden nicht verwendet. Ausnahme gibt es bei Funktionen, die als Brücke zwischen den Welten _Lambda Kalkül_ und _JavaScript_ dienen.\
+Das sind die _**Convert**_**-Funktionen**:
 
 * [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack)
 * [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray)
 * converElementsToStack
-*  [converObjectToListMap](listmap.md#convertobjtolistmap)
+* [converObjectToListMap](listmap.md#convertobjtolistmap)
 * [convertListMapToArray](listmap.md#convertlistmaptoarray)
 
-Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_: 
+Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_:
 
 * [jsNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum)
 * [churchNum](../forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
 
 ## Formatierung
 
-Bei den erstelleten Funktionen kommt es häufig vor, dass die Impementation aus einer einzigen Codezeile besteht. Die Leserlichkeit kann zum Teil darunter leiden weil die Zeile zu lang ist. Richtiges formatieren der Funktionen mit Zeilenumbrüchen,  Einrückungen und Leerzeichen sind daher empfehlenswert und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
+Bei den erstelleten Funktionen kommt es häufig vor, dass die Impementation aus einer einzigen Codezeile besteht. Die Leserlichkeit kann zum Teil darunter leiden weil die Zeile zu lang ist. Richtiges formatieren der Funktionen mit Zeilenumbrüchen, Einrückungen und Leerzeichen sind daher empfehlenswert und JavaScript ist dabei ziemlich unempfindlich. So darf der Code schön arrangiert werden, denn gut ausgerichteter Code fördert die Leserlichkeit immens.
 
 ### Workflow-Beispiel
 
@@ -71,9 +71,9 @@ Gegeben ist ein nicht formatierter Code: Ein Observable mit ein paar Listener, d
 const textInputObservables = Observable("")(addListener)(listenerNewValue)(addListener)(listenerOldValue)(addListener)(listenerNewValueSize)(addListener)(listenerConsoleLog)
 ```
 
-#### Schritt 1: Zeilenumbrüche 
+#### Schritt 1: Zeilenumbrüche
 
-> Wir sind gewohnt das Code Zeilen linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert.  Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
+> Wir sind gewohnt das Code Zeilen linksbündig ausgerichtet sind. Diese Struktur wird hier neu definiert. Wenn bei einer Funktion es zu mehrere Funktionsverknüpfungen mit Wertübermittlung kommt, ist es empfehlenswert diese Aufrufe untereinander zu schreiben.
 
 ```javascript
 const textInputObservables = Observable("")
@@ -95,7 +95,7 @@ const textInputObservables = Observable("")
                               (addListener)(listenerConsoleLog)
 ```
 
-#### Schritt 3: Leerzeichen \(Padding\)
+#### Schritt 3: Leerzeichen (Padding)
 
 > Es ist schöner und lesbarer, wenn es zwischen den Werten in den Klammern mindestens ein Leerzeichen gibt. Somit bekommen alle Werte dieselbe Präsenz. Es ist dabei empfehlenswert die Klammern auf einer Linie untereinander zu bringen.
 
@@ -171,16 +171,16 @@ const nextCharForNumberString = str =>
 
 ## JS Doc
 
-Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen steht ein Text mit zwei bis drei Sätze, der fachlich erklärt was die Funktion tut. Anschliessend wird mit den JSDoc-Tags die Dokumentation mit Hinweisen erweitert:
+Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app) bringt einige Vorteile. In den ersten Zeilen steht ein Text mit zwei bis drei Sätze, der fachlich erklärt was die Funktion tut. Anschliessend wird mit den JSDoc-Tags die Dokumentation mit Hinweisen erweitert:
 
 * **@haskell** Typ deklaration in Haskell Notation
 * **@sideffect** wenn die Funktion einen Side-Effekt auslöst wie zum Beispiel ein Log auf die Konsole
-* **@function** markiert eine Funktion explizit als eine Funktion. Optional: Kann man der Funktion einen zweiten Name geben \(Alias\)
-* **@param** für das erste Argument \(hilfreich für die Pop-Up Informationen\)
-* **@return** wenn die Funktion mehrere Argumente/Funktionen erwartet  \(hilfreich für die Pop-Up Informationen\)
+* **@function** markiert eine Funktion explizit als eine Funktion. Optional: Kann man der Funktion einen zweiten Name geben (Alias)
+* **@param** für das erste Argument (hilfreich für die Pop-Up Informationen)
+* **@return** wenn die Funktion mehrere Argumente/Funktionen erwartet (hilfreich für die Pop-Up Informationen)
 * **@example** Beispiele wie die Funktion angewendet wird
 
- Beispiel JS-Dokumentation an der Funktion [`getElementByIndex`](immutable-stack-erweiterungen.md#removebyindex)
+Beispiel JS-Dokumentation an der Funktion [`getElementByIndex`](immutable-stack-erweiterungen.md#removebyindex)
 
 ```javascript
 /**
@@ -213,13 +213,12 @@ const getElementByIndex = stack => index =>
      (id);
 ```
 
-In der IDEA \(hier Intellij\) wird die Dokumentation dementsprechend angezeigt:.
+In der IDEA (hier Intellij) wird die Dokumentation dementsprechend angezeigt:.
 
-![Dokumentation in der IDEA](../.gitbook/assets/image%20%288%29.png)
+![Dokumentation in der IDEA](<../.gitbook/assets/image (8) (1).png>)
 
 Ein sehr praktischer Vorteil, nebst der Dokumentation, sind die Pop-Up Informationen welche dem Anwender beim benutzen der Funktionen angezeigt werden. Der Anwender wird informiert, welcher Parameter als nächstes erwartet wird.
 
-![Erste Parameter-Info](../.gitbook/assets/image%20%286%29.png)
+![Erste Parameter-Info](<../.gitbook/assets/image (6) (1).png>)
 
-![Zweite Parameter-Info](../.gitbook/assets/image%20%287%29.png)
-
+![Zweite Parameter-Info](<../.gitbook/assets/image (7) (1).png>)

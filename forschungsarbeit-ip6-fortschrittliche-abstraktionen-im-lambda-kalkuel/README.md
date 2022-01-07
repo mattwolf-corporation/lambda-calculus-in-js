@@ -8,22 +8,22 @@ description: Die Fortsetzung.
 
 Ziel der Arbeit war es in JavaScript sichere und belastbare Konstruktionen mit Industriehärte zu bauen. Für den Bau dieser Konstruktionen wurden die Erkenntnisse aus dem untypsierten Lambda Kalkül angewendet. Folgende Werte waren für die Implementation der Konstruktionen essenziell:
 
-* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
+* **Reinheit** (_pure functions)_: Funktionen ohne Seiteneffekte (wie mathematische Funktionen)
+* **Unveränderlichkeit** (_immutable Datastructure)_: \_\_ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
 * **Fehlerbehandlung** ohne `throw` Ausdruck
-* **Funktionen höherer Ordnung** \(high order functions\).
+* **Funktionen höherer Ordnung** (high order functions).
 * **Zustandslosigkeit**
 
 Dabei kam eine Sammlung von folgenden Konstruktionen heraus:
 
 * Zusätzliche Funktionen für die **immutable Stack** Datenstruktur
-* Umsetzung des **Observer Pattern \(funktionales Oberservable Konstrukt\)**
-* **Immutable ListMap** Datenstruktur \(Stack mit Schlüssel-Wert Paaren\)
+* Umsetzung des **Observer Pattern (funktionales Oberservable Konstrukt)**
+* **Immutable ListMap** Datenstruktur (Stack mit Schlüssel-Wert Paaren)
 * Umsetzung **Maybe** und **Either** Type für die Fehlerbehandlung
 * **Box-Konstrukt** um Werte in einer Pipeline zu verarbeiten
-* **Erweiterung des Test-Frameworks** mit einer Zeitmessung für die Methodenausführung \(Benchmark-Test\)
-* **JsDoc** Ergänzungen \(Typ Unterstützung für den Anwender\)
+* **Erweiterung des Test-Frameworks** mit einer Zeitmessung für die Methodenausführung (Benchmark-Test)
+* **JsDoc** Ergänzungen (Typ Unterstützung für den Anwender)
 * Dokumentation und Anwendungsbeispiele der Konstruktionen
 
 In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
@@ -32,30 +32,46 @@ In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Cod
 
 JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "[Lambda Kalkül für praktisches JavaScript](../forschungsarbeit-ip5-lambda-kalkuel/)" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
 
-{% page-ref page="listmap.md" %}
+{% content-ref url="listmap.md" %}
+[listmap.md](listmap.md)
+{% endcontent-ref %}
 
-{% page-ref page="observable.md" %}
+{% content-ref url="observable.md" %}
+[observable.md](observable.md)
+{% endcontent-ref %}
 
-{% page-ref page="either.md" %}
+{% content-ref url="either.md" %}
+[either.md](either.md)
+{% endcontent-ref %}
 
-{% page-ref page="maybe.md" %}
+{% content-ref url="maybe.md" %}
+[maybe.md](maybe.md)
+{% endcontent-ref %}
 
-{% page-ref page="immutable-stack-erweiterungen.md" %}
+{% content-ref url="immutable-stack-erweiterungen.md" %}
+[immutable-stack-erweiterungen.md](immutable-stack-erweiterungen.md)
+{% endcontent-ref %}
 
-{% page-ref page="box-maybebox.md" %}
+{% content-ref url="box-maybebox.md" %}
+[box-maybebox.md](box-maybebox.md)
+{% endcontent-ref %}
 
-{% page-ref page="performance.md" %}
+{% content-ref url="performance.md" %}
+[performance.md](performance.md)
+{% endcontent-ref %}
 
-{% page-ref page="design-architektur.md" %}
+{% content-ref url="design-architektur.md" %}
+[design-architektur.md](design-architektur.md)
+{% endcontent-ref %}
 
-Bei den entwickelten Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale_Programmierung) gesetzt.
+Bei den entwickelten Konstruktionen wurde komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) gesetzt.
 
-* **Reinheit** \(_pure functions\)_:   Funktionen ohne Seiteneffekte \(wie mathematische Funktionen\)
-* **Unveränderlichkeit** \(_immutable Datastructure\)_: __ Unveränderliche Datenstrukturen
+* **Reinheit** (_pure functions)_: Funktionen ohne Seiteneffekte (wie mathematische Funktionen)
+* **Unveränderlichkeit** (_immutable Datastructure)_: \_\_ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
 * **Fehlerbehandlung** ohne `throw` Ausdruck
 
-> **Abgrenzung von objektorientierter Programmierung:**   
+> **Abgrenzung von objektorientierter Programmierung:**\
 > Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
 
 Die entwickelten Konstruktionen haben das Ziel, dem Anwender einen Werkzeugkasten für das Programmieren von Webanwendungen mit JavaScript bereitzustellen. Diese Konstruktionen sollen dem Anwender helfen seine Applikationen wartbarer, robuster und sicherer zu gestalten. Dazu gibt es diverse Funktionen um von der Welt des Lambda Kalküls in die Welt von JavaScript zu wechseln und umgekehrt, wie zum Beispiel `convertArrayToStack` und `convertStackToArray`. Dies erlaubt dem Anwender die Welten zu wechseln und diese zu kombinieren.
@@ -64,10 +80,10 @@ Der Einsatz dieses Werkzeugkastens hilft Fehler zu vermeiden, die sonst typische
 
 ### _Classic JS_ vs _Lambda JS_
 
-#### Property Value aus Objekt extrahieren \(null-safe\)
+#### Property Value aus Objekt extrahieren (null-safe)
 
-**Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.  
-**Ziel:**          Strassenname extrahieren
+**Gegeben:** Ein verschachteltes User-Objekt mit Street-Property.\
+**Ziel:** Strassenname extrahieren
 
 ```javascript
 // User-Object
@@ -87,7 +103,7 @@ const user = {
 streetName(user) // "WALTSTREET"
 ```
 
-#### Eine mögliche Implementierung im klassischen JavaScript _\(Classic JS\)_ wäre:
+#### Eine mögliche Implementierung im klassischen JavaScript _(Classic JS)_ wäre:
 
 ```javascript
 const streetName = user => {
@@ -107,7 +123,7 @@ const streetName = user => {
 }
 ```
 
-#### Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens _\(Lambda JS\)_:
+#### Eine gleichwertige Implementierung mit Verwendung des Werkzeugkastens _(Lambda JS)_:
 
 ```javascript
 const streetName = user =>
@@ -122,20 +138,19 @@ const streetName = user =>
 
 #### Vergleich
 
-| Eigenschaften | _Classic JS_ | _Lambda JS_ |
-| :--- | :--- | :--- |
-| Variablen für Zwischenstände | wird benötigt | keine |
-| Verschachtelung von If Statements | wird benötigt | keine |
-| Leserlichkeit/Lesefluss | erschwert | klarer |
-| Wartbarkeit | schlecht | gut |
-
-
+|                                   |               |             |
+| --------------------------------- | ------------- | ----------- |
+| Eigenschaften                     | _Classic JS_  | _Lambda JS_ |
+| Variablen für Zwischenstände      | wird benötigt | keine       |
+| Verschachtelung von If Statements | wird benötigt | keine       |
+| Leserlichkeit/Lesefluss           | erschwert     | klarer      |
+| Wartbarkeit                       | schlecht      | gut         |
 
 ### _Pure Lambda JS_ vs _Lambda JS_
 
 Bereits eine kleine Funktion wie [`push`](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
-#### Die Implementation der Funktion `push` sieht wie folgt aus: 
+#### Die Implementation der Funktion `push` sieht wie folgt aus:
 
 ```javascript
 const push = s => stack( succ( s(stackIndex) ) )(s);
@@ -151,9 +166,9 @@ Sie besteht aus folgenden Funktionen: `stack`, `succ`, `stackIndex` .Diese Funkt
 
 `const stackIndex = firstOfTriple;`
 
-`const firstOfTriple = x => y => z => x`; 
+`const firstOfTriple = x => y => z => x`;
 
-#### Die Funktion `push` würde im reinen Lambda Kalkül _\(pure Lambda JS\)_ wie folgt aussehen:
+#### Die Funktion `push` würde im reinen Lambda Kalkül _(pure Lambda JS)_ wie folgt aussehen:
 
 ```javascript
 const push = s => (x => y => z => f => f(x)(y)(z))((n => f => x => (f)(n(f)(x)))(s(x => _ => _ => x)))(s)
@@ -167,9 +182,7 @@ const push = s => z => f => f( f => x => f( s(x => _ => _ => x)(f)(x) ))(s)(z);
 
 Funktionen in JS im reinen Lambda Kalkül zu schreiben kann schnell unübersichtlich werden weil die Definitionen fehlen. Diese verschachtelten anonymen Funktion werden schnell zu komplex. Darum ist es besser dieses Funktionskonstrukt in mehreren Funktionen aufzuteilen und diesen einen sinnvollen Namen zu geben.
 
-
-
-#### Beispiel an der grösseren Funktion `reduce` 
+#### Beispiel an der grösseren Funktion `reduce`
 
 #### Implementation von `reduce` in _Lambda JS_:
 
@@ -214,7 +227,7 @@ const reduce = reduceFn => initialValue => s => {
 };
 ```
 
-#### Implementation in _pure Lambda JS_ \(Funktionsdefinitionen ersetzt und ETA reduziert\)
+#### Implementation in _pure Lambda JS_ (Funktionsdefinitionen ersetzt und ETA reduziert)
 
 ```javascript
 // reduce in reinem Lambda Kalkül 
@@ -227,17 +240,17 @@ Die Performance leidet wenn eine grössere, komplexere Funktion in einer reinen 
 
 #### Konzepte aus der funktionalen Programmierung
 
-Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen. 
+Die Konstruktionen beinhalten Ideen und Konzepte aus der funktionalen Programmierung. Mit dem Einsatz dieser Konstruktionen, können JavaScript Applikationen funktionaler implementiert werden. Die Konstruktionen sind so implementiert, dass sie leicht integrierbar und anwendbar sind. Ein JavaScript Programm muss dabei nicht komplett nur aus diesen Konstruktionen bestehen, sondern der Anwender kann hier und dort bestimme Konstrukte in sein Programm einfliessen lassen.
 
 #### Nutzen & Vorteile
 
-In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten. 
+In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
 
 Da die Konstruktionen aus puren Funktionen bestehen, ist der Programmablauf klarer und Fehler können besser eingegrenzt werden. Bei veränderlichen Daten und Funktionen mit Seiteneffekten, leidet die Übersicht, man verliert die Kontrolle über den Programmablauf und den Abhängigkeiten innerhalb des Programmes. Schon durch einen kleinen Einsatz von diesen Konstruktionen wird diesem Problem entgegenwirkt und die Übersicht wird verbessert.
 
 #### JS Doc Unterstützung - Fehlendes Typ System bei JavaScript
 
-Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen. Mit der JS Doc bekommt der Anwender Hinweise auf die korrekten Typ-Parameter. 
+Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidung von Laufzeitfehlern.** JavaScript ist eine _schwach typisierte_ oder _dynamische_ Programmiersprache. Datentypen werden bei einer Variable nicht explizit deklariert und jede Variable kann mit Werten jedes Typen initialisiert werden. Es gibt auch kein Compiler der die Typen überprüfen würde. Die JS Doc unterstützt den Anwender für die korrekte Verwendung der Funktionen. Mit der JS Doc bekommt der Anwender Hinweise auf die korrekten Typ-Parameter.
 
 **‌‌Potenzielle Erweiterungen/Vorschläge für nächste Schritte**
 
@@ -253,11 +266,10 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
 
 **Was wurde erreicht - Zusammenfassung**
 
-Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung \(Lambda Kalkül\) bestehend aus:
+Eine Bibliothek von Konstruktionen aus der funktionalen Programmierung (Lambda Kalkül) bestehend aus:
 
 * Funktionale Art für die Fehlerbehandlung mit Maybe und Either Type
 * Immutable Datenstruktur ListMap
 * Observable
 * diverse Erweiterungen für die immutable Datenstruktur Stack
-* Box/Maybe-Box Pipeline Konstrukt \(Funktor, Applicative, Monade\)
-
+* Box/Maybe-Box Pipeline Konstrukt (Funktor, Applicative, Monade)
