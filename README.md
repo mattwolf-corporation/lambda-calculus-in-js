@@ -239,23 +239,9 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
 * Noch mehr Funktionen die auch ein Maybe/Either Type zurückgeben
 * Mehr Funktionen mit aussagekräftigen Fehlermeldungen für den Verwender
 
-## Inhaltsverzeichnis
 
-* [Forschungsarbeit IP5 - Lambda Kalkül mit JavaScript](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel)
-  * [Einfache Kombinatoren](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren)
-  * [Church Encodings - Booleans und Zahlen](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte)
-  * [Der lambdafizierter Taschenrechner](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/der-lambdafizierter-taschenrechner)
-  * [Immutable Stack](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/immutable-stack)
-  * [Test-Framework](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/test-framework)
-* [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript](broken-reference)
-  * [Immutable ListMap](listmap.md)
-  * [Observable](observable.md)
-  * [Either](either.md)
-  * [Maybe](maybe.md)
-  * [Immutable Stack Erweiterungen](immutable-stack-erweiterungen.md)
-  * [Box](box-maybebox.md)
-  * [Benchmark](performance.md)
-  * [Code Convention](design-architektur.md)
+
+
 
 Diese Arbeit erstanden aus einem Projekt (IP5) und der Bacherlorarbeit (IP6) an der [FHNW](https://www.fhnw.ch/):
 
