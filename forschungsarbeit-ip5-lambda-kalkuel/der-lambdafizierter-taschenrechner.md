@@ -104,7 +104,7 @@ Chuch-Zahlen sind Nested-Funktionen und es ist schwer mit blossem Auge zu entzif
 f => a => f(f(f(f(f(f(f(a))))))); //n7
 ```
 
-Die Hilfe zum die Zahl dahinter zu Entziffern ist die Funktion `jsNum`
+Die Hilfe zum die Zahl hinter einer Church-Zahl zu Entziffern ist die Funktion [`jsNum`](church-encodings-zahlen-und-boolesche-werte.md#jsnum)
 
 ```javascript
 jsNum(n42) // 42
