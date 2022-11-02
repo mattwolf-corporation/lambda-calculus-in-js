@@ -14,5 +14,3 @@
 * [Benchmark und unsere Erkenntnisse](performance.md)
 * [Test-Framework](test-framework.md)
 * [Code Convention](design-architektur.md)
-* [Forschungsarbeit Lambda Kalkül](forschungsarbeit-ip5-lambda-kalkuel.md)
-* [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel.md)

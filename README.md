@@ -247,7 +247,7 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
   * [Der lambdafizierter Taschenrechner](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/der-lambdafizierter-taschenrechner)
   * [Immutable Stack](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/immutable-stack)
   * [Test-Framework](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/test-framework)
-* [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel.md)
+* [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript](broken-reference)
   * [Immutable ListMap](listmap.md)
   * [Observable](observable.md)
   * [Either](either.md)
