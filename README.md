@@ -41,17 +41,15 @@ Eine Sammlung von Konstruktionen heraus:
 kleine Bibliothek von Lambda-Kalkül-Konstruktionen zusammengestellt ([Einfache Kombinatoren](einfache-kombinatoren.md))
 
 * kleine Bibliothek von Lambda-Kalkül-Konstruktionen ([Einfache Kombinatoren](einfache-kombinatoren.md))
-* Rechnen mit JavaScript- und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) ([Der lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)).&#x20;
+* Rechnen mit JavaScript- und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) inklusivem[ lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)
 * Eigene unveränderliche Datenstruktur ([die immutable Stack Datenstruktur](immutable-stack.md))
-* ****[**Immutable ListMap**](listmap.md) Datenstruktur (Stack mit Schlüssel-Wert Paaren)
-* Umsetzung des **Observer Pattern (**[**funktionales Oberservable Konstrukt**](observable.md)**)**
-* Umsetzung [**Maybe** ](maybe.md)und [**`Either`**](either.md)Type für die Fehlerbehandlung
-* ****[**Box**](box-maybebox.md)**-Konstrukt** um Werte in einer Pipeline zu verarbeiten
-* Eignes [**Test-Frameworks**](test-framework.md) mit einer Zeitmessung für die Methodenausführung ([Benchmark-Test](performance.md))
-* ****[**JsDoc** ](./#js-doc-unterstuetzung-fehlendes-typ-system-bei-javascript)Ergänzungen (Typ Unterstützung für den Anwender)
-* Dokumentation und Anwendungsbeispiele der Konstruktionen
-
-In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Code leserlicher, wartbarer und sicherer machen. Ausserdem entstehen weniger typische Fehler, die bei der Programmierung mit JavaScript auftreten.
+* [Immutable ListMap](listmap.md) Datenstruktur (Stack mit Schlüssel-Wert Paaren)
+* Umsetzung des Observer Pattern ([funktionales Oberservable Konstrukt](observable.md))
+* [Maybe ](maybe.md)und [Either](either.md) Type für Fehlerbehandlung
+* [Box](box-maybebox.md)-Konstrukt um Werte in einer Pipeline zu verarbeiten
+* Eignes [Test-Frameworks](test-framework.md) mit einer Zeitmessung für die Methodenausführung ([Benchmark-Test](performance.md))
+* [JsDoc ](./#js-doc-unterstuetzung-fehlendes-typ-system-bei-javascript)(Dokumentation und Typ-Unterstützung für Anwender)
+*   Code Convention (Konzepte, Formatierung und Anwendungsbeispiele)
 
 
 
@@ -80,7 +78,7 @@ const user = {
 streetName(user) // "WALTSTREET"
 ```
 
-#### Eine mögliche Implementierung im klassischen JavaScript _(Classic JS)_ wäre:
+#### Eine mögliche Implementierung im klassischen JavaScript _(ohne Optional Chaining)_ wäre:
 
 ```javascript
 const streetName = user => {
