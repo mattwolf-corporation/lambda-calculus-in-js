@@ -30,34 +30,34 @@ In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Cod
 
 ## Einleitung
 
-JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "[Lambda Kalkül für praktisches JavaScript](forschungsarbeit-ip5-lambda-kalkuel/)" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
+JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "[Lambda Kalkül für praktisches JavaScript](forschungsarbeit-ip5-lambda-kalkuel.md)" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
 
 {% content-ref url="forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md" %}
 [listmap.md](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/observable.md" %}
-[observable.md](forschungsarbeit-ip5-lambda-kalkuel/observable.md)
+{% content-ref url="observable.md" %}
+[observable.md](observable.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/either.md" %}
-[either.md](forschungsarbeit-ip5-lambda-kalkuel/either.md)
+{% content-ref url="either.md" %}
+[either.md](either.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/maybe.md" %}
-[maybe.md](forschungsarbeit-ip5-lambda-kalkuel/maybe.md)
+{% content-ref url="maybe.md" %}
+[maybe.md](maybe.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md" %}
-[immutable-stack-erweiterungen.md](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md)
+{% content-ref url="immutable-stack-erweiterungen.md" %}
+[immutable-stack-erweiterungen.md](immutable-stack-erweiterungen.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/box-maybebox.md" %}
-[box-maybebox.md](forschungsarbeit-ip5-lambda-kalkuel/box-maybebox.md)
+{% content-ref url="box-maybebox.md" %}
+[box-maybebox.md](box-maybebox.md)
 {% endcontent-ref %}
 
-{% content-ref url="forschungsarbeit-ip5-lambda-kalkuel/performance.md" %}
-[performance.md](forschungsarbeit-ip5-lambda-kalkuel/performance.md)
+{% content-ref url="performance.md" %}
+[performance.md](performance.md)
 {% endcontent-ref %}
 
 {% content-ref url="design-architektur.md" %}
@@ -148,7 +148,7 @@ const streetName = user =>
 
 ### _Pure Lambda JS_ vs _Lambda JS_
 
-Bereits eine kleine Funktion wie [`push`](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
+Bereits eine kleine Funktion wie [`push`](immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
 #### Die Implementation der Funktion `push` sieht wie folgt aus:
 

@@ -13,25 +13,25 @@ Funktionen die mit einem **get** beginnen, geben wenn möglich den gewünschten 
 > Funktion: **get**XYZ\
 > Ergebnis: **Wert** oder _**undefined**_
 
-Beispiele: [getElementByIndex](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md#getindexofelement), [getDomElement](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L143), [getDomElements](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L155)
+Beispiele: [getElementByIndex](immutable-stack-erweiterungen.md#getelementbyindex), [getIndexOfElement](immutable-stack-erweiterungen.md#getindexofelement), [getDomElement](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L143), [getDomElements](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/ab73376bb19c4bad3d78d0da4cf69a0271ce3aa7/src/maybe/maybe.js#L155)
 
 ### maybe-Präfix
 
-Funktionen die mit einem **maybe** beginnen, geben im Erfolgsfall ein [`Just`](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybe-type) mit den gewünschten Wert, ansonsten ein [`Nothing`](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybe-type) zurück.
+Funktionen die mit einem **maybe** beginnen, geben im Erfolgsfall ein [`Just`](maybe.md#maybe-type) mit den gewünschten Wert, ansonsten ein [`Nothing`](maybe.md#maybe-type) zurück.
 
 > Funktion: **maybe**XYZ\
 > Ergebnis: **Just(Wert)** oder **Nothing**
 
-Beispiele: [maybeDivision](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybedivision), [maybeTruthy](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybetruthy), [maybeDomElement](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybedomelement), [maybeNumber](forschungsarbeit-ip5-lambda-kalkuel/maybe.md#maybenumber)
+Beispiele: [maybeDivision](maybe.md#maybedivision), [maybeTruthy](maybe.md#maybetruthy), [maybeDomElement](maybe.md#maybedomelement), [maybeNumber](maybe.md#maybenumber)
 
 ### either-Präfix
 
-Funktionen die mit einem **either** beginnen, geben im Erfolgsfall ein [`Right`](forschungsarbeit-ip5-lambda-kalkuel/either.md#either-type) mit dem Resultat, ansonsten ein [`Left`](forschungsarbeit-ip5-lambda-kalkuel/either.md#either-type) mit einer Fehlermeldung zurück.
+Funktionen die mit einem **either** beginnen, geben im Erfolgsfall ein [`Right`](either.md#either-type) mit dem Resultat, ansonsten ein [`Left`](either.md#either-type) mit einer Fehlermeldung zurück.
 
 > Funktionen: **either**XY\
 > Ergebnis: **Left(Fehlerbehandlung)** oder **Right(Wert)**
 
-Beispiele: [eitherTruhty](forschungsarbeit-ip5-lambda-kalkuel/either.md#eithertruthy), [eitherNotNullAndUndefined](forschungsarbeit-ip5-lambda-kalkuel/either.md#eithernotnullandundefined), [eitherDomElement](forschungsarbeit-ip5-lambda-kalkuel/either.md#eitherdomelement), [eitherNumber](forschungsarbeit-ip5-lambda-kalkuel/either.md#eithernumber), [eitherFunction](forschungsarbeit-ip5-lambda-kalkuel/either.md#eitherfunction)
+Beispiele: [eitherTruhty](either.md#eithertruthy), [eitherNotNullAndUndefined](either.md#eithernotnullandundefined), [eitherDomElement](either.md#eitherdomelement), [eitherNumber](either.md#eithernumber), [eitherFunction](either.md#eitherfunction)
 
 ## Variablen Deklaration
 
@@ -48,16 +48,16 @@ Bei Konstruktionen soll darauf geachtet werden, dass diese aus **reinen Funktion
 Objekte und Arrays werden nicht verwendet. Ausnahme gibt es bei Funktionen, die als Brücke zwischen den Welten _Lambda Kalkül_ und _JavaScript_ dienen.\
 Das sind die _**Convert**_**-Funktionen**:
 
-* [convertArrayToStack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack)
-* [converStackToArray](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray)
+* [convertArrayToStack](immutable-stack.md#convertarraytostack)
+* [converStackToArray](immutable-stack.md#convertstacktoarray)
 * converElementsToStack
 * [converObjectToListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/forschungsarbeit-ip5-lambda-kalkuel/listmap.md#convertobjtolistmap)
 * [convertListMapToArray](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/forschungsarbeit-ip5-lambda-kalkuel/listmap.md#convertlistmaptoarray)
 
 Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_:
 
-* [jsNum](forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#jsnum)
-* [churchNum](forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#churchnum)
+* [jsNum](church-encodings-zahlen-und-boolesche-werte.md#jsnum)
+* [churchNum](church-encodings-zahlen-und-boolesche-werte.md#churchnum)
 
 ## Formatierung
 
@@ -180,7 +180,7 @@ Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app/) bringt eini
 * **@return** wenn die Funktion mehrere Argumente/Funktionen erwartet (hilfreich für die Pop-Up Informationen)
 * **@example** Beispiele wie die Funktion angewendet wird
 
-Beispiel JS-Dokumentation an der Funktion [`getElementByIndex`](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md#removebyindex)
+Beispiel JS-Dokumentation an der Funktion [`getElementByIndex`](immutable-stack-erweiterungen.md#removebyindex)
 
 ```javascript
 /**

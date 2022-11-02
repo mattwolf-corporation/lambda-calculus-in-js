@@ -27,7 +27,7 @@ Ziel dieser Forschungsarbeit ist es, neue Konstruktionen aus dem untypisierten L
 * **Reinheit** (_pure functions)_: Funktionen ohne Seiteneffekte (wie mathematische Funktionen)
 * **Unveränderlichkeit** (_immutable Datastructure)_: \_\_ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Fehlerbehandlung** ohne `throw` Ausdruck - Errorhandling mit [`Either`](forschungsarbeit-ip5-lambda-kalkuel/either.md) ``oder [`Maybe`](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)``
+* **Fehlerbehandlung** ohne `throw` Ausdruck - Errorhandling mit [`Either`](either.md) ``oder [`Maybe`](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)``
 * **Funktionen höherer Ordnung** (high order functions).
 * **Zustandslosigkeit**
 
@@ -38,16 +38,16 @@ Ziel dieser Forschungsarbeit ist es, neue Konstruktionen aus dem untypisierten L
 
 Eine Sammlung von Konstruktionen heraus:
 
-kleine Bibliothek von Lambda-Kalkül-Konstruktionen zusammengestellt ([Einfache Kombinatoren](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md))
+kleine Bibliothek von Lambda-Kalkül-Konstruktionen zusammengestellt ([Einfache Kombinatoren](einfache-kombinatoren.md))
 
-* kleine Bibliothek von Lambda-Kalkül-Konstruktionen ([Einfache Kombinatoren](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md))
-* Rechnen mit JavaScript- und mit [Church-Zahlen](forschungsarbeit-ip5-lambda-kalkuel/church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) ([Der lambdafizierter Taschenrechner](forschungsarbeit-ip5-lambda-kalkuel/der-lambdafizierter-taschenrechner.md)).&#x20;
-* Eigene unveränderliche Datenstruktur ([die immutable Stack Datenstruktur](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md))
-* ****[**Immutable ListMap**](forschungsarbeit-ip5-lambda-kalkuel/listmap.md) Datenstruktur (Stack mit Schlüssel-Wert Paaren)
-* Umsetzung des **Observer Pattern (**[**funktionales Oberservable Konstrukt**](forschungsarbeit-ip5-lambda-kalkuel/observable.md)**)**
-* Umsetzung [**Maybe** ](forschungsarbeit-ip5-lambda-kalkuel/maybe.md)und [**`Either`**](forschungsarbeit-ip5-lambda-kalkuel/either.md)Type für die Fehlerbehandlung
-* ****[**Box**](forschungsarbeit-ip5-lambda-kalkuel/box-maybebox.md)**-Konstrukt** um Werte in einer Pipeline zu verarbeiten
-* Eignes [**Test-Frameworks**](forschungsarbeit-ip5-lambda-kalkuel/test-framework.md) mit einer Zeitmessung für die Methodenausführung ([Benchmark-Test](forschungsarbeit-ip5-lambda-kalkuel/performance.md))
+* kleine Bibliothek von Lambda-Kalkül-Konstruktionen ([Einfache Kombinatoren](einfache-kombinatoren.md))
+* Rechnen mit JavaScript- und mit [Church-Zahlen](church-encodings-zahlen-und-boolesche-werte.md#church-zahlen) ([Der lambdafizierter Taschenrechner](der-lambdafizierter-taschenrechner.md)).&#x20;
+* Eigene unveränderliche Datenstruktur ([die immutable Stack Datenstruktur](immutable-stack.md))
+* ****[**Immutable ListMap**](listmap.md) Datenstruktur (Stack mit Schlüssel-Wert Paaren)
+* Umsetzung des **Observer Pattern (**[**funktionales Oberservable Konstrukt**](observable.md)**)**
+* Umsetzung [**Maybe** ](maybe.md)und [**`Either`**](either.md)Type für die Fehlerbehandlung
+* ****[**Box**](box-maybebox.md)**-Konstrukt** um Werte in einer Pipeline zu verarbeiten
+* Eignes [**Test-Frameworks**](test-framework.md) mit einer Zeitmessung für die Methodenausführung ([Benchmark-Test](performance.md))
 * ****[**JsDoc** ](./#js-doc-unterstuetzung-fehlendes-typ-system-bei-javascript)Ergänzungen (Typ Unterstützung für den Anwender)
 * Dokumentation und Anwendungsbeispiele der Konstruktionen
 
@@ -125,7 +125,7 @@ const streetName = user =>
 
 ### _Pure Lambda JS_ vs _Lambda JS_
 
-Bereits eine kleine Funktion wie [`push`](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
+Bereits eine kleine Funktion wie [`push`](immutable-stack.md#push) , die ein Stack mit einem neuen Wert erstellt , besteht im Kern aus mehreren Funktionen.
 
 #### Die Implementation der Funktion `push` sieht wie folgt aus:
 
@@ -250,13 +250,13 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
   * [Immutable Stack](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/immutable-stack)
   * [Test-Framework](https://mattwolf-corporation.gitbook.io/ip5-lambda-calculus/forschungsarbeit-ip5-lambda-kalkuel/test-framework)
 * [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül mit JavaScript](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel.md)
-  * [Immutable ListMap](forschungsarbeit-ip5-lambda-kalkuel/listmap.md)
-  * [Observable](forschungsarbeit-ip5-lambda-kalkuel/observable.md)
-  * [Either](forschungsarbeit-ip5-lambda-kalkuel/either.md)
-  * [Maybe](forschungsarbeit-ip5-lambda-kalkuel/maybe.md)
-  * [Immutable Stack Erweiterungen](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack-erweiterungen.md)
-  * [Box](forschungsarbeit-ip5-lambda-kalkuel/box-maybebox.md)
-  * [Benchmark](forschungsarbeit-ip5-lambda-kalkuel/performance.md)
+  * [Immutable ListMap](listmap.md)
+  * [Observable](observable.md)
+  * [Either](either.md)
+  * [Maybe](maybe.md)
+  * [Immutable Stack Erweiterungen](immutable-stack-erweiterungen.md)
+  * [Box](box-maybebox.md)
+  * [Benchmark](performance.md)
   * [Code Convention](design-architektur.md)
 
 Diese Arbeit erstanden aus einem Projekt (IP5) und der Bacherlorarbeit (IP6) von

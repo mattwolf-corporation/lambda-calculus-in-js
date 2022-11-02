@@ -10,15 +10,15 @@ description: Stack mit Schlüssel-Wert Paare
 Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 {% endhint %}
 
-### [ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L30)
+### [ListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L30)
 
-ListMap ist eine weitere unveränderliche Datenstruktur, die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Schlüssel-Wert Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen, die nur mit einer ListMap verwendet werden können.
+ListMap ist eine weitere unveränderliche Datenstruktur, die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](forschungsarbeit-ip5-lambda-kalkuel/forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](forschungsarbeit-ip5-lambda-kalkuel/forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Schlüssel-Wert Paare sind (wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen, die nur mit einer ListMap verwendet werden können.
 
 ```javascript
 const listMap = stack; // triple
 ```
 
-### [Empty-ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L40)
+### [Empty-ListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L40)
 
 Die `emptyListMap` repräsentiert die leere ListMap. Anhand dieser Konstruktion ist zu sehen, dass sie sich nur in einem Punkt zum Stack unterscheidet. Der letzte Parameter, der ListMap ist nicht nur `id`wie beim Stack, sondern ein Paar mit `id` als Schlüssel und `id` als dazugehörigen Wert.
 
@@ -31,7 +31,7 @@ const emptyListMap = listMap(n0)(id)( pair(id)(id) );
 Alle Funktionen vom Stack können auch für die ListMap verwendet werden. Hier folgt die Auflistung der zusätzlichen Funktionalität, die nur mit der ListMap kompatibel ist.
 
 {% hint style="info" %}
-In den folgenden Beispielen wird zur besseren Übersicht, die ListMap Datenstruktur wie folgt dargestellt: ``**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
+In den folgenden Beispielen wird zur besseren Übersicht, die ListMap Datenstruktur wie folgt dargestellt: \`\`**`[ (key1, value1), (key2, value2), (key3, value3), ... ]`**
 {% endhint %}
 
 {% hint style="danger" %}
@@ -44,7 +44,7 @@ const listMapWithTwoValue = push(listMapWithOneValue)( pair(42)("World") ) // [(
 ```
 {% endhint %}
 
-### [getElementByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L124)
+### [getElementByKey](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L124)
 
 Mit der `getElementByKey` Funktion kann anhand eines Schlüssels auf den dazugehörigen Wert zugegriffen werden.
 
@@ -60,7 +60,7 @@ getElementByKey( testListMap )( 2 )   // "Peter"
 getElementByKey( testListMap )( 3 )   // "Hans"
 ```
 
-### [removeByKey](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L155)
+### [removeByKey](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L155)
 
 Mit der Funktion `removeByKey` kann ein Wert anhand des Schlüssel entfernt werden.
 
@@ -76,7 +76,7 @@ getElementByKey( resultListMap )( 1 )   // "Michael"
 getElementByKey( resultListMap )( 3 )   // "Hans"
 ```
 
-### [convertObjToListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L194)
+### [convertObjToListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L194)
 
 Mit der Funktion `convertObjToListMap` kann ein JavaScript Objekt zu einer ListMap konvertiert werden. JavaScript-Objekte sind Container für benannte Werte, die Properties oder Methoden genannt werden. In der Konvertierungsfunktion werden die Namen als String-Schlüssel verwendet.
 
@@ -94,7 +94,7 @@ getElementByKey( result )( "firstName" )   // "George"
 getElementByKey( result )( "lastName"  )   // "Lucas"
 ```
 
-> #### Tuple-Konstruktor mit `convertObjToListMap` 
+> **Tuple-Konstruktor mit `convertObjToListMap`**
 >
 > Mit der Funktion `convertObjToListMap` kann eine Tuple-Artige Datenstruktur mit Zugriffsfunktionen erstellt werden.
 
@@ -122,7 +122,7 @@ getElementByKey( result )( "lastName"  )   // "Lucas"
 > getElementByKey( peter )( "age"     )  ===  102      
 > ```
 
-### [convertListMapToArray](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L209)
+### [convertListMapToArray](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L209)
 
 Mit der Funktion `convertListMapToArray` kann eine ListMap in ein JavaScript-Array konvertiert werden. Dabei werden nur die Werte in der ListMap erfasst.
 
@@ -139,16 +139,16 @@ const personListMap = convertListMapToArray( personObject ); // [ ("firstName", 
 convertListMapToArray( personListMap ) // [ "George", "Lucas" ]
 ```
 
-## Higher Order Functions \(HOF's\) speziell für ListMap
+## Higher Order Functions (HOF's) speziell für ListMap
 
-Für die ListMap wurde eine spezifischere Variante für die HOF's `map`, `filter` und `reduce`  implementiert. Dies um die Anwendung nochmals zu vereinfachen, weil sonst mit einem pair\(key\)\(value\) gearbeitet werden muss, obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf. Der Key wird in den HOF's für die ListMap weg abstrahiert, sodass sicher der Anwender auf das eigentliche Element konzentrieren kann.
+Für die ListMap wurde eine spezifischere Variante für die HOF's `map`, `filter` und `reduce` implementiert. Dies um die Anwendung nochmals zu vereinfachen, weil sonst mit einem pair(key)(value) gearbeitet werden muss, obwohl der Anwender den Key dabei nicht benötigt bzw. verändern darf. Der Key wird in den HOF's für die ListMap weg abstrahiert, sodass sicher der Anwender auf das eigentliche Element konzentrieren kann.
 
-### [mapListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L62)
+### [mapListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L62)
 
-Diese Funktion nimmt eine map-Funktion \(wie bei JavaScript Array `map`\)  und eine ListMap entgegen. Zurück gibt die Funktion eine neue ListMap mit den "gemappten" Werten.
+Diese Funktion nimmt eine map-Funktion (wie bei JavaScript Array `map`) und eine ListMap entgegen. Zurück gibt die Funktion eine neue ListMap mit den "gemappten" Werten.
 
 {% hint style="info" %}
-Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert. 
+Beim Mapping des Wertes bleibt der dazugehörige Schlüssel unverändert.
 {% endhint %}
 
 ```javascript
@@ -165,9 +165,9 @@ getElementByKey( mappedListMap )( "name1" ) // "PETER"
 getElementByKey( mappedListMap )( "name2" )  // "HANS"
 ```
 
-### [filterListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L78)
+### [filterListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L78)
 
-Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine ListMap __entgegen. Die Funktion gibt die gefilterte ListMap __zurück. Wenn keine Elemente dem Filter entsprechen wird die leere ListMap __\([`emptyListMap`](forschungsarbeit-ip5-lambda-kalkuel/listmap.mdarbeit-ip5-lambda-kalkuel/listmap.md#empty-listmap)\) zurückgegeben.
+Diese Funktion nimmt eine filter-Funktion (wie bei JavaScript Array `filter`) und eine ListMap \_\_entgegen. Die Funktion gibt die gefilterte ListMap \_\_zurück. Wenn keine Elemente dem Filter entsprechen wird die leere ListMap \_\_([`emptyListMap`](forschungsarbeit-ip5-lambda-kalkuel/forschungsarbeit-ip5-lambda-kalkuel/listmap.mdarbeit-ip5-lambda-kalkuel/listmap.md#empty-listmap)) zurückgegeben.
 
 ```javascript
 // Implementation
@@ -183,9 +183,9 @@ getElementByKey( filteredListMap )( "name1" );  // "Peter"
 getElementByKey( filteredListMap )( "name3" );  // "Paul"
 ```
 
-### [reduceListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L93)
+### [reduceListMap](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L93)
 
-Diese Funktion nimmt als ersten Parameter eine reduce-Funktion entgegen \(wie bei JavaScript Array `reduce`\), als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
+Diese Funktion nimmt als ersten Parameter eine reduce-Funktion entgegen (wie bei JavaScript Array `reduce`), als zweites einen Startwert und als letzten Parameter eine ListMap. Die Funktion gibt den reduzierten Wert zurück.
 
 ```javascript
 // Implementation
@@ -204,7 +204,7 @@ reduceListMap(reduceFunc)(0)(listMapWithPersons); // 1500
 
 ## Helferfunktion
 
-### [logListMapToConsole](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L218)
+### [logListMapToConsole](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L218)
 
 Die Funktion `logListMapToConsole` nimmt eine ListMap entgegen und führt einen Seiteneffekt aus. Der Seiteneffekt gibt die ListMap mit dessen Schlüssel-Wert Paaren auf die JavaScript-Konsole aus.
 
@@ -225,5 +225,4 @@ logListMapToConsole( listMapWithPersons );
 
 ## Enstehung der ListMap
 
-Beim ersten Entwurf des Observables wurde für die Verwaltung der Listener die Stack Datenstruktur verwendet. Bei der Implementierung für das abmelden/entfernen der Listener wurde klar das dies mit einem Stack nicht bzw. nicht elegant gelöst werden kann. Dabei kam die Idee einer HashMap auf um einen Listener per Schlüssel abzuspeichern und wieder zu entfernen. Das Problem einer HashMap ist das dies ein gute Hash-Funktion voraussetzt und die ist ein bekanntlich schweres Problem in der Informatik. Auch für den direkten Zugriff auf eine HashMap \(in O\(1\) \) wussten wir nicht wie wir dies implementieren könnten. Da kam uns die Idee das wir eine Liste mit Schlüssel-Wert Paaren entwicklen können ohne diese zu Hashen und den Zugriff auf die Elemente mittels Iteration zum implementieren. Der Schlüssel sollte eindeutig und mit dem JavaScript === Operator auf Gleichheit verglichen werden können. Eine alternative Implementierung wäre eine Art Binär Baum, dies wäre aber sehr komplex und nicht nötig für unsere Einsatz Zwecke. Der Vorteil von unserer Implementierung ist, dass wir den bereits existierenden Stack verwenden und erweitern diesen.
-
+Beim ersten Entwurf des Observables wurde für die Verwaltung der Listener die Stack Datenstruktur verwendet. Bei der Implementierung für das abmelden/entfernen der Listener wurde klar das dies mit einem Stack nicht bzw. nicht elegant gelöst werden kann. Dabei kam die Idee einer HashMap auf um einen Listener per Schlüssel abzuspeichern und wieder zu entfernen. Das Problem einer HashMap ist das dies ein gute Hash-Funktion voraussetzt und die ist ein bekanntlich schweres Problem in der Informatik. Auch für den direkten Zugriff auf eine HashMap (in O(1) ) wussten wir nicht wie wir dies implementieren könnten. Da kam uns die Idee das wir eine Liste mit Schlüssel-Wert Paaren entwicklen können ohne diese zu Hashen und den Zugriff auf die Elemente mittels Iteration zum implementieren. Der Schlüssel sollte eindeutig und mit dem JavaScript === Operator auf Gleichheit verglichen werden können. Eine alternative Implementierung wäre eine Art Binär Baum, dies wäre aber sehr komplex und nicht nötig für unsere Einsatz Zwecke. Der Vorteil von unserer Implementierung ist, dass wir den bereits existierenden Stack verwenden und erweitern diesen.
