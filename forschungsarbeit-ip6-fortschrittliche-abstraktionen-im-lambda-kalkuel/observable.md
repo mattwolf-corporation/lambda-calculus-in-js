@@ -157,7 +157,7 @@ inputText.oninput = _ =>
     textInputObservables = textInputObservables(setValue)(inputText.value);
 ```
 
-Für den vollen Code: [**observableTextInputExample.js**](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)
+Für den vollen Code: [**observableTextInputExample.js**](../src/observable/observableExamples/observableTextInputExample/observableTextInputExample.js)
 
 ## Observable Color-Picker Beispiel
 
@@ -232,13 +232,13 @@ rangeR.oninput = _ =>
 ...
 ```
 
-Für den vollen Code: [**observableColorPickerExample.js**](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableColorPickerExample/observableColorPickerExample.js)\*\*\*\*
+Für den vollen Code: [**observableColorPickerExample.js**](../src/observable/observableExamples/observableColorPickerExample/observableColorPickerExample.js)\*\*\*\*
 
 ## Observable HttpGet-Joke Beispiel
 
 In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener informiert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
 
-![Screenshot Joke-Example](<../.gitbook/assets/image (5) (1).png>)
+![Screenshot Joke-Example](<../.gitbook/assets/image (5).png>)
 
 ### Demo
 
@@ -298,7 +298,7 @@ eitherElementsOrErrorsByFunction(eitherDomElement)("jokeHistory", "norrisBtn", "
 })
 ```
 
-Für den vollen Code: [**observableHttpGetJokeExample.js**](https://github.com/mattwolf-corporation/ip6\_lambda-calculus-in-js/blob/master/src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
+Für den vollen Code: [**observableHttpGetJokeExample.js**](../src/observable/observableExamples/observableHttpGetJokeExample/observableHttpGetJokeExample.js)\*\*\*\*
 
 > ### HTTP-Programmierschnittstelle
 >

@@ -171,7 +171,7 @@ const nextCharForNumberString = str =>
 
 ## JS Doc
 
-Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app) bringt einige Vorteile. In den ersten Zeilen steht ein Text mit zwei bis drei Sätze, der fachlich erklärt was die Funktion tut. Anschliessend wird mit den JSDoc-Tags die Dokumentation mit Hinweisen erweitert:
+Das Dokumentieren der Funktionen mit der [JSDoc](https://jsdoc.app/) bringt einige Vorteile. In den ersten Zeilen steht ein Text mit zwei bis drei Sätze, der fachlich erklärt was die Funktion tut. Anschliessend wird mit den JSDoc-Tags die Dokumentation mit Hinweisen erweitert:
 
 * **@haskell** Typ deklaration in Haskell Notation
 * **@sideffect** wenn die Funktion einen Side-Effekt auslöst wie zum Beispiel ein Log auf die Konsole
@@ -215,7 +215,7 @@ const getElementByIndex = stack => index =>
 
 In der IDEA (hier Intellij) wird die Dokumentation dementsprechend angezeigt:.
 
-![Dokumentation in der IDEA](<../.gitbook/assets/image (8) (1).png>)
+![Dokumentation in der IDEA](<../.gitbook/assets/image (8).png>)
 
 Ein sehr praktischer Vorteil, nebst der Dokumentation, sind die Pop-Up Informationen welche dem Anwender beim benutzen der Funktionen angezeigt werden. Der Anwender wird informiert, welcher Parameter als nächstes erwartet wird.
 
