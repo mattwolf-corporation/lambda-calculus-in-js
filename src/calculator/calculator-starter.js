@@ -1,18 +1,27 @@
 import {
-    calc, result, add, multi, sub, pow, div, churchAdd as cadd, churchMulti as cmulti, churchSub as csub, churchPow as cpow
+    calc,
+    result,
+    add,
+    multi,
+    sub,
+    pow,
+    div,
+    churchAdd as cadd,
+    churchMulti as cmulti,
+    churchSub as csub,
+    churchPow as cpow
 } from "./calculator.js";
 import {
     jsNum, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9
 } from "../lambda-calculus-library/church-numerals.js";
 
 let functionalOp = "calc";
-let lambdaOp = "jsnum( calc";
-let display = "";
+let lambdaOp     = "calc";
+let display      = "";
 
-
-const displayOutput = document.getElementById("displayOutput");
+const displayOutput    = document.getElementById("displayOutput");
 const functionalOutput = document.getElementById("functionalOutput");
-const lambdaOutput = document.getElementById("lambdaOutput");
+const lambdaOutput     = document.getElementById("lambdaOutput");
 
 const operate = value => lambda => {
     if (lambda === "result") {
@@ -21,11 +30,11 @@ const operate = value => lambda => {
         clr();
     } else {
         functionalOp += (isNaN(value)) ? `(${lambda})` : `(${value})`;
-        lambdaOp += (isNaN(value)) ? `(c${lambda})` : `(${lambda})`;
-        display += value;
-        displayOutput.value = display;
+        lambdaOp     += (isNaN(value)) ? `(c${lambda})` : `(${lambda})`;
+        display      += value;
+        displayOutput.value          = display;
         functionalOutput.textContent = functionalOp;
-        lambdaOutput.textContent = lambdaOp;
+        lambdaOutput.textContent     = lambdaOp;
     }
 };
 
