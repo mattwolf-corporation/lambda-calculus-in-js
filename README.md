@@ -27,7 +27,7 @@ Ziel dieser Forschungsarbeit ist es, neue Konstruktionen aus dem untypisierten L
 * **Reinheit** (_pure functions)_: Funktionen ohne Seiteneffekte (wie mathematische Funktionen)
 * **Unveränderlichkeit** (_immutable Datastructure)_: \_\_ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Fehlerbehandlung** ohne `throw` Ausdruck - Errorhandling mit [`Either`](either.md) ``oder [`Maybe`](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)``
+* **Fehlerbehandlung** ohne `throw` Ausdruck - Errorhandling mit [`Either`](either.md) oder [`Maybe`](maybe.md)``
 * **Funktionen höherer Ordnung** (high order functions).
 * **Zustandslosigkeit**
 
