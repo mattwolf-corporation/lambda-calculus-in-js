@@ -33,7 +33,7 @@ In mehreren kleinen Beispielen hat sich gezeigt, dass die Konstruktionen den Cod
 JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Im Vorgänger Projekt "[Lambda Kalkül für praktisches JavaScript](../forschungsarbeit-ip5-lambda-kalkuel/)" wurde das Fundament für dieses Projekt geschaffen. Ziel dieses Projektes ist es die Konstruktionen aus dem Vorgänger Projekt zu verbessern, zu erweitern und neue zu bauen. Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, stand folgende Frage stets im Zentrum: Wie können, zum Teil schon existierende, Lösungsansätze für bekannte Probleme in der Programmierung, mittels dem untypisierten Lambda Kalkül in JavaScript umgesetzt werden. Dabei wurde folgendes erreicht:
 
 {% content-ref url="listmap.md" %}
-[listmap.md](listmap.md)
+[listmap.md](forschungsarbeit-ip5-lambda-kalkuel/listmap.md)
 {% endcontent-ref %}
 
 {% content-ref url="observable.md" %}

@@ -51,8 +51,8 @@ Das sind die _**Convert**_**-Funktionen**:
 * [convertArrayToStack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertarraytostack)
 * [converStackToArray](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md#convertstacktoarray)
 * converElementsToStack
-* [converObjectToListMap](listmap.md#convertobjtolistmap)
-* [convertListMapToArray](listmap.md#convertlistmaptoarray)
+* [converObjectToListMap](forschungsarbeit-ip5-lambda-kalkuel/listmap.md#convertobjtolistmap)
+* [convertListMapToArray](forschungsarbeit-ip5-lambda-kalkuel/listmap.md#convertlistmaptoarray)
 
 Für die Zahlen die _**Transformation**_**-Funktionen** zwischen _Church-_ und _JavaScript-Zahlen_:
 

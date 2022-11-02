@@ -8,7 +8,7 @@
   * [Immutable Stack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md)
   * [Test-Framework](forschungsarbeit-ip5-lambda-kalkuel/test-framework.md)
 * [Forschungsarbeit IP6 - Fortschrittliche Abstraktionen im Lambda Kalkül](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/README.md)
-  * [Immutable ListMap](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/listmap.md)
+  * [Immutable ListMap](forschungsarbeit-ip5-lambda-kalkuel/listmap.md)
   * [Observable](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/observable.md)
   * [Either](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md)
   * [Maybe](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)

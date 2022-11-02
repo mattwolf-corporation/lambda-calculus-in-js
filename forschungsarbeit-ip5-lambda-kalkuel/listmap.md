@@ -12,7 +12,7 @@ Die Titel der Funktionen sind mit einem Link zur Implementation verknüpft.
 
 ### [ListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L30)
 
-ListMap ist eine weitere unveränderliche Datenstruktur, die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](../forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Schlüssel-Wert Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen, die nur mit einer ListMap verwendet werden können.
+ListMap ist eine weitere unveränderliche Datenstruktur, die auf dem Stack aufbaut. Im Kern ist die ListMap Datenstruktur gleich wie der [Stack](forschungsarbeit-ip5-lambda-kalkuel/immutable-stack.md), d.h. sie ist auch als [Triple](forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert. Der Unterschied zum Stack ist, dass in der ListMap die Einträge Schlüssel-Wert Paare sind \(wie bei einer [Java HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)\). Alle Werte werden in dieser Datenstruktur mit einem dazugehörigen Schlüssel abgespeichert, somit kann der Anwender einen Wert abfragen mit Hilfe des dazugehörigen Schlüssels. Alle Funktionen vom Stack sind kompatibel mit der ListMap, zusätzlich gibt es noch weitere Funktionen, die nur mit einer ListMap verwendet werden können.
 
 ```javascript
 const listMap = stack; // triple
@@ -167,7 +167,7 @@ getElementByKey( mappedListMap )( "name2" )  // "HANS"
 
 ### [filterListMap](https://github.com/mattwolf-corporation/ip6_lambda-calculus-in-js/blob/5b1abc66ee9d06330d024f7d8769ef7c59769c85/src/listMap/listMap.js#L78)
 
-Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine ListMap __entgegen. Die Funktion gibt die gefilterte ListMap __zurück. Wenn keine Elemente dem Filter entsprechen wird die leere ListMap __\([`emptyListMap`](listmap.md#empty-listmap)\) zurückgegeben.
+Diese Funktion nimmt eine filter-Funktion \(wie bei JavaScript Array `filter`\) und eine ListMap __entgegen. Die Funktion gibt die gefilterte ListMap __zurück. Wenn keine Elemente dem Filter entsprechen wird die leere ListMap __\([`emptyListMap`](forschungsarbeit-ip5-lambda-kalkuel/listmap.mdarbeit-ip5-lambda-kalkuel/listmap.md#empty-listmap)\) zurückgegeben.
 
 ```javascript
 // Implementation
