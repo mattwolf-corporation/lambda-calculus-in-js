@@ -1,5 +1,5 @@
 ---
-description: von Benjamin Brodwolf & Pascal Andermatt
+description: Benjamin Brodwolf & Pascal Andermatt
 ---
 
 # Lambda Kalkül für praktisches JavaScript
@@ -18,21 +18,21 @@ JavaScript ist die Programmiersprache die hauptsächlich im Web verwendet wird u
 
 ### Lambda Kalkül & JavaScript
 
-Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) Program-Codes zu schreiben (purely functional). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, dass wir in JavaScript funktional programmieren können. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung (high order functions) zu schreiben.
+Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) Program-Codes zu schreiben (purely functional). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, dass in JavaScript funktional programmiert werden kann. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung (high order functions) zu schreiben.
 
 ## Forschungsarbeit
 
-Ziel der Arbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu bauen. Diese Konstruktionen haben das Ziel, JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen setzen wir komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale\_Programmierung):
+Ziel dieser Forschungsarbeit ist es, neue Konstruktionen aus dem untypisierten Lambda Kalkül, mit der Programmiersprache JavaScript zu entwerfen. Diese Konstruktionen haben das Ziel JavaScript Applikationen robuster, sicherer und wartbarer zu machen. Bei diesen Konstruktionen wird komplett auf die Werte der reinen [funktionalen Programmierung](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) gesetzt:
 
 * **Reinheit** (_pure functions)_: Funktionen ohne Seiteneffekte (wie mathematische Funktionen)
 * **Unveränderlichkeit** (_immutable Datastructure)_: \_\_ Unveränderliche Datenstrukturen
 * **Iteration**: Eine Iteration ohne Ausdrücke wie _`for`_, _`while`_ oder `do` Schleifen
-* **Fehlerbehandlung** ohne `throw` Ausdruck
+* **Fehlerbehandlung** ohne `throw` Ausdruck - Errorhandling mit [`Either`](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/either.md) `` oder [`Maybe`](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/maybe.md)``
 * **Funktionen höherer Ordnung** (high order functions).
 * **Zustandslosigkeit**
 
 > **Abgrenzung von objektorientierter Programmierung:**\
-> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung usw. verwendet.
+> Es werden keine objektorientierte Konzepte wie Klassen oder Vererbung verwendet.
 
 ## Inhaltsverzeichnis
 
@@ -57,5 +57,4 @@ Eine Forschungsarbeit: Projekt (IP5) und Bacherlorarbeit (IP6) von
 * Benjamin Brodwolf [GitHub](http://github.com/BenjaminBrodwolf)
 * Pascal Andermatt [GitHub](https://github.com/PascalAndermatt)
 
-Einen besonderes Dankschön an unseren Projektbetreuer, Auftraggeber, Supporter und Inspirator:\
-[**Prof. Dierk König**](https://dierk.github.io/Home/)
+Einen Dankschön an unseren Projektbetreuer und Inspirator [**Prof. Dierk König**](https://dierk.github.io/Home/)
