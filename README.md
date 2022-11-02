@@ -18,7 +18,7 @@ JavaScript ist die Programmiersprache die hauptsächlich im Web verwendet wird u
 
 ### Lambda Kalkül & JavaScript
 
-Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) Program-Codes zu schreiben (purely functional). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, dass in JavaScript funktional programmiert werden kann. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung (high order functions) zu schreiben.
+JavaScript hat den Ruf, eine unsichere Programmiersprache zu sein. Man kann aber auch in JavaScript sichere und belastbare Konstruktionen mit Industriehärte bauen. Ein Weg dazu ist die Anwendung von Erkenntnissen aus den Grundlagen der Informatik, dem untypisierten Lambda-Kalkül. Das Konzept ist, Lambda Kalkül mit der Programmiersprache JavaScript zu verbinden. Das heisst, in nur rein [funktionalen Paradigma](https://de.wikipedia.org/wiki/Funktionale\_Programmierung) Program-Codes zu schreiben (purely functional). JavaScript bietet dazu Sprachelemente wie [Closures](https://developer.mozilla.org/de/docs/Web/JavaScript/Closures) und [Funktionen](https://developer.mozilla.org/de/docs/Web/JavaScript/Guide/Functions). Sie machen es möglich, dass in JavaScript funktional programmiert werden kann. Es gewährleistet die Konzepte der Seiteneffektfreiheit, Zustandslosigkeit, Variablenbindung statt Zuweisung, Funktionskomposition und Funktionen höherer Ordnung (high order functions) zu schreiben.
 
 ## Forschungsarbeit
 
@@ -52,7 +52,7 @@ Ziel dieser Forschungsarbeit ist es, neue Konstruktionen aus dem untypisierten L
   * [Benchmark](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/performance.md)
   * [Code Convention](forschungsarbeit-ip6-fortschrittliche-abstraktionen-im-lambda-kalkuel/design-architektur.md)
 
-Eine Forschungsarbeit: Projekt (IP5) und Bacherlorarbeit (IP6) von
+Diese Arbeit erstanden aus einem Projekt (IP5) und der Bacherlorarbeit (IP6) von
 
 * Benjamin Brodwolf [GitHub](http://github.com/BenjaminBrodwolf)
 * Pascal Andermatt [GitHub](https://github.com/PascalAndermatt)
