@@ -136,7 +136,7 @@ calc(n5)(cpow)(n8)(cmulti)(n6)(cadd)(n8)(csub)(n9) ... // Maximum call stack siz
 
 Um den lambdafizierten Taschenrechner, wie ein gewöhnter Taschenrechner auch visuell bedienen zu können, wurde eine statische HTML-Webseite, mit einem grafischen Taschenrechner und den von hier gezeigten Funktionen implementiert:
 
-![](<../.gitbook/assets/image (1).png>)
+![](<../.gitbook/assets/image (3).png>)
 
 Link zum lambdafizierten Taschenrechner: [Calculator.html](https://mattwolf-corporation.github.io/lambdaCalculusGithubPages/src/calculator/calculator-view.html)
 

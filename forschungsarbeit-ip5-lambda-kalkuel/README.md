@@ -1,10 +1,6 @@
----
-description: Wie alles begann.
----
+# Forschungsarbeit Lambda Kalkül
 
-# Forschungsarbeit IP5 - Lambda Kalkül
-
-## Ausgangslage
+## Inhalt
 
 Da es bei dieser Forschungsarbeit keine konkrete Aufgabe gibt, sondern nur ein übergeordnetes Ziel, haben wir uns eigene Aufgaben überlegt. Folgendes kam dabei raus:
 
@@ -26,9 +22,9 @@ Es wurde eine Bibliothek, bestehend aus rein funktionalen Konstruktionen, angele
 
 Beispiel JSDoc-Dokumentation der Blackbird Funktion
 
-![JSDoc für Blackbird](<../.gitbook/assets/blackbird (1).PNG>)
+![JSDoc für Blackbird](../.gitbook/assets/blackbird.PNG)
 
-![IDE-Dokumentation](../.gitbook/assets/blackbirddokuhelp.PNG)
+![IDE-Dokumentation](../.gitbook/assets/blackbirdDokuHelp.PNG)
 
 Diese zusätzliche JSDoc-Integration gibt dem Entwickler in der IDE direkt Parameter-Hinweise beim Programmieren und allgemeine Informationshinweise über die Funktionen.
 

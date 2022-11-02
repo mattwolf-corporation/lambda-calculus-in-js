@@ -263,7 +263,7 @@ const stackWithThreeElements = push(push(push(emptyStack)(1))(2))(3);
 logStackToConsole(stackWithThreeElements);
 ```
 
-![](../.gitbook/assets/bildschirmfoto-2020-01-14-um-06.54.01.png)
+![](<../.gitbook/assets/Bildschirmfoto 2020-01-14 um 06.54.01.png>)
 
 ### Stack erstellen mit Helferfunktion - startStack
 

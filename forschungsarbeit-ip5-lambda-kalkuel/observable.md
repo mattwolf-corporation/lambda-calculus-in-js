@@ -112,7 +112,7 @@ In diesem Beispiel-Projekt gibt es ein 'Observable'_,_ welches auf die Wertände
 In der Demo sind die Checkboxen neben den Labels zum entfernen und hinzufügen der Listener da.
 {% endhint %}
 
-![Screenshot Text-Input Example](<../.gitbook/assets/image (2) (1).png>)
+![Screenshot Text-Input Example](<../.gitbook/assets/image (11).png>)
 
 ### Demo
 
@@ -164,7 +164,7 @@ Für den vollen Code: [**observableTextInputExample.js**](../src/observable/obse
 In diesem Beispiel-Projekt wird gezeigt wie ein Color-Picker mit dem Observable gebaut werden kann.\
 Es gibt ein Observable das die Farbe verwaltet, an welches sich Listener wie Background, Labels und Inputs registrieren können. Die Input-Felder (Text-Input und Slider) sind dabei nicht nur Listener sondern auch gleichzeitig dafür da, dem Observable neue Werte zu übermitteln. Die Elemente Text-Input und Slider-Input sind bidirektional mit dem Observerable verbunden. Um das zu demonstrieren wurden Buttons im UI hinzugefügt zum an- und abmelden der Listener.
 
-![Screenshot Color-Picker Example](<../.gitbook/assets/image (4) (1).png>)
+![Screenshot Color-Picker Example](<../.gitbook/assets/image (4).png>)
 
 ### Demo
 
@@ -173,7 +173,7 @@ Es gibt ein Observable das die Farbe verwaltet, an welches sich Listener wie Bac
 ### Implementation
 
 {% hint style="info" %}
-Der observierte Farbwert ist als [Triple](../forschungsarbeit-ip5-lambda-kalkuel/einfache-kombinatoren.md#triple) implementiert:`triple(red, green, blue)`
+Der observierte Farbwert ist als [Triple](einfache-kombinatoren.md#triple) implementiert:`triple(red, green, blue)`
 {% endhint %}
 
 ```javascript
@@ -238,7 +238,7 @@ Für den vollen Code: [**observableColorPickerExample.js**](../src/observable/ob
 
 In diesem Beispiel-Projekt gibt es ein Observable das Witze verwaltet. Die Witze werden mit Klick auf den Button von einem REST-API abgefragt. Sobald ein neuer Witz veröffentlich wird, werden alle Listener informiert. Es existieren zwei Listener, der eine rendert die Witze auf dem UI und der andere löst ein Text-To-Speech-Skript aus.
 
-![Screenshot Joke-Example](<../.gitbook/assets/image (5).png>)
+![Screenshot Joke-Example](<../.gitbook/assets/image (5) (1) (1).png>)
 
 ### Demo
 
