@@ -257,9 +257,9 @@ Ein wesentliches Ziel von Typisierung in Programmiersprachen ist die **Vermeidun
   * [Benchmark](performance.md)
   * [Code Convention](design-architektur.md)
 
-Diese Arbeit erstanden aus einem Projekt (IP5) und der Bacherlorarbeit (IP6) von
+Diese Arbeit erstanden aus einem Projekt (IP5) und der Bacherlorarbeit (IP6) an der [FHNW](https://www.fhnw.ch/):
 
 * Benjamin Brodwolf [GitHub](http://github.com/BenjaminBrodwolf)
 * Pascal Andermatt [GitHub](https://github.com/PascalAndermatt)
 
-Einen Dankschön an unseren Projektbetreuer und Inspirator [**Prof. Dierk König**](https://dierk.github.io/Home/)
+Herzlichen Dank an unseren Projektbetreuer und Inspirator [**Prof. Dierk König**](https://dierk.github.io/Home/)
